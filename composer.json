@@ -1,0 +1,26 @@
+{
+    "name": "hasdemir/rest",
+    "description": "Rest api for my panel",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Hasdemir\\Base\\": "base/",
+            "Hasdemir\\Core\\": "core/",
+            "Hasdemir\\Rest\\": "api/",
+            "Hasdemir\\Exception\\": "exceptions/",
+            "Hasdemir\\Controller\\": "controllers/",
+            "Hasdemir\\View\\": "views/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Murat Hasdemir",
+            "email": "hsdmrsoft@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "respect/validation": "^2.2",
+        "vlucas/phpdotenv": "^5.3"
+    }
+}
