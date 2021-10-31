@@ -1,6 +1,6 @@
 <?php
 
-namespace Hasdemir\Core;
+namespace Hasdemir\Base;
 
 class Model
 {

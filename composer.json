@@ -1,15 +1,16 @@
 {
-    "name": "hasdemir/rest",
-    "description": "Rest api for my panel",
+    "name": "hasdemir/web-solutions",
+    "description": "Improved website solutions",
     "license": "proprietary",
     "autoload": {
         "psr-4": {
             "Hasdemir\\Base\\": "base/",
-            "Hasdemir\\Core\\": "core/",
-            "Hasdemir\\Rest\\": "api/",
+            "Hasdemir\\Model\\": "models/",
+            "Hasdemir\\Rest\\": "rests/",
             "Hasdemir\\Exception\\": "exceptions/",
             "Hasdemir\\Controller\\": "controllers/",
-            "Hasdemir\\View\\": "views/"
+            "Hasdemir\\View\\": "views/",
+            "Hasdemir\\Route\\": "routes/"
         }
     },
     "authors": [

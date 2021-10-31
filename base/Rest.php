@@ -1,10 +1,10 @@
 <?php
 
-namespace Hasdemir\Rest;
+namespace Hasdemir\Base;
 
 use Hasdemir\Base\Response;
 
-class Base
+class Rest
 {
     protected array $header = [];
     protected ?array $body = null;

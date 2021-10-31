@@ -1,6 +1,8 @@
 <?php
 
-namespace Hasdemir\Core;
+namespace Hasdemir\Model;
+
+use Hasdemir\Base\Model;
 
 class Post extends Model
 {
