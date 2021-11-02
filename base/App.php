@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Base;
 
+use Exception;
 use Hasdemir\Exception\DefaultException;
 use Throwable;
 
@@ -34,6 +35,9 @@ class App
 		} catch (Throwable $th) {
 			$this->header['Link'] = $_ENV['APP_URL'];
 			return $this->response->error(500, $this->header, 500, 'An unknown error has occured.', $th);
+		} catch (Exception $e) {
+			$this->header['Link'] = $_ENV['APP_URL'];
+			return $this->response->error(500, $this->header, 500, 'An unknown error has occured.', $e);
 		}
 	}
 

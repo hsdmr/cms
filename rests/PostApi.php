@@ -4,6 +4,7 @@ namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Rest;
 use Hasdemir\Base\System;
+use Hasdemir\Exception\DefaultException;
 use Hasdemir\Model\Post;
 
 class PostApi extends Rest
@@ -12,7 +13,7 @@ class PostApi extends Rest
     public function search($request, $args)
     {
         $post = new Post();
-        $this->body = $post->select(['title', 'content'])->where(['title' => 'Post1', 'content' => 'Content1'])->order(['title', 'asc'])->limit(10)->get();
+        $this->body = $post->select(['title', 'content'])->where([['title', '!=', 'Post1'], ['content', '<=', 'Content1']])->order(['title', 'asc'])->limit(10)->get();
         return $this->response(200);
     }
 
@@ -41,18 +42,25 @@ class PostApi extends Rest
         try {
             $_PUT = json_decode($request->getBody(), true);
             $post = new Post();
-            $post->find($args[0]);
-            $this->body = $post->update($_PUT);
+            //$post->find($args[0]);
+            $post->user_id = $_PUT['user_id'];
+            $post->permalink_id = $_PUT['permalink_id'];
+            $post->file_id = $_PUT['file_id'];
+            $post->title = $_PUT['title'];
+            $post->content = $_PUT['content'];
+            $post->status = $_PUT['status'];
+            
+            $this->body = $post->save();
             return $this->response(200);
         } finally {
         }
     }
 
-    public function delete($args)
+    public function delete($request, $args)
     {
         $post = new Post();
         $post->find($args[0]);
-        $post->softDelete();
+        $post->delete();
     }
 
     public function validation($params)
