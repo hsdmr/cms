@@ -6,7 +6,7 @@ class Web
 {
     public static $routes = [];
 
-    public static function getRouts()
+    public static function getRoutes()
     {
         global $routes;
         self::addRoutes();
@@ -18,6 +18,7 @@ class Web
         global $routes;
 
         $routes['Route'] = [
+            ['GET', '/', 'home'],
             ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}', 'route'],
         ];
     }

@@ -3,38 +3,41 @@
 namespace Hasdemir\Model;
 
 use Hasdemir\Base\Model;
+use Hasdemir\Base\System;
 
 class Post extends Model
 {
-    private $conn;
+    private $db;
+    protected const TABLE = 'post';
+    protected const PRIMARY_KEY = 'id';
+    protected const FIELDS = ['permalink_id', 'user_id', 'file_id', 'status', 'title', 'content', 'deleted_at', 'created_at', 'updated_at'];
+    protected const UNIQUES = ['permalink_id'];
     
-    public function __construct($db)
+    public function __construct(\PDO $db = null)
     {
-        $this->conn = $db;
+        $this->db = $db ?? System::get('pdo');
+        parent::__construct($this->db, self::TABLE, self::PRIMARY_KEY, self::FIELDS, self::UNIQUES);
     }
 
-    public function search()
+    public function create($data)
     {
-        echo 'Post search';
+        return $this->insert([
+            'permalink_id' => $data['permalink_id'],
+            'user_id' => $data['user_id'] ?? 1,
+            'file_id' => $data['file_id'] ?? null,
+            'status' => $data['status'] ?? 'published',
+            'title' => $data['title'] ?? 'Post_'. uniqid(),
+            'content' => $data['content'] ?? '',
+        ]);
     }
     
-    public function create()
+    public function update($data)
     {
-        echo 'Post create';
-    }
-    
-    public function read()
-    {
-        echo 'Post read';
-    }
-    
-    public function update()
-    {
-        echo 'Post update';
-    }
-    
-    public function delete()
-    {
-        echo 'Post delete';
+        return $this->set([
+            'file_id' => $data['file_id'] ?? null,
+            'status' => $data['status'] ?? 'published',
+            'title' => $data['title'] ?? 'Post_'. uniqid(),
+            'content' => $data['content'] ?? '',
+        ]);
     }
 }

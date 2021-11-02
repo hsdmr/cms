@@ -10,7 +10,9 @@ class Response
 			'status' => $code,
 			'message' => $message,
 			'link' => $header['Link'],
-			'th' => $th->getMessage()
+			'th' => $th->getMessage(),
+			'file' => $th->getFile(),
+			'line' => $th->getLine()
 		];
 		return $this->emit($http_code, $header, $response);
 	}

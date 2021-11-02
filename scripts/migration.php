@@ -1,6 +1,7 @@
 <?php
 
 define('ROOT', dirname(dirname(__FILE__)));
+define('DS', DIRECTORY_SEPARATOR);
 
 require ROOT . '/vendor/autoload.php';
 
@@ -17,7 +18,7 @@ function applyMigrations()
     $appliedMigrations = getAppliedMigrations();
 
     $newMigrations = [];
-    $files = scandir(ROOT . '/db');
+    $files = scandir(ROOT . DS . 'database');
 
     $toApplyMigrations = array_diff($files, $appliedMigrations);
     foreach ($toApplyMigrations as $migration) {
@@ -25,7 +26,7 @@ function applyMigrations()
             continue;
         }
 
-        require_once ROOT . '/db/' . $migration;
+        require_once ROOT . DS . 'database' . DS . $migration;
         $name = explode('_',pathinfo($migration, PATHINFO_FILENAME));
         $className = $name[2];
         $version = $name[1];

@@ -17,19 +17,19 @@ class Api
         global $routes;
 
         $routes['Post'] = [
-            ['GET', 'post', 'search'],
-            ['POST', 'post', 'create'],
-            ['GET', 'post/{id}', 'read'],
-            ['PUT', 'post/{id}', 'update'],
-            ['DELETE', 'post/{id}', 'delete'],
+            ['GET', '/post', 'search'],
+            ['POST', '/post', 'create'],
+            ['GET', '/post/{id}', 'read'],
+            ['PUT', '/post/{id}', 'update'],
+            ['DELETE', '/post/{id}', 'delete'],
         ];
 
         $routes['Category'] = [
-            ['GET', 'category', 'search'],
-            ['POST', 'category', 'create'],
-            ['GET', 'category/{id}', 'read'],
-            ['PUT', 'category/{id}', 'update'],
-            ['DELETE', 'category/{id}', 'delete'],
+            ['GET', '/category', 'search'],
+            ['POST', '/category', 'create'],
+            ['GET', '/category/{id}', 'read'],
+            ['PUT', '/category/{id}', 'update'],
+            ['DELETE', '/category/{id}', 'delete'],
         ];
     }
 }

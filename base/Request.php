@@ -2,8 +2,10 @@
 
 namespace Hasdemir\Base;
 
+use Hasdemir\Exception\DefaultException;
+
 class Request
-{   
+{
     protected string $dir;
     protected string $base;
 
@@ -51,5 +53,17 @@ class Request
             }
         }
         return $params;
+    }
+
+    public function isValid(): bool
+    {
+        return preg_match('@^([-a-z0-9%.=#?&//]*)$@', $this->getUri());
+    }
+
+    public function checkUri()
+    {
+        if (!$this->isValid()) {
+            throw new DefaultException('Url does not valid', ['statuscode' => 403]);
+        }
     }
 }
