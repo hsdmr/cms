@@ -2,8 +2,8 @@
 
 namespace Hasdemir\Base;
 
-use Exception;
 use Hasdemir\Exception\DefaultException;
+use Hasdemir\Exception\StoragePdoException;
 use PDO;
 
 class Model
@@ -44,19 +44,15 @@ class Model
             $params[$field] = $this->{$field};
         }
         if (isset($this->where_key)) {
-            $this->timestamps($params, 'set');
-            return $this->set($params);
+            return $this->update($params);
         }
-        $this->timestamps($params, 'insert');
-        return $this->insert($params);
+        return $this->create($params);
     }
 
-    public function insert($params)
+    public function create($params)
     {
-        if (!$this->hasNotUniqueItem($params)) {
-            return false;
-        }
-        $this->timestamps($params, 'insert');
+        $this->timestamps($params, 'create');
+        $this->checkHasUniqueItem($params);
         $binds = array_map(fn ($attr) => ":$attr", array_keys($params));
         $sql = "INSERT INTO $this->table (" . implode(", ", $this->fields) . ") VALUES (" . implode(", ", $binds) . ")";
         $statement = $this->db->prepare($sql);
@@ -67,17 +63,21 @@ class Model
         return $this->find($this->db->lastInsertId());
     }
 
-    public function set($params = [])
+    public function update($params = [])
     {
-        $this->timestamps($params, 'set');
+        $this->timestamps($params, 'update');
         $binds = [];
         foreach ($params as $key => $value) {
-            $binds[] = $key . ' = :' . $key;
+            if ($value != '') {
+                $binds[] = $key . ' = :' . $key;
+            }
         }
         $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
         $statement = $this->db->prepare($sql);
         foreach ($params as $key => $value) {
-            $statement->bindValue(":$key", $value);
+            if ($value != '') {
+                $statement->bindValue(":$key", $value);
+            }
         }
         $statement->bindValue(":" . $this->primary_key, $this->where_key);
         $statement->execute();
@@ -190,29 +190,35 @@ class Model
         return $this;
     }
 
-    private function hasNotUniqueItem($params): bool
+    private function checkHasUniqueItem($params)
     {
         foreach ($this->uniques as $key) {
-            return count($this->select([$key])->where([[$key, '=', $params[$key]]])->get()) == 0;
+            $count = count($this->select([$key])->where([[$key, '=', $params[$key]]])->get());
+            $this->select = '*';
+            if ($count != 0) {
+                throw new StoragePdoException("$key must be unique.");
+            }
         }
     }
 
     private function timestamps(&$params, $type = 'construct')
     {
-        if ($type == 'insert') {
+        if ($type === 'create') {
             $params['updated_at'] = time();
             $params['created_at'] = time();
             if ($this->soft_delete) {
                 $params['deleted_at'] = null;
             }
         }
-        if ($type == 'set') {
+
+        if ($type === 'update') {
             $params['updated_at'] = time();
             if ($this->soft_delete) {
                 $params['deleted_at'] = null;
             }
         }
-        if ($type == 'construct') {
+
+        if ($type === 'construct') {
             $params[] = 'created_at';
             $params[] = 'updated_at';
             if ($this->soft_delete) {
