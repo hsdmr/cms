@@ -4,16 +4,13 @@ namespace Hasdemir\Base;
 
 class Response
 {
-	public function error($http_code, $header, $code = null, $message = null, $th = null)
+	public function error($http_code, $header, $message = null, $e = null, $th = null)
 	{
 		$response = [
-			'status' => $code,
 			'message' => $message,
-			'link' => $header['Link'],
-			'th' => $th->getMessage(),
-			'file' => $th->getFile(),
-			'line' => $th->getLine()
+			'link' => $header['Link']
 		];
+		Log::error($response, $e, $th);
 		return $this->emit($http_code, $header, $response);
 	}
 

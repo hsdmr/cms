@@ -1,6 +1,7 @@
 <?php
 
 use Hasdemir\Base\App;
+use Hasdemir\Base\Log;
 
 define('ROOT', dirname(dirname(__FILE__)));
 define('DS', DIRECTORY_SEPARATOR);
@@ -12,8 +13,9 @@ define('API_VERSION', '2.0.0');
 require ROOT . DS . 'vendor' . DS . 'autoload.php';
 
 try {
+    Log::startApp();
     $app = new App();
     $app->run();
-} catch (\Throwable $th) {
-    echo $th->getMessage();
+} finally {
+    Log::endApp();
 }
