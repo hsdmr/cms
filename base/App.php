@@ -3,7 +3,8 @@
 namespace Hasdemir\Base;
 
 use Exception;
-use Hasdemir\Exception\DefaultException;
+use Hasdemir\Base\DefaultException;
+use Hasdemir\Exception\StoragePdoException;
 use Throwable;
 
 class App
@@ -29,15 +30,18 @@ class App
 		try {
 			$this->request->checkUri();
 			$this->route->run();
+		} catch (StoragePdoException $e) {
+			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/storage';
+			return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
 		} catch (DefaultException $e) {
-			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/' . 'helper';
-			return $this->response->error($e->http_code, $this->header, $e->status_code, $e->getMessage(), $e);
+			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';
+			return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
 		} catch (Throwable $th) {
 			$this->header['Link'] = $_ENV['APP_URL'];
-			return $this->response->error(500, $this->header, 500, 'An unknown error has occured.', $th);
+			return $this->response->error(500, $this->header, 'An unknown error has occured.', $th);
 		} catch (Exception $e) {
 			$this->header['Link'] = $_ENV['APP_URL'];
-			return $this->response->error(500, $this->header, 500, 'An unknown error has occured.', $e);
+			return $this->response->error(500, $this->header, 'An unknown error has occured.', $e);
 		}
 	}
 

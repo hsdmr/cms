@@ -2,7 +2,7 @@
 
 namespace Hasdemir\Base;
 
-use Hasdemir\Exception\DefaultException;
+use Hasdemir\Base\DefaultException;
 
 class Request
 {
@@ -63,7 +63,7 @@ class Request
     public function checkUri()
     {
         if (!$this->isValid()) {
-            throw new DefaultException('Url does not valid', ['statuscode' => 403]);
+            throw new DefaultException('Url does not valid', ['http_code' => 403]);
         }
     }
 }
