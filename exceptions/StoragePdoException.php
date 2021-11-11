@@ -10,9 +10,6 @@ class StoragePdoException extends DefaultException
 
     public function __construct(string $message, array $info = [], \Exception $previous = null)
     {
-        foreach ($info as $key => $value) {
-            $this->{$key} = $value;
-        }
         parent::__construct($message, $info, $previous);
     }
 }
