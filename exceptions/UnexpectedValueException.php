@@ -4,9 +4,9 @@ namespace Hasdemir\Exception;
 
 use Hasdemir\Base\DefaultException;
 
-class StoragePdoException extends DefaultException
+class UnexpectedValueException extends DefaultException
 {
-    public $http_code = 426;
+    public $http_code = 406;
 
     public function __construct(string $message, array $info = [], $previous = null)
     {
