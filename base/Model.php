@@ -13,28 +13,31 @@ class Model
     private string $primary_key;
     private array $fields;
     private array $uniques;
+    private array $hiddens;
     private bool $soft_delete = false;
     private bool $with_deleteds = false;
     private bool $only_deleteds = false;
 
-    private string $select = '*';
+    private string $select;
     private array $where = ['params' => [], 'sql' => ''];
     private int $where_key;
     private string $order = '';
     private string $limit = '';
 
-    public function __construct($db, $table, $primary_key, $fields, $uniques, $soft_delete)
+    public function __construct($db, $table, $primary_key, $fields, $uniques, $hiddens, $soft_delete)
     {
         $this->db = $db;
         $this->table = $table;
         $this->primary_key = $primary_key;
         $this->uniques = $uniques;
+        $this->hiddens = $hiddens;
         $this->soft_delete = $soft_delete;
         $this->fields = $fields;
         $this->timestamps($this->fields);
         foreach ($this->fields as $field) {
             $this->{$field} = '';
         }
+        $this->select = implode(', ', array_diff($this->fields, $this->hiddens));
     }
 
     public function save()
@@ -114,7 +117,7 @@ class Model
 
     public function all()
     {
-        $sql = "SELECT * FROM $this->table";
+        $sql = "SELECT $this->select FROM $this->table";
         if ($this->soft_delete) {
             $sql .= " WHERE deleted_at IS NULL";
         }
@@ -194,9 +197,9 @@ class Model
     {
         foreach ($this->uniques as $key) {
             $count = count($this->select([$key])->where([[$key, '=', $params[$key]]])->get());
-            $this->select = '*';
+            $this->select = implode(', ', array_diff($this->fields, $this->hiddens));
             if ($count != 0) {
-                throw new StoragePdoException("$key must be unique.");
+                throw new StoragePdoException("'$key' has already been registered");
             }
         }
     }
