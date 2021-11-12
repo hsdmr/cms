@@ -13,6 +13,7 @@ class Request
     {
         $this->dir = dirname($_SERVER['SCRIPT_NAME']);
         $this->base = basename($_SERVER['SCRIPT_NAME']);
+        Log::request($this->getUri(), $this->getMethod());
     }
 
     public function getUri()
