@@ -16,6 +16,18 @@ class Api
     {
         global $routes;
 
+        $routes['Auth'] = [
+            ['POST', '/login', 'login'],
+        ];
+
+        $routes['User'] = [
+            ['GET', '/user', 'search'],
+            ['POST', '/user', 'create'],
+            ['GET', '/user/{id}', 'read'],
+            ['PUT', '/user/{id}', 'update'],
+            ['DELETE', '/user/{id}', 'delete'],
+        ];
+
         $routes['Post'] = [
             ['GET', '/post', 'search'],
             ['POST', '/post', 'create'],
