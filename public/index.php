@@ -3,6 +3,7 @@
 use Hasdemir\Base\App;
 use Hasdemir\Base\Log;
 
+error_reporting(E_ALL & ~E_NOTICE);
 define('ROOT', dirname(dirname(__FILE__)));
 define('DS', DIRECTORY_SEPARATOR);
 define('API_NAMESPACE', 'Hasdemir\\Rest\\');
