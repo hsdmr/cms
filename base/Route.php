@@ -2,12 +2,13 @@
 
 namespace Hasdemir\Base;
 
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Route\Api;
 use Hasdemir\Route\Web;
 
 class Route
 {
-    public static $hasRoute;
+    public static $hasRoute = false;
     public Request $request;
 
     public function __construct($request)
@@ -45,7 +46,7 @@ class Route
     public static function hasRoute()
     {
         if (self::$hasRoute === false) {
-            die('Hatalı Url');
+            throw new NotFoundException('Url does not exists.');
         }
     }
 
