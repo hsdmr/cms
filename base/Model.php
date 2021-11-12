@@ -20,7 +20,7 @@ class Model
 
     private string $select;
     private array $where = ['params' => [], 'sql' => ''];
-    private string $where_key;
+    private $where_key;
     private string $order = '';
     private string $limit = '';
 
@@ -82,21 +82,26 @@ class Model
                 $binds[] = $key . ' = :' . $key;
             }
         }
-        $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
+        $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :p" . $this->primary_key;
         $statement = $this->db->prepare($sql);
         foreach ($params as $key => $value) {
             if ($value != '') {
                 $statement->bindValue(":$key", $value);
             }
         }
-        $statement->bindValue(":" . $this->primary_key, $this->where_key);
+        $statement->bindValue(":p" . $this->primary_key, $this->where_key);
         $statement->execute();
-        return $this->find($this->where_key);
+        if ($this->primary_key == 'id') {
+            return $this->find($this->where_key);
+        }
+        return $this->find($params[$this->primary_key]);
     }
 
     public function first()
     {
-        return $this->get()[0];
+        $model = $this->get()[0];
+        $this->where_key = $model[$this->primary_key];
+        return $model;
     }
 
     public function get()
