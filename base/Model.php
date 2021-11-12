@@ -20,7 +20,7 @@ class Model
 
     private string $select;
     private array $where = ['params' => [], 'sql' => ''];
-    private int $where_key;
+    private string $where_key;
     private string $order = '';
     private string $limit = '';
 
@@ -56,14 +56,21 @@ class Model
     {
         $this->timestamps($params, 'create');
         $this->checkHasUniqueItem($params);
-        $binds = array_map(fn ($attr) => ":$attr", array_keys($params));
+        $fields = [];
+        foreach ($this->fields as $key) {
+            $fields[$key] = $params[$key];
+        }
+        $binds = array_map(fn ($attr) => ":$attr", array_keys($fields));
         $sql = "INSERT INTO $this->table (" . implode(", ", $this->fields) . ") VALUES (" . implode(", ", $binds) . ")";
         $statement = $this->db->prepare($sql);
-        foreach ($this->fields as $field) {
-            $statement->bindValue(":$field", $params[$field]);
+        foreach ($fields as $key => $value) {
+            $statement->bindValue(":$key", $value);
         }
         $statement->execute();
-        return $this->find($this->db->lastInsertId());
+        if ($this->primary_key == 'id') {
+            return $this->find($this->db->lastInsertId());
+        }
+        return $this->find($fields[$this->primary_key]);
     }
 
     public function update($params = [])
@@ -87,6 +94,11 @@ class Model
         return $this->find($this->where_key);
     }
 
+    public function first()
+    {
+        return $this->get()[0];
+    }
+
     public function get()
     {
         $sql = "SELECT $this->select FROM " . $this->table . $this->where['sql'];
@@ -108,6 +120,7 @@ class Model
     public function find($primary_key)
     {
         $this->where_key = $primary_key;
+        $this->select .= ", $this->primary_key";
         $sql = "SELECT $this->select FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":" . $this->primary_key, $this->where_key);
