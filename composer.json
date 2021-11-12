@@ -9,7 +9,7 @@
             "Hasdemir\\Rest\\": "rests/",
             "Hasdemir\\Exception\\": "exceptions/",
             "Hasdemir\\Controller\\": "controllers/",
-            "Hasdemir\\View\\": "views/",
+            "Hasdemir\\Resource\\": "resources/",
             "Hasdemir\\Route\\": "routes/"
         }
     },
