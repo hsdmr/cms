@@ -4,7 +4,9 @@ namespace Hasdemir\Base;
 
 use Exception;
 use Hasdemir\Base\DefaultException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\UnexpectedValueException;
 use Throwable;
 
 class App
@@ -30,6 +32,12 @@ class App
 		try {
 			$this->request->checkUri();
 			$this->route->run();
+		} catch (UnexpectedValueException $e) {
+			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/' . $e->link;
+			return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
+		} catch (NotFoundException $e) {
+			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';
+			return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
 		} catch (StoragePdoException $e) {
 			$this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/storage';
 			return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
