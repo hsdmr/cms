@@ -6,5 +6,5 @@ use Hasdemir\Base\Rest;
 
 class BaseApi extends Rest
 {
-    
+    public static $authenticatedUser;
 }

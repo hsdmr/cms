@@ -37,7 +37,7 @@ class UserApi extends BaseApi
                 'role' => $_POST['role'],
                 'email' => $_POST['email'],
                 'email_verified_at' => $_POST['email_verified_at'] ?? null,
-                'password' => password_hash($_POST['password'], PASSWORD_DEFAULT)
+                'password' => password_hash($_POST['password'], PASSWORD_ARGON2I)
             ]);
             $this->response(200);
         } finally {

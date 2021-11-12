@@ -12,7 +12,7 @@ class User extends Model
     protected const PRIMARY_KEY = 'id';
     protected const FIELDS = ['first_name', 'last_name', 'role', 'email', 'email_verified_at', 'password'];
     protected const UNIQUES = ['email'];
-    protected const HIDDENS = ['deleted_at', 'created_at', 'updated_at'];
+    protected const HIDDENS = ['password', 'deleted_at', 'created_at', 'updated_at'];
     protected const SOFT_DELETE = true;
     
     public function __construct(\PDO $db = null)
