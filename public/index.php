@@ -12,6 +12,7 @@ define('API_PREFIX', '/v2');
 define('API_VERSION', '2.0.0');
 
 require ROOT . DS . 'vendor' . DS . 'autoload.php';
+require ROOT . DS . 'base' . DS . 'helper' . DS . 'functions.php';
 
 try {
     Log::startApp();

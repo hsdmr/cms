@@ -29,7 +29,7 @@ class Log
     
     public static function endApp()
     {
-        $log = '-------------------- App Ended At => ' . date('Y-m-d H:i:s') .  ' ----------------------' . PHP_EOL . PHP_EOL;
+        $log = '-------------------- App Ended At => ' . date('Y-m-d H:i:s') .  ' ----------------------' . PHP_EOL . '[seperator]' . PHP_EOL;
         self::insert($log, 'daily');
     }
 
