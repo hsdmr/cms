@@ -10,7 +10,7 @@ use Respect\Validation\Validator as v;
 
 class UserApi extends BaseApi
 {
-    const HELPER_LINK = ['link' => 'post'];
+    const HELPER_LINK = ['link' => 'user'];
     
     public function search($request, $args)
     {
@@ -28,7 +28,7 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-create');
         try {
-            $_POST = json_decode($request->getBody(), true);
+            $_POST = json_decode($request->body(), true);
             $this->validate($_POST);
             $user = new User();
             $this->body = $user->create([
@@ -37,8 +37,8 @@ class UserApi extends BaseApi
                 'role' => $_POST['role'],
                 'email' => $_POST['email'],
                 'email_verified_at' => $_POST['email_verified_at'] ?? null,
-                'password' => password_hash($_POST['password'], PASSWORD_ARGON2I)
-            ]);
+                'password' => password_hash($_POST['password'], PASSWORD_BCRYPT)
+            ])->toArray();
             $this->response(200);
         } finally {
             Log::endJob();
@@ -50,8 +50,7 @@ class UserApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $user = new User();
-                $this->body = $user->find($args[0]);
+                $this->body = User::getWithId($args[0], true);
                 $this->response(200);
             } catch (\Throwable $th) {
                 throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
@@ -65,17 +64,16 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-update');
         try {
-            $_PUT = json_decode($request->getBody(), true);
+            $_PUT = json_decode($request->body(), true);
             $this->validate($_PUT);
-            $user = new User();
-            $user->find($args[0]);
-            $this->body = $user->update([
+            $user = User::getWithId($args[0]);
+            $this->body = (array) $user->update([
                 'first_name' => $_PUT['first_name'],
                 'last_name' => $_PUT['last_name'],
                 'role' => $_PUT['role'],
                 'email' => $_PUT['email'],
-                'password' => password_hash($_PUT['password'], PASSWORD_DEFAULT)
-            ]);
+                'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
+            ])->toArray();
             $this->response(200);
         } finally {
             Log::endJob();
@@ -86,9 +84,7 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            $user = new User();
-            $user->find($args[0]);
-            if ($user->delete()) {
+            if (User::getWithId($args[0])->delete()) {
                 $this->response(200);
             }
         } finally {

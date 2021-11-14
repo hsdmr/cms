@@ -10,7 +10,7 @@ use Respect\Validation\Validator as v;
 
 class PostApi extends BaseApi
 {
-    const HELPER_LINK = ['link' => 'user'];
+    const HELPER_LINK = ['link' => 'post'];
 
     public function search($request, $args)
     {
@@ -28,7 +28,7 @@ class PostApi extends BaseApi
     {
         Log::currentJob('post-create');
         try {
-            $_POST = json_decode($request->getBody(), true);
+            $_POST = json_decode($request->body(), true);
             $this->validate($_POST);
             $post = new Post();
             $this->body = $post->create([
@@ -38,7 +38,7 @@ class PostApi extends BaseApi
                 'status' => $_POST['status'] ?? 'published',
                 'title' => $_POST['title'] ?? 'Post_'. uniqid(),
                 'content' => $_POST['content'] ?? '',
-            ]);
+            ])->toArray();
             return $this->response(200);
         } finally {
             Log::endJob();
@@ -50,8 +50,7 @@ class PostApi extends BaseApi
         Log::currentJob('post-read');
         try {
             try {
-                $post = new Post();
-                $this->body = $post->find($args[0]);
+                $this->body = Post::getWithId($args[0], true);
                 return $this->response(200);
             } catch (\Throwable $th) {
                 throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
@@ -65,10 +64,9 @@ class PostApi extends BaseApi
     {
         Log::currentJob('post-update');
         try {
-            $_PUT = json_decode($request->getBody(), true);
+            $_PUT = json_decode($request->body(), true);
             $this->validate($_PUT);
-            $post = new Post();
-            $post->find($args[0]);
+            $post = Post::getWithId($args[0]);
             $this->body = $post->update([
                 'permalink_id' => $_PUT['permalink_id'],
                 'user_id' => $_PUT['user_id'] ?? 1,
@@ -76,7 +74,7 @@ class PostApi extends BaseApi
                 'status' => $_PUT['status'] ?? 'published',
                 'title' => $_PUT['title'] ?? 'Post_'. uniqid(),
                 'content' => $_PUT['content'] ?? '',
-            ]);
+            ])->toArray();
             return $this->response(200);
         } finally {
             Log::endJob();
@@ -87,9 +85,7 @@ class PostApi extends BaseApi
     {
         Log::currentJob('post-update');
         try {
-            $post = new Post();
-            $post->find($args[0]);
-            if ($post->delete()) {
+            if (Post::getWithId($args[0])->delete()) {
                 $this->response(200);
             }
         } finally {

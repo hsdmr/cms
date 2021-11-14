@@ -28,7 +28,7 @@ class CategoryApi extends BaseApi
     {
         Log::currentJob('category-create');
         try {
-            $_POST = json_decode($request->getBody(), true);
+            $_POST = json_decode($request->body(), true);
             $this->validate($_POST);
             $category = new Category();
             $this->body = $category->create([
@@ -38,7 +38,7 @@ class CategoryApi extends BaseApi
                 'type' => $_POST['type'],
                 'title' => $_POST['title'] ?? 'Category-' . uniqid(),
                 'content' => $_POST['content'] ?? '',
-            ]);
+            ])->toArray();
             $this->response(200);
         } finally {
             Log::endJob();
@@ -50,8 +50,7 @@ class CategoryApi extends BaseApi
         Log::currentJob('category-read');
         try {
             try {
-                $category = new Category();
-                $this->body = $category->find($args[0]);
+                $this->body = Category::getWithId($args[0], true);
                 $this->response(200);
             } catch (\Throwable $th) {
                 throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
@@ -65,10 +64,9 @@ class CategoryApi extends BaseApi
     {
         Log::currentJob('category-update');
         try {
-            $_PUT = json_decode($request->getBody(), true);
+            $_PUT = json_decode($request->body(), true);
             $this->validate($_PUT);
-            $category = new Category();
-            $category->find($args[0]);
+            $category = Category::getWithId($args[0]);
             $this->body = $category->update([
                 'permalink_id' => $_PUT['permalin_id'],
                 'file_id' => $_PUT['file_id'] ?? null,
@@ -76,7 +74,7 @@ class CategoryApi extends BaseApi
                 'type' => $_PUT['type'],
                 'title' => $_PUT['title'] ?? 'Category-' . uniqid(),
                 'content' => $_PUT['content'] ?? '',
-            ]);
+            ])->toArray();
             $this->response(200);
         } finally {
             Log::endJob();
@@ -87,9 +85,7 @@ class CategoryApi extends BaseApi
     {
         Log::currentJob('category-delete');
         try {
-            $category = new Category();
-            $category->find($args[0]);
-            if ($category->delete()) {
+            if (Category::getWithId($args[0])->delete()) {
                 $this->response(200);
             }
         } finally {
