@@ -1,14 +1,14 @@
-<IfModule mod_rewrite.c>
 RewriteEngine On
- 
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
- 
-# Rewrite all other URLs to index.php/URL
-RewriteRule ^(.*)$ index.php?url=$1 [PT,L]
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule .* index.php [L,QSA]
 
-
-</IfModule>
-<IfModule !mod_rewrite.c>
-	ErrorDocument 404 index.php
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET,POST,PUT,DELETE,OPTIONS"
+    Header set Access-Control-Allow-Headers "content-type, Authorization"
+    Header set Content-Security-Policy "default-src https:"
+    Header set Access-Control-Expose-Headers "*"
 </IfModule>
