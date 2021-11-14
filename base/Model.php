@@ -19,7 +19,6 @@ class Model
     protected $soft_delete = false;
     private bool $with_deleted = false;
     private bool $only_deleted = false;
-    private bool $as_array = false;
 
     private string $select;
     private array $where = ['params' => [], 'sql' => ''];
@@ -61,10 +60,8 @@ class Model
             $statement->bindValue(":$key", $value);
         }
         $statement->execute();
-        if ($this->primary_key == 'id') {
-            return $this->find($this->db->lastInsertId());
-        }
-        return $this->find($fields[$this->primary_key]);
+        $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
+        return $this->find($this->db->lastInsertId());
     }
 
     public function update($params = [])
@@ -76,19 +73,16 @@ class Model
                 $binds[] = $key . ' = :' . $key;
             }
         }
-        $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :p" . $this->primary_key;
+        $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
         $statement = $this->db->prepare($sql);
         foreach ($params as $key => $value) {
             if ($value != '') {
                 $statement->bindValue(":$key", $value);
             }
         }
-        $statement->bindValue(":p" . $this->primary_key, $this->where_key);
+        $statement->bindValue(":" . $this->primary_key, $this->where_key);
         $statement->execute();
-        if ($this->primary_key == 'id') {
-            return $this->find($this->where_key);
-        }
-        return $this->find($params[$this->primary_key]);
+        return $this->find($this->where_key);
     }
 
     public function first()
@@ -115,9 +109,6 @@ class Model
         }
         $statement->execute();
         $items = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if ($this->as_array) {
-            return $items;
-        }
         $collection = [];
         foreach ($items as $item) {
             $object = call_user_func_array([$this->class, 'getWithId'], [$item[$this->primary_key], false]);
@@ -129,19 +120,18 @@ class Model
     public function find($primary_key)
     {
         $this->where_key = $primary_key;
-        $this->select .= ", $this->primary_key";
         $sql = "SELECT $this->select FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
         if ($this->soft_delete && !$this->with_deleted) {
-            $sql .= "AND deleted_at IS NULL";
+            $sql .= " AND deleted_at IS NULL";
         }
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":" . $this->primary_key, $this->where_key);
         $statement->execute();
         $item = $statement->fetch(PDO::FETCH_ASSOC);
-        if ($this->as_array) {
-            return $item;
-        }
         foreach ($this->fields as $field) {
+            if ($field === $this->primary_key && $this->{$field} == null) {
+                throw new StoragePdoException(explode('\\', $this->class)[2] . " not found");
+            }
             $this->{$field} = $item[$field];
         }
         return $this;
@@ -186,10 +176,13 @@ class Model
         return $this;
     }
 
-    public function asArray()
-    {
-        $this->as_array = true;
-        return $this;
+    public function toArray()
+    {   
+        $array = [];
+        foreach ($this->fields as $field) {
+            $array[$field] = $this->{$field};
+        }
+        return $array;
     }
 
     public function onlyDeleted()

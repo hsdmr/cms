@@ -14,19 +14,19 @@ class User extends Model
 
     public static function getWithId(int $id, bool $as_array = false)
     {
-        $user = new User();
+        $item = new User();
         if ($as_array) {
-            return $user->asArray()->find($id);
+            return $item->find($id)->toArray();
         }
-        return $user->find($id);
+        return $item->find($id);
     }
 
     public static function getWithEmail(string $email, bool $as_array = false)
     {
-        $user = new User();
+        $item = new User();
         if ($as_array) {
-            return $user->asArray()->where([['email', '=', $email]])->first();
+            return $item->where([['email', '=', $email]])->first()->toArray();
         }
-        return $user->where([['email', '=', $email]])->first();
+        return $item->where([['email', '=', $email]])->first();
     }
 }
