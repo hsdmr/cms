@@ -3,21 +3,30 @@
 namespace Hasdemir\Model;
 
 use Hasdemir\Base\Model;
-use Hasdemir\Base\System;
 
 class User extends Model
 {
-    private $db;
-    protected const TABLE = 'user';
-    protected const PRIMARY_KEY = 'id';
-    protected const FIELDS = ['first_name', 'last_name', 'role', 'email', 'email_verified_at', 'password'];
-    protected const UNIQUES = ['email'];
-    protected const HIDDENS = ['password', 'deleted_at', 'created_at', 'updated_at'];
-    protected const SOFT_DELETE = true;
-    
-    public function __construct(\PDO $db = null)
+    protected $class = __CLASS__;
+    protected $table = 'user';
+    protected $unique = ['email'];
+    protected $protected = ['password'];
+    protected $soft_delete = true;
+
+    public static function getWithId(int $id, bool $as_array = false)
     {
-        $this->db = $db ?? System::get('pdo');
-        parent::__construct($this->db, self::TABLE, self::PRIMARY_KEY, self::FIELDS, self::UNIQUES, self::HIDDENS, self::SOFT_DELETE);
+        $user = new User();
+        if ($as_array) {
+            return $user->asArray()->find($id);
+        }
+        return $user->find($id);
+    }
+
+    public static function getWithEmail(string $email, bool $as_array = false)
+    {
+        $user = new User();
+        if ($as_array) {
+            return $user->asArray()->where([['email', '=', $email]])->first();
+        }
+        return $user->where([['email', '=', $email]])->first();
     }
 }

@@ -8,15 +8,18 @@ use PDO;
 
 class Model
 {
+    private string $primary_key = 'id';
     private $db;
-    private string $table;
-    private string $primary_key;
-    private array $fields;
-    private array $uniques;
-    private array $hiddens;
-    private bool $soft_delete = false;
-    private bool $with_deleteds = false;
-    private bool $only_deleteds = false;
+    protected $class;
+    protected $table;
+    protected $fields = [];
+    protected $unique = [];
+    protected $hidden = [];
+    protected $protected = [];
+    protected $soft_delete = false;
+    private bool $with_deleted = false;
+    private bool $only_deleted = false;
+    private bool $as_array = false;
 
     private string $select;
     private array $where = ['params' => [], 'sql' => ''];
@@ -24,20 +27,11 @@ class Model
     private string $order = '';
     private string $limit = '';
 
-    public function __construct($db, $table, $primary_key, $fields, $uniques, $hiddens, $soft_delete)
+    public function __construct()
     {
-        $this->db = $db;
-        $this->table = $table;
-        $this->primary_key = $primary_key;
-        $this->uniques = $uniques;
-        $this->hiddens = $hiddens;
-        $this->soft_delete = $soft_delete;
-        $this->fields = $fields;
-        $this->timestamps($this->fields);
-        foreach ($this->fields as $field) {
-            $this->{$field} = '';
-        }
-        $this->select = implode(', ', array_diff($this->fields, $this->hiddens));
+        $this->db = System::get('pdo');
+        $this->createFields();
+        $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
     }
 
     public function save()
@@ -54,7 +48,7 @@ class Model
 
     public function create($params)
     {
-        $this->timestamps($params, 'create');
+        $this->timestamps($params);
         $this->checkHasUniqueItem($params);
         $fields = [];
         foreach ($this->fields as $key) {
@@ -100,17 +94,18 @@ class Model
     public function first()
     {
         $model = $this->get()[0];
-        $this->where_key = $model[$this->primary_key];
+        if (is_array($model)) $this->where_key = $model[$this->primary_key];
+        if (is_object($model)) $this->where_key = $model->{$this->primary_key};
         return $model;
     }
 
     public function get()
     {
         $sql = "SELECT $this->select FROM " . $this->table . $this->where['sql'];
-        if ($this->soft_delete && !$this->with_deleteds) {
+        if ($this->soft_delete && !$this->with_deleted) {
             $sql .= ($this->where['sql'] === '' ? " WHERE" : " AND") . " deleted_at IS NULL";
         }
-        if ($this->soft_delete && $this->only_deleteds) {
+        if ($this->soft_delete && $this->only_deleted) {
             $sql .= ($this->where['sql'] === '' ? " WHERE" : " AND") . " deleted_at IS NOT NULL";
         }
         $sql .= $this->order . $this->limit;
@@ -119,7 +114,16 @@ class Model
             $statement->bindValue(":" . $item[0], $item[2]);
         }
         $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if ($this->as_array) {
+            return $items;
+        }
+        $collection = [];
+        foreach ($items as $item) {
+            $object = call_user_func_array([$this->class, 'getWithId'], [$item[$this->primary_key], false]);
+            $collection[] = $object;
+        }
+        return $collection;
     }
 
     public function find($primary_key)
@@ -127,21 +131,25 @@ class Model
         $this->where_key = $primary_key;
         $this->select .= ", $this->primary_key";
         $sql = "SELECT $this->select FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
+        if ($this->soft_delete && !$this->with_deleted) {
+            $sql .= "AND deleted_at IS NULL";
+        }
         $statement = $this->db->prepare($sql);
         $statement->bindValue(":" . $this->primary_key, $this->where_key);
         $statement->execute();
-        return $statement->fetch(PDO::FETCH_ASSOC);
+        $item = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($this->as_array) {
+            return $item;
+        }
+        foreach ($this->fields as $field) {
+            $this->{$field} = $item[$field];
+        }
+        return $this;
     }
 
     public function all()
     {
-        $sql = "SELECT $this->select FROM $this->table";
-        if ($this->soft_delete) {
-            $sql .= " WHERE deleted_at IS NULL";
-        }
-        $statement = $this->db->prepare($sql);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $this->get();
     }
 
     public function delete(): bool
@@ -166,21 +174,33 @@ class Model
         return true;
     }
 
-    public function withDeleteds()
+    public function withDeleted()
     {
-        $this->with_deleteds = true;
+        $this->with_deleted = true;
         return $this;
     }
 
-    public function onlyDeleteds()
+    public function withHidden()
     {
-        $this->only_deleteds = true;
+        $this->select = implode(', ', array_diff($this->fields, $this->protected));
+        return $this;
+    }
+
+    public function asArray()
+    {
+        $this->as_array = true;
+        return $this;
+    }
+
+    public function onlyDeleted()
+    {
+        $this->only_deleted = true;
         return $this;
     }
 
     public function select(array $fields = [])
     {
-        $this->select = count($fields) === 1 ? $fields[0] : implode(', ', $fields);
+        $this->select = implode(', ', array_diff($fields, $this->protected));
         return $this;
     }
 
@@ -198,7 +218,7 @@ class Model
         ];
         return $this;
     }
-    
+
     public function order(array $order)
     {
         $this->order = " ORDER BY " . $order[0] . ' ' . strtoupper($order[1]);
@@ -213,16 +233,16 @@ class Model
 
     private function checkHasUniqueItem($params)
     {
-        foreach ($this->uniques as $key) {
+        foreach ($this->unique as $key) {
             $count = count($this->select([$key])->where([[$key, '=', $params[$key]]])->get());
-            $this->select = implode(', ', array_diff($this->fields, $this->hiddens));
+            $this->select = implode(', ', array_diff($this->fields, $this->hidden));
             if ($count != 0) {
                 throw new StoragePdoException("'$key' has already been registered");
             }
         }
     }
 
-    private function timestamps(&$params, $type = 'construct')
+    private function timestamps(&$params, $type = 'create')
     {
         if ($type === 'create') {
             $params['updated_at'] = time();
@@ -239,12 +259,17 @@ class Model
             }
         }
 
-        if ($type === 'construct') {
-            $params[] = 'created_at';
-            $params[] = 'updated_at';
-            if ($this->soft_delete) {
-                $params[] = 'deleted_at';
-            }
+    }
+
+    private function createFields()
+    {
+        $sql = "DESCRIBE $this->table";
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+
+        foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $item) {
+            $this->fields[] = $item['Field'];
+            $this->{$item['Field']} = null;
         }
     }
 }
