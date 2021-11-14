@@ -4,20 +4,24 @@ namespace Hasdemir\Base;
 
 class Response
 {
-	public function error($http_code, $header, $message = null, $e = null, $th = null)
+	public static function error($http_code, $header, $message = null, $e = null, $th = null)
 	{
 		$response = [
 			'message' => $message,
 			'link' => $header['Link']
 		];
 		Log::error($response, $e, $th);
-		return $this->emit($http_code, $header, $response);
+		return self::emit($http_code, $header, $response);
 	}
 
 	public static function emit($http_code, $header, $response)
 	{
 		$header['Api-Verison'] = API_VERSION;
 		if (is_array($response)) {
+			$header['Content-Type'] = 'application/json; charset=utf-8';
+			$response = json_encode($response);
+		} else if (is_object($response)) {
+			var_dump('asda');die;
 			$header['Content-Type'] = 'application/json; charset=utf-8';
 			$response = json_encode($response);
 		} else {

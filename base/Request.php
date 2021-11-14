@@ -6,49 +6,49 @@ use Hasdemir\Base\DefaultException;
 
 class Request
 {
-    protected string $dir;
-    protected string $base;
+    protected static string $dir;
+    protected static string $base;
 
     public function __construct()
     {
-        $this->dir = dirname($_SERVER['SCRIPT_NAME']);
-        $this->base = basename($_SERVER['SCRIPT_NAME']);
-        Log::request($this->getUri(), $this->getMethod());
+        self::$dir = dirname($_SERVER['SCRIPT_NAME']);
+        self::$base = basename($_SERVER['SCRIPT_NAME']);
+        Log::request(self::uri(), self::method());
     }
 
-    public function getUri()
+    public static function uri()
     {
-        return str_replace([$this->dir, $this->base], [null], $_SERVER['REQUEST_URI']);
+        return str_replace([self::$dir, self::$base], [null], $_SERVER['REQUEST_URI']);
     }
 
-    public function getPath()
+    public static function path()
     {
-        return explode('?', $this->getUri())[0];
+        return explode('?', self::uri())[0];
     }
 
-    public function getMethod()
+    public static function method()
     {
         return strtoupper($_SERVER['REQUEST_METHOD']);
     }
 
-    public function getBody()
+    public static function body()
     {
         $body = [];
-        if ($this->getMethod() === 'POST' || $this->getMethod() === 'PUT') {
+        if (self::method() === 'POST' || self::method() === 'PUT') {
             $body = file_get_contents('php://input');
         }
         return $body;
     }
 
-    public function getParams()
+    public static function params()
     {
         $params = [];
-        if ($this->getMethod() === 'GET') {
+        if (self::method() === 'GET') {
             foreach ($_GET as $key => $value) {
                 $params[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
-        if ($this->getMethod() === 'POST' || $this->getMethod() === 'PUT') {
+        if (self::method() === 'POST' || self::method() === 'PUT') {
             foreach ($_POST as $key => $value) {
                 $params[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
@@ -56,14 +56,14 @@ class Request
         return $params;
     }
 
-    public function isValid(): bool
+    public static function isValid(): bool
     {
-        return preg_match('@^([-a-z0-9%.=#?&//]*)$@', $this->getUri());
+        return preg_match('@^([-a-z0-9%.=#?&//]*)$@', self::uri());
     }
 
-    public function checkUri()
+    public static function checkUri()
     {
-        if (!$this->isValid()) {
+        if (!self::isValid()) {
             throw new DefaultException('Url does not valid', ['http_code' => 403]);
         }
     }
