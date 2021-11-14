@@ -52,7 +52,7 @@ class Route
 
     public function isApi(): bool
     {
-        return '/' . explode('/', $this->request->getPath())[1] === API_PREFIX;
+        return '/' . explode('/', $this->request->path())[1] === API_PREFIX;
     }
 
     public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = '')
@@ -68,7 +68,7 @@ class Route
                 $function = $route[2];
                 $uri = str_replace(array_keys(self::pattern($uri)), array_values(self::pattern($uri)), $uri);
                 
-                if (preg_match('@^' . $uri . '$@', $this->request->getPath(), $args) && $method == $this->request->getMethod()) {
+                if (preg_match('@^' . $uri . '$@', $this->request->path(), $args) && $method == $this->request->method()) {
                     unset($args[0]);
                     self::$hasRoute = true;
                     if (method_exists($class, $function)) {
