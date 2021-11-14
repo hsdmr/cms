@@ -16,11 +16,13 @@ class Api
     {
         global $routes;
 
-        $routes['Auth'] = [
+        $routes['Auth']['middleware'] = [];
+        $routes['Auth']['routes'] = [
             ['POST', '/login', 'login'],
         ];
 
-        $routes['User'] = [
+        $routes['User']['middleware'] = ['Auth'];
+        $routes['User']['routes'] = [
             ['GET', '/user', 'search'],
             ['POST', '/user', 'create'],
             ['GET', '/user/{id}', 'read'],
@@ -28,7 +30,8 @@ class Api
             ['DELETE', '/user/{id}', 'delete'],
         ];
 
-        $routes['Post'] = [
+        $routes['Post']['middleware'] = ['Auth'];
+        $routes['Post']['routes'] = [
             ['GET', '/post', 'search'],
             ['POST', '/post', 'create'],
             ['GET', '/post/{id}', 'read'],
@@ -36,7 +39,8 @@ class Api
             ['DELETE', '/post/{id}', 'delete'],
         ];
 
-        $routes['Category'] = [
+        $routes['Category']['middleware'] = ['Auth'];
+        $routes['Category']['routes'] = [
             ['GET', '/category', 'search'],
             ['POST', '/category', 'create'],
             ['GET', '/category/{id}', 'read'],
