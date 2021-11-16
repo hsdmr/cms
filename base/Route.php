@@ -46,7 +46,7 @@ class Route
     public static function hasRoute()
     {
         if (self::$hasRoute === false) {
-            throw new NotFoundException('Url does not exists.');
+            throw new NotFoundException('Url does not exists');
         }
     }
 
@@ -58,7 +58,7 @@ class Route
     public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = '')
     {
         foreach ($routes as $key => $value) {
-            foreach ($value as $route) {
+            foreach ($value['routes'] as $route) {
                 $class = $key . $class_suffix;
                 if (!class_exists($class)) {
                     $class = $namespase . $class;
@@ -71,6 +71,16 @@ class Route
                 if (preg_match('@^' . $uri . '$@', $this->request->path(), $args) && $method == $this->request->method()) {
                     unset($args[0]);
                     self::$hasRoute = true;
+
+                    foreach ($value['middleware'] as $middleware) {
+                        if (!class_exists($middleware)) {
+                            $middleware = MIDDLEWARE_NAMESPACE . $middleware;
+                        }
+                        if (method_exists($middleware, 'run')) {
+                            call_user_func_array([new $middleware, 'run'], [$this->request]);
+                        }
+                    }
+                    
                     if (method_exists($class, $function)) {
                         call_user_func_array([new $class, $function], [$this->request, array_values($args)]);
                     }

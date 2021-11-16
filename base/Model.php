@@ -129,7 +129,7 @@ class Model
         $statement->execute();
         $item = $statement->fetch(PDO::FETCH_ASSOC);
         foreach ($this->fields as $field) {
-            if ($field === $this->primary_key && $this->{$field} == null) {
+            if ($field === $this->primary_key && $item[$field] === null) {
                 throw new StoragePdoException(explode('\\', $this->class)[2] . " not found");
             }
             $this->{$field} = $item[$field];

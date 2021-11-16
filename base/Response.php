@@ -20,10 +20,6 @@ class Response
 		if (is_array($response)) {
 			$header['Content-Type'] = 'application/json; charset=utf-8';
 			$response = json_encode($response);
-		} else if (is_object($response)) {
-			var_dump('asda');die;
-			$header['Content-Type'] = 'application/json; charset=utf-8';
-			$response = json_encode($response);
 		} else {
 			$header['Content-Type'] = $header['Content-Type'] ?? 'text/html; charset=utf-8';
 		}

@@ -8,6 +8,7 @@ define('ROOT', dirname(dirname(__FILE__)));
 define('DS', DIRECTORY_SEPARATOR);
 define('API_NAMESPACE', 'Hasdemir\\Rest\\');
 define('CONTROLLER_NAMESPACE', 'Hasdemir\\Controller\\');
+define('MIDDLEWARE_NAMESPACE', 'Hasdemir\\Middleware\\');
 define('API_PREFIX', '/v2');
 define('API_VERSION', '2.0.0');
 
