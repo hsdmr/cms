@@ -10,7 +10,8 @@
             "Hasdemir\\Exception\\": "exceptions/",
             "Hasdemir\\Controller\\": "controllers/",
             "Hasdemir\\Resource\\": "resources/",
-            "Hasdemir\\Route\\": "routes/"
+            "Hasdemir\\Route\\": "routes/",
+            "Hasdemir\\Middleware\\": "middlewares/"
         }
     },
     "authors": [
