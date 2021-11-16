@@ -8,36 +8,43 @@ class Session
 
     public function __construct()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
-    public function setFlash($key, $message)
+    public static function setFlash($key, $message)
     {
         $_SESSION[self::FLASH_KEY][$key] = $message;
     }
 
-    public function getFlash($key)
+    public static function getFlash($key)
     {
         return $_SESSION[self::FLASH_KEY][$key] ?? false;
     }
 
-    public function set($key, $value)
+    public static function set($key, $value)
     {
         $_SESSION[$key] = $value;
     }
 
-    public function get($key)
+    public static function get($key)
     {
         return $_SESSION[$key] ?? false;
     }
 
-    public function remove($key)
+    public static function remove($key)
     {
         unset($_SESSION[$key]);
     }
 
+    public static function flush()
+    {
+        session_destroy();
+    }
+
     public function __destruct()
     {
-        $_SESSION[self::FLASH_KEY] = [];
+        unset($_SESSION[self::FLASH_KEY]);
     }
 }
