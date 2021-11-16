@@ -28,8 +28,8 @@ function applyMigrations()
 
         require_once ROOT . DS . 'database' . DS . $migration;
         $name = explode('_',pathinfo($migration, PATHINFO_FILENAME));
-        $className = $name[2];
         $version = $name[1];
+        $className = ucwords($name[2]) . implode('', explode('.', $version));
         $instance = new $className();
         echoLog("Applying migration $migration");
         $instance->up();
