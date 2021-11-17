@@ -17,7 +17,8 @@ class Web
     {
         global $routes;
 
-        $routes['Route'] = [
+        $routes['Route']['middleware'] = [];
+        $routes['Route']['routes'] = [
             ['GET', '/', 'home'],
             ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}', 'route'],
         ];
