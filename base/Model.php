@@ -10,7 +10,6 @@ class Model
 {
     private string $primary_key = 'id';
     private $db;
-    protected $class;
     protected $table;
     protected $fields = [];
     protected $unique = [];
@@ -19,12 +18,13 @@ class Model
     protected $soft_delete = false;
     private bool $with_deleted = false;
     private bool $only_deleted = false;
-
+    
     private string $select;
     private array $where = ['params' => [], 'sql' => ''];
     private $where_key;
     private string $order = '';
     private string $limit = '';
+    private array $with = [];
 
     public function __construct()
     {
@@ -33,6 +33,12 @@ class Model
         $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
     }
 
+    /**
+     * It detects whether to edit or add a new row in the table and performs the recording.
+     *
+     * @return object model
+     *
+     */
     public function save()
     {
         $params = [];
@@ -45,6 +51,13 @@ class Model
         return $this->create($params);
     }
 
+    /**
+     * Adds a new row to the table.
+     *
+     * @param  array  $params
+     * @return object model
+     *
+     */
     public function create($params)
     {
         $this->timestamps($params);
@@ -64,6 +77,13 @@ class Model
         return $this->find($this->db->lastInsertId());
     }
 
+    /**
+     * Updates the relevant row in the table.
+     *
+     * @param  array  $params
+     * @return object model
+     *
+     */
     public function update($params = [])
     {
         $this->timestamps($params, 'update');
@@ -85,6 +105,12 @@ class Model
         return $this->find($this->where_key);
     }
 
+    /**
+     * Returns the first row in the search query.
+     *
+     * @return object model
+     *
+     */
     public function first()
     {
         $model = $this->get()[0];
@@ -93,6 +119,12 @@ class Model
         return $model;
     }
 
+    /**
+     * Returns the search query.
+     *
+     * @return object collection
+     *
+     */
     public function get()
     {
         $sql = "SELECT $this->select FROM " . $this->table . $this->where['sql'];
@@ -111,12 +143,23 @@ class Model
         $items = $statement->fetchAll(PDO::FETCH_ASSOC);
         $collection = [];
         foreach ($items as $item) {
-            $object = call_user_func_array([$this->class, 'getWithId'], [$item[$this->primary_key], false]);
+            $object = call_user_func_array([getModelFromTable($this->table), 'findById'], [$item[$this->primary_key]]);
+            foreach ($this->with as $with) {
+                $object->{$with} = $object->{$with}();
+            }
             $collection[] = $object;
         }
         return $collection;
     }
 
+    /**
+     * Searches with primary key.
+     *
+     * @param  array  $primary_key
+     * @return object model
+     *
+     * @throws \StoragePdoException
+     */
     public function find($primary_key)
     {
         $this->where_key = $primary_key;
@@ -130,18 +173,30 @@ class Model
         $item = $statement->fetch(PDO::FETCH_ASSOC);
         foreach ($this->fields as $field) {
             if ($field === $this->primary_key && $item[$field] === null) {
-                throw new StoragePdoException(explode('\\', $this->class)[2] . " not found");
+                throw new StoragePdoException(explode('\\', getModelFromTable($this->table))[2] . " not found");
             }
             $this->{$field} = $item[$field];
         }
         return $this;
     }
 
+    /**
+     * Returns all data in the table.
+     *
+     * @return object collection
+     *
+     */
     public function all()
     {
         return $this->get();
     }
 
+    /**
+     * Performs deletion according to soft delete status on the table.
+     *
+     * @return bool
+     *
+     */
     public function delete(): bool
     {
         if ($this->soft_delete) {
@@ -155,6 +210,12 @@ class Model
         return $this->forceDelete();
     }
 
+    /**
+     * Completely deletes the relevant row in the table.
+     *
+     * @return bool
+     *
+     */
     public function forceDelete(): bool
     {
         $sql = "DELETE FROM $this->table WHERE " . $this->primary_key . " = :" . $this->primary_key;
@@ -164,18 +225,36 @@ class Model
         return true;
     }
 
+    /**
+     * Returns value with deleted data in table.
+     *
+     * @return object model
+     *
+     */
     public function withDeleted()
     {
         $this->with_deleted = true;
         return $this;
     }
 
+    /**
+     * Returns values with hidden columns in the table.
+     *
+     * @return object model
+     *
+     */
     public function withHidden()
     {
         $this->select = implode(', ', array_diff($this->fields, $this->protected));
         return $this;
     }
 
+    /**
+     * Returns data in array format.
+     *
+     * @return array
+     *
+     */
     public function toArray()
     {   
         $array = [];
@@ -185,19 +264,53 @@ class Model
         return $array;
     }
 
+    /**
+     * Returns only deleted data.
+     *
+     * @param  array  $with
+     * @return $this
+     *
+     */
+    public function with($with)
+    {
+        $this->with = $with;
+        return $this;
+    }
+
+    /**
+     * Returns only deleted data.
+     *
+     * @param  array  $params
+     * @return $this
+     *
+     */
     public function onlyDeleted()
     {
         $this->only_deleted = true;
         return $this;
     }
 
+    /**
+     * Determines which columns in the table are returned.
+     *
+     * @param  array  $params
+     * @return $this
+     *
+     */
     public function select(array $fields = [])
     {
         $this->select = implode(', ', array_diff($fields, $this->protected));
         return $this;
     }
 
-    public function where(array $where)
+    /**
+     * Adds where query with and.
+     *
+     * @param  array  $where, $w
+     * @return $this
+     *
+     */
+    public function where(array $where, string $w = 'AND')
     {
         $keys = [];
         $operators = [];
@@ -207,23 +320,114 @@ class Model
         }
         $this->where = [
             'params' => $where,
-            'sql' => " WHERE " . implode(" AND ", array_map(fn ($key, $operator) => "$key $operator :$key", $keys, $operators))
+            'sql' => " WHERE " . implode(" $w ", array_map(fn ($key, $operator) => "$key $operator :$key", $keys, $operators))
         ];
         return $this;
     }
 
+    /**
+     * Determines the order of the data to return in the query.
+     *
+     * @param  array  $order
+     * @return $this
+     *
+     */
     public function order(array $order)
     {
         $this->order = " ORDER BY " . $order[0] . ' ' . strtoupper($order[1]);
         return $this;
     }
 
+    /**
+     * Determines how many rows to return in the query.
+     *
+     * @param  int  $limit
+     * @return $this
+     *
+     */
     public function limit(int $limit)
     {
         $this->limit = " LIMIT " . $limit;
         return $this;
     }
 
+    /**
+     * For many to many queries.
+     *
+     * @param  string  $table
+     * @return $collection
+     *
+     */
+    public function belongsToMany(string $table)
+    {
+        foreach ([$table . '_' . $this->table, $this->table . '_' . $table] as $item) {
+            $statement = $this->db->prepare("SHOW TABLES LIKE '$item';");
+            $statement->execute();
+            $row = $statement->fetch();
+            if ($row) {
+                $table_name = $row[0];
+            }
+        }
+        $sql = "SELECT * FROM " . $table_name . " WHERE " . $this->table . "_id = :" . $this->table;
+        $statement = $this->db->prepare($sql);
+        $statement->bindValue(":" . $this->table, $this->where_key);
+        $statement->execute();
+        $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $collection = [];
+        foreach ($items as $item) {
+            $object = call_user_func_array([getModelFromTable($table), 'findById'], [$item[$this->table . "_id"]]);
+            $collection[] = $object;
+        }
+        return $collection;
+    }
+
+    /**
+     *  For belong to queries.
+     *
+     * @param  string  $table
+     * @return object
+     *
+     */
+    public function belongTo(string $table)
+    {
+        $sql = "SELECT * FROM " . $table . " WHERE id = :id LIMIT 1";
+        $statement = $this->db->prepare($sql);
+        $statement->bindValue(":id", $this->{$table . '_id'});
+        $statement->execute();
+        $item = $statement->fetch(PDO::FETCH_ASSOC);
+        return call_user_func_array([getModelFromTable($table), 'findById'], [$item['id']]);
+    }
+
+    /**
+     *  For has many queries.
+     *
+     * @param  string  $table
+     * @return object
+     *
+     */
+    public function hasMany(string $table)
+    {
+        $sql = "SELECT * FROM " . $table . " WHERE " . $this->table . "_id = :id";
+        $statement = $this->db->prepare($sql);
+        $statement->bindValue(":id", $this->where_key);
+        $statement->execute();
+        $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $collection = [];
+        foreach ($items as $item) {
+            $object = call_user_func_array([getModelFromTable($table), 'findById'], [$item['id']]);
+            $collection[] = $object;
+        }
+        return $collection;
+    }
+
+    /**
+     * Checks for unique element in table.
+     *
+     * @param  array  $params
+     * @return void
+     *
+     * @throws \StoragePdoException
+     */
     private function checkHasUniqueItem($params)
     {
         foreach ($this->unique as $key) {
@@ -235,6 +439,13 @@ class Model
         }
     }
 
+    /**
+     * Creates timestamps.
+     *
+     * @param  array  $params
+     * @return void
+     *
+     */
     private function timestamps(&$params, $type = 'create')
     {
         if ($type === 'create') {
@@ -254,6 +465,13 @@ class Model
 
     }
 
+    /**
+     * Creates the columns in the table.
+     *
+     * @param  array  $options
+     * @return void
+     *
+     */
     private function createFields()
     {
         $sql = "DESCRIBE $this->table";
