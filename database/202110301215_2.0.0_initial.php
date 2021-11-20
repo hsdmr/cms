@@ -16,8 +16,8 @@ class Initial200
         $sql['access_token'] = "CREATE TABLE `phprest`.`access_token` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `user_id` BIGINT(20) NOT NULL , `token` VARCHAR(100) NOT NULL , `type` VARCHAR(20) NULL , `attributes` MEDIUMTEXT NULL , `scope` MEDIUMTEXT NULL , `expires` BIGINT(20) NULL , {$timestamps} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
         $sql['auto_link'] = "CREATE TABLE `phprest`.`auto_link` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `word` VARCHAR(255) NOT NULL , `uri` VARCHAR(255) NOT NULL , {$timestamps} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
         $sql['post'] = "CREATE TABLE `phprest`.`post` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `permalink_id` BIGINT(20) NOT NULL , `user_id` BIGINT(20) NOT NULL , `file_id` BIGINT(20) NULL , `status` VARCHAR(50) NOT NULL , `title` VARCHAR(255) NOT NULL , `content` LONGTEXT NULL , `sidebar` VARCHAR(255) NULL , `template` VARCHAR(255) NULL , {$timestamps_with_delete} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
-        $sql['category'] = "CREATE TABLE `phprest`.`category` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `permalink_id` BIGINT(20) NOT NULL , `file_id` BIGINT(20) NOT NULL , `parent_id` BIGINT(20) NOT NULL , `type` VARCHAR(100) NOT NULL , `title` VARCHAR(255) NOT NULL , `content` LONGTEXT NOT NULL , {$timestamps} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
-        //$sql[] = "";
+        $sql['category'] = "CREATE TABLE `phprest`.`category` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `permalink_id` BIGINT(20) NOT NULL , `file_id` BIGINT(20) NULL , `parent_id` BIGINT(20) NULL , `owner` VARCHAR(100) NOT NULL , `title` VARCHAR(255) NOT NULL , `content` LONGTEXT NULL , {$timestamps} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
+        $sql['category_post'] = "CREATE TABLE `phprest`.`category_post` ( `post_id` BIGINT(20) UNSIGNED NOT NULL , `category_id` BIGINT(20) UNSIGNED NOT NULL ) ENGINE = InnoDB;";
         try {
             foreach ($sql as $key => $value) {
                 $db->exec($value);
