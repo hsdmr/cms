@@ -7,6 +7,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 define('ROOT', dirname(dirname(__FILE__)));
 define('DS', DIRECTORY_SEPARATOR);
 define('API_NAMESPACE', 'Hasdemir\\Rest\\');
+define('MODEL_NAMESPACE', 'Hasdemir\\Model\\');
 define('CONTROLLER_NAMESPACE', 'Hasdemir\\Controller\\');
 define('MIDDLEWARE_NAMESPACE', 'Hasdemir\\Middleware\\');
 define('API_PREFIX', '/v2');

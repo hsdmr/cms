@@ -23,7 +23,7 @@ class AuthApi extends BaseApi
             if (Auth::attempt(['email' => $_POST['email'], 'password' => $_POST['password']])) {
                 $access_token = new AccessToken();
                 $item = $access_token->where([['user_id', '=', Auth::id()], ['type', '=', 'temp']])->first();
-                $token = random_string(60);
+                $token = randomString(60);
                 if ($item) {
                     $access_token = $access_token->update([
                         'token' => sha1($token),

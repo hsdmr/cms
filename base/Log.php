@@ -56,7 +56,11 @@ class Log
     {
         $log = '[' . date('Y-m-d H:i:s') . '] Throwed error. Message => "' . $response['message'] . '", Status Code => \'' . $e->http_code . '\'' . PHP_EOL;
         self::insert($log, 'daily');
-        $log = '[' . date('Y-m-d H:i:s') . '] {"message": "' . $e->getMessage() . '", "th_mesage": "' . $th->getMessage() . '", "status": "' . $e->http_code . '", "file": "' . $e->getFile() . '", "line": "' . $e->getLine() . '"}';
+        $log = '[' . date('Y-m-d H:i:s') . '] {"message": "' . $e->getMessage() . '"';
+        if (is_object($th)) {
+            $log .= ', "th_mesage": "' . $th->getMessage() . '"';
+        }
+        $log .= ', "status": "' . $e->http_code . '", "file": "' . $e->getFile() . '", "line": "' . $e->getLine() . '"}';
         $log .= PHP_EOL . PHP_EOL;
 
         self::insert($log, 'error', false);

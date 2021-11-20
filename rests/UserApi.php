@@ -17,7 +17,7 @@ class UserApi extends BaseApi
         Log::currentJob('user-search');
         try {
             $users = new User();
-            $this->body = $users->all();
+            $this->body = $users->with(['posts'])->get();
             $this->response(200);
         } finally {
             Log::endJob();
@@ -50,7 +50,10 @@ class UserApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $this->body = User::getWithId($args[0], true);
+                $user = User::findById($args[0]);
+                $response = $user->toArray();
+                $response['posts'] = $user->posts();
+                $this->body = $response;
                 $this->response(200);
             } catch (\Throwable $th) {
                 throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
@@ -66,7 +69,7 @@ class UserApi extends BaseApi
         try {
             $_PUT = json_decode($request->body(), true);
             $this->validate($_PUT);
-            $user = User::getWithId($args[0]);
+            $user = User::findById($args[0]);
             $this->body = (array) $user->update([
                 'first_name' => $_PUT['first_name'],
                 'last_name' => $_PUT['last_name'],
@@ -84,7 +87,7 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            if (User::getWithId($args[0])->delete()) {
+            if (User::findById($args[0])->delete()) {
                 $this->response(200);
             }
         } finally {

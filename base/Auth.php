@@ -50,7 +50,7 @@ class Auth
         }
 
         $authorization_key = self::$header['authorization'];
-        $access_token = AccessToken::getWithToken(sha1($authorization_key));
+        $access_token = AccessToken::findByToken(sha1($authorization_key));
 
         if (!(bool) $access_token) {
             throw new AuthenticationException('Authorization key not found');
@@ -65,7 +65,7 @@ class Auth
 
     public static function prepareResponse(AccessToken $access_token)
     {
-        $user = User::getWithId($access_token->user_id);
+        $user = User::findById($access_token->user_id);
         $return = [
             'access_token' => $access_token->token,
             'scope' => $access_token->scope,
@@ -93,7 +93,7 @@ class Auth
 
     public static function logout()
     {
-        $access_token = AccessToken::getWithToken(Session::get('user.session')['access_token'])->delete();
+        $access_token = AccessToken::findByToken(Session::get('user.session')['access_token'])->delete();
         Session::remove('user.session');
     }
 }
