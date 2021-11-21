@@ -93,7 +93,7 @@ class OptionApi extends BaseApi
             Log::endJob();
         }
     }
-    
+
     public function userSearch($request, $args)
     {
         Log::currentJob('option-search');
@@ -132,7 +132,6 @@ class OptionApi extends BaseApi
         if (!v::key('user_id', v::positive(), false)->validate($params)) {
             throw new UnexpectedValueException("'user_id' must be string", self::HELPER_LINK);
         }
-
         if (!v::key('key', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'key' must be string", self::HELPER_LINK);
         }

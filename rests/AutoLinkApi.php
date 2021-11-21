@@ -33,7 +33,7 @@ class AutoLinkApi extends BaseApi
             $link = new AutoLink();
             $this->body = $link->create([
                 'word' => $_POST['word'],
-                'url' => $_POST['url']
+                'uri' => $_POST['uri']
             ])->toArray();
             $this->response(200);
         } finally {
@@ -69,8 +69,8 @@ class AutoLinkApi extends BaseApi
             
             $link = AutoLink::findById($link_id);
             $this->body = (array) $link->update([
-                'word' => $_POST['word'],
-                'url' => $_POST['url']
+                'word' => $_PUT['word'],
+                'uri' => $_PUT['uri']
             ])->toArray();
             $this->response(200);
         } finally {
@@ -97,9 +97,8 @@ class AutoLinkApi extends BaseApi
         if (!v::key('word', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'word' must be string", self::HELPER_LINK);
         }
-
-        if (!v::key('url', v::stringType(), false)->validate($params)) {
-            throw new UnexpectedValueException("'url' must be string", self::HELPER_LINK);
+        if (!v::key('uri', v::stringType(), false)->validate($params)) {
+            throw new UnexpectedValueException("'uri' must be string", self::HELPER_LINK);
         }
     }
 }

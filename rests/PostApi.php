@@ -109,11 +109,9 @@ class PostApi extends BaseApi
         if (!v::key('permalink_id', v::positive())->validate($params)) {
             throw new UnexpectedValueException("'permalink_id' must be positive number", self::HELPER_LINK);
         }
-
         if (!v::key('user_id', v::positive())->validate($params)) {
             throw new UnexpectedValueException("'user_id'  must be positive number", self::HELPER_LINK);
         }
-        
         if (!v::key('status', v::in(['published', 'draft']))->validate($params)) {
             throw new UnexpectedValueException("'status' only can be 'published' or 'draft'", self::HELPER_LINK);
         }

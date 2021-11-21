@@ -2,7 +2,7 @@
 
 namespace Hasdemir\Base;
 
-use Hasdemir\Exception\DefaultException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\StoragePdoException;
 use PDO;
 
@@ -89,16 +89,12 @@ class Model
         $this->timestamps($params, 'update');
         $binds = [];
         foreach ($params as $key => $value) {
-            if ($value != '') {
-                $binds[] = $key . ' = :' . $key;
-            }
+            $binds[] = $key . ' = :' . $key;
         }
         $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
         $statement = $this->db->prepare($sql);
         foreach ($params as $key => $value) {
-            if ($value != '') {
-                $statement->bindValue(":$key", $value);
-            }
+            $statement->bindValue(":$key", $value);
         }
         $statement->bindValue(":" . $this->primary_key, $this->where_key);
         $statement->execute();
@@ -158,7 +154,7 @@ class Model
      * @param  array  $primary_key
      * @return object model
      *
-     * @throws \StoragePdoException
+     * @throws \NotFoundException
      */
     public function find($primary_key)
     {
@@ -173,7 +169,7 @@ class Model
         $item = $statement->fetch(PDO::FETCH_ASSOC);
         foreach ($this->fields as $field) {
             if ($field === $this->primary_key && $item[$field] === null) {
-                throw new StoragePdoException(explode('\\', getModelFromTable($this->table))[2] . " not found");
+                throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
             }
             $this->{$field} = $item[$field];
         }

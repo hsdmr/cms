@@ -95,7 +95,7 @@ class UserApi extends BaseApi
         Log::currentJob('user-delete');
         try {
             $user_id = $args[0];
-            
+
             if (User::findById($user_id)->delete()) {
                 $this->response(200);
             }
@@ -109,27 +109,21 @@ class UserApi extends BaseApi
         if (!v::key('first_name', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'first_name' must be string", self::HELPER_LINK);
         }
-
         if (!v::key('last_name', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'last_name' must be string", self::HELPER_LINK);
         }
-
         if (!v::key('role', v::in(['admin', 'user']))->validate($params)) {
             throw new UnexpectedValueException("'role' must be 'admin' or 'user'", self::HELPER_LINK);
         }
-
         if (!v::key('email', v::email())->validate($params)) {
             throw new UnexpectedValueException("'email' must be valid an email", self::HELPER_LINK);
         }
-
         if (!v::key('password', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'password' must be valid an email", self::HELPER_LINK);
         }
-
         if (!v::key('password_verified', v::stringType())->validate($params)) {
             throw new UnexpectedValueException("'password_verified' must be valid an email", self::HELPER_LINK);
         }
-
         if ($params['password'] != $params['password_verified']) {
             throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", self::HELPER_LINK);
         }
