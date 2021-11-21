@@ -23,17 +23,18 @@ class Auth
     public static function attempt($credentials)
     {
         self::setVariables();
-        if (!v::key('email')->validate($credentials)) {
-            throw new UnexpectedValueException("'email' does not valid");
+        $key = 'username';
+        if (v::key('user', v::email())->validate($credentials)) {
+            $key = 'email';
         }
-        $sql = "SELECT * FROM user WHERE email = :email";
+        $sql = "SELECT * FROM user WHERE $key = :$key";
         $statement = self::$db->prepare($sql);
-        $statement->bindValue(":email", $credentials['email']);
+        $statement->bindValue(":$key", $credentials['user']);
         $statement->execute();
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         
         if (!$user) {
-            throw new AuthenticationException("'email' is wrong");
+            throw new AuthenticationException("$key is wrong");
         }
         if (!password_verify($_POST['password'], $user['password'])) {
             throw new AuthenticationException("'password' is incorrect");
