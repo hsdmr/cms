@@ -29,7 +29,7 @@ class Post extends Model
 
     public function user()
     {
-        return $this->belongTo('user'); //kendi user_id sini user tablosunda arayacak
+        return $this->belongTo('user');
     }
 
     public function permalink()

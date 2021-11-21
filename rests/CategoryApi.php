@@ -50,10 +50,12 @@ class CategoryApi extends BaseApi
         Log::currentJob('category-read');
         try {
             try {
-                $this->body = Category::findById($args[0])->toArray();
+                $category_id = $args[0];
+
+                $this->body = Category::findById($category_id)->toArray();
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
+                throw new StoragePdoException('Category not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -65,8 +67,11 @@ class CategoryApi extends BaseApi
         Log::currentJob('category-update');
         try {
             $_PUT = json_decode($request->body(), true);
+            $category_id = $args[0];
+
             $this->validate($_PUT);
-            $category = Category::findById($args[0]);
+            
+            $category = Category::findById($category_id);
             $this->body = $category->update([
                 'permalink_id' => $_PUT['permalin_id'],
                 'file_id' => $_PUT['file_id'] ?? null,
@@ -85,7 +90,9 @@ class CategoryApi extends BaseApi
     {
         Log::currentJob('category-delete');
         try {
-            if (Category::findById($args[0])->delete()) {
+            $category_id = $args[0];
+
+            if (Category::findById($category_id)->delete()) {
                 $this->response(200);
             }
         } finally {

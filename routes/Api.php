@@ -47,5 +47,25 @@ class Api
             ['PUT', '/category/{id}', 'update'],
             ['DELETE', '/category/{id}', 'delete'],
         ];
+        
+        $routes['AutoLink']['middleware'] = ['Auth'];
+        $routes['AutoLink']['routes'] = [
+            ['GET', '/auto-link', 'search'],
+            ['POST', '/auto-link', 'create'],
+            ['GET', '/auto-link/{id}', 'read'],
+            ['PUT', '/auto-link/{id}', 'update'],
+            ['DELETE', '/auto-link/{id}', 'delete'],
+        ];
+        
+        $routes['Option']['middleware'] = ['Auth'];
+        $routes['Option']['routes'] = [
+            ['GET', '/option', 'search'],
+            ['POST', '/option', 'create'],
+            ['GET', '/option/{id}', 'read'],
+            ['PUT', '/option/{id}', 'update'],
+            ['DELETE', '/option/{id}', 'delete'],
+            ['GET', '/user/{id}/option', 'userSearch'],
+            ['POST', '/user/{id}/option', 'userCreate'],
+        ];
     }
 }

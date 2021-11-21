@@ -29,7 +29,9 @@ class UserApi extends BaseApi
         Log::currentJob('user-create');
         try {
             $_POST = json_decode($request->body(), true);
+
             $this->validate($_POST);
+            
             $user = new User();
             $this->body = $user->create([
                 'first_name' => $_POST['first_name'],
@@ -50,7 +52,9 @@ class UserApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $user = User::findById($args[0]);
+                $user_id = $args[0];
+                
+                $user = User::findById($user_id);
                 $response = $user->toArray();
                 $response['posts'] = $user->posts();
                 $this->body = $response;
@@ -68,8 +72,11 @@ class UserApi extends BaseApi
         Log::currentJob('user-update');
         try {
             $_PUT = json_decode($request->body(), true);
+            $user_id = $args[0];
+
             $this->validate($_PUT);
-            $user = User::findById($args[0]);
+
+            $user = User::findById($user_id);
             $this->body = (array) $user->update([
                 'first_name' => $_PUT['first_name'],
                 'last_name' => $_PUT['last_name'],
@@ -87,7 +94,9 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            if (User::findById($args[0])->delete()) {
+            $user_id = $args[0];
+            
+            if (User::findById($user_id)->delete()) {
                 $this->response(200);
             }
         } finally {

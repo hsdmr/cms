@@ -50,14 +50,16 @@ class PostApi extends BaseApi
         Log::currentJob('post-read');
         try {
             try {
-                $post = Post::findById($args[0]);
+                $post_id = $args[0];
+
+                $post = Post::findById($post_id);
                 $response = $post->toArray();
                 $response['categories'] = $post->categories();
                 $response['permalink'] = $post->permalink();
                 $this->body = $response;
                 return $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
+                throw new StoragePdoException('Post not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -69,8 +71,11 @@ class PostApi extends BaseApi
         Log::currentJob('post-update');
         try {
             $_PUT = json_decode($request->body(), true);
+            $post_id = $args[0];
+            
             $this->validate($_PUT);
-            $post = Post::findById($args[0]);
+            
+            $post = Post::findById($post_id);
             $this->body = $post->update([
                 'permalink_id' => $_PUT['permalink_id'],
                 'user_id' => $_PUT['user_id'] ?? 1,
@@ -89,7 +94,9 @@ class PostApi extends BaseApi
     {
         Log::currentJob('post-update');
         try {
-            if (Post::findById($args[0])->delete()) {
+            $post_id = $args[0];
+
+            if (Post::findById($post_id)->delete()) {
                 $this->response(200);
             }
         } finally {

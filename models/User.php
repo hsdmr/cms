@@ -7,7 +7,7 @@ use Hasdemir\Base\Model;
 class User extends Model
 {
     protected $table = 'user';
-    protected $unique = ['email'];
+    protected $unique = ['email', 'username'];
     protected $protected = ['password'];
     protected $soft_delete = true;
 
@@ -23,8 +23,19 @@ class User extends Model
         return $item->where([['email', '=', $email]])->first();
     }
 
+    public static function findByUsername(string $username)
+    {
+        $item = new User();
+        return $item->where([['username', '=', $username]])->first();
+    }
+
     public function posts()
     {
-        return $this->hasMany('post'); //post tablosuna gidip user_id arayacak
+        return $this->hasMany('post');
+    }
+    
+    public function options()
+    {
+        return $this->hasMany('option');
     }
 }

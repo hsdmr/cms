@@ -46,10 +46,12 @@ class AutoLinkApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $this->body = AutoLink::findById($args[0])->toArray();
+                $link_id = $args[0];
+
+                $this->body = AutoLink::findById($link_id)->toArray();
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
+                throw new StoragePdoException('Auto link not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -61,8 +63,11 @@ class AutoLinkApi extends BaseApi
         Log::currentJob('user-update');
         try {
             $_PUT = json_decode($request->body(), true);
+            $link_id = $args[0];
+
             $this->validate($_PUT);
-            $link = AutoLink::findById($args[0]);
+            
+            $link = AutoLink::findById($link_id);
             $this->body = (array) $link->update([
                 'word' => $_POST['word'],
                 'url' => $_POST['url']
@@ -77,7 +82,9 @@ class AutoLinkApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            if (AutoLink::findById($args[0])->delete()) {
+            $link_id = $args[0];
+
+            if (AutoLink::findById($link_id)->delete()) {
                 $this->response(200);
             }
         } finally {
