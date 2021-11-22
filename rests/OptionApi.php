@@ -3,7 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Option;
 use Respect\Validation\Validator as v;
@@ -47,12 +47,12 @@ class OptionApi extends BaseApi
         Log::currentJob('option-read');
         try {
             try {
-                $option_id = $args[0];
+                $option_id = $args['option_id'];
 
                 $this->body = Option::findById($option_id)->toArray();
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('Option not found', self::HELPER_LINK, $th);
+                throw new NotFoundException('Option not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -64,7 +64,7 @@ class OptionApi extends BaseApi
         Log::currentJob('option-update');
         try {
             $_PUT = json_decode($request->body(), true);
-            $option_id = $args[0];
+            $option_id = $args['option_id'];
 
             $this->validate($_PUT);
             
@@ -84,7 +84,7 @@ class OptionApi extends BaseApi
     {
         Log::currentJob('option-delete');
         try {
-            $option_id = $args[0];
+            $option_id = $args['option_id'];
 
             if (Option::findById($option_id)->delete()) {
                 $this->response(200);
@@ -98,7 +98,7 @@ class OptionApi extends BaseApi
     {
         Log::currentJob('option-search');
         try {
-            $user_id = $args[0];
+            $user_id = $args['user_id'];
             $this->body = Option::findOptions($user_id);
             $this->response(200);
         } finally {
@@ -111,7 +111,7 @@ class OptionApi extends BaseApi
         Log::currentJob('option-create');
         try {
             $_POST = json_decode($request->body(), true);
-            $user_id = $args[0];
+            $user_id = $args['user_id'];
 
             $this->validate($_POST);
 

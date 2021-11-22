@@ -1,4 +1,6 @@
 /vendor/
 /logs
-/resources/back/*
+/resources/admin/*
+/resources/tutor/*
+/resources/commerce/*
 .env

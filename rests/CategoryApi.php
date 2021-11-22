@@ -3,7 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Model\Category;
 use Hasdemir\Exception\UnexpectedValueException;
 use Respect\Validation\Validator as v;
@@ -50,12 +50,12 @@ class CategoryApi extends BaseApi
         Log::currentJob('category-read');
         try {
             try {
-                $category_id = $args[0];
+                $category_id = $args['category_id'];
 
                 $this->body = Category::findById($category_id)->toArray();
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('Category not found', self::HELPER_LINK, $th);
+                throw new NotFoundException('Category not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -67,7 +67,7 @@ class CategoryApi extends BaseApi
         Log::currentJob('category-update');
         try {
             $_PUT = json_decode($request->body(), true);
-            $category_id = $args[0];
+            $category_id = $args['category_id'];
 
             $this->validate($_PUT);
             
@@ -90,7 +90,7 @@ class CategoryApi extends BaseApi
     {
         Log::currentJob('category-delete');
         try {
-            $category_id = $args[0];
+            $category_id = $args['category_id'];
 
             if (Category::findById($category_id)->delete()) {
                 $this->response(200);

@@ -3,7 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
 use Respect\Validation\Validator as v;
@@ -52,7 +52,7 @@ class UserApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $user_id = $args[0];
+                $user_id = $args['user_id'];
                 
                 $user = User::findById($user_id);
                 $response = $user->toArray();
@@ -60,7 +60,7 @@ class UserApi extends BaseApi
                 $this->body = $response;
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('User not found', self::HELPER_LINK, $th);
+                throw new NotFoundException('User not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -72,7 +72,7 @@ class UserApi extends BaseApi
         Log::currentJob('user-update');
         try {
             $_PUT = json_decode($request->body(), true);
-            $user_id = $args[0];
+            $user_id = $args['user_id'];
 
             $this->validate($_PUT);
 
@@ -94,7 +94,7 @@ class UserApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            $user_id = $args[0];
+            $user_id = $args['user_id'];
 
             if (User::findById($user_id)->delete()) {
                 $this->response(200);

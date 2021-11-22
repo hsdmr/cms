@@ -3,7 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Post;
 use Respect\Validation\Validator as v;
@@ -29,7 +29,9 @@ class PostApi extends BaseApi
         Log::currentJob('post-create');
         try {
             $_POST = json_decode($request->body(), true);
+            
             $this->validate($_POST);
+            
             $post = new Post();
             $this->body = $post->create([
                 'permalink_id' => $_POST['permalink_id'],
@@ -50,8 +52,8 @@ class PostApi extends BaseApi
         Log::currentJob('post-read');
         try {
             try {
-                $post_id = $args[0];
-
+                $post_id = $args['post_id'];
+                
                 $post = Post::findById($post_id);
                 $response = $post->toArray();
                 $response['categories'] = $post->categories();
@@ -59,7 +61,7 @@ class PostApi extends BaseApi
                 $this->body = $response;
                 return $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('Post not found', self::HELPER_LINK, $th);
+                throw new NotFoundException('Post not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -71,7 +73,7 @@ class PostApi extends BaseApi
         Log::currentJob('post-update');
         try {
             $_PUT = json_decode($request->body(), true);
-            $post_id = $args[0];
+            $post_id = $args['post_id'];
             
             $this->validate($_PUT);
             
@@ -94,7 +96,7 @@ class PostApi extends BaseApi
     {
         Log::currentJob('post-update');
         try {
-            $post_id = $args[0];
+            $post_id = $args['post_id'];
 
             if (Post::findById($post_id)->delete()) {
                 $this->response(200);

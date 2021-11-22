@@ -4,11 +4,7 @@ namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Auth;
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\AuthenticationException;
-use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\AccessToken;
-use Hasdemir\Model\User;
-use Respect\Validation\Validator as v;
 
 class AuthApi extends BaseApi
 {

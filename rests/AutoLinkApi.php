@@ -3,7 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
-use Hasdemir\Exception\StoragePdoException;
+use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\AutoLink;
 use Respect\Validation\Validator as v;
@@ -46,12 +46,12 @@ class AutoLinkApi extends BaseApi
         Log::currentJob('user-read');
         try {
             try {
-                $link_id = $args[0];
+                $link_id = $args['link_id'];
 
                 $this->body = AutoLink::findById($link_id)->toArray();
                 $this->response(200);
             } catch (\Throwable $th) {
-                throw new StoragePdoException('Auto link not found', self::HELPER_LINK, $th);
+                throw new NotFoundException('Auto link not found', self::HELPER_LINK, $th);
             }
         } finally {
             Log::endJob();
@@ -63,7 +63,7 @@ class AutoLinkApi extends BaseApi
         Log::currentJob('user-update');
         try {
             $_PUT = json_decode($request->body(), true);
-            $link_id = $args[0];
+            $link_id = $args['link_id'];
 
             $this->validate($_PUT);
             
@@ -82,7 +82,7 @@ class AutoLinkApi extends BaseApi
     {
         Log::currentJob('user-delete');
         try {
-            $link_id = $args[0];
+            $link_id = $args['link_id'];
 
             if (AutoLink::findById($link_id)->delete()) {
                 $this->response(200);
