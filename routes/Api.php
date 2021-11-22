@@ -25,47 +25,56 @@ class Api
         $routes['User']['routes'] = [
             ['GET', '/user', 'search'],
             ['POST', '/user', 'create'],
-            ['GET', '/user/{id}', 'read'],
-            ['PUT', '/user/{id}', 'update'],
-            ['DELETE', '/user/{id}', 'delete'],
+            ['GET', '/user/{user_id}', 'read'],
+            ['PUT', '/user/{user_id}', 'update'],
+            ['DELETE', '/user/{user_id}', 'delete'],
         ];
 
         $routes['Post']['middleware'] = ['Auth'];
         $routes['Post']['routes'] = [
             ['GET', '/post', 'search'],
             ['POST', '/post', 'create'],
-            ['GET', '/post/{id}', 'read'],
-            ['PUT', '/post/{id}', 'update'],
-            ['DELETE', '/post/{id}', 'delete'],
+            ['GET', '/post/{post_id}', 'read'],
+            ['PUT', '/post/{post_id}', 'update'],
+            ['DELETE', '/post/{post_id}', 'delete'],
         ];
 
         $routes['Category']['middleware'] = ['Auth'];
         $routes['Category']['routes'] = [
             ['GET', '/category', 'search'],
             ['POST', '/category', 'create'],
-            ['GET', '/category/{id}', 'read'],
-            ['PUT', '/category/{id}', 'update'],
-            ['DELETE', '/category/{id}', 'delete'],
+            ['GET', '/category/{category_id}', 'read'],
+            ['PUT', '/category/{category_id}', 'update'],
+            ['DELETE', '/category/{category_id}', 'delete'],
         ];
         
         $routes['AutoLink']['middleware'] = ['Auth'];
         $routes['AutoLink']['routes'] = [
             ['GET', '/auto-link', 'search'],
             ['POST', '/auto-link', 'create'],
-            ['GET', '/auto-link/{id}', 'read'],
-            ['PUT', '/auto-link/{id}', 'update'],
-            ['DELETE', '/auto-link/{id}', 'delete'],
+            ['GET', '/auto-link/{link_id}', 'read'],
+            ['PUT', '/auto-link/{link_id}', 'update'],
+            ['DELETE', '/auto-link/{link_id}', 'delete'],
+        ];
+        
+        $routes['Permalink']['middleware'] = ['Auth'];
+        $routes['Permalink']['routes'] = [
+            ['GET', '/permalink', 'search'],
+            ['POST', '/permalink', 'create'],
+            ['GET', '/permalink/{permalink_id}', 'read'],
+            ['PUT', '/permalink/{permalink_id}', 'update'],
+            ['DELETE', '/permalink/{permalink_id}', 'delete'],
         ];
         
         $routes['Option']['middleware'] = ['Auth'];
         $routes['Option']['routes'] = [
             ['GET', '/option', 'search'],
             ['POST', '/option', 'create'],
-            ['GET', '/option/{id}', 'read'],
-            ['PUT', '/option/{id}', 'update'],
-            ['DELETE', '/option/{id}', 'delete'],
-            ['GET', '/user/{id}/option', 'userSearch'],
-            ['POST', '/user/{id}/option', 'userCreate'],
+            ['GET', '/option/{option_id}', 'read'],
+            ['PUT', '/option/{option_id}', 'update'],
+            ['DELETE', '/option/{option_id}', 'delete'],
+            ['GET', '/user/{user_id}/option', 'userSearch'],
+            ['POST', '/user/{user_id}/option', 'userCreate'],
         ];
     }
 }
