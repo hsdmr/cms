@@ -18,3 +18,20 @@ if (!function_exists('getModelFromTable')) {
         return MODEL_NAMESPACE . implode('', array_map(fn ($item) => ucfirst($item), array_values(explode('_', $table))));
     }
 }
+
+if (!function_exists('view')) {
+    function view($view = null, $data = []) {
+        $array = explode('.', $view);
+        $extension = end($array);
+        $last_index = key($array);
+        unset($array[$last_index]);
+        $view = implode(DS, $array);
+        return include_once ROOT . DS . 'resources' . DS . $view . '.' .$extension;
+    }
+}
+
+if (!function_exists('asset')) {
+    function asset($path) {
+        return $_ENV['APP_URL'] . $path;
+    }
+}
