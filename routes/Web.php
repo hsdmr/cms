@@ -17,9 +17,21 @@ class Web
     {
         global $routes;
 
-        $routes['Route']['middleware'] = [];
-        $routes['Route']['routes'] = [
+        $routes['Home']['middleware'] = [];
+        $routes['Home']['routes'] = [
             ['GET', '/', 'home'],
+        ];
+
+        $routes['Panel']['middleware'] = [];
+        $routes['Panel']['routes'] = [
+            ['GET', '/admin', 'admin'],
+            ['GET', '/commerce', 'commerce'],
+            ['GET', '/auth', 'auth'],
+            ['GET', '/tutor', 'tutor'],
+        ];
+
+        $routes['Route']['middleware'] = ['TrailingSlashes'];
+        $routes['Route']['routes'] = [
             ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}', 'route'],
         ];
     }
