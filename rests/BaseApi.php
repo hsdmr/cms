@@ -8,10 +8,10 @@ use Hasdemir\Base\Session;
 
 class BaseApi extends Rest
 {
-    public static $authenticatedUser;
-    
-    public function __construct()
-    {
-        self::$authenticatedUser = Session::get('user.session');
-    }
+  public static $authenticatedUser;
+
+  public function __construct()
+  {
+    self::$authenticatedUser = Session::get('user.session');
+  }
 }

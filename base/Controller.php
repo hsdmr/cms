@@ -4,5 +4,4 @@ namespace Hasdemir\Base;
 
 class Controller
 {
-
 }

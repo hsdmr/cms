@@ -4,32 +4,32 @@ namespace Hasdemir\Base;
 
 class Response
 {
-	public static function error($http_code, $header, $message = null, $e = null, $th = null)
-	{
-		$response = [
-			'message' => $message,
-			'link' => $header['Link']
-		];
-		Log::error($response, $e, $th);
-		return self::emit($http_code, $header, $response);
-	}
+  public static function error($http_code, $header, $message = null, $e = null, $th = null)
+  {
+    $response = [
+      'message' => $message,
+      'link' => $header['Link']
+    ];
+    Log::error($response, $e, $th);
+    return self::emit($http_code, $header, $response);
+  }
 
-	public static function emit($http_code, $header, $response)
-	{
-		$header['Api-Verison'] = API_VERSION;
-		if (is_array($response)) {
-			$header['Content-Type'] = 'application/json; charset=utf-8';
-			$response = json_encode($response);
-		} else {
-			$header['Content-Type'] = $header['Content-Type'] ?? 'text/html; charset=utf-8';
-		}
+  public static function emit($http_code, $header, $response)
+  {
+    $header['Api-Verison'] = API_VERSION;
+    if (is_array($response)) {
+      $header['Content-Type'] = 'application/json; charset=utf-8';
+      $response = json_encode($response);
+    } else {
+      $header['Content-Type'] = $header['Content-Type'] ?? 'text/html; charset=utf-8';
+    }
 
-		foreach ($header as $key => $value) {
-			header($key . ': ' . $value);
-		}
+    foreach ($header as $key => $value) {
+      header($key . ': ' . $value);
+    }
 
-		http_response_code($http_code);
+    http_response_code($http_code);
 
-		echo $response;
-	}
+    echo $response;
+  }
 }

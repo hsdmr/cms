@@ -17,9 +17,9 @@ require ROOT . DS . 'vendor' . DS . 'autoload.php';
 require ROOT . DS . 'base' . DS . 'helper' . DS . 'functions.php';
 
 try {
-    Log::startApp();
-    $app = new App();
-    $app->run();
+  Log::startApp();
+  $app = new App();
+  $app->run();
 } finally {
-    Log::endApp();
+  Log::endApp();
 }

@@ -6,8 +6,8 @@ use Hasdemir\Base\Auth as BaseAuth;
 
 class Auth
 {
-    public function run($request)
-    {
-        BaseAuth::check();
-    }
+  public function run($request)
+  {
+    BaseAuth::check();
+  }
 }

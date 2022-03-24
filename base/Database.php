@@ -6,7 +6,7 @@ class Database
 {
     public function __construct()
     {
-        $this->db = System::get('pdo');
+        $this->db = System::getPdo();
     }
 
     public function applyMigrations()
