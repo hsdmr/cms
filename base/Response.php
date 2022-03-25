@@ -4,17 +4,17 @@ namespace Hasdemir\Base;
 
 class Response
 {
-  public static function error($http_code, $header, $message = null, $e = null, $th = null)
+  public function error($http_code, $header, $message = null, $e = null, $th = null)
   {
     $response = [
       'message' => $message,
       'link' => $header['Link']
     ];
     Log::error($response, $e, $th);
-    return self::emit($http_code, $header, $response);
+    return $this->emit($http_code, $header, $response);
   }
 
-  public static function emit($http_code, $header, $response)
+  public function emit($http_code, $header, $response)
   {
     $header['Api-Verison'] = API_VERSION;
     if (is_array($response)) {

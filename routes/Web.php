@@ -22,12 +22,9 @@ class Web
       ['GET', '/', 'home'],
     ];
 
-    $routes['Panel']['middleware'] = ['Auth'];
+    $routes['Panel']['middleware'] = [];
     $routes['Panel']['routes'] = [
-      ['GET', '/admin', 'admin'],
-      ['GET', '/commerce', 'commerce'],
-      ['GET', '/auth', 'auth'],
-      ['GET', '/tutor', 'tutor'],
+      ['GET', '/admin/*', 'admin'],
     ];
 
     $routes['Route']['middleware'] = ['TrailingSlashes'];

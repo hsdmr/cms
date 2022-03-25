@@ -38,6 +38,7 @@ class UserApi extends BaseApi
         'last_name' => $_POST['last_name'],
         'role' => $_POST['role'],
         'email' => $_POST['email'],
+        'username' => $_POST['username'],
         'email_verified_at' => $_POST['email_verified_at'] ?? null,
         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT)
       ])->toArray();
@@ -82,6 +83,7 @@ class UserApi extends BaseApi
         'last_name' => $_PUT['last_name'],
         'role' => $_PUT['role'],
         'email' => $_PUT['email'],
+        'username' => $_PUT['username'],
         'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
       ])->toArray();
       $this->response(200);
@@ -117,6 +119,9 @@ class UserApi extends BaseApi
     }
     if (!v::key('email', v::email())->validate($params)) {
       throw new UnexpectedValueException("'email' must be valid an email", self::HELPER_LINK);
+    }
+    if (!v::key('username', v::stringType())->validate($params)) {
+      throw new UnexpectedValueException("'username' must be sent", self::HELPER_LINK);
     }
     if (!v::key('password', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'password' must be valid an email", self::HELPER_LINK);

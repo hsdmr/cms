@@ -10,24 +10,32 @@ use Respect\Validation\Validator as v;
 
 class Auth
 {
-  private static $db;
-  private static $header;
+  private $db;
+  private $header;
+  private static $instance;
 
-  public static function setVariables()
+  public function __construct()
   {
-    self::$db = System::getPdo();
-    self::$header = getallheaders();
+    $this->db = System::getPdo();
+    $this->header = getallheaders();
   }
 
-  public static function attempt($credentials)
+  public static function getInstance()
   {
-    self::setVariables();
+    if (!isset(self::$instance)) {
+      self::$instance = new Auth();
+    }
+    return self::$instance;
+  }
+
+  public function attempt($credentials)
+  {
     $key = 'username';
     if (v::key('user', v::email())->validate($credentials)) {
       $key = 'email';
     }
     $sql = "SELECT * FROM user WHERE $key = :$key";
-    $statement = self::$db->prepare($sql);
+    $statement = $this->db->prepare($sql);
     $statement->bindValue(":$key", $credentials['user']);
     $statement->execute();
     $user = $statement->fetch(PDO::FETCH_ASSOC);
@@ -38,18 +46,17 @@ class Auth
     if (!password_verify($_POST['password'], $user['password'])) {
       throw new AuthenticationException("'password' is incorrect");
     }
-    Session::set('user', $user);
+    Session::getInstance()->set('user', $user);
     return true;
   }
 
-  public static function check()
+  public function check()
   {
-    self::setVariables();
-    if (!v::key('authorization')->validate(self::$header)) {
+    if (!v::key('authorization')->validate($this->header)) {
       throw new AuthenticationException('Authorization key must be sent');
     }
 
-    $authorization_key = self::$header['authorization'];
+    $authorization_key = $this->header['authorization'];
     $access_token = AccessToken::findByToken(sha1($authorization_key));
 
     if (!(bool) $access_token) {
@@ -77,23 +84,23 @@ class Auth
       'options' => [],
       'permissions' => [],
     ];
-    Session::set('user.session', $return);
+    Session::getInstance()->set('user.session', $return);
     return $return;
   }
 
   public static function User()
   {
-    return Session::get('user');
+    return Session::getInstance()->get('user');
   }
 
   public static function id()
   {
-    return Session::get('user')['id'];
+    return Session::getInstance()->get('user')['id'];
   }
 
   public static function logout()
   {
-    $access_token = AccessToken::findByToken(Session::get('user.session')['access_token'])->delete();
-    Session::remove('user.session');
+    $access_token = AccessToken::findByToken(Session::getInstance()->get('user.session')['access_token'])->delete();
+    Session::getInstance()->remove('user.session');
   }
 }

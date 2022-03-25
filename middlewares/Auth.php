@@ -8,6 +8,6 @@ class Auth
 {
   public function run($request)
   {
-    BaseAuth::check();
+    BaseAuth::getInstance()->check();
   }
 }

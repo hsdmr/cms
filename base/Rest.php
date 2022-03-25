@@ -12,6 +12,7 @@ class Rest
 
   public function response($http_code)
   {
-    Response::emit($http_code, $this->header, $this->body ?? '');
+    $response = new Response();
+    $response->emit($http_code, $this->header, $this->body ?? '');
   }
 }

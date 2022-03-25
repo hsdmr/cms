@@ -69,9 +69,15 @@ class Model
     $binds = array_map(fn ($attr) => ":$attr", array_keys($fields));
     $sql = "INSERT INTO $this->table (" . implode(", ", $this->fields) . ") VALUES (" . implode(", ", $binds) . ")";
     $statement = $this->db->prepare($sql);
+    $binds = [];
     foreach ($fields as $key => $value) {
       $statement->bindValue(":$key", $value);
+      $binds[$key] = $value;
     }
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
     return $this->find($this->db->lastInsertId());
@@ -87,16 +93,23 @@ class Model
   public function update($params = [])
   {
     $this->timestamps($params, 'update');
+    $this->checkHasUniqueItem($params);
     $binds = [];
     foreach ($params as $key => $value) {
       $binds[] = $key . ' = :' . $key;
     }
     $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
+    $binds = [];
     foreach ($params as $key => $value) {
       $statement->bindValue(":$key", $value);
+      $binds[$key] = $value;
     }
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     return $this->find($this->where_key);
   }
@@ -132,16 +145,25 @@ class Model
     }
     $sql .= $this->order . $this->limit;
     $statement = $this->db->prepare($sql);
+    $binds = [];
     foreach ($this->where['params'] as $item) {
       $statement->bindValue(":" . $item[0], $item[2]);
+      $binds[$item[0]] = $item[2];
     }
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
     foreach ($items as $item) {
-      $object = call_user_func_array([getModelFromTable($this->table), 'findById'], [$item[$this->primary_key]]);
-      foreach ($this->with as $with) {
-        $object->{$with} = $object->{$with}();
+      $object = $item;
+      if (count(array_diff(array_keys($item), $this->fields)) === 0) {
+        $object = call_user_func_array([getModelFromTable($this->table), 'findById'], [$item[$this->primary_key]]);
+        foreach ($this->with as $with) {
+          $object->{$with} = $object->{$with}();
+        }
       }
       $collection[] = $object;
     }
@@ -164,7 +186,13 @@ class Model
       $sql .= " AND deleted_at IS NULL";
     }
     $statement = $this->db->prepare($sql);
+    $binds = [];
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
+    $binds[$this->primary_key] = $this->where_key;
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
     foreach ($this->fields as $field) {
@@ -198,8 +226,15 @@ class Model
     if ($this->soft_delete) {
       $sql = "UPDATE $this->table SET deleted_at = :deleted_at WHERE " . $this->primary_key . " = :" . $this->primary_key;
       $statement = $this->db->prepare($sql);
+      $binds = [];
       $statement->bindValue(":$this->primary_key", $this->where_key);
+      $binds[$this->primary_key] = $this->where_key;
       $statement->bindValue(":deleted_at", time());
+      $binds['deleted_at'] = time();
+      $GLOBALS["sql"][] = [
+        'sql' => $sql,
+        'binds' => $binds
+      ];
       $statement->execute();
       return true;
     }
@@ -216,7 +251,13 @@ class Model
   {
     $sql = "DELETE FROM $this->table WHERE " . $this->primary_key . " = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
+    $binds = [];
     $statement->bindValue(":$this->primary_key", $this->where_key);
+    $binds[$this->primary_key] = $this->where_key;
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     return true;
   }
@@ -366,7 +407,13 @@ class Model
     }
     $sql = "SELECT * FROM " . $table_name . " WHERE " . $this->table . "_id = :" . $this->table;
     $statement = $this->db->prepare($sql);
+    $binds = [];
     $statement->bindValue(":" . $this->table, $this->where_key);
+    $binds[$this->table . "_id"] = $this->where_key;
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
@@ -388,7 +435,13 @@ class Model
   {
     $sql = "SELECT * FROM " . $table . " WHERE id = :id LIMIT 1";
     $statement = $this->db->prepare($sql);
+    $binds = [];
     $statement->bindValue(":id", $this->{$table . '_id'});
+    $binds[$this->primary_key] = $this->{$table . '_id'};
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
     return call_user_func_array([getModelFromTable($table), 'findById'], [$item['id']]);
@@ -405,7 +458,13 @@ class Model
   {
     $sql = "SELECT * FROM " . $table . " WHERE " . $this->table . "_id = :id";
     $statement = $this->db->prepare($sql);
+    $binds = [];
     $statement->bindValue(":id", $this->where_key);
+    $binds[$this->table . "_id"] = $this->where_key;
+    $GLOBALS["sql"][] = [
+      'sql' => $sql,
+      'binds' => $binds
+    ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
@@ -427,12 +486,17 @@ class Model
   private function checkHasUniqueItem($params)
   {
     foreach ($this->unique as $key) {
-      $count = count($this->select([$key])->where([[$key, '=', $params[$key]]])->get());
+      $result = $this->select(["COUNT(id) as count", $key, $this->primary_key])->where([[$key, '=', $params[$key]]])->get()[0];
       $this->select = implode(', ', array_diff($this->fields, $this->hidden));
-      if ($count != 0) {
+      if ($this->where_key != '') {
+        if ($result['count'] && $result[$this->primary_key] != $this->where_key) {
+          throw new StoragePdoException("'$key' has already been registered");
+        }
+      } else if ($result['count']) {
         throw new StoragePdoException("'$key' has already been registered");
       }
     }
+    //var_dump($GLOBALS["sql"]);
   }
 
   /**

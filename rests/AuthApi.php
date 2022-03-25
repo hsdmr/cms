@@ -16,7 +16,7 @@ class AuthApi extends BaseApi
     try {
       $_POST = json_decode($request->body(), true);
 
-      if (Auth::attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
+      if (Auth::getInstance()->attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
         $access_token = new AccessToken();
         $item = $access_token->where([['user_id', '=', Auth::id()], ['type', '=', 'temp']])->first();
         $token = randomString(60);
@@ -37,7 +37,7 @@ class AuthApi extends BaseApi
         }
       }
       $access_token->token = $token;
-      $this->body = Auth::prepareResponse($access_token);
+      $this->body = Auth::getInstance()->prepareResponse($access_token);
       $this->response(201);
     } finally {
       Log::endJob();

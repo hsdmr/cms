@@ -7,6 +7,7 @@ use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Model\Category;
 use Hasdemir\Exception\UnexpectedValueException;
 use Respect\Validation\Validator as v;
+use Hasdemir\Rest\BaseApi;
 
 class CategoryApi extends BaseApi
 {
