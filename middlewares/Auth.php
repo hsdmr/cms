@@ -3,8 +3,9 @@
 namespace Hasdemir\Middleware;
 
 use Hasdemir\Base\Auth as BaseAuth;
+use Hasdemir\Base\Middleware;
 
-class Auth
+class Auth extends Middleware
 {
   public function run($request)
   {
