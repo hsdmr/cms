@@ -14,4 +14,8 @@ class Codes
   
   const ROUTES = 'routes';
   const MIDDLEWARE = 'middleware';
+
+  const SQL_QUERIES = 'sql_queries';
+  const QUERY = 'query';
+  const BINDS = 'binds';
 }

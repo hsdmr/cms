@@ -74,9 +74,9 @@ class Model
       $statement->bindValue(":$key", $value);
       $binds[$key] = $value;
     }
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     return $this->find($this->db->lastInsertId());
@@ -105,9 +105,9 @@ class Model
       $binds[$key] = $value;
     }
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     return $this->find($this->where_key);
@@ -149,9 +149,9 @@ class Model
       $statement->bindValue(":" . $item[0], $item[2]);
       $binds[$item[0]] = $item[2];
     }
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -188,9 +188,9 @@ class Model
     $binds = [];
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
     $binds[$this->primary_key] = $this->where_key;
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
@@ -238,9 +238,9 @@ class Model
       $binds[$this->primary_key] = $this->where_key;
       $statement->bindValue(":deleted_at", time());
       $binds['deleted_at'] = time();
-      $GLOBALS['sql_queries'][] = [
-        'query' => $sql,
-        'binds' => $binds
+      $GLOBALS[Codes::SQL_QUERIES][] = [
+        Codes::QUERY => $sql,
+        Codes::BINDS => $binds
       ];
       $statement->execute();
       return true;
@@ -261,9 +261,9 @@ class Model
     $binds = [];
     $statement->bindValue(":$this->primary_key", $this->where_key);
     $binds[$this->primary_key] = $this->where_key;
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     return true;
@@ -418,9 +418,9 @@ class Model
     $binds = [];
     $statement->bindValue(":" . $this->table, $this->where_key);
     $binds[$this->table . "_id"] = $this->where_key;
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -446,9 +446,9 @@ class Model
     $binds = [];
     $statement->bindValue(":id", $this->{$table . '_id'});
     $binds[$this->primary_key] = $this->{$table . '_id'};
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
@@ -469,9 +469,9 @@ class Model
     $binds = [];
     $statement->bindValue(":id", $this->where_key);
     $binds[$this->table . "_id"] = $this->where_key;
-    $GLOBALS['sql_queries'][] = [
-      'query' => $sql,
-      'binds' => $binds
+    $GLOBALS[Codes::SQL_QUERIES][] = [
+      Codes::QUERY => $sql,
+      Codes::BINDS => $binds
     ];
     $statement->execute();
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);

@@ -71,10 +71,10 @@ class Log
   private static function sql($table = null)
   {
     $log = '[' . date('Y-m-d H:i:s') . '] SQL_Query => [' . PHP_EOL;
-    foreach ($GLOBALS["sql_queries"][$table] as $item) {
-      $log .= '                        Query => \'' . $item['query'] . '\'' . PHP_EOL;
+    foreach ($GLOBALS[Codes::SQL_QUERIES][$table] as $item) {
+      $log .= '                        Query => \'' . $item[Codes::QUERY] . '\'' . PHP_EOL;
       $log .= '                        Binds => [' . PHP_EOL;
-      foreach ($item['binds'] as $key => $value) {
+      foreach ($item[Codes::BINDS] as $key => $value) {
         $log .= '                        \'' . $key . '\' => \'' . $value . '\'' . PHP_EOL;
       }
       $log .= '                        ]' . PHP_EOL;
