@@ -3,12 +3,13 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
+use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\AutoLink;
 use Respect\Validation\Validator as v;
 
-class AutoLinkApi extends BaseApi
+class AutoLinkApi extends Rest
 {
   const HELPER_LINK = ['link' => 'auto-link'];
 

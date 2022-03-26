@@ -3,13 +3,14 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
+use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Model\Category;
 use Hasdemir\Exception\UnexpectedValueException;
 use Respect\Validation\Validator as v;
 use Hasdemir\Rest\BaseApi;
 
-class CategoryApi extends BaseApi
+class CategoryApi extends Rest
 {
   const HELPER_LINK = ['link' => 'category'];
 

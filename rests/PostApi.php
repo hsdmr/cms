@@ -3,12 +3,13 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
+use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Post;
 use Respect\Validation\Validator as v;
 
-class PostApi extends BaseApi
+class PostApi extends Rest
 {
   const HELPER_LINK = ['link' => 'post'];
 

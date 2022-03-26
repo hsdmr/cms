@@ -5,6 +5,7 @@ namespace Hasdemir\Base;
 use Exception;
 use Hasdemir\Base\DefaultException;
 use Hasdemir\Exception\NotFoundException;
+use Hasdemir\Exception\NotImplementException;
 use Hasdemir\Exception\StoragePdoException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Throwable;
@@ -17,9 +18,12 @@ class App
   public Response $response;
   public Session $session;
   public Route $route;
+  public $GLOBALS;
 
   public function __construct()
   {
+    $GLOBALS[Codes::IS_ROUTE_CALLED] = false;
+    $GLOBALS[Codes::IS_MIDDLEWARE_CALLED] = false;
     $this->config = System::getConfig();
     $this->request = new Request();
     $this->response = new Response();
@@ -40,6 +44,9 @@ class App
       return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
     } catch (StoragePdoException $e) {
       $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/storage';
+      return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
+    } catch (NotImplementException $e) {
+      $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';
       return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
     } catch (DefaultException $e) {
       $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';

@@ -3,12 +3,13 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Log;
+use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
 use Respect\Validation\Validator as v;
 
-class UserApi extends BaseApi
+class UserApi extends Rest
 {
   const HELPER_LINK = ['link' => 'user'];
 

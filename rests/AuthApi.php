@@ -4,9 +4,10 @@ namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Auth;
 use Hasdemir\Base\Log;
+use Hasdemir\Base\Rest;
 use Hasdemir\Model\AccessToken;
 
-class AuthApi extends BaseApi
+class AuthApi extends Rest
 {
   const LIFE_TIME = '+2 hour';
 

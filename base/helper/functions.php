@@ -1,5 +1,7 @@
 <?php
 
+use Hasdemir\Base\Codes;
+
 if (!function_exists('randomString')) {
   function randomString(int $length = 60): string
   {
@@ -15,7 +17,7 @@ if (!function_exists('randomString')) {
 if (!function_exists('getModelFromTable')) {
   function getModelFromTable($table): string
   {
-    return MODEL_NAMESPACE . implode('', array_map(fn ($item) => ucfirst($item), array_values(explode('_', $table))));
+    return Codes::NAMESPACE_MODEL . implode('', array_map(fn ($item) => ucfirst($item), array_values(explode('_', $table))));
   }
 }
 

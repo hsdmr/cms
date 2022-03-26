@@ -2,6 +2,8 @@
 
 namespace Hasdemir\Route;
 
+use Hasdemir\Base\Codes;
+
 class Api
 {
   public static $routes = [];
@@ -17,13 +19,13 @@ class Api
   {
     global $routes;
 
-    $routes['Auth']['middleware'] = [];
-    $routes['Auth']['routes'] = [
+    $routes['Auth'][Codes::MIDDLEWARE] = [];
+    $routes['Auth'][Codes::ROUTES] = [
       ['POST', '/login', 'login'],
     ];
 
-    $routes['User']['middleware'] = ['Auth'];
-    $routes['User']['routes'] = [
+    $routes['User'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['User'][Codes::ROUTES] = [
       ['GET', '/user', 'search'],
       ['POST', '/user', 'create'],
       ['GET', '/user/{user_id}', 'read'],
@@ -31,8 +33,8 @@ class Api
       ['DELETE', '/user/{user_id}', 'delete'],
     ];
 
-    $routes['Post']['middleware'] = ['Auth'];
-    $routes['Post']['routes'] = [
+    $routes['Post'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Post'][Codes::ROUTES] = [
       ['GET', '/post', 'search'],
       ['POST', '/post', 'create'],
       ['GET', '/post/{post_id}', 'read'],
@@ -40,8 +42,8 @@ class Api
       ['DELETE', '/post/{post_id}', 'delete'],
     ];
 
-    $routes['Category']['middleware'] = ['Auth'];
-    $routes['Category']['routes'] = [
+    $routes['Category'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Category'][Codes::ROUTES] = [
       ['GET', '/category', 'search'],
       ['POST', '/category', 'create'],
       ['GET', '/category/{category_id}', 'read'],
@@ -49,8 +51,8 @@ class Api
       ['DELETE', '/category/{category_id}', 'delete'],
     ];
 
-    $routes['AutoLink']['middleware'] = ['Auth'];
-    $routes['AutoLink']['routes'] = [
+    $routes['AutoLink'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['AutoLink'][Codes::ROUTES] = [
       ['GET', '/auto-link', 'search'],
       ['POST', '/auto-link', 'create'],
       ['GET', '/auto-link/{link_id}', 'read'],
@@ -58,8 +60,8 @@ class Api
       ['DELETE', '/auto-link/{link_id}', 'delete'],
     ];
 
-    $routes['Permalink']['middleware'] = ['Auth'];
-    $routes['Permalink']['routes'] = [
+    $routes['Permalink'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Permalink'][Codes::ROUTES] = [
       ['GET', '/permalink', 'search'],
       ['POST', '/permalink', 'create'],
       ['GET', '/permalink/{permalink_id}', 'read'],
@@ -67,8 +69,8 @@ class Api
       ['DELETE', '/permalink/{permalink_id}', 'delete'],
     ];
 
-    $routes['Option']['middleware'] = ['Auth'];
-    $routes['Option']['routes'] = [
+    $routes['Option'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Option'][Codes::ROUTES] = [
       ['GET', '/option', 'search'],
       ['POST', '/option', 'create'],
       ['GET', '/option/{option_id}', 'read'],

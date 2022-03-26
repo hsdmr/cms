@@ -2,6 +2,8 @@
 
 namespace Hasdemir\Route;
 
+use Hasdemir\Base\Codes;
+
 class Web
 {
   public static $routes = [];
@@ -17,18 +19,18 @@ class Web
   {
     global $routes;
 
-    $routes['Home']['middleware'] = [];
-    $routes['Home']['routes'] = [
+    $routes['Home'][Codes::MIDDLEWARE] = [];
+    $routes['Home'][Codes::ROUTES] = [
       ['GET', '/', 'home'],
     ];
 
-    $routes['Panel']['middleware'] = [];
-    $routes['Panel']['routes'] = [
-      ['GET', '/admin/*', 'admin'],
+    $routes['AdminPanel'][Codes::MIDDLEWARE] = [];
+    $routes['AdminPanel'][Codes::ROUTES] = [
+      ['GET', '/admin', 'admin'],
     ];
 
-    $routes['Route']['middleware'] = ['TrailingSlashes'];
-    $routes['Route']['routes'] = [
+    $routes['Route'][Codes::MIDDLEWARE] = ['TrailingSlashes'];
+    $routes['Route'][Codes::ROUTES] = [
       ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}', 'route'],
     ];
   }

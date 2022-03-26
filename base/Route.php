@@ -3,6 +3,7 @@
 namespace Hasdemir\Base;
 
 use Hasdemir\Exception\NotFoundException;
+use Hasdemir\Exception\NotImplementException;
 use Hasdemir\Route\Api;
 use Hasdemir\Route\Web;
 
@@ -34,11 +35,11 @@ class Route
   public function run()
   {
     if ($this->isApi()) {
-      $this->handle(Api::getRoutes(), API_NAMESPACE, API_PREFIX, 'Api');
+      $this->handle(Api::getRoutes(), Codes::NAMESPACE_API, API_PREFIX, 'Api');
     }
 
     if (!$this->isApi()) {
-      $this->handle(Web::getRoutes(), CONTROLLER_NAMESPACE, '', 'Controller');
+      $this->handle(Web::getRoutes(), Codes::NAMESPACE_CONTROLLER, '', 'Controller');
     }
 
     self::hasRoute();
@@ -59,7 +60,7 @@ class Route
   public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = '')
   {
     foreach ($routes as $key => $value) {
-      foreach ($value['routes'] as $route) {
+      foreach ($value[Codes::ROUTES] as $route) {
         $class = $key . $class_suffix;
         if (!class_exists($class)) {
           $class = $namespase . $class;
@@ -71,17 +72,23 @@ class Route
 
         if ((preg_match('@^' . $uri . '$@', $this->request->path(), $matches) || preg_match('@^' . $uri . '$@', $this->request->path() . '/', $matches)) && $method == $this->request->method()) {
           self::$hasRoute = true;
-          foreach ($value['middleware'] as $middleware) {
+          foreach ($value[Codes::MIDDLEWARE] as $middleware) {
             if (!class_exists($middleware)) {
-              $middleware = MIDDLEWARE_NAMESPACE . $middleware;
+              $middleware = Codes::NAMESPACE_MIDDLEWARE . $middleware;
             }
             if (method_exists($middleware, 'run')) {
               call_user_func_array([new $middleware, 'run'], [$this->request]);
+              if (!$GLOBALS[Codes::IS_MIDDLEWARE_CALLED]) {
+                throw new NotImplementException('Called middle function not implemented');
+              }
             }
           }
 
           if (method_exists($class, $function)) {
             call_user_func_array([new $class, $function], [$this->request, $this->prepareArgs($matches)]);
+            if (!$GLOBALS[Codes::IS_ROUTE_CALLED]) {
+              throw new NotImplementException('Called function not implemented');
+            }
           }
           break;
         }
