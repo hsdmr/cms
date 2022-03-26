@@ -3,12 +3,18 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Base\Controller;
+use Hasdemir\Base\Log;
 
 class AdminPanelController extends Controller
 {
   public function admin($request, $args)
   {
-    return view('admin.index.html');
+    Log::currentJob('admin');
+    try {
+      return view('admin.index.html');
+    } finally {
+      Log::endJob();
+    }
   }
 
 }

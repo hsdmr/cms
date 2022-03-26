@@ -1,6 +1,4 @@
 /vendor/
 /logs
-/resources/admin/*
-/resources/tutor/*
-/resources/commerce/*
 .env
+.vscode

@@ -2,10 +2,10 @@
 
 namespace Hasdemir\Base;
 
-class Controller
+class Middleware
 {
   public function __construct()
   {
-    $GLOBALS['is_route_called'] = true;
+    $GLOBALS[Codes::IS_MIDDLEWARE_CALLED] = true;
   }
 }
