@@ -16,10 +16,11 @@ class Model
   protected $hidden = [];
   protected $protected = [];
   protected $soft_delete = false;
+  protected $with_hidden = false;
   private bool $with_deleted = false;
   private bool $only_deleted = false;
 
-  private string $select;
+  private string $select = '*';
   private array $where = ['params' => [], 'sql' => ''];
   private $where_key;
   private string $order = '';
@@ -30,7 +31,6 @@ class Model
   {
     $this->db = System::getPdo();
     $this->createFields();
-    $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
   }
 
   /**
@@ -64,7 +64,7 @@ class Model
     $this->checkHasUniqueItem($params);
     $fields = [];
     foreach ($this->fields as $key) {
-      $fields[$key] = $params[$key];
+      $fields[$key] = $params[$key] ?? null;
     }
     $binds = array_map(fn ($attr) => ":$attr", array_keys($fields));
     $sql = "INSERT INTO $this->table (" . implode(", ", $this->fields) . ") VALUES (" . implode(", ", $binds) . ")";
@@ -74,12 +74,11 @@ class Model
       $statement->bindValue(":$key", $value);
       $binds[$key] = $value;
     }
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
-    $this->select = implode(', ', array_diff($this->fields, array_merge($this->protected, $this->hidden)));
     return $this->find($this->db->lastInsertId());
   }
 
@@ -106,8 +105,8 @@ class Model
       $binds[$key] = $value;
     }
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -150,8 +149,8 @@ class Model
       $statement->bindValue(":" . $item[0], $item[2]);
       $binds[$item[0]] = $item[2];
     }
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -181,7 +180,7 @@ class Model
   public function find($primary_key)
   {
     $this->where_key = $primary_key;
-    $sql = "SELECT $this->select FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
+    $sql = "SELECT " . $this->select . " FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
     if ($this->soft_delete && !$this->with_deleted) {
       $sql .= " AND deleted_at IS NULL";
     }
@@ -189,8 +188,8 @@ class Model
     $binds = [];
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
     $binds[$this->primary_key] = $this->where_key;
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -199,7 +198,15 @@ class Model
       if ($field === $this->primary_key && $item[$field] === null) {
         throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
       }
-      $this->{$field} = $item[$field];
+      $this->{$field} = $item[$field] ?? null;
+    }
+    if (!$this->with_hidden) {
+      foreach ($this->hidden as $hide) {
+        unset($this->{$hide});
+      }
+    }
+    foreach ($this->protected as $protect) {
+      unset($this->{$protect});
     }
     return $this;
   }
@@ -224,15 +231,15 @@ class Model
   public function delete(): bool
   {
     if ($this->soft_delete) {
-      $sql = "UPDATE $this->table SET deleted_at = :deleted_at WHERE " . $this->primary_key . " = :" . $this->primary_key;
+      $sql = "UPDATE " . $this->table . " SET deleted_at = :deleted_at WHERE " . $this->primary_key . " = :" . $this->primary_key;
       $statement = $this->db->prepare($sql);
       $binds = [];
       $statement->bindValue(":$this->primary_key", $this->where_key);
       $binds[$this->primary_key] = $this->where_key;
       $statement->bindValue(":deleted_at", time());
       $binds['deleted_at'] = time();
-      $GLOBALS["sql"][] = [
-        'sql' => $sql,
+      $GLOBALS['sql_queries'][] = [
+        'query' => $sql,
         'binds' => $binds
       ];
       $statement->execute();
@@ -249,13 +256,13 @@ class Model
    */
   public function forceDelete(): bool
   {
-    $sql = "DELETE FROM $this->table WHERE " . $this->primary_key . " = :" . $this->primary_key;
+    $sql = "DELETE FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":$this->primary_key", $this->where_key);
     $binds[$this->primary_key] = $this->where_key;
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -282,7 +289,7 @@ class Model
    */
   public function withHidden()
   {
-    $this->select = implode(', ', array_diff($this->fields, $this->protected));
+    $this->with_hidden = true;
     return $this;
   }
 
@@ -334,8 +341,9 @@ class Model
    * @return $this
    *
    */
-  public function select(array $fields = [])
+  public function select()
   {
+    $fields = func_get_args() ?? ['*'];
     $this->select = implode(', ', array_diff($fields, $this->protected));
     return $this;
   }
@@ -410,8 +418,8 @@ class Model
     $binds = [];
     $statement->bindValue(":" . $this->table, $this->where_key);
     $binds[$this->table . "_id"] = $this->where_key;
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -438,8 +446,8 @@ class Model
     $binds = [];
     $statement->bindValue(":id", $this->{$table . '_id'});
     $binds[$this->primary_key] = $this->{$table . '_id'};
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -461,8 +469,8 @@ class Model
     $binds = [];
     $statement->bindValue(":id", $this->where_key);
     $binds[$this->table . "_id"] = $this->where_key;
-    $GLOBALS["sql"][] = [
-      'sql' => $sql,
+    $GLOBALS['sql_queries'][] = [
+      'query' => $sql,
       'binds' => $binds
     ];
     $statement->execute();
@@ -486,7 +494,7 @@ class Model
   private function checkHasUniqueItem($params)
   {
     foreach ($this->unique as $key) {
-      $result = $this->select(["COUNT(id) as count", $key, $this->primary_key])->where([[$key, '=', $params[$key]]])->get()[0];
+      $result = $this->select("COUNT(id) as count", $key, $this->primary_key)->where([[$key, '=', $params[$key]]])->get()[0];
       $this->select = implode(', ', array_diff($this->fields, $this->hidden));
       if ($this->where_key != '') {
         if ($result['count'] && $result[$this->primary_key] != $this->where_key) {
@@ -496,7 +504,6 @@ class Model
         throw new StoragePdoException("'$key' has already been registered");
       }
     }
-    //var_dump($GLOBALS["sql"]);
   }
 
   /**
