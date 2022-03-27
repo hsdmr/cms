@@ -29,6 +29,7 @@ class Model
 
   public function __construct()
   {
+    Log::currentJob(slugify($this->table, '_')  . '-model');
     $this->db = System::getPdo();
     $this->createFields();
   }
@@ -195,7 +196,7 @@ class Model
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
     foreach ($this->fields as $field) {
-      if ($field === $this->primary_key && $item[$field] === null) {
+      if ($field === $this->primary_key && !isset($item[$field])) {
         throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
       }
       $this->{$field} = $item[$field] ?? null;
@@ -548,5 +549,10 @@ class Model
       $this->fields[] = $item['Field'];
       $this->{$item['Field']} = null;
     }
+  }
+
+  public function __destruct()
+  {
+    Log::endJob();
   }
 }

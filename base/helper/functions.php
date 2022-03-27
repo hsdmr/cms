@@ -34,8 +34,15 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('asset')) {
-  function asset($path)
+  function asset($path): string
   {
     return $_ENV['APP_URL'] . $path;
+  }
+}
+
+if (!function_exists('slugify')) {
+  function slugify(string $str, string $seperator = ''): string
+  {
+    return implode('-', explode($seperator, strtolower($str)));
   }
 }
