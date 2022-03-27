@@ -37,13 +37,13 @@ class Log
   public static function currentJob($job)
   {
     self::$currentJob = $job;
-    $log = '[' . date('Y-m-d H:i:s') . '] Start => \'' . self::$currentJob . '\'' . PHP_EOL;
+    $log = '[' . date('Y-m-d H:i:s') . '] Start Job => \'' . self::$currentJob . '\'' . PHP_EOL;
     self::insert($log, 'daily');
   }
 
-  public static function endJob()
+  public static function endJob($log = null)
   {
-    $log = '[' . date('Y-m-d H:i:s') . '] End => \'' . self::$currentJob . '\'' . PHP_EOL;
+    $log = '[' . date('Y-m-d H:i:s') . '] End Job => \'' . ($log ?? self::$currentJob) . '\'' . PHP_EOL;
     self::insert($log, 'daily');
   }
 
