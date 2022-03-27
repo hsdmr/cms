@@ -26,10 +26,8 @@
     @include('layouts.header')
     @yield('header')
     <style>
-        {!! $option['headcss'] !!}
 
     </style>
-    {!! $option['headjs'] !!}
 </head>
 
 <body class="@yield('class')">

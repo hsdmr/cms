@@ -3,7 +3,7 @@
 define('ROOT', dirname(dirname(__FILE__)));
 define('DS', DIRECTORY_SEPARATOR);
 
-require ROOT . '/vendor/autoload.php';
+require ROOT . DS .'vendor' . DS . 'autoload.php';
 
 use Hasdemir\Base\System;
 
