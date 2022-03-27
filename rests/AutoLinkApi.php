@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
@@ -15,7 +16,7 @@ class AutoLinkApi extends Rest
 
   public function search($request, $args)
   {
-    Log::currentJob('user-search');
+    Log::currentJob(Codes::JOB_AUTO_LINK_SEARCH);
     try {
       $links = new AutoLink();
       $this->body = $links->all();
@@ -27,7 +28,7 @@ class AutoLinkApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('user-create');
+    Log::currentJob(Codes::JOB_AUTO_LINK_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
       $this->validate($_POST);
@@ -44,7 +45,7 @@ class AutoLinkApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('user-read');
+    Log::currentJob(Codes::JOB_AUTO_LINK_READ);
     try {
       try {
         $link_id = $args['link_id'];
@@ -61,7 +62,7 @@ class AutoLinkApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('user-update');
+    Log::currentJob(Codes::JOB_AUTO_LINK_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $link_id = $args['link_id'];
@@ -81,7 +82,7 @@ class AutoLinkApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('user-delete');
+    Log::currentJob(Codes::JOB_AUTO_LINK_DELETE);
     try {
       $link_id = $args['link_id'];
 

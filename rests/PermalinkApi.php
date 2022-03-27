@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
@@ -11,11 +12,11 @@ use Respect\Validation\Validator as v;
 
 class PermalinkApi extends Rest
 {
-  const HELPER_LINK = ['link' => 'post'];
+  const HELPER_LINK = ['link' => 'permalink'];
 
   public function search($request, $args)
   {
-    Log::currentJob('post-search');
+    Log::currentJob(Codes::JOB_PERMALINK_SEARCH);
     try {
       $permalink = new Permalink();
       $this->body = $permalink->all();
@@ -27,7 +28,7 @@ class PermalinkApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('post-create');
+    Log::currentJob(Codes::JOB_PERMALINK_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
 
@@ -51,7 +52,7 @@ class PermalinkApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('post-read');
+    Log::currentJob(Codes::JOB_PERMALINK_READ);
     try {
       try {
         $permalink_id = $args['permalink_id'];
@@ -68,7 +69,7 @@ class PermalinkApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('post-update');
+    Log::currentJob(Codes::JOB_PERMALINK_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $permalink_id = $args['permalink_id'];
@@ -93,7 +94,7 @@ class PermalinkApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('post-update');
+    Log::currentJob(Codes::JOB_PERMALINK_DELETE);
     try {
       $permalink_id = $args['permalink_id'];
 

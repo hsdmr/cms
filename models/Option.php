@@ -16,19 +16,19 @@ class Option extends Model
     return $item;
   }
 
-  public static function findOption(int $user_id = null, string $meta)
+  public static function findOption(string $type = null, int $type_id = null, string $key)
   {
     $item = new Option();
-    $item = $item->where([['user_id', '=', $user_id], ['string', '=', $meta]])->first();
+    $item = $item->where([['type', '=', $type], ['type_id', '=', $type_id], ['key', '=', $key]])->first();
     $item->value = json_decode($item->value, true);
     return $item;
   }
 
-  public static function findOptions(int $user_id = null)
+  public static function findOptions(string $type = null, int $type_id = null)
   {
     $items = new Option();
     $options = [];
-    foreach ($items->where([['user_id', '=', $user_id]])->get() as $item) {
+    foreach ($items->where([['type', '=', $type], ['type_id', '=', $type_id]])->get() as $item) {
       $item->value = json_decode($item->value, true);
       $options[] = $item;
     }

@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
@@ -15,7 +16,7 @@ class UserApi extends Rest
 
   public function search($request, $args)
   {
-    Log::currentJob('user-search');
+    Log::currentJob(Codes::JOB_USER_SEARCH);
     try {
       $users = new User();
       $this->body = $users->with(['posts'])->get();
@@ -27,7 +28,7 @@ class UserApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('user-create');
+    Log::currentJob(Codes::JOB_USER_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
 
@@ -51,7 +52,7 @@ class UserApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('user-read');
+    Log::currentJob(Codes::JOB_USER_READ);
     try {
       try {
         $user_id = $args['user_id'];
@@ -71,7 +72,7 @@ class UserApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('user-update');
+    Log::currentJob(Codes::JOB_USER_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $user_id = $args['user_id'];
@@ -95,7 +96,7 @@ class UserApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('user-delete');
+    Log::currentJob(Codes::JOB_USER_DELETE);
     try {
       $user_id = $args['user_id'];
 

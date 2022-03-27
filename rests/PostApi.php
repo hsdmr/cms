@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
@@ -15,7 +16,7 @@ class PostApi extends Rest
 
   public function search($request, $args)
   {
-    Log::currentJob('post-search');
+    Log::currentJob(Codes::JOB_POST_SEARCH);
     try {
       $post = new Post();
       $this->body = $post->all();
@@ -27,7 +28,7 @@ class PostApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('post-create');
+    Log::currentJob(Codes::JOB_POST_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
 
@@ -50,7 +51,7 @@ class PostApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('post-read');
+    Log::currentJob(Codes::JOB_POST_READ);
     try {
       try {
         $post_id = $args['post_id'];
@@ -71,7 +72,7 @@ class PostApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('post-update');
+    Log::currentJob(Codes::JOB_POST_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $post_id = $args['post_id'];
@@ -95,7 +96,7 @@ class PostApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('post-update');
+    Log::currentJob(Codes::JOB_POST_DELETE);
     try {
       $post_id = $args['post_id'];
 

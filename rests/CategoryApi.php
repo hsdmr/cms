@@ -2,13 +2,13 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Model\Category;
 use Hasdemir\Exception\UnexpectedValueException;
 use Respect\Validation\Validator as v;
-use Hasdemir\Rest\BaseApi;
 
 class CategoryApi extends Rest
 {
@@ -16,7 +16,7 @@ class CategoryApi extends Rest
 
   public function search($request, $args)
   {
-    Log::currentJob('category-search');
+    Log::currentJob(Codes::JOB_CATEGORY_SEARCH);
     try {
       $category = new Category();
       $this->body = $category->all();
@@ -28,7 +28,7 @@ class CategoryApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('category-create');
+    Log::currentJob(Codes::JOB_CATEGORY_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
       $this->validate($_POST);
@@ -49,7 +49,7 @@ class CategoryApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('category-read');
+    Log::currentJob(Codes::JOB_CATEGORY_READ);
     try {
       try {
         $category_id = $args['category_id'];
@@ -66,7 +66,7 @@ class CategoryApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('category-update');
+    Log::currentJob(Codes::JOB_CATEGORY_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $category_id = $args['category_id'];
@@ -90,7 +90,7 @@ class CategoryApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('category-delete');
+    Log::currentJob(Codes::JOB_CATEGORY_DELETE);
     try {
       $category_id = $args['category_id'];
 

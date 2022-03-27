@@ -9,7 +9,7 @@ class AdminPanelController extends Controller
 {
   public function admin($request, $args)
   {
-    Log::currentJob('admin');
+    Log::currentJob(Codes::JOB_ADMIN);
     try {
       return view('admin.index.html');
     } finally {

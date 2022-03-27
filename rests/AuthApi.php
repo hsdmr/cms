@@ -3,6 +3,7 @@
 namespace Hasdemir\Rest;
 
 use Hasdemir\Base\Auth;
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Model\AccessToken;
@@ -13,7 +14,7 @@ class AuthApi extends Rest
 
   public function login($request, $args)
   {
-    Log::currentJob('login-attempt');
+    Log::currentJob(Codes::JOB_LOGIN);
     try {
       $_POST = json_decode($request->body(), true);
 

@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Rest;
 
+use Hasdemir\Rest\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
@@ -15,7 +16,7 @@ class OptionApi extends Rest
 
   public function search($request, $args)
   {
-    Log::currentJob('option-search');
+    Log::currentJob(Codes::JOB_OPTION_SEARCH);
     try {
       $options = new Option();
       $this->body = $options->findOptions();
@@ -27,7 +28,7 @@ class OptionApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob('option-create');
+    Log::currentJob(Codes::JOB_OPTION_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
       $this->validate($_POST);
@@ -45,7 +46,7 @@ class OptionApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob('option-read');
+    Log::currentJob(Codes::JOB_OPTION_READ);
     try {
       try {
         $option_id = $args['option_id'];
@@ -62,7 +63,7 @@ class OptionApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob('option-update');
+    Log::currentJob(Codes::JOB_OPTION_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
       $option_id = $args['option_id'];
@@ -83,7 +84,7 @@ class OptionApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob('option-delete');
+    Log::currentJob(Codes::JOB_OPTION_DELETE);
     try {
       $option_id = $args['option_id'];
 
