@@ -1,0 +1,26 @@
+<?php
+
+define('PATH', __DIR__);
+define('DS', DIRECTORY_SEPARATOR);
+$public_path = PATH . DS . 'public';
+$npm_path = PATH . DS . 'resources' . DS . 'admin';
+
+switch ($argv[1]) {
+  case 'serve':
+    $exec = "(cd $public_path && php -S localhost:8080)";
+    exec($exec, $result);
+    break;
+
+  case 'dev':
+    $exec = "(cd $npm_path && npm run dev)";
+    exec($exec, $result);
+    break;
+
+  case 'build':
+    $exec = "(cd $npm_path && npm run build)";
+    exec($exec, $result);
+    break;
+
+  default:
+    echo 'No argumant passed';
+}
