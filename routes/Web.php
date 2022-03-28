@@ -24,14 +24,20 @@ class Web
       ['GET', '/', 'home'],
     ];
 
-    $routes['AdminPanel'][Codes::MIDDLEWARE] = [];
-    $routes['AdminPanel'][Codes::ROUTES] = [
+    $routes['Admin'][Codes::MIDDLEWARE] = [];
+    $routes['Admin'][Codes::ROUTES] = [
+      ['GET', '/login', 'admin'],
+      ['GET', '/register', 'admin'],
+      ['GET', '/forget-password', 'admin'],
       ['GET', '/admin', 'admin'],
+      ['GET', '/admin/option', 'admin'],
+      ['GET', '/admin/users', 'admin'],
+      ['GET', '/admin/layouts', 'admin'],
     ];
 
     $routes['Route'][Codes::MIDDLEWARE] = ['TrailingSlashes'];
     $routes['Route'][Codes::ROUTES] = [
-      ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}', 'route'],
+      ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}/', 'route'],
     ];
   }
 }

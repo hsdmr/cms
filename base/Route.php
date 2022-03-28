@@ -78,17 +78,20 @@ class Route
             }
             if (method_exists($middleware, 'run')) {
               call_user_func_array([new $middleware, 'run'], [$this->request]);
-              if (!$GLOBALS[Codes::IS_MIDDLEWARE_CALLED]) {
-                throw new NotImplementException('Called middle function not implemented');
-              }
+            }
+            if (!$GLOBALS[Codes::IS_MIDDLEWARE_CALLED] && $this->isApi()) {
+              throw new NotImplementException('Called middle function not implemented');
             }
           }
 
           if (method_exists($class, $function)) {
             call_user_func_array([new $class, $function], [$this->request, $this->prepareArgs($matches)]);
-            if (!$GLOBALS[Codes::IS_ROUTE_CALLED]) {
-              throw new NotImplementException('Called function not implemented');
-            }
+          }
+          if (!$GLOBALS[Codes::IS_ROUTE_CALLED] && $this->isApi()) {
+            throw new NotImplementException('Called function not implemented');
+          }
+          if (!$GLOBALS[Codes::IS_ROUTE_CALLED] && !$this->isApi()) {
+            return view('404.php');
           }
           break;
         }

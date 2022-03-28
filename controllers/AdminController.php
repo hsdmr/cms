@@ -5,16 +5,15 @@ namespace Hasdemir\Controller;
 use Hasdemir\Base\Controller;
 use Hasdemir\Base\Log;
 
-class AdminPanelController extends Controller
+class AdminController extends Controller
 {
   public function admin($request, $args)
   {
     Log::currentJob(Codes::JOB_ADMIN);
     try {
-      return view('admin.index.html');
+      return view('admin.public.index.php');
     } finally {
       Log::endJob();
     }
   }
-
 }

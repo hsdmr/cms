@@ -17,7 +17,7 @@ class Rest
     $GLOBALS[Codes::IS_ROUTE_CALLED] = true;
     self::$authenticatedUser = Session::getInstance()->get('user.session');
   }
-  
+
   public function response($http_code)
   {
     $response = new Response();

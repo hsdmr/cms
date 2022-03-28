@@ -34,9 +34,9 @@ if (!function_exists('view')) {
 }
 
 if (!function_exists('asset')) {
-  function asset($path): string
+  function asset($path = ''): void
   {
-    return $_ENV['APP_URL'] . $path;
+    echo $_ENV['APP_URL'] . $path;
   }
 }
 
