@@ -22,9 +22,11 @@ class Api
     $routes['Auth'][Codes::MIDDLEWARE] = [];
     $routes['Auth'][Codes::ROUTES] = [
       ['POST', '/login', 'login'],
+      ['POST', '/register', 'register'],
+      ['POST', '/forget-password', 'password'],
     ];
 
-    $routes['User'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['User'][Codes::MIDDLEWARE] = [];
     $routes['User'][Codes::ROUTES] = [
       ['GET', '/user', 'search'],
       ['POST', '/user', 'create'],

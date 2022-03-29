@@ -1,31 +1,45 @@
 <script>
-  import { Link } from "svelte-navigator";
+  import { Link, useNavigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import { urls } from "src/scripts/urls.js";
+  import { authUser } from "src/scripts/datas.js";
+  import { onMount } from "svelte";
   import Lang from "src/components/Lang.svelte";
 
-  let email;
-  let password;
-  
-  const submit = async () => {
-    response = await fetch(urls.login, {
+  let user = "hsdmrsoft@gmail.com";
+  let password = "Rest135**";
+  let auth = [];
+
+  const submit = () => {
+    fetch(urls.login, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
-      body: JSON.stringify({ email, password })
-    }).then((data) => {
-      console.log(data.json());
-    });
-  }
+      body: JSON.stringify({ user, password }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.error(`HTTP error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((json) => {
+        auth = json;
+        initialize();
+      })
+      .catch((err) => console.error(`Fetch problem: ${err.message}`));
+  };
+  onMount(submit);
+  const initialize = () => {
+    $authUser = auth;
+    useNavigate(urls.admin);
+  };
 </script>
 
 <div class="login-page">
   <div class="login-box">
-    <p>{urls.login}</p> 
-    <p>{email}</p> 
-    <p>{password}</p> 
     <!-- /.login-logo -->
     <div class="card card-outline card-success">
       <div class="card-header text-center">
@@ -37,8 +51,8 @@
 
         <div class="input-group mb-3">
           <input
-            bind:value={email}
-            type="email"
+            bind:value={user}
+            type="text"
             class="form-control"
             placeholder={$__("title.email")}
           />
@@ -72,11 +86,9 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button
-              type="submit"
-              on:click={submit()}
-              class="btn btn-success btn-block">{$__("login.signIn")}</button
-            >
+            <button on:click={submit} class="btn btn-success btn-block">
+              {$__("login.signIn")}
+            </button>
           </div>
           <!-- /.col -->
         </div>

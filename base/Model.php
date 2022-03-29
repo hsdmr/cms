@@ -122,7 +122,7 @@ class Model
    */
   public function first()
   {
-    $model = $this->get()[0];
+    $model = isset($this->get()[0]) ? $this->get()[0] : null;
     if (is_array($model)) $this->where_key = $model[$this->primary_key];
     if (is_object($model)) $this->where_key = $model->{$this->primary_key};
     return $model;
@@ -304,7 +304,9 @@ class Model
   {
     $array = [];
     foreach ($this->fields as $field) {
-      $array[$field] = $this->{$field};
+      if (isset($this->{$field})) {
+        $array[$field] = $this->{$field};
+      }
     }
     return $array;
   }

@@ -8,11 +8,14 @@ if (path != '/') {
 
 export const APP_ROOT = root ?? href.slice(0, -1);
 
-let apiUrl = 'http://localhost:8000/v2';
+let apiUrl = 'http://localhost:8080/v2';
 
 export const urls = {
   login: `${apiUrl}/login`,
   register: `${apiUrl}/register`,
   forgetPassword: `${apiUrl}/forget-password`,
-  dashboard: `${apiUrl}/dashboard`,
+  admin: `${apiUrl}/admin`,
+  
+  user: `${apiUrl}/user`,
+  user_id: `${apiUrl}/user`,
 }
