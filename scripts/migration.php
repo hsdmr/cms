@@ -31,7 +31,7 @@ function applyMigrations()
     $version = $name[1];
     $className = ucwords($name[2]) . implode('', explode('.', $version));
     $instance = new $className();
-    echoLog("Applying migration $migration");
+    echoLog("Applying migration $migration", 3);
     $instance->up();
     echoLog("Applied migration $migration");
     $newMigrations[] = $migration . "', '" . $version . "', '" . time();
@@ -39,9 +39,9 @@ function applyMigrations()
 
   if (!empty($newMigrations)) {
     saveMigrations($newMigrations);
-  } else {
-    echoLog("All migrations are applied");
   }
+  echo PHP_EOL;
+  echoLog("All migrations are applied");
 }
 
 function createMigrationsTable()
@@ -80,7 +80,7 @@ function prepare($sql): \PDOStatement
   return $pdo->prepare($sql);
 }
 
-function echoLog($message)
+function echoLog($message, $code = 2)
 {
-  echo "[" . date("Y-m-d H:i:s") . "] - " . $message . PHP_EOL;
+  echo "\033[3" . $code . "m[" . date("Y-m-d H:i:s") . "] - " . $message . PHP_EOL;
 }

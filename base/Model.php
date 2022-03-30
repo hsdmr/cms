@@ -134,7 +134,7 @@ class Model
    * @return object collection
    *
    */
-  public function get()
+  public function get(): array
   {
     $sql = "SELECT $this->select FROM " . $this->table . $this->where['sql'];
     if ($this->soft_delete && !$this->with_deleted) {
@@ -176,9 +176,9 @@ class Model
    * @param  array  $primary_key
    * @return object model
    *
-   * @throws \NotFoundException
+   * @throws NotFoundException
    */
-  public function find($primary_key)
+  public function find(int $primary_key)
   {
     $this->where_key = $primary_key;
     $sql = "SELECT " . $this->select . " FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
@@ -276,7 +276,7 @@ class Model
    * @return object model
    *
    */
-  public function withDeleted()
+  public function withDeleted(): object
   {
     $this->with_deleted = true;
     return $this;
@@ -288,7 +288,7 @@ class Model
    * @return object model
    *
    */
-  public function withHidden()
+  public function withHidden(): object
   {
     $this->with_hidden = true;
     return $this;
@@ -300,7 +300,7 @@ class Model
    * @return array
    *
    */
-  public function toArray()
+  public function toArray(): array
   {
     $array = [];
     foreach ($this->fields as $field) {
@@ -318,7 +318,7 @@ class Model
    * @return $this
    *
    */
-  public function with($with)
+  public function with($with): object
   {
     $this->with = $with;
     return $this;
@@ -331,7 +331,7 @@ class Model
    * @return $this
    *
    */
-  public function onlyDeleted()
+  public function onlyDeleted(): object
   {
     $this->only_deleted = true;
     return $this;
@@ -344,7 +344,7 @@ class Model
    * @return $this
    *
    */
-  public function select()
+  public function select(): object
   {
     $fields = func_get_args() ?? ['*'];
     $this->select = implode(', ', array_diff($fields, $this->protected));
@@ -358,7 +358,7 @@ class Model
    * @return $this
    *
    */
-  public function where(array $where, string $w = 'AND')
+  public function where(array $where, string $w = 'AND'): object
   {
     $keys = [];
     $operators = [];
@@ -380,7 +380,7 @@ class Model
    * @return $this
    *
    */
-  public function order(array $order)
+  public function order(array $order): object
   {
     $this->order = " ORDER BY " . $order[0] . ' ' . strtoupper($order[1]);
     return $this;
@@ -393,7 +393,7 @@ class Model
    * @return $this
    *
    */
-  public function limit(int $limit)
+  public function limit(int $limit): object
   {
     $this->limit = " LIMIT " . $limit;
     return $this;
@@ -406,7 +406,7 @@ class Model
    * @return $collection
    *
    */
-  public function belongsToMany(string $table)
+  public function belongsToMany(string $table): array
   {
     foreach ([$table . '_' . $this->table, $this->table . '_' . $table] as $item) {
       $statement = $this->db->prepare("SHOW TABLES LIKE '$item';");
@@ -442,7 +442,7 @@ class Model
    * @return object
    *
    */
-  public function belongTo(string $table)
+  public function belongTo(string $table): array
   {
     $sql = "SELECT * FROM " . $table . " WHERE id = :id LIMIT 1";
     $statement = $this->db->prepare($sql);
@@ -465,7 +465,7 @@ class Model
    * @return object
    *
    */
-  public function hasMany(string $table)
+  public function hasMany(string $table): array
   {
     $sql = "SELECT * FROM " . $table . " WHERE " . $this->table . "_id = :id";
     $statement = $this->db->prepare($sql);
@@ -492,9 +492,9 @@ class Model
    * @param  array  $params
    * @return void
    *
-   * @throws \StoragePdoException
+   * @throws StoragePdoException
    */
-  private function checkHasUniqueItem($params)
+  private function checkHasUniqueItem($params): void
   {
     foreach ($this->unique as $key) {
       $result = $this->select("COUNT(id) as count", $key, $this->primary_key)->where([[$key, '=', $params[$key]]])->get()[0];
@@ -516,7 +516,7 @@ class Model
    * @return void
    *
    */
-  private function timestamps(&$params, $type = 'create')
+  private function timestamps(&$params, $type = 'create'): void
   {
     if ($type === 'create') {
       $params['updated_at'] = time();
@@ -541,7 +541,7 @@ class Model
    * @return void
    *
    */
-  private function createFields()
+  private function createFields(): void
   {
     $sql = "DESCRIBE $this->table";
     $statement = $this->db->prepare($sql);

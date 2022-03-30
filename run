@@ -4,6 +4,7 @@ define('PATH', __DIR__);
 define('DS', DIRECTORY_SEPARATOR);
 $public_path = PATH . DS . 'public';
 $npm_path = PATH . DS . 'resources' . DS . 'admin';
+$migrates_path = PATH . DS . 'scripts' . DS;
 
 switch ($argv[1]) {
   case 'serve':
@@ -18,6 +19,11 @@ switch ($argv[1]) {
 
   case 'build':
     $exec = "(cd $npm_path && npm run build)";
+    exec($exec, $result);
+    break;
+
+  case 'migrate':
+    $exec = "(php " . $migrates_path . "migration.php)";
     exec($exec, $result);
     break;
 
