@@ -1,5 +1,5 @@
 import { api } from "src/scripts/links.js";
-import { deleteSessionItem, getSessionItem } from "src/scripts/session.js";
+import { deleteSessionItem } from "src/scripts/session.js";
 import { setSessionItem } from "./session";
 
 export const getUserDetails = async (user, password) => {
@@ -17,7 +17,14 @@ export const getUserDetails = async (user, password) => {
       }
       return response.json();
     }).then((user) => {
-      return setSessionItem('auth', user);
+      if (typeof user.message !== 'undefined') {
+        deleteSessionItem('auth');
+        return user;
+      }
+      if (typeof user.access_token !== 'undefined') {
+        deleteSessionItem('auth');
+        return setSessionItem('auth', user);
+      }
     })
     .catch((err) => console.error(`Fetch problem: ${err.message}`));
 };
@@ -37,7 +44,14 @@ export const checkUserDetails = async (access_token) => {
       }
       return response.json();
     }).then((user) => {
-      return setSessionItem('auth', user);
+      if (typeof user.message !== 'undefined') {
+        deleteSessionItem('auth');
+        return user;
+      }
+      if (typeof user.access_token !== 'undefined') {
+        deleteSessionItem('auth');
+        return setSessionItem('auth', user);
+      }
     })
     .catch((err) => console.error(`Fetch problem: ${err.message}`));
 };
