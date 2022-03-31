@@ -6,7 +6,7 @@
         "psr-4": {
             "Hasdemir\\Base\\": "base/",
             "Hasdemir\\Model\\": "models/",
-            "Hasdemir\\Rest\\": "rests/",
+            "Hasdemir\\Rest\\": "apis/",
             "Hasdemir\\Exception\\": "exceptions/",
             "Hasdemir\\Controller\\": "controllers/",
             "Hasdemir\\Resource\\": "resources/",
