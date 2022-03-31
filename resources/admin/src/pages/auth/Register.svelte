@@ -1,7 +1,7 @@
 <script>
   import { Link } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
-  import { urls } from "src/scripts/urls.js";
+  import { route } from "src/scripts/links.js";
   import Lang from "src/components/Lang.svelte";
 
   const submit = () => {
@@ -103,7 +103,7 @@
           <!-- /.col -->
         </div>
 
-        <Link to="/login" class="text-center"
+        <Link to="{route.login}" class="text-center"
           >{$__("register.alreadyMember")}</Link
         >
       </div>

@@ -100,7 +100,9 @@ class Auth
 
   public static function logout()
   {
-    $access_token = AccessToken::findByToken(Session::getInstance()->get('user.session')['access_token'])->delete();
-    Session::getInstance()->remove('user.session');
+    if (self::getInstance()->check()) {
+      AccessToken::findByToken(Session::getInstance()->get('user.session')['access_token'])->delete();
+      Session::getInstance()->remove('user.session');
+    }
   }
 }

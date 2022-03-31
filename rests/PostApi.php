@@ -20,7 +20,7 @@ class PostApi extends Rest
     try {
       $post = new Post();
       $this->body = $post->all();
-      return $this->response(200);
+      return $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -43,7 +43,7 @@ class PostApi extends Rest
         'title' => $_POST['title'] ?? 'Post_' . uniqid(),
         'content' => $_POST['content'] ?? '',
       ])->toArray();
-      return $this->response(200);
+      return $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -61,7 +61,7 @@ class PostApi extends Rest
         $response['categories'] = $post->categories();
         $response['permalink'] = $post->permalink();
         $this->body = $response;
-        return $this->response(200);
+        return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Post not found', self::HELPER_LINK, $th);
       }
@@ -88,7 +88,7 @@ class PostApi extends Rest
         'title' => $_PUT['title'] ?? 'Post_' . uniqid(),
         'content' => $_PUT['content'] ?? '',
       ])->toArray();
-      return $this->response(200);
+      return $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -101,7 +101,7 @@ class PostApi extends Rest
       $post_id = $args['post_id'];
 
       if (Post::findById($post_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();

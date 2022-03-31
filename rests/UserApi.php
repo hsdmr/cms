@@ -20,7 +20,7 @@ class UserApi extends Rest
     try {
       $users = new User();
       $this->body = $users->with(['posts'])->get();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -44,7 +44,7 @@ class UserApi extends Rest
         'email_verified_at' => $_POST['email_verified_at'] ?? null,
         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT)
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -61,7 +61,7 @@ class UserApi extends Rest
         $response = $user->toArray();
         $response['posts'] = $user->posts();
         $this->body = $response;
-        $this->response(200);
+        $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('User not found', self::HELPER_LINK, $th);
       }
@@ -88,7 +88,7 @@ class UserApi extends Rest
         'username' => $_PUT['username'],
         'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -101,7 +101,7 @@ class UserApi extends Rest
       $user_id = $args['user_id'];
 
       if (User::findById($user_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();

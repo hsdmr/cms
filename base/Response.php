@@ -3,7 +3,7 @@
 namespace Hasdemir\Base;
 
 class Response
-{
+{ 
   public function error($http_code, $header, $message = null, $e = null, $th = null)
   {
     $response = [

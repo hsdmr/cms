@@ -8,7 +8,7 @@ $migrates_path = PATH . DS . 'scripts' . DS;
 
 switch ($argv[1]) {
   case 'serve':
-    $exec = "(cd $public_path && php -S localhost:8080)";
+    $exec = "(cd $public_path && php -S localhost:8000)";
     exec($exec, $result);
     break;
 

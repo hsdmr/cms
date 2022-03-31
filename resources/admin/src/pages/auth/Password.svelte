@@ -1,11 +1,11 @@
 <script>
   import { Link } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
-  import { urls } from "src/scripts/urls.js";
+  import { api } from "src/scripts/links.js";
   import Lang from "src/components/Lang.svelte";
 
   const submit = () => {
-    fetch(urls.user, {
+    fetch(api.user, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

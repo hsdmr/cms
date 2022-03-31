@@ -20,7 +20,7 @@ class AutoLinkApi extends Rest
     try {
       $links = new AutoLink();
       $this->body = $links->all();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -37,7 +37,7 @@ class AutoLinkApi extends Rest
         'word' => $_POST['word'],
         'uri' => $_POST['uri']
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -51,7 +51,7 @@ class AutoLinkApi extends Rest
         $link_id = $args['link_id'];
 
         $this->body = AutoLink::findById($link_id)->toArray();
-        $this->response(200);
+        $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Auto link not found', self::HELPER_LINK, $th);
       }
@@ -74,7 +74,7 @@ class AutoLinkApi extends Rest
         'word' => $_PUT['word'],
         'uri' => $_PUT['uri']
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -87,7 +87,7 @@ class AutoLinkApi extends Rest
       $link_id = $args['link_id'];
 
       if (AutoLink::findById($link_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();

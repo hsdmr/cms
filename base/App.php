@@ -22,6 +22,9 @@ class App
 
   public function __construct()
   {
+    define('HTTP_OK', 200);
+    define('HTTP_CREATED', 201);
+    define('HTTP_NO_CONTENT', 204);
     $GLOBALS[Codes::IS_ROUTE_CALLED] = false;
     $GLOBALS[Codes::IS_MIDDLEWARE_CALLED] = false;
     $this->config = System::getConfig();

@@ -1,5 +1,4 @@
 <script>
-  import { Route } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import Breadcrump from "src/components/Breadcrump.svelte";
 

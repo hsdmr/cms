@@ -20,7 +20,7 @@ class PermalinkApi extends Rest
     try {
       $permalink = new Permalink();
       $this->body = $permalink->all();
-      return $this->response(200);
+      return $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -44,7 +44,7 @@ class PermalinkApi extends Rest
         'seo_follow' => $_POST['seo_follow'] ?? 1,
         'language_id' => $_POST['language_id'] ?? 1,
       ])->toArray();
-      return $this->response(200);
+      return $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -58,7 +58,7 @@ class PermalinkApi extends Rest
         $permalink_id = $args['permalink_id'];
 
         $this->body = Permalink::findById($permalink_id)->toArray();
-        return $this->response(200);
+        return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Link not found', self::HELPER_LINK, $th);
       }
@@ -86,7 +86,7 @@ class PermalinkApi extends Rest
         'seo_follow' => $_PUT['seo_follow'] ?? 1,
         'language_id' => $_PUT['language_id'] ?? 1,
       ])->toArray();
-      return $this->response(200);
+      return $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -99,7 +99,7 @@ class PermalinkApi extends Rest
       $permalink_id = $args['permalink_id'];
 
       if (Permalink::findById($permalink_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();

@@ -20,7 +20,7 @@ class OptionApi extends Rest
     try {
       $options = new Option();
       $this->body = $options->findOptions();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -38,7 +38,7 @@ class OptionApi extends Rest
         'key' => $_POST['key'],
         'value' => json_encode($_POST['value']),
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -52,7 +52,7 @@ class OptionApi extends Rest
         $option_id = $args['option_id'];
 
         $this->body = Option::findById($option_id)->toArray();
-        $this->response(200);
+        $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Option not found', self::HELPER_LINK, $th);
       }
@@ -76,7 +76,7 @@ class OptionApi extends Rest
         'key' => $_POST['key'],
         'value' => json_encode($_POST['value']),
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -89,7 +89,7 @@ class OptionApi extends Rest
       $option_id = $args['option_id'];
 
       if (Option::findById($option_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();
@@ -102,7 +102,7 @@ class OptionApi extends Rest
     try {
       $user_id = $args['user_id'];
       $this->body = Option::findOptions($user_id);
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -123,7 +123,7 @@ class OptionApi extends Rest
         'key' => $_POST['key'],
         'value' => json_encode($_POST['value']),
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }

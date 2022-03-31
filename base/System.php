@@ -9,6 +9,8 @@ class System
 {
   const PDO = 'pdo';
   const CONFIG = 'config';
+  public static object $pdo_instance;
+  public static array $config_instance;
 
   public static function get($type)
   {
@@ -28,11 +30,17 @@ class System
 
   public static function getPdo()
   {
-    return self::get(self::PDO);
+    if (!isset(self::$pdo_instance)) {
+        self::$pdo_instance = self::get(self::PDO);
+    }
+    return self::$pdo_instance;
   }
 
   public static function getConfig()
   {
-    return self::get(self::CONFIG);
+    if (!isset(self::$config_instance)) {
+        self::$config_instance = self::get(self::CONFIG);
+    }
+    return self::$config_instance;
   }
 }

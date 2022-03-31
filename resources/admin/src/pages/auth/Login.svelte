@@ -1,41 +1,25 @@
 <script>
-  import { Link, useNavigate } from "svelte-navigator";
+  import { Link, navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
-  import { urls } from "src/scripts/urls.js";
-  import { authUser } from "src/scripts/datas.js";
-  import { onMount } from "svelte";
+  import { getUserDetails } from "src/scripts/datas.js";
   import Lang from "src/components/Lang.svelte";
 
   let user = "hsdmrsoft@gmail.com";
   let password = "Rest135**";
-  let auth = [];
+  let error = "";
 
-  const submit = () => {
-    fetch(urls.login, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ user, password }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          console.error(`HTTP error: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((json) => {
-        auth = json;
-        initialize();
-      })
-      .catch((err) => console.error(`Fetch problem: ${err.message}`));
-  };
-  onMount(submit);
-  const initialize = () => {
-    $authUser = auth;
-    useNavigate(urls.admin);
-  };
+  async function login() {
+    const response = await getUserDetails(user, password);
+
+    if (response) {
+      console.log(response);
+      if (error) error = "";
+      navigate('/admin');
+    } else {
+      error = "Incorrect user and password.";
+      console.log("Incorrect user and password.");
+    }
+  }
 </script>
 
 <div class="login-page">
@@ -86,7 +70,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button on:click={submit} class="btn btn-success btn-block">
+            <button on:click={login} class="btn btn-success btn-block">
               {$__("login.signIn")}
             </button>
           </div>

@@ -1,7 +1,21 @@
 <script>
-  import { APP_ROOT } from "src/scripts/urls.js"
-  import { Link } from "svelte-navigator";
+  import { APP_ROOT } from "src/scripts/links.js";
+  import { Link, navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
+  import { route } from "src/scripts/links.js";
+  import { getSessionItem } from "src/scripts/session.js";
+  import { deleteUserDetails } from "src/scripts/datas.js";
+
+  const auth = getSessionItem("auth");
+
+  async function logout() {
+    const response = await deleteUserDetails(auth.access_token);
+
+    if (response) {
+      console.log(response);
+      navigate('/login');
+    }
+  }
 </script>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -54,7 +68,7 @@
           </Link>
         </li>
         <li class="nav-item">
-          <Link to="users" class="nav-link">
+          <Link to={route.users} class="nav-link">
             <i class="nav-icon fas fa-users" />
             <p>
               {$__("title.users")}
@@ -71,7 +85,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <Link to="layouts" class="nav-link">
+              <Link to={route.layouts} class="nav-link">
                 <i class="nav-icon fas fa-table-columns" />
                 <p>
                   {$__("title.layouts")}
@@ -79,6 +93,12 @@
               </Link>
             </li>
           </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" on:click={logout} class="nav-link">
+            <i class="nav-icon far fa-circle text-danger" />
+            <p class="text">Important</p>
+          </a>
         </li>
       </ul>
     </nav>

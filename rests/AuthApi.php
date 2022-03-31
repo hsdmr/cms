@@ -27,7 +27,8 @@ class AuthApi extends Rest
             'token' => sha1($token),
             'expires' => strtotime(self::LIFE_TIME)
           ]);
-        } else {
+        }
+        else {
           $access_token = $access_token->create([
             'user_id' => Auth::id(),
             'token' => sha1($token),
@@ -40,7 +41,29 @@ class AuthApi extends Rest
       }
       $access_token->token = $token;
       $this->body = Auth::getInstance()->prepareResponse($access_token);
-      $this->response(201);
+      $this->response(HTTP_CREATED);
+    }
+    finally {
+      Log::endJob();
+    }
+  }
+
+  public function check($request, $args)
+  {
+    Log::currentJob(Codes::JOB_AUTH_CHECK);
+    try {
+      $this->body = Auth::getInstance()->check();
+      $this->response(HTTP_OK);
+    } finally {
+      Log::endJob();
+    }
+  }
+  public function logout($request, $args)
+  {
+    Log::currentJob(Codes::JOB_LOGOUT);
+    try {
+      Auth::logout();
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       Log::endJob();
     }

@@ -22,6 +22,8 @@ class Api
     $routes['Auth'][Codes::MIDDLEWARE] = [];
     $routes['Auth'][Codes::ROUTES] = [
       ['POST', '/login', 'login'],
+      ['GET', '/logout', 'logout'],
+      ['GET', '/check', 'check'],
       ['POST', '/register', 'register'],
       ['POST', '/forget-password', 'password'],
     ];

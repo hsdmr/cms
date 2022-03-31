@@ -1,7 +1,7 @@
 <script>
   import Translator from "src/components/Translator.svelte";
   import { __ } from "src/scripts/i18n.js";
-  import { Route, Router } from "svelte-navigator";
+  import { navigate, Route, Router } from "svelte-navigator";
   import Login from "src/pages/auth/Login.svelte";
   import Register from "src/pages/auth/Register.svelte";
   import Password from "src/pages/auth/Password.svelte";
@@ -12,17 +12,34 @@
   import Users from "src/pages/users/index.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
+  import { onMount } from "svelte";
+  import { getSessionItem } from "src/scripts/session.js";
+  import { checkUserDetails } from "src/scripts/datas.js";
+  import { route } from "src/scripts/links";
 
-  let authStatus = true;
+  const auth = getSessionItem("auth");
+
+  async function checkAuth(auth = null) {
+    const response = [];
+    if (auth) {
+      response = await checkUserDetails(auth.access_token);
+    }
+    if (!response) {
+      navigate("/login");
+      return false;
+    }
+    return true;
+  }
+  onMount(checkAuth(auth));
 </script>
 
 <Translator>
   <Router>
-    <div class={authStatus ? "sidebar-mini" : "login-page"}>
-      <Route path="login" component={Login} />
-      <Route path="register" component={Register} />
-      <Route path="forget-password" component={Password} />
-      <Route path="admin/*" meta={{ name: "admin" }}>
+    <div class="sidebar-mini">
+      <Route path={route.login} component={Login} />
+      <Route path={route.register} component={Register} />
+      <Route path={route.forgetPassword} component={Password} />
+      <Route path="{route.admin}/*" meta={{ name: "admin" }}>
         <div class="wrapper">
           <!-- Navbar -->
           <Nav />
@@ -34,13 +51,13 @@
           <!-- Content Wrapper. Contains page content -->
           <div class="content-wrapper">
             <div class="content">
-              <Route path="/">
+              <Route path={route.home}>
                 <Dashboard />
               </Route>
-              <Route path="users">
+              <Route path={route.users}>
                 <Users />
               </Route>
-              <Route path="layouts">
+              <Route path={route.layouts}>
                 <Layouts />
               </Route>
             </div>

@@ -20,7 +20,7 @@ class CategoryApi extends Rest
     try {
       $category = new Category();
       $this->body = $category->all();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -41,7 +41,7 @@ class CategoryApi extends Rest
         'title' => $_POST['title'] ?? 'Category-' . uniqid(),
         'content' => $_POST['content'] ?? '',
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -55,7 +55,7 @@ class CategoryApi extends Rest
         $category_id = $args['category_id'];
 
         $this->body = Category::findById($category_id)->toArray();
-        $this->response(200);
+        $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Category not found', self::HELPER_LINK, $th);
       }
@@ -82,7 +82,7 @@ class CategoryApi extends Rest
         'title' => $_PUT['title'] ?? 'Category-' . uniqid(),
         'content' => $_PUT['content'] ?? '',
       ])->toArray();
-      $this->response(200);
+      $this->response(HTTP_OK);
     } finally {
       Log::endJob();
     }
@@ -95,7 +95,7 @@ class CategoryApi extends Rest
       $category_id = $args['category_id'];
 
       if (Category::findById($category_id)->delete()) {
-        $this->response(200);
+        $this->response(HTTP_NO_CONTENT);
       }
     } finally {
       Log::endJob();

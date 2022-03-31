@@ -7,6 +7,8 @@ use Hasdemir\Base\Codes as BaseCodes;
 class Codes extends BaseCodes
 {
   const JOB_LOGIN = 'login-attempt';
+  const JOB_LOGOUT = 'logout';
+  const JOB_AUTH_CHECK = 'auth-check';
   const JOB_USER_SEARCH = 'user-search';
   const JOB_USER_CREATE = 'user-create';
   const JOB_USER_READ = 'user-read';
