@@ -52,22 +52,22 @@ class Auth
 
   public function check()
   {
-    if (!v::key('authorization')->validate($this->header)) {
+    if (!v::key('Authorization')->validate($this->header)) {
       throw new AuthenticationException('Authorization key must be sent');
     }
 
-    $authorization_key = $this->header['authorization'];
+    $authorization_key = $this->header['Authorization'];
     $access_token = AccessToken::findByToken(sha1($authorization_key));
-    $access_token->token = $authorization_key;
-
+    
     if (!(bool) $access_token) {
       throw new AuthenticationException('Authorization key not found');
     }
-
+    
     if ($access_token->expires < time()) {
       throw new AuthenticationException('Authorization key expired');
     }
-
+    
+    $access_token->token = $authorization_key;
     return self::prepareResponse($access_token);
   }
 

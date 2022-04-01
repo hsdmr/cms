@@ -10,6 +10,17 @@ export default {
     email: "Email",
     password: "Password",
     retypePassword: "Retype password",
+
+    title: "Title",
+    description: "Description",
+    firstName: "First Name",
+    lastName: "Last Name",
+    role: "Role",
+    username: "Username",
+    nickname: "Nickname",
+    image: "Image",
+    createdAt: "Created At",
+    status: "Status",
   },
   footer: {
     text: "Anything you want",
@@ -39,18 +50,4 @@ export default {
     requestNew: "Request new password",
     login: "Login",
   },
-  table: {
-    title: "Title",
-    description: "Description",
-    firstName: "First Name",
-    lastName: "Last Name",
-    fullName: "Full Name",
-    role: "Role",
-    username: "Username",
-    nickname: "Nickname",
-    email: "Email",
-    image: "Image",
-    createdAt: "Created At",
-    status: "Status",
-  }
 }

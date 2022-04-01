@@ -28,7 +28,7 @@ class Api
       ['POST', '/forget-password', 'password'],
     ];
 
-    $routes['User'][Codes::MIDDLEWARE] = [];
+    $routes['User'][Codes::MIDDLEWARE] = ['Auth'];
     $routes['User'][Codes::ROUTES] = [
       ['GET', '/user', 'search'],
       ['POST', '/user', 'create'],

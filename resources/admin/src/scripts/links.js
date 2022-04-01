@@ -19,7 +19,6 @@ export const api = {
   admin: `${apiUrl}/admin`,
   
   user: `${apiUrl}/user`,
-  user_id: `${apiUrl}/user`,
 }
 
 export const route = {
@@ -30,7 +29,5 @@ export const route = {
   home: `/`,
   
   users: `users`,
-  user_id: `user/{user_id}`,
-
   layouts: `layouts`,
 }

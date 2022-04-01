@@ -1,6 +1,24 @@
-import { api } from "src/scripts/links.js";
-import { deleteSessionItem } from "src/scripts/session.js";
-import { setSessionItem } from "./session";
+import { api, route } from "src/scripts/links.js";
+import { deleteSessionItem, getSessionItem, setSessionItem } from "src/scripts/session.js";
+import { navigate } from "svelte-navigator";
+
+export async function checkAuth() {
+  const auth = getSessionItem("auth");
+  let response = [];
+
+  if (auth) {
+    if (typeof auth.access_token !== "undefined") {
+      response = await checkUserDetails(auth.access_token);
+    }
+  }
+
+  if (typeof response.access_token === "undefined") {
+    if (typeof response.message !== "undefined") {
+      toastr.error(response.message)
+    }
+    navigate("/" + route.login);
+  }
+}
 
 export const registerUser = async (user, password) => {
   return fetch(api.login, {
@@ -58,7 +76,7 @@ export const checkUserDetails = async (access_token) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "authorization": access_token
+      "Authorization": access_token
     },
   }).then((response) => {
     if (!response.ok) {
@@ -83,7 +101,7 @@ export const deleteUserDetails = async (access_token) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      "authorization": access_token
+      "Authorization": access_token
     },
   }).then((response) => {
     if (!response.ok) {

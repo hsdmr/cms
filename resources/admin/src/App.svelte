@@ -1,7 +1,7 @@
 <script>
   import Translator from "src/components/Translator.svelte";
   import { __ } from "src/scripts/i18n.js";
-  import { navigate, Route, Router } from "svelte-navigator";
+  import { Route, Router } from "svelte-navigator";
   import Login from "src/pages/auth/Login.svelte";
   import Register from "src/pages/auth/Register.svelte";
   import Password from "src/pages/auth/Password.svelte";
@@ -12,27 +12,8 @@
   import Users from "src/pages/users/index.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
-  import { onMount } from "svelte";
-  import { getSessionItem } from "src/scripts/session.js";
-  import { checkUserDetails } from "src/scripts/auth.js";
   import { route } from "src/scripts/links";
 
-  async function checkAuth() {
-    const auth = getSessionItem("auth");
-    let response = [];
-
-    if (auth) {
-      if (typeof auth.access_token !== "undefined") {
-        response = await checkUserDetails(auth.access_token);
-      }
-    }
-    
-    if (typeof response.access_token === "undefined") {
-      navigate(route.login);
-    }
-  }
-
-  onMount(checkAuth);
 </script>
 
 <Translator>

@@ -10,6 +10,17 @@ export default {
     email: "Eposta",
     password: "Şifre",
     retypePassword: "Şifre tekrar",
+
+    title: "Başlık",
+    description: "Açıklama",
+    firstName: "İsim",
+    lastName: "Soyisim",
+    role: "Rol",
+    username: "Kullanıcı adı",
+    nickname: "Takma ad",
+    image: "Resim",
+    createdAt: "Oluşturulma zamanı",
+    status: "Durum",
   },
   footer: {
     text: "Ne isterseniz",
@@ -39,4 +50,18 @@ export default {
     requestNew: "Yeni şifre isteği",
     login: "Giriş",
   },
+  table: {
+    title: "Title",
+    description: "Description",
+    firstName: "First Name",
+    lastName: "Last Name",
+    fullName: "Full Name",
+    role: "Role",
+    username: "Username",
+    nickname: "Nickname",
+    email: "Email",
+    image: "Image",
+    createdAt: "Created At",
+    status: "Status",
+  }
 }

@@ -10,6 +10,9 @@ var app = (function () {
             tar[k] = src[k];
         return tar;
     }
+    function is_promise(value) {
+        return value && typeof value === 'object' && typeof value.then === 'function';
+    }
     function add_location(element, file, line, column, char) {
         element.__svelte_meta = {
             loc: { file, line, column, char }
@@ -363,6 +366,88 @@ var app = (function () {
         }
     }
 
+    function handle_promise(promise, info) {
+        const token = info.token = {};
+        function update(type, index, key, value) {
+            if (info.token !== token)
+                return;
+            info.resolved = value;
+            let child_ctx = info.ctx;
+            if (key !== undefined) {
+                child_ctx = child_ctx.slice();
+                child_ctx[key] = value;
+            }
+            const block = type && (info.current = type)(child_ctx);
+            let needs_flush = false;
+            if (info.block) {
+                if (info.blocks) {
+                    info.blocks.forEach((block, i) => {
+                        if (i !== index && block) {
+                            group_outros();
+                            transition_out(block, 1, 1, () => {
+                                if (info.blocks[i] === block) {
+                                    info.blocks[i] = null;
+                                }
+                            });
+                            check_outros();
+                        }
+                    });
+                }
+                else {
+                    info.block.d(1);
+                }
+                block.c();
+                transition_in(block, 1);
+                block.m(info.mount(), info.anchor);
+                needs_flush = true;
+            }
+            info.block = block;
+            if (info.blocks)
+                info.blocks[index] = block;
+            if (needs_flush) {
+                flush();
+            }
+        }
+        if (is_promise(promise)) {
+            const current_component = get_current_component();
+            promise.then(value => {
+                set_current_component(current_component);
+                update(info.then, 1, info.value, value);
+                set_current_component(null);
+            }, error => {
+                set_current_component(current_component);
+                update(info.catch, 2, info.error, error);
+                set_current_component(null);
+                if (!info.hasCatch) {
+                    throw error;
+                }
+            });
+            // if we previously had a then/catch block, destroy it
+            if (info.current !== info.pending) {
+                update(info.pending, 0);
+                return true;
+            }
+        }
+        else {
+            if (info.current !== info.then) {
+                update(info.then, 1, info.value, promise);
+                return true;
+            }
+            info.resolved = promise;
+        }
+    }
+    function update_await_block_branch(info, ctx, dirty) {
+        const child_ctx = ctx.slice();
+        const { resolved } = info;
+        if (info.current === info.then) {
+            child_ctx[info.value] = resolved;
+        }
+        if (info.current === info.catch) {
+            child_ctx[info.error] = resolved;
+        }
+        info.block.p(child_ctx, dirty);
+    }
+
     const globals = (typeof window !== 'undefined'
         ? window
         : typeof globalThis !== 'undefined'
@@ -628,6 +713,17 @@ var app = (function () {
         email: "Email",
         password: "Password",
         retypePassword: "Retype password",
+
+        title: "Title",
+        description: "Description",
+        firstName: "First Name",
+        lastName: "Last Name",
+        role: "Role",
+        username: "Username",
+        nickname: "Nickname",
+        image: "Image",
+        createdAt: "Created At",
+        status: "Status",
       },
       footer: {
         text: "Anything you want",
@@ -657,16 +753,6 @@ var app = (function () {
         requestNew: "Request new password",
         login: "Login",
       },
-      table: {
-        title: "Title",
-        description: "Description",
-        firstName: "First Name",
-        lastName: "Last Name",
-        fullName: "Full Name",
-        image: "Image",
-        createdAt: "Created At",
-        status: "Status",
-      }
     };
 
     var tr = {
@@ -681,6 +767,17 @@ var app = (function () {
         email: "Eposta",
         password: "Şifre",
         retypePassword: "Şifre tekrar",
+
+        title: "Başlık",
+        description: "Açıklama",
+        firstName: "İsim",
+        lastName: "Soyisim",
+        role: "Rol",
+        username: "Kullanıcı adı",
+        nickname: "Takma ad",
+        image: "Resim",
+        createdAt: "Oluşturulma zamanı",
+        status: "Durum",
       },
       footer: {
         text: "Ne isterseniz",
@@ -710,6 +807,20 @@ var app = (function () {
         requestNew: "Yeni şifre isteği",
         login: "Giriş",
       },
+      table: {
+        title: "Title",
+        description: "Description",
+        firstName: "First Name",
+        lastName: "Last Name",
+        fullName: "Full Name",
+        role: "Role",
+        username: "Username",
+        nickname: "Nickname",
+        email: "Email",
+        image: "Image",
+        createdAt: "Created At",
+        status: "Status",
+      }
     };
 
     var translations = {
@@ -3467,10 +3578,9 @@ var app = (function () {
       admin: `${apiUrl}/admin`,
       
       user: `${apiUrl}/user`,
-      user_id: `${apiUrl}/user`,
     };
 
-    const route = {
+    const route$1 = {
       login: `login`,
       register: `register`,
       forgetPassword: `forget-password`,
@@ -3478,8 +3588,6 @@ var app = (function () {
       home: `/`,
       
       users: `users`,
-      user_id: `user/{user_id}`,
-
       layouts: `layouts`,
     };
 
@@ -3495,6 +3603,24 @@ var app = (function () {
     function deleteSessionItem(key) {
       sessionStorage.removeItem(key);
       return true;
+    }
+
+    async function checkAuth() {
+      const auth = getSessionItem("auth");
+      let response = [];
+
+      if (auth) {
+        if (typeof auth.access_token !== "undefined") {
+          response = await checkUserDetails(auth.access_token);
+        }
+      }
+
+      if (typeof response.access_token === "undefined") {
+        if (typeof response.message !== "undefined") {
+          toastr.error(response.message);
+        }
+        navigate$1("/" + route$1.login);
+      }
     }
 
     const getUserDetails = async (user, password) => {
@@ -3528,7 +3654,7 @@ var app = (function () {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "authorization": access_token
+          "Authorization": access_token
         },
       }).then((response) => {
         if (!response.ok) {
@@ -3553,7 +3679,7 @@ var app = (function () {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          "authorization": access_token
+          "Authorization": access_token
         },
       }).then((response) => {
         if (!response.ok) {
@@ -3781,7 +3907,7 @@ var app = (function () {
 
     /* src\pages\auth\Login.svelte generated by Svelte v3.46.6 */
 
-    const { console: console_1$3 } = globals;
+    const { console: console_1$4 } = globals;
     const file$c = "src\\pages\\auth\\Login.svelte";
 
     // (50:8) {#if error.includes("email")}
@@ -3981,7 +4107,7 @@ var app = (function () {
 
     	link0 = new Link$1({
     			props: {
-    				to: "/" + route.forgetPassword,
+    				to: "/" + route$1.forgetPassword,
     				$$slots: { default: [create_default_slot_1$2] },
     				$$scope: { ctx }
     			},
@@ -3990,7 +4116,7 @@ var app = (function () {
 
     	link1 = new Link$1({
     			props: {
-    				to: "/" + route.register,
+    				to: "/" + route$1.register,
     				class: "text-center",
     				$$slots: { default: [create_default_slot$5] },
     				$$scope: { ctx }
@@ -4321,7 +4447,7 @@ var app = (function () {
     		if (typeof response.access_token !== "undefined") {
     			console.log(response);
     			if (error) $$invalidate(4, error = "");
-    			navigate$1(route.admin);
+    			navigate$1(route$1.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
@@ -4332,7 +4458,7 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$3.warn(`<Login> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$4.warn(`<Login> was created with unknown prop '${key}'`);
     	});
 
     	function input0_input_handler() {
@@ -4351,7 +4477,7 @@ var app = (function () {
     		__,
     		getUserDetails,
     		Lang,
-    		route,
+    		route: route$1,
     		active,
     		type,
     		user,
@@ -4408,7 +4534,7 @@ var app = (function () {
 
     /* src\pages\auth\Register.svelte generated by Svelte v3.46.6 */
 
-    const { console: console_1$2 } = globals;
+    const { console: console_1$3 } = globals;
     const file$b = "src\\pages\\auth\\Register.svelte";
 
     // (67:8) {#if error.includes("name")}
@@ -4703,7 +4829,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + route.login,
+    				to: "/" + route$1.login,
     				class: "text-center",
     				$$slots: { default: [create_default_slot$4] },
     				$$scope: { ctx }
@@ -5176,7 +5302,7 @@ var app = (function () {
     		if (typeof response.access_token !== "undefined") {
     			console.log(response);
     			if (error) $$invalidate(7, error = "");
-    			navigate(route.admin);
+    			navigate(route$1.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
@@ -5187,7 +5313,7 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$2.warn(`<Register> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$3.warn(`<Register> was created with unknown prop '${key}'`);
     	});
 
     	function input0_input_handler() {
@@ -5208,7 +5334,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Link: Link$1,
     		__,
-    		route,
+    		route: route$1,
     		Lang,
     		activePassword,
     		activeRetypePassword,
@@ -5278,7 +5404,7 @@ var app = (function () {
 
     /* src\pages\auth\Password.svelte generated by Svelte v3.46.6 */
 
-    const { Error: Error_1$1, console: console_1$1 } = globals;
+    const { Error: Error_1$1, console: console_1$2 } = globals;
     const file$a = "src\\pages\\auth\\Password.svelte";
 
     // (61:10) <Link to="/{route.login}">
@@ -5351,7 +5477,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + route.login,
+    				to: "/" + route$1.login,
     				$$slots: { default: [create_default_slot$3] },
     				$$scope: { ctx }
     			},
@@ -5538,10 +5664,10 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<Password> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$2.warn(`<Password> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ Link: Link$1, __, Lang, route, api, submit, $__ });
+    	$$self.$capture_state = () => ({ Link: Link$1, __, Lang, route: route$1, api, submit, $__ });
     	return [$__, submit];
     }
 
@@ -6380,7 +6506,7 @@ var app = (function () {
 
     /* src\layouts\MainSidebar.svelte generated by Svelte v3.46.6 */
 
-    const { console: console_1 } = globals;
+    const { console: console_1$1 } = globals;
     const file$8 = "src\\layouts\\MainSidebar.svelte";
 
     // (63:10) <Link to="" class="nav-link">
@@ -6581,7 +6707,7 @@ var app = (function () {
 
     	link1 = new Link$1({
     			props: {
-    				to: route.users,
+    				to: route$1.users,
     				class: "nav-link",
     				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
@@ -6591,7 +6717,7 @@ var app = (function () {
 
     	link2 = new Link$1({
     			props: {
-    				to: route.layouts,
+    				to: route$1.layouts,
     				class: "nav-link",
     				$$slots: { default: [create_default_slot$2] },
     				$$scope: { ctx }
@@ -6845,7 +6971,7 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<MainSidebar> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<MainSidebar> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$capture_state = () => ({
@@ -6853,7 +6979,7 @@ var app = (function () {
     		Link: Link$1,
     		navigate: navigate$1,
     		__,
-    		route,
+    		route: route$1,
     		getSessionItem,
     		deleteUserDetails,
     		auth,
@@ -7870,31 +7996,189 @@ var app = (function () {
 
     /* src\pages\users\index.svelte generated by Svelte v3.46.6 */
 
-    const { Error: Error_1 } = globals;
+    const { Error: Error_1, console: console_1 } = globals;
     const file$3 = "src\\pages\\users\\index.svelte";
 
-    function create_fragment$3(ctx) {
-    	let breadcrump;
+    // (75:2) {:catch error}
+    function create_catch_block(ctx) {
+    	let p;
+    	let t_value = /*error*/ ctx[10].message + "";
     	let t;
-    	let div;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			t = text(t_value);
+    			set_style(p, "color", "red");
+    			add_location(p, file$3, 75, 4, 1846);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*promise*/ 2 && t_value !== (t_value = /*error*/ ctx[10].message + "")) set_data_dev(t, t_value);
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_catch_block.name,
+    		type: "catch",
+    		source: "(75:2) {:catch error}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (71:2) {:then response}
+    function create_then_block(ctx) {
+    	let t0;
+    	let t1;
+    	let t2_value = /*response*/ ctx[9] + "";
+    	let t2;
+    	let t3;
+    	let table;
     	let current;
 
-    	breadcrump = new Breadcrump({
+    	table = new Table({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[2],
-    				links: /*links*/ ctx[1]
+    				titles: /*titles*/ ctx[4],
+    				keys: /*keys*/ ctx[5],
+    				rows: /*response*/ ctx[9]
     			},
     			$$inline: true
     		});
 
     	const block = {
     		c: function create() {
+    			t0 = text(/*promise*/ ctx[1]);
+    			t1 = space();
+    			t2 = text(t2_value);
+    			t3 = space();
+    			create_component(table.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t2, anchor);
+    			insert_dev(target, t3, anchor);
+    			mount_component(table, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (!current || dirty & /*promise*/ 2) set_data_dev(t0, /*promise*/ ctx[1]);
+    			if ((!current || dirty & /*promise*/ 2) && t2_value !== (t2_value = /*response*/ ctx[9] + "")) set_data_dev(t2, t2_value);
+    			const table_changes = {};
+    			if (dirty & /*promise*/ 2) table_changes.rows = /*response*/ ctx[9];
+    			table.$set(table_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(table.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(table.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(t3);
+    			destroy_component(table, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_then_block.name,
+    		type: "then",
+    		source: "(71:2) {:then response}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (69:18)       <p>...waiting</p>    {:then response}
+    function create_pending_block(ctx) {
+    	let p;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			p.textContent = "...waiting";
+    			add_location(p, file$3, 69, 4, 1707);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    		},
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_pending_block.name,
+    		type: "pending",
+    		source: "(69:18)       <p>...waiting</p>    {:then response}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let breadcrump;
+    	let t;
+    	let div;
+    	let promise_1;
+    	let current;
+
+    	breadcrump = new Breadcrump({
+    			props: {
+    				title: /*title*/ ctx[0],
+    				active: /*active*/ ctx[3],
+    				links: /*links*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	let info = {
+    		ctx,
+    		current: null,
+    		token: null,
+    		hasCatch: true,
+    		pending: create_pending_block,
+    		then: create_then_block,
+    		catch: create_catch_block,
+    		value: 9,
+    		error: 10,
+    		blocks: [,,,]
+    	};
+
+    	handle_promise(promise_1 = /*promise*/ ctx[1], info);
+
+    	const block = {
+    		c: function create() {
     			create_component(breadcrump.$$.fragment);
     			t = space();
     			div = element("div");
+    			info.block.c();
     			attr_dev(div, "class", "container-fluid users");
-    			add_location(div, file$3, 28, 0, 671);
+    			add_location(div, file$3, 67, 0, 1646);
     		},
     		l: function claim(nodes) {
     			throw new Error_1("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -7903,28 +8187,47 @@ var app = (function () {
     			mount_component(breadcrump, target, anchor);
     			insert_dev(target, t, anchor);
     			insert_dev(target, div, anchor);
+    			info.block.m(div, info.anchor = null);
+    			info.mount = () => div;
+    			info.anchor = null;
     			current = true;
     		},
-    		p: function update(ctx, [dirty]) {
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
     			const breadcrump_changes = {};
     			if (dirty & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty & /*active*/ 4) breadcrump_changes.active = /*active*/ ctx[2];
-    			if (dirty & /*links*/ 2) breadcrump_changes.links = /*links*/ ctx[1];
+    			if (dirty & /*active*/ 8) breadcrump_changes.active = /*active*/ ctx[3];
+    			if (dirty & /*links*/ 4) breadcrump_changes.links = /*links*/ ctx[2];
     			breadcrump.$set(breadcrump_changes);
+    			info.ctx = ctx;
+
+    			if (dirty & /*promise*/ 2 && promise_1 !== (promise_1 = /*promise*/ ctx[1]) && handle_promise(promise_1, info)) ; else {
+    				update_await_block_branch(info, ctx, dirty);
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(breadcrump.$$.fragment, local);
+    			transition_in(info.block);
     			current = true;
     		},
     		o: function outro(local) {
     			transition_out(breadcrump.$$.fragment, local);
+
+    			for (let i = 0; i < 3; i += 1) {
+    				const block = info.blocks[i];
+    				transition_out(block);
+    			}
+
     			current = false;
     		},
     		d: function destroy(detaching) {
     			destroy_component(breadcrump, detaching);
     			if (detaching) detach_dev(t);
     			if (detaching) detach_dev(div);
+    			info.block.d();
+    			info.token = null;
+    			info = null;
     		}
     	};
 
@@ -7939,45 +8242,81 @@ var app = (function () {
     	return block;
     }
 
-    async function getRandomNumber() {
-    	const res = await fetch(`/tutorial/random-number`);
-    	const text = await res.text();
-
-    	if (res.ok) {
-    		return text;
-    	} else {
-    		throw new Error(text);
-    	}
-    }
-
     function instance$3($$self, $$props, $$invalidate) {
     	let title;
     	let active;
     	let links;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(3, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(6, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Users', slots, []);
-    	let promise = getRandomNumber();
 
-    	function handleClick() {
-    		promise = getRandomNumber();
+    	async function getUsers() {
+    		await checkAuth();
+    		const auth = getSessionItem("auth");
+
+    		const res = await fetch(api.user, {
+    			method: "GET",
+    			headers: {
+    				"Content-Type": "application/json",
+    				Accept: "application/json",
+    				"Authorization": auth.access_token
+    			}
+    		});
+
+    		console.log(res.response.json());
+    		const response = await res.response.json();
+
+    		if (typeof response.access_token === "undefined") {
+    			if (typeof response.message !== "undefined") {
+    				toastr.error(response.message);
+    			}
+
+    			navigate("/" + route.login);
+    		}
+
+    		if (res.ok) {
+    			return response;
+    		} else {
+    			throw new Error(response);
+    		}
     	}
 
+    	let promise = getUsers();
+
+    	function handleClick() {
+    		$$invalidate(1, promise = getUsers());
+    	}
+
+    	const titles = [
+    		$__("title.firstName"),
+    		$__("title.lastName"),
+    		$__("title.role"),
+    		$__("title.email"),
+    		$__("title.username"),
+    		$__("title.nickname")
+    	];
+
+    	const keys = ["firs_name", "last_name", "role", "email", "username", "nickname"];
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Users> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Users> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$capture_state = () => ({
     		__,
     		Breadcrump,
+    		getSessionItem,
     		Table,
-    		getRandomNumber,
+    		api,
+    		checkAuth,
+    		getUsers,
     		promise,
     		handleClick,
+    		titles,
+    		keys,
     		links,
     		title,
     		active,
@@ -7985,10 +8324,10 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('promise' in $$props) promise = $$props.promise;
-    		if ('links' in $$props) $$invalidate(1, links = $$props.links);
+    		if ('promise' in $$props) $$invalidate(1, promise = $$props.promise);
+    		if ('links' in $$props) $$invalidate(2, links = $$props.links);
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(2, active = $$props.active);
+    		if ('active' in $$props) $$invalidate(3, active = $$props.active);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -7996,16 +8335,16 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$__*/ 8) {
+    		if ($$self.$$.dirty & /*$__*/ 64) {
     			$$invalidate(0, title = $__("title.users"));
     		}
 
     		if ($$self.$$.dirty & /*title*/ 1) {
-    			$$invalidate(2, active = title);
+    			$$invalidate(3, active = title);
     		}
 
-    		if ($$self.$$.dirty & /*$__*/ 8) {
-    			$$invalidate(1, links = [
+    		if ($$self.$$.dirty & /*$__*/ 64) {
+    			$$invalidate(2, links = [
     				{
     					pageUrl: "admin",
     					pageTitle: $__("title.dashboard")
@@ -8014,7 +8353,7 @@ var app = (function () {
     		}
     	};
 
-    	return [title, links, active, $__];
+    	return [title, promise, links, active, titles, keys, $__];
     }
 
     class Users extends SvelteComponentDev {
@@ -8058,7 +8397,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid layouts");
-    			add_location(div, file$2, 10, 0, 304);
+    			add_location(div, file$2, 13, 0, 416);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8114,6 +8453,7 @@ var app = (function () {
     	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Layouts', slots, []);
+    	onMount(checkAuth);
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -8123,6 +8463,8 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		__,
     		Breadcrump,
+    		checkAuth,
+    		onMount,
     		links,
     		title,
     		active,
@@ -8202,7 +8544,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid dashboard");
-    			add_location(div, file$1, 10, 0, 251);
+    			add_location(div, file$1, 13, 0, 365);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -8258,6 +8600,7 @@ var app = (function () {
     	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Dashboard', slots, []);
+    	onMount(checkAuth);
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -8267,6 +8610,8 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		__,
     		Breadcrump,
+    		onMount,
+    		checkAuth,
     		links,
     		title,
     		active,
@@ -8314,7 +8659,7 @@ var app = (function () {
     /* src\App.svelte generated by Svelte v3.46.6 */
     const file = "src\\App.svelte";
 
-    // (41:6) <Route path={route.login} primary={false}>
+    // (22:6) <Route path={route.login} primary={false}>
     function create_default_slot_8(ctx) {
     	let login;
     	let current;
@@ -8346,14 +8691,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_8.name,
     		type: "slot",
-    		source: "(41:6) <Route path={route.login} primary={false}>",
+    		source: "(22:6) <Route path={route.login} primary={false}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (42:6) <Route path={route.register} primary={false}>
+    // (23:6) <Route path={route.register} primary={false}>
     function create_default_slot_7(ctx) {
     	let register;
     	let current;
@@ -8385,14 +8730,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_7.name,
     		type: "slot",
-    		source: "(42:6) <Route path={route.register} primary={false}>",
+    		source: "(23:6) <Route path={route.register} primary={false}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:6) <Route path={route.forgetPassword} primary={false}>
+    // (24:6) <Route path={route.forgetPassword} primary={false}>
     function create_default_slot_6(ctx) {
     	let password;
     	let current;
@@ -8424,14 +8769,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_6.name,
     		type: "slot",
-    		source: "(43:6) <Route path={route.forgetPassword} primary={false}>",
+    		source: "(24:6) <Route path={route.forgetPassword} primary={false}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (56:14) <Route path={route.home}>
+    // (37:14) <Route path={route.home}>
     function create_default_slot_5(ctx) {
     	let dashboard;
     	let current;
@@ -8463,14 +8808,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_5.name,
     		type: "slot",
-    		source: "(56:14) <Route path={route.home}>",
+    		source: "(37:14) <Route path={route.home}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (59:14) <Route path={route.users}>
+    // (40:14) <Route path={route.users}>
     function create_default_slot_4(ctx) {
     	let users;
     	let current;
@@ -8502,14 +8847,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_4.name,
     		type: "slot",
-    		source: "(59:14) <Route path={route.users}>",
+    		source: "(40:14) <Route path={route.users}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (62:14) <Route path={route.layouts}>
+    // (43:14) <Route path={route.layouts}>
     function create_default_slot_3(ctx) {
     	let layouts;
     	let current;
@@ -8541,14 +8886,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_3.name,
     		type: "slot",
-    		source: "(62:14) <Route path={route.layouts}>",
+    		source: "(43:14) <Route path={route.layouts}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:6) <Route path="{route.admin}/*" meta={{ name: "admin" }}>
+    // (25:6) <Route path="{route.admin}/*" meta={{ name: "admin" }}>
     function create_default_slot_2(ctx) {
     	let div2;
     	let nav;
@@ -8572,7 +8917,7 @@ var app = (function () {
 
     	route0 = new Route$1({
     			props: {
-    				path: route.home,
+    				path: route$1.home,
     				$$slots: { default: [create_default_slot_5] },
     				$$scope: { ctx }
     			},
@@ -8581,7 +8926,7 @@ var app = (function () {
 
     	route1 = new Route$1({
     			props: {
-    				path: route.users,
+    				path: route$1.users,
     				$$slots: { default: [create_default_slot_4] },
     				$$scope: { ctx }
     			},
@@ -8590,7 +8935,7 @@ var app = (function () {
 
     	route2 = new Route$1({
     			props: {
-    				path: route.layouts,
+    				path: route$1.layouts,
     				$$slots: { default: [create_default_slot_3] },
     				$$scope: { ctx }
     			},
@@ -8619,11 +8964,11 @@ var app = (function () {
     			t5 = space();
     			create_component(footer.$$.fragment);
     			attr_dev(div0, "class", "content");
-    			add_location(div0, file, 54, 12, 1967);
+    			add_location(div0, file, 35, 12, 1420);
     			attr_dev(div1, "class", "content-wrapper");
-    			add_location(div1, file, 53, 10, 1924);
+    			add_location(div1, file, 34, 10, 1377);
     			attr_dev(div2, "class", "wrapper");
-    			add_location(div2, file, 44, 8, 1683);
+    			add_location(div2, file, 25, 8, 1136);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -8647,21 +8992,21 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const route0_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route0_changes.$$scope = { dirty, ctx };
     			}
 
     			route0.$set(route0_changes);
     			const route1_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route1_changes.$$scope = { dirty, ctx };
     			}
 
     			route1.$set(route1_changes);
     			const route2_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route2_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8704,14 +9049,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_2.name,
     		type: "slot",
-    		source: "(44:6) <Route path=\\\"{route.admin}/*\\\" meta={{ name: \\\"admin\\\" }}>",
+    		source: "(25:6) <Route path=\\\"{route.admin}/*\\\" meta={{ name: \\\"admin\\\" }}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (39:2) <Router>
+    // (20:2) <Router>
     function create_default_slot_1(ctx) {
     	let div;
     	let route0;
@@ -8725,7 +9070,7 @@ var app = (function () {
 
     	route0 = new Route$1({
     			props: {
-    				path: route.login,
+    				path: route$1.login,
     				primary: false,
     				$$slots: { default: [create_default_slot_8] },
     				$$scope: { ctx }
@@ -8735,7 +9080,7 @@ var app = (function () {
 
     	route1 = new Route$1({
     			props: {
-    				path: route.register,
+    				path: route$1.register,
     				primary: false,
     				$$slots: { default: [create_default_slot_7] },
     				$$scope: { ctx }
@@ -8745,7 +9090,7 @@ var app = (function () {
 
     	route2 = new Route$1({
     			props: {
-    				path: route.forgetPassword,
+    				path: route$1.forgetPassword,
     				primary: false,
     				$$slots: { default: [create_default_slot_6] },
     				$$scope: { ctx }
@@ -8755,7 +9100,7 @@ var app = (function () {
 
     	route3 = new Route$1({
     			props: {
-    				path: "" + (route.admin + "/*"),
+    				path: "" + (route$1.admin + "/*"),
     				meta: { name: "admin" },
     				$$slots: { default: [create_default_slot_2] },
     				$$scope: { ctx }
@@ -8774,7 +9119,7 @@ var app = (function () {
     			t2 = space();
     			create_component(route3.$$.fragment);
     			attr_dev(div, "class", "sidebar-mini");
-    			add_location(div, file, 39, 4, 1365);
+    			add_location(div, file, 20, 4, 818);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -8790,28 +9135,28 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const route0_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route0_changes.$$scope = { dirty, ctx };
     			}
 
     			route0.$set(route0_changes);
     			const route1_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route1_changes.$$scope = { dirty, ctx };
     			}
 
     			route1.$set(route1_changes);
     			const route2_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route2_changes.$$scope = { dirty, ctx };
     			}
 
     			route2.$set(route2_changes);
     			const route3_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				route3_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8845,14 +9190,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1.name,
     		type: "slot",
-    		source: "(39:2) <Router>",
+    		source: "(20:2) <Router>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (38:0) <Translator>
+    // (19:0) <Translator>
     function create_default_slot(ctx) {
     	let router;
     	let current;
@@ -8876,7 +9221,7 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const router_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				router_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8900,7 +9245,7 @@ var app = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(38:0) <Translator>",
+    		source: "(19:0) <Translator>",
     		ctx
     	});
 
@@ -8933,7 +9278,7 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const translator_changes = {};
 
-    			if (dirty & /*$$scope*/ 2) {
+    			if (dirty & /*$$scope*/ 1) {
     				translator_changes.$$scope = { dirty, ctx };
     			}
 
@@ -8967,23 +9312,6 @@ var app = (function () {
     function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
-
-    	async function checkAuth() {
-    		const auth = getSessionItem("auth");
-    		let response = [];
-
-    		if (auth) {
-    			if (typeof auth.access_token !== "undefined") {
-    				response = await checkUserDetails(auth.access_token);
-    			}
-    		}
-
-    		if (typeof response.access_token === "undefined") {
-    			navigate$1(route.login);
-    		}
-    	}
-
-    	onMount(checkAuth);
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -8993,7 +9321,6 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Translator,
     		__,
-    		navigate: navigate$1,
     		Route: Route$1,
     		Router: Router$1,
     		Login,
@@ -9006,11 +9333,7 @@ var app = (function () {
     		Users,
     		Layouts,
     		Dashboard,
-    		onMount,
-    		getSessionItem,
-    		checkUserDetails,
-    		route,
-    		checkAuth
+    		route: route$1
     	});
 
     	return [];
