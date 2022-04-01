@@ -41,7 +41,7 @@ class Auth
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-      throw new AuthenticationException("$key is wrong");
+      throw new AuthenticationException("'$key' is wrong");
     }
     if (!password_verify($_POST['password'], $user['password'])) {
       throw new AuthenticationException("'password' is incorrect");
@@ -58,6 +58,7 @@ class Auth
 
     $authorization_key = $this->header['authorization'];
     $access_token = AccessToken::findByToken(sha1($authorization_key));
+    $access_token->token = $authorization_key;
 
     if (!(bool) $access_token) {
       throw new AuthenticationException('Authorization key not found');
@@ -101,7 +102,7 @@ class Auth
   public static function logout()
   {
     if (self::getInstance()->check()) {
-      AccessToken::findByToken(Session::getInstance()->get('user.session')['access_token'])->delete();
+      AccessToken::findByToken(sha1(Session::getInstance()->get('user.session')['access_token']))->delete();
       Session::getInstance()->remove('user.session');
     }
   }

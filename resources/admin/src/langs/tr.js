@@ -3,6 +3,7 @@ export default {
     home: "Ana sayfa",
     dashboard: "Gösterge Paneli",
     options: "Ayarlar",
+    logout: "Çıkış",
     users: "Kullanıcılar",
     layouts: "Düzenler",
     fullName: "İsim Soyisim",

@@ -8,6 +8,6 @@ class HomeController extends Controller
 {
   public function home($request, $args)
   {
-    echo 'Hello World';
+    return view('index.php');
   }
 }

@@ -14,31 +14,33 @@
   import Dashboard from "src/pages/Dashboard.svelte";
   import { onMount } from "svelte";
   import { getSessionItem } from "src/scripts/session.js";
-  import { checkUserDetails } from "src/scripts/datas.js";
+  import { checkUserDetails } from "src/scripts/auth.js";
   import { route } from "src/scripts/links";
 
-  const auth = getSessionItem("auth");
+  async function checkAuth() {
+    const auth = getSessionItem("auth");
+    let response = [];
 
-  async function checkAuth(auth = null) {
-    const response = [];
     if (auth) {
-      response = await checkUserDetails(auth.access_token);
+      if (typeof auth.access_token !== "undefined") {
+        response = await checkUserDetails(auth.access_token);
+      }
     }
-    if (!response) {
-      navigate("/login");
-      return false;
+    
+    if (typeof response.access_token === "undefined") {
+      navigate(route.login);
     }
-    return true;
   }
-  onMount(checkAuth(auth));
+
+  onMount(checkAuth);
 </script>
 
 <Translator>
   <Router>
     <div class="sidebar-mini">
-      <Route path={route.login} component={Login} />
-      <Route path={route.register} component={Register} />
-      <Route path={route.forgetPassword} component={Password} />
+      <Route path={route.login} primary={false}><Login /></Route>
+      <Route path={route.register} primary={false}><Register /></Route>
+      <Route path={route.forgetPassword} primary={false}><Password /></Route>
       <Route path="{route.admin}/*" meta={{ name: "admin" }}>
         <div class="wrapper">
           <!-- Navbar -->

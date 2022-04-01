@@ -1,8 +1,8 @@
 <script>
   import { Link } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
-  import { api } from "src/scripts/links.js";
   import Lang from "src/components/Lang.svelte";
+  import { route, api } from "src/scripts/links.js";
 
   const submit = () => {
     fetch(api.user, {
@@ -58,7 +58,7 @@
           <!-- /.col -->
         </div>
         <p class="mt-3 mb-1">
-          <Link to="/login">{$__("password.login")}</Link>
+          <Link to="/{route.login}">{$__("password.login")}</Link>
         </p>
       </div>
       <!-- /.login-card-body -->

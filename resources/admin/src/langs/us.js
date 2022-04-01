@@ -4,6 +4,7 @@ export default {
     dashboard: "Dashboard",
     options: "Options",
     users: "Users",
+    logout: "Logout",
     layouts: "Layouts",
     fullName: "Full name",
     email: "Email",
@@ -38,4 +39,7 @@ export default {
     requestNew: "Request new password",
     login: "Login",
   },
+  exceptions: {
+    
+  }
 }

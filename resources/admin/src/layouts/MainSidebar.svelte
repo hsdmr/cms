@@ -4,7 +4,7 @@
   import { __ } from "src/scripts/i18n.js";
   import { route } from "src/scripts/links.js";
   import { getSessionItem } from "src/scripts/session.js";
-  import { deleteUserDetails } from "src/scripts/datas.js";
+  import { deleteUserDetails } from "src/scripts/auth.js";
 
   const auth = getSessionItem("auth");
 
@@ -95,9 +95,9 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href="#" on:click={logout} class="nav-link">
-            <i class="nav-icon far fa-circle text-danger" />
-            <p class="text">Important</p>
+          <a href={'#'} on:click={logout} class="nav-link">
+            <i class="nav-icon fa-solid fa-power-off text-danger" />
+            <p class="text">{$__("title.logout")}</p>
           </a>
         </li>
       </ul>
