@@ -39,7 +39,18 @@ export default {
     requestNew: "Request new password",
     login: "Login",
   },
-  exceptions: {
-    
+  table: {
+    title: "Title",
+    description: "Description",
+    firstName: "First Name",
+    lastName: "Last Name",
+    fullName: "Full Name",
+    role: "Role",
+    username: "Username",
+    nickname: "Nickname",
+    email: "Email",
+    image: "Image",
+    createdAt: "Created At",
+    status: "Status",
   }
 }
