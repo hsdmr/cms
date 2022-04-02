@@ -10,7 +10,44 @@
   $: active = title;
   $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
 
+  $: loading = true;
+  $: users = [];
+
+  let promise;
+
+  //async function getUsers() {
+  //  loading = true;
+  //  await checkAuth();
+  //  const auth = getSessionItem("auth");
+  //
+  //  const res = await fetch(api.user, {
+  //    method: "GET",
+  //    headers: {
+  //      "Content-Type": "application/json",
+  //      Accept: "application/json",
+  //      Authorization: auth.access_token,
+  //    },
+  //  })
+  //    .then((response) => {
+  //      if (!response.ok) {
+  //        console.error(`HTTP error: ${response.status}`);
+  //      }
+  //      return response.json();
+  //    })
+  //    .then((user) => {
+  //      if (typeof user.message !== "undefined") {
+  //        toastr.error(response.message);
+  //        navigate("/" + route.login);
+  //      }
+  //      loading = false;
+  //      users = user;
+  //      return user;
+  //    })
+  //    .catch((err) => console.error(`Fetch problem: ${err.message}`));
+  //}
+
   async function getUsers() {
+    loading = true;
     await checkAuth();
     const auth = getSessionItem("auth");
 
@@ -19,18 +56,10 @@
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "Authorization": auth.access_token,
+        Authorization: auth.access_token,
       },
     });
-    console.log(res.response.json());
-    const response = await res.response.json();
-
-    if (typeof response.access_token === "undefined") {
-      if (typeof response.message !== "undefined") {
-        toastr.error(response.message);
-      }
-      navigate("/" + route.login);
-    }
+    const response = await res.text();
 
     if (res.ok) {
       return response;
@@ -39,13 +68,13 @@
     }
   }
 
-  let promise = getUsers();
+  promise = getUsers();
 
   function handleClick() {
     promise = getUsers();
   }
 
-  const titles = [
+  $: titles = [
     $__("title.firstName"),
     $__("title.lastName"),
     $__("title.role"),
@@ -55,7 +84,7 @@
   ];
 
   const keys = [
-    "firs_name",
+    "first_name",
     "last_name",
     "role",
     "email",
@@ -68,11 +97,7 @@
 <div class="container-fluid users">
   {#await promise}
     <p>...waiting</p>
-  {:then response}
-    {promise}
-    {response}
-    <Table {titles} {keys} rows={response} />
-  {:catch error}
-    <p style="color: red">{error.message}</p>
+  {:then users}
+    <Table {titles} {keys} rows={users} />
   {/await}
 </div>
