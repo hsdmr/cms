@@ -20,7 +20,7 @@ class AuthApi extends Rest
 
       if (Auth::getInstance()->attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
         $access_token = new AccessToken();
-        $item = $access_token->where([['user_id', '=', Auth::id()], ['type', '=', 'temp']])->first();
+        $item = $access_token->where('user_id', Auth::id())->where('type', 'temp')->first();
         $token = randomString(60);
         if ($item) {
           $access_token = $access_token->update([
@@ -58,6 +58,7 @@ class AuthApi extends Rest
       Log::endJob();
     }
   }
+
   public function logout($request, $args)
   {
     Log::currentJob(Codes::JOB_LOGOUT);

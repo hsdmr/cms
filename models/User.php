@@ -6,10 +6,10 @@ use Hasdemir\Base\Model;
 
 class User extends Model
 {
-  protected $table = 'user';
-  protected $unique = ['email', 'username'];
-  protected $protected = ['password'];
-  protected $soft_delete = true;
+  protected string $table = 'user';
+  protected array $unique = ['email', 'username'];
+  protected array $protected = ['password'];
+  protected bool $soft_delete = true;
 
   public static function findById(int $id)
   {
@@ -20,13 +20,13 @@ class User extends Model
   public static function findByEmail(string $email)
   {
     $item = new User();
-    return $item->where([['email', '=', $email]])->first();
+    return $item->where('email', $email)->first();
   }
 
   public static function findByUsername(string $username)
   {
     $item = new User();
-    return $item->where([['username', '=', $username]])->first();
+    return $item->where('username', $username)->first();
   }
 
   public function posts()

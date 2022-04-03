@@ -6,9 +6,9 @@ use Hasdemir\Base\Model;
 
 class Post extends Model
 {
-  protected $table = 'post';
-  protected $unique = ['permalink_id'];
-  protected $soft_delete = true;
+  protected string $table = 'post';
+  protected array $unique = ['permalink_id'];
+  protected bool $soft_delete = true;
 
   public static function findById(int $id)
   {
@@ -19,7 +19,7 @@ class Post extends Model
   public static function findByPermalinkId(int $permalink_id)
   {
     $item = new Post();
-    return $item->where([['permalink_id', '=', $permalink_id]])->first();
+    return $item->where('permalink_id', '=', $permalink_id)->first();
   }
 
   public function categories()

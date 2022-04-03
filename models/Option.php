@@ -6,7 +6,7 @@ use Hasdemir\Base\Model;
 
 class Option extends Model
 {
-  protected $table = 'user_meta';
+  protected string $table = 'user_meta';
 
   public static function findById(int $id)
   {
@@ -19,7 +19,7 @@ class Option extends Model
   public static function findOption(string $type = null, int $type_id = null, string $key)
   {
     $item = new Option();
-    $item = $item->where([['type', '=', $type], ['type_id', '=', $type_id], ['key', '=', $key]])->first();
+    $item = $item->where('type', $type)->where('type_id', $type_id)->where('key', $key)->first();
     $item->value = json_decode($item->value, true);
     return $item;
   }
@@ -28,7 +28,7 @@ class Option extends Model
   {
     $items = new Option();
     $options = [];
-    foreach ($items->where([['type', '=', $type], ['type_id', '=', $type_id]])->get() as $item) {
+    foreach ($items->where('type', $type)->where('type_id', $type_id)->get() as $item) {
       $item->value = json_decode($item->value, true);
       $options[] = $item;
     }

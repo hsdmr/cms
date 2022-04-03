@@ -6,9 +6,9 @@ use Hasdemir\Base\Model;
 
 class Permalink extends Model
 {
-  protected $table = 'permalink';
-  protected $unique = ['path'];
-  protected $soft_delete = true;
+  protected string $table = 'permalink';
+  protected array $unique = ['path'];
+  protected bool $soft_delete = true;
 
   public static function findById(int $id)
   {
@@ -19,6 +19,6 @@ class Permalink extends Model
   public static function findByPath(string $path)
   {
     $item = new User();
-    return $item->where([['path', '=', $path]])->first();
+    return $item->where('path', $path)->first();
   }
 }
