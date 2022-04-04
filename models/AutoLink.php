@@ -12,7 +12,7 @@ class AutoLink extends Model
   public static function findById(int $id)
   {
     $item = new AutoLink();
-    return $item->find($id);
+    return $item->findByPrimaryKey($id);
   }
 
   public static function findByMeta(string $word)

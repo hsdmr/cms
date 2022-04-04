@@ -81,7 +81,7 @@ class Model
       Codes::BINDS => $binds
     ];
     $statement->execute();
-    return $this->find($this->db->lastInsertId());
+    return $this->findByPrimaryKey($this->db->lastInsertId());
   }
 
   /**
@@ -112,7 +112,7 @@ class Model
       Codes::BINDS => $binds
     ];
     $statement->execute();
-    return $this->find($this->where_key);
+    return $this->findByPrimaryKey($this->where_key);
   }
 
   /**
@@ -124,10 +124,16 @@ class Model
   public function first()
   {
     $model = isset($this->get()[0]) ? $this->get()[0] : null;
-    if (is_array($model))
-      $this->where_key = $model[$this->primary_key];
-    if (is_object($model))
-      $this->where_key = $model->{ $this->primary_key};
+    if (is_array($model)) {
+      if (isset($model[$this->primary_key])) {
+        $this->where_key = $model[$this->primary_key];
+      }
+    }
+    if (is_object($model)) {
+      if (isset($model->{ $this->primary_key})) {
+        $this->where_key = $model->{ $this->primary_key};
+      }
+    }
     return $model;
   }
 
@@ -141,10 +147,10 @@ class Model
   {
     $sql = "SELECT $this->select FROM $this->table $this->where_sql";
     if ($this->soft_delete && !$this->with_deleted) {
-      $sql .= ($this->where_sql === '' ? " WHERE" : " AND") . " deleted_at IS NULL";
+      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " deleted_at IS NULL";
     }
     if ($this->soft_delete && $this->only_deleted) {
-      $sql .= ($this->where_sql === '' ? " WHERE" : " AND") . " deleted_at IS NOT NULL";
+      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " deleted_at IS NOT NULL";
     }
     $sql .= $this->order . $this->limit;
     $statement = $this->db->prepare($sql);
@@ -181,7 +187,7 @@ class Model
    *
    * @throws NotFoundException
    */
-  public function find(int $primary_key)
+  public function findByPrimaryKey(int $primary_key)
   {
     $this->where_key = $primary_key;
     $sql = "SELECT " . $this->select . " FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
@@ -350,18 +356,18 @@ class Model
   public function select(): object
   {
     $fields = func_get_args() ?? ['*'];
-    $this->select = implode(', ', array_diff($fields, $this->protected));
+    $this->select = trim(implode(', ', array_diff($fields, $this->protected)));
     return $this;
   }
 
-  private function whereConditions($key): void 
+  private function whereConditions($key): void
   {
     if ($this->where_sql === '') {
       $this->where_sql .= ' WHERE';
     }
 
     if (substr($this->where_sql, -1) !== '(' && substr($this->where_sql, -5) !== 'WHERE') {
-      $this->where_sql .= ' AND';
+      $this->where_sql .= " $key";
     }
 
   }
@@ -380,7 +386,8 @@ class Model
       $key = $where[0];
       $operator = '=';
       $value = $where[1];
-    } else {
+    }
+    else {
       $key = $where[0];
       $operator = $where[1];
       $value = $where[2];
@@ -499,9 +506,9 @@ class Model
    * @return $this
    *
    */
-  public function order(array $order): object
+  public function order(string $order, string $by = 'ASC'): object
   {
-    $this->order = " ORDER BY " . $order[0] . ' ' . strtoupper($order[1]);
+    $this->order = " ORDER BY " . $order . ' ' . strtoupper($by);
     return $this;
   }
 
@@ -512,9 +519,9 @@ class Model
    * @return $this
    *
    */
-  public function limit(int $limit): object
+  public function limit(int $limit, int $offset = 0): object
   {
-    $this->limit = " LIMIT " . $limit;
+    $this->limit = " LIMIT " . $offset . ", " . $limit;
     return $this;
   }
 

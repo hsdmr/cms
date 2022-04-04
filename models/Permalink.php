@@ -13,7 +13,7 @@ class Permalink extends Model
   public static function findById(int $id)
   {
     $item = new User();
-    return $item->find($id);
+    return $item->findByPrimaryKey($id);
   }
 
   public static function findByPath(string $path)

@@ -13,7 +13,7 @@ class AccessToken extends Model
   public static function findById(int $id)
   {
     $item = new AccessToken();
-    return $item->find($id);
+    return $item->findByPrimaryKey($id);
   }
 
   public static function findByToken(string $token)

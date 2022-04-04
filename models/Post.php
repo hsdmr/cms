@@ -13,7 +13,7 @@ class Post extends Model
   public static function findById(int $id)
   {
     $item = new Post();
-    return $item->find($id);
+    return $item->findByPrimaryKey($id);
   }
 
   public static function findByPermalinkId(int $permalink_id)

@@ -11,7 +11,7 @@ class Option extends Model
   public static function findById(int $id)
   {
     $item = new Option();
-    $item = $item->find($id);
+    $item = $item->findByPrimaryKey($id);
     $item->value = json_decode($item->value, true);
     return $item;
   }

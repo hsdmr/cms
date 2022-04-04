@@ -13,7 +13,7 @@ class Category extends Model
   public static function findById(int $id)
   {
     $item = new Category();
-    return $item->find($id);
+    return $item->findByPrimaryKey($id);
   }
 
   public function posts()

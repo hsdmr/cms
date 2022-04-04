@@ -45,12 +45,28 @@ class Request
     $params = [];
     if ($this->method() === 'GET') {
       foreach ($_GET as $key => $value) {
-        $params[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        if (is_numeric($value)) {
+          $params[$key] = (int) filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        } else if ($value === 'true') {
+          $params[$key] = true;
+        } else if ($value === 'false') {
+          $params[$key] = false;
+        } else {
+          $params[$key] = (string) filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
       }
     }
     if ($this->method() === 'POST' || $this->method() === 'PUT') {
       foreach ($_POST as $key => $value) {
-        $params[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        if (is_numeric($value)) {
+          $params[$key] = (int) filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        } else if ($value === 'true') {
+          $params[$key] = true;
+        } else if ($value === 'false') {
+          $params[$key] = false;
+        } else {
+          $params[$key] = (string) filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
       }
     }
     return $params;
@@ -58,7 +74,7 @@ class Request
 
   public function isValid(): bool
   {
-    return preg_match('@^([-a-z0-9%.=#?&//]*)$@', $this->uri());
+    return preg_match('@^([-a-z0-9%.=_#?&//]*)$@', $this->uri());
   }
 
   public function checkUri()

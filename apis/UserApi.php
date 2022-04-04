@@ -9,24 +9,40 @@ use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
 use Respect\Validation\Validator as v;
+use Hasdemir\Base\Request;
 
 class UserApi extends Rest
 {
   const HELPER_LINK = ['link' => 'user'];
 
-  public function search($request, $args)
+  public function search(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_SEARCH);
     try {
+      $params = $request->params();
+
+      $total = new User();
+      $this->header['Total-Row'] = $total->select('COUNT(*) as total')->first()['total'];
+
       $users = new User();
-      $this->body = $users->with(['posts'])->get();
+      $this->body = $users->where('first_name', 'LIKE', "%" . $params['search'] . "%")
+      ->orWhere('last_name', 'LIKE', "%" . $params['search'] . "%")
+      ->orWhere('email', 'LIKE', "%" . $params['search'] . "%")
+      ->orWhere('username', 'LIKE', "%" . $params['search'] . "%")
+      ->orWhere('nickname', 'LIKE', "%" . $params['search'] . "%")
+      ->orWhere('phone', 'LIKE', "%" . $params['search'] . "%")
+      ->order($params['order'], $params['by'])
+      ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))
+      ->get();
+      
       $this->response(HTTP_OK);
-    } finally {
+    }
+    finally {
       Log::endJob();
     }
   }
 
-  public function create($request, $args)
+  public function create(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_CREATE);
     try {
@@ -45,12 +61,13 @@ class UserApi extends Rest
         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT)
       ])->toArray();
       $this->response(HTTP_CREATED);
-    } finally {
+    }
+    finally {
       Log::endJob();
     }
   }
 
-  public function read($request, $args)
+  public function read(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_READ);
     try {
@@ -62,15 +79,17 @@ class UserApi extends Rest
         $response['posts'] = $user->posts();
         $this->body = $response;
         $this->response(HTTP_OK);
-      } catch (\Throwable $th) {
+      }
+      catch (\Throwable $th) {
         throw new NotFoundException('User not found', self::HELPER_LINK, $th);
       }
-    } finally {
+    }
+    finally {
       Log::endJob();
     }
   }
 
-  public function update($request, $args)
+  public function update(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_UPDATE);
     try {
@@ -80,7 +99,7 @@ class UserApi extends Rest
       $this->validate($_PUT);
 
       $user = User::findById($user_id);
-      $this->body = (array) $user->update([
+      $this->body = (array)$user->update([
         'first_name' => $_PUT['first_name'],
         'last_name' => $_PUT['last_name'],
         'role' => $_PUT['role'],
@@ -89,12 +108,13 @@ class UserApi extends Rest
         'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
       ])->toArray();
       $this->response(HTTP_OK);
-    } finally {
+    }
+    finally {
       Log::endJob();
     }
   }
 
-  public function delete($request, $args)
+  public function delete(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_DELETE);
     try {
@@ -103,7 +123,8 @@ class UserApi extends Rest
       if (User::findById($user_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
-    } finally {
+    }
+    finally {
       Log::endJob();
     }
   }
