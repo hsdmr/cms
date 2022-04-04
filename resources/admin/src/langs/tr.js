@@ -31,7 +31,8 @@ export default {
     title: "Başlık",
     content: "İçerik",
     search: "Ara",
-    noElementFound: "Öğe Bulunamadı!"
+    noElementFound: "Öğe Bulunamadı!",
+    shownRecord: "Sayfada gösterilen kayıt:"
   },
   login: {
     message: "Oturumunuzu başlatmak için giriş yapın",

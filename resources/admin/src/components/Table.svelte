@@ -1,73 +1,70 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
+  import { createEventDispatcher } from "svelte";
+  import Limit from "./Limit.svelte";
+  import Pagination from "./Pagination.svelte";
+  import Search from "./Search.svelte";
+  import Tbody from "./Tbody.svelte";
+  import Thead from "./Thead.svelte";
 
+  const dispatch = createEventDispatcher();
+  
   export let titles;
   export let rows;
   export let keys;
+  export let search;
+  export let total;
+  export let limit;
+  export let page;
+  export let order;
+  export let by;
+
+  const setOrder = (event) => {
+    by = event.detail.by;
+    order = event.detail.order;
+    console.log(order);
+    console.log(by);
+    searchParams();
+  };
+
+  const setSearch = (event) => {
+    search = event.detail.search;
+    console.log(search);
+    searchParams();
+  };
+
+  const setLimit = (event) => {
+    limit = event.detail.limit;
+    console.log(limit);
+    searchParams();
+  };
+
+  const setPage = (event) => {
+    page = event.detail.page;
+    console.log(page);
+    searchParams();
+  };
+
+  const searchParams = () => {
+    dispatch("searchParams", { search, limit, page, order, by });
+  };
 </script>
 
 <div class="card">
   <div class="card-header">
-    <div class="card-tools">
-      <ul class="pagination pagination-sm m-0 float-right">
-        <li class="page-item"><a class="page-link" href={"#"}>«</a></li>
-        <li class="page-item"><a class="page-link" href={"#"}>1</a></li>
-        <li class="page-item"><a class="page-link" href={"#"}>2</a></li>
-        <li class="page-item"><a class="page-link" href={"#"}>3</a></li>
-        <li class="page-item"><a class="page-link" href={"#"}>»</a></li>
-      </ul>
-    </div>
-    <div class="card-tools float-left">
-      <div class="input-group input-group-sm m-0" style="width: 150px;">
-        <input
-          type="text"
-          name="table_search"
-          class="form-control float-right"
-          placeholder="Search"
-        />
-
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-default">
-            <i class="fas fa-search" />
-          </button>
-        </div>
-      </div>
-    </div>
+    <Limit {limit} on:limit={setLimit} />
+    <Search {search} on:search={setSearch} />
   </div>
   <!-- /.card-header -->
   <div class="card-body p-0">
     <!-- svelte-ignore component-name-lowercase -->
     <table class="table table-sm table-hover table-striped">
-      <thead>
-        <tr>
-          <th style="width: 10px">#</th>
-          {#each titles as title}
-            <th>{title}</th>
-          {/each}
-          <th style="width: 40px" />
-        </tr>
-      </thead>
-      <tbody>
-        {#each JSON.parse(rows) as row, i}
-          <tr>
-            <td>{i + 1}</td>
-            {#each keys as key}
-              <td>{row[key]}</td>
-            {/each}
-            <td>+</td>
-          </tr>
-        {/each}
-      </tbody>
+      <Thead {keys} {titles} {order} {by} on:order={setOrder} />
+      <Tbody {keys} {rows} />
     </table>
   </div>
   <div class="card-footer clearfix">
-    <ul class="pagination pagination-sm m-0 float-right">
-      <li class="page-item"><a class="page-link" href={"#"}>«</a></li>
-      <li class="page-item"><a class="page-link" href={"#"}>1</a></li>
-      <li class="page-item"><a class="page-link" href={"#"}>2</a></li>
-      <li class="page-item"><a class="page-link" href={"#"}>3</a></li>
-      <li class="page-item"><a class="page-link" href={"#"}>»</a></li>
-    </ul>
+    <Pagination {page} {total} {limit} on:page={setPage} />
   </div>
   <!-- /.card-body -->
 </div>

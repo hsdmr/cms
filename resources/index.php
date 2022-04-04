@@ -14,6 +14,7 @@
   <?php include_once('layouts/menu.php') ?>
   <h1 class="text-center" style="padding-top: 15rem"><a class="navbar-brand text-success" href="/" style="font-size: 5rem">Home</a></h1>
   <h3 class="text-danger text-center my-5"><b>This is example index page</b></h3>
+  <h3 class="text-danger text-center my-5"><a href="/login" >Login</a></h3>
   <div class="text-center" style="width:50%; margin:auto">
   </div>
   <?php include_once('layouts/footer.php') ?>

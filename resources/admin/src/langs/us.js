@@ -31,7 +31,8 @@ export default {
     title: "Title",
     content: "Content",
     search: "Search",
-    noElementFound: "No Element Found!"
+    noElementFound: "No Element Found!",
+    shownRecord: "The record shown on the page:"
   },
   login: {
     message: "Sign in to start your session",

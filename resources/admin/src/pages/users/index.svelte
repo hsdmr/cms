@@ -12,46 +12,21 @@
 
   $: loading = true;
   $: users = [];
+  $: search = '';
+  $: total = 0;
+  $: limit = 10;
+  $: page = 1;
+  $: order = 'id';
+  $: by = 'asc';
 
   let promise;
-
-  //async function getUsers() {
-  //  loading = true;
-  //  await checkAuth();
-  //  const auth = getSessionItem("auth");
-  //
-  //  const res = await fetch(api.user, {
-  //    method: "GET",
-  //    headers: {
-  //      "Content-Type": "application/json",
-  //      Accept: "application/json",
-  //      Authorization: auth.access_token,
-  //    },
-  //  })
-  //    .then((response) => {
-  //      if (!response.ok) {
-  //        console.error(`HTTP error: ${response.status}`);
-  //      }
-  //      return response.json();
-  //    })
-  //    .then((user) => {
-  //      if (typeof user.message !== "undefined") {
-  //        toastr.error(response.message);
-  //        navigate("/" + route.login);
-  //      }
-  //      loading = false;
-  //      users = user;
-  //      return user;
-  //    })
-  //    .catch((err) => console.error(`Fetch problem: ${err.message}`));
-  //}
 
   async function getUsers() {
     loading = true;
     await checkAuth();
     const auth = getSessionItem("auth");
 
-    const res = await fetch(api.user, {
+    const res = await fetch(api.user + `?search=${search}&page=${page}&limit=${limit}&order=${order}&by=${by}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -60,6 +35,7 @@
       },
     });
     const response = await res.text();
+    total = res.headers.get('Total-Row');
 
     if (res.ok) {
       return response;
@@ -70,7 +46,13 @@
 
   promise = getUsers();
 
-  function handleClick() {
+  function whenSearch(event) {
+    search = event.detail.search;
+    total = event.detail.total;
+    limit = event.detail.limit;
+    page = event.detail.page;
+    order = event.detail.order;
+    by = event.detail.by;
     promise = getUsers();
   }
 
@@ -98,6 +80,8 @@
   {#await promise}
     <p>...waiting</p>
   {:then users}
-    <Table {titles} {keys} rows={users} />
+    <Table {titles} {keys} {total} {page} {search} {limit} {order} {by} rows={users} on:searchParams={whenSearch}>
+    
+    </Table>
   {/await}
 </div>
