@@ -10,6 +10,7 @@ use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
 use Respect\Validation\Validator as v;
 use Hasdemir\Base\Request;
+use Hasdemir\Model\Option;
 
 class UserApi extends Rest
 {
@@ -25,16 +26,23 @@ class UserApi extends Rest
       $this->header['Total-Row'] = $total->select('COUNT(*) as total')->first()['total'];
 
       $users = new User();
-      $this->body = $users->where('first_name', 'LIKE', "%" . $params['search'] . "%")
-      ->orWhere('last_name', 'LIKE', "%" . $params['search'] . "%")
-      ->orWhere('email', 'LIKE', "%" . $params['search'] . "%")
-      ->orWhere('username', 'LIKE', "%" . $params['search'] . "%")
-      ->orWhere('nickname', 'LIKE', "%" . $params['search'] . "%")
-      ->orWhere('phone', 'LIKE', "%" . $params['search'] . "%")
-      ->order($params['order'], $params['by'])
-      ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))
-      ->get();
-      
+      if ($params['search']) {
+        $users->openPharanthesis()
+          ->where('first_name', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('last_name', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('email', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('username', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('nickname', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('phone', 'LIKE', "%" . $params['search'] . "%")
+          ->closePharanthesis();
+      }
+      $response = $users->order($params['order'], $params['by'])
+        ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))
+        ->onlyDeleted()
+        ->withHidden()
+        ->get();
+
+      $this->body = $response;
       $this->response(HTTP_OK);
     }
     finally {
@@ -51,7 +59,7 @@ class UserApi extends Rest
       $this->validate($_POST);
 
       $user = new User();
-      $this->body = $user->create([
+      $user = $user->create([
         'first_name' => $_POST['first_name'],
         'last_name' => $_POST['last_name'],
         'role' => $_POST['role'],
@@ -60,6 +68,19 @@ class UserApi extends Rest
         'email_verified_at' => $_POST['email_verified_at'] ?? null,
         'password' => password_hash($_POST['password'], PASSWORD_BCRYPT)
       ])->toArray();
+
+      if (v::key('options')->validate($_POST)) {
+        foreach ($_POST['options'] as $key => $value) {
+          Option::createOption('user', $user['id'], $key, $value);
+        }
+      }
+
+      $options = Option::findOptions('user', $user['id']);
+      
+      $response = $user;
+      $response['options'] = $options;
+
+      $this->body = $response;
       $this->response(HTTP_CREATED);
     }
     finally {
@@ -107,6 +128,7 @@ class UserApi extends Rest
         'username' => $_PUT['username'],
         'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
       ])->toArray();
+
       $this->response(HTTP_OK);
     }
     finally {

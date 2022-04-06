@@ -68,8 +68,11 @@ class Model
     foreach ($this->fields as $key) {
       $fields[$key] = $params[$key] ?? null;
     }
+    $obj_fields = $this->fields;
+    array_shift($fields);
+    array_shift($obj_fields);
     $binds = array_map(fn($attr) => ":$attr", array_keys($fields));
-    $sql = "INSERT INTO $this->table (" . implode(", ", $this->fields) . ") VALUES (" . implode(", ", $binds) . ")";
+    $sql = "INSERT INTO `$this->table` (`" . implode("`, `", $obj_fields) . "`) VALUES (" . implode(", ", $binds) . ")";
     $statement = $this->db->prepare($sql);
     $binds = [];
     foreach ($fields as $key => $value) {
@@ -81,7 +84,8 @@ class Model
       Codes::BINDS => $binds
     ];
     $statement->execute();
-    return $this->findByPrimaryKey($this->db->lastInsertId());
+    $this->{ $this->primary_key} = $this->db->lastInsertId();
+    return $this->findByPrimaryKey($this->{ $this->primary_key});
   }
 
   /**
@@ -97,9 +101,9 @@ class Model
     $this->checkHasUniqueItem($params);
     $binds = [];
     foreach ($params as $key => $value) {
-      $binds[] = $key . ' = :' . $key;
+      $binds[] = '`' . $key . '` = :' . $key;
     }
-    $sql = "UPDATE $this->table SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
+    $sql = "UPDATE `$this->table` SET " . implode(', ', $binds) . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
     $binds = [];
     foreach ($params as $key => $value) {
@@ -145,12 +149,14 @@ class Model
    */
   public function get(): array
   {
-    $sql = "SELECT $this->select FROM $this->table $this->where_sql";
-    if ($this->soft_delete && !$this->with_deleted) {
-      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " deleted_at IS NULL";
+    $sql = "SELECT $this->select FROM `$this->table` $this->where_sql";
+
+    if ($this->soft_delete && !$this->with_deleted && !$this->only_deleted) {
+      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " `deleted_at` IS NULL";
     }
-    if ($this->soft_delete && $this->only_deleted) {
-      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " deleted_at IS NOT NULL";
+
+    if ($this->soft_delete && $this->only_deleted && !$this->with_deleted) {
+      $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " `deleted_at` IS NOT NULL";
     }
     $sql .= $this->order . $this->limit;
     $statement = $this->db->prepare($sql);
@@ -167,14 +173,15 @@ class Model
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
     foreach ($items as $item) {
-      $object = $item;
+
       if (count(array_diff(array_keys($item), $this->fields)) === 0) {
-        $object = call_user_func_array([getModelFromTable($this->table), 'findById'], [$item[$this->primary_key]]);
+        $object = call_user_func_array([getModelFromTable($this->table), 'findById'], [$item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden]);
         foreach ($this->with as $with) {
           $object->{ $with} = $object->{ $with}();
         }
       }
-      $collection[] = $object;
+
+      $collection[] = $object ?? $item;
     }
     return $collection;
   }
@@ -190,10 +197,8 @@ class Model
   public function findByPrimaryKey(int $primary_key)
   {
     $this->where_key = $primary_key;
-    $sql = "SELECT " . $this->select . " FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
-    if ($this->soft_delete && !$this->with_deleted) {
-      $sql .= " AND deleted_at IS NULL";
-    }
+    $sql = "SELECT " . $this->select . " FROM `$this->table` WHERE `" . $this->primary_key . "` = :" . $this->primary_key;
+
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
@@ -204,21 +209,26 @@ class Model
     ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
-    foreach ($this->fields as $field) {
-      if ($field === $this->primary_key && !isset($item[$field])) {
-        throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
+    
+    if ($item) {
+      foreach ($this->fields as $field) {
+        $this->{ $field} = $item[$field] ?? null;
       }
-      $this->{ $field} = $item[$field] ?? null;
-    }
-    if (!$this->with_hidden) {
-      foreach ($this->hidden as $hide) {
-        unset($this->{ $hide});
+  
+      if (!$this->with_hidden) {
+        foreach ($this->hidden as $hide) {
+          unset($this->{ $hide});
+        }
       }
+  
+      foreach ($this->protected as $protect) {
+        unset($this->{ $protect});
+      }
+  
+      return $this;
     }
-    foreach ($this->protected as $protect) {
-      unset($this->{ $protect});
-    }
-    return $this;
+
+    throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
   }
 
   /**
@@ -241,7 +251,7 @@ class Model
   public function delete(): bool
   {
     if ($this->soft_delete) {
-      $sql = "UPDATE " . $this->table . " SET deleted_at = :deleted_at WHERE " . $this->primary_key . " = :" . $this->primary_key;
+      $sql = "UPDATE `$this->table` SET `deleted_at` = :deleted_at WHERE `" . $this->primary_key . "` = :" . $this->primary_key;
       $statement = $this->db->prepare($sql);
       $binds = [];
       $statement->bindValue(":$this->primary_key", $this->where_key);
@@ -266,7 +276,7 @@ class Model
    */
   public function forceDelete(): bool
   {
-    $sql = "DELETE FROM " . $this->table . " WHERE " . $this->primary_key . " = :" . $this->primary_key;
+    $sql = "DELETE FROM `$this->table` WHERE `" . $this->primary_key . "` = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":$this->primary_key", $this->where_key);
@@ -301,23 +311,6 @@ class Model
   {
     $this->with_hidden = true;
     return $this;
-  }
-
-  /**
-   * Returns data in array format.
-   *
-   * @return array
-   *
-   */
-  public function toArray(): array
-  {
-    $array = [];
-    foreach ($this->fields as $field) {
-      if (isset($this->{ $field})) {
-        $array[$field] = $this->{ $field};
-      }
-    }
-    return $array;
   }
 
   /**
@@ -394,7 +387,7 @@ class Model
     }
 
     $this->where_params[] = [$key, $operator, $value];
-    $this->where_sql = trim($this->where_sql .= " $key $operator :$key");
+    $this->where_sql = trim($this->where_sql .= " `$key` $operator :$key");
 
     return $this;
   //$this->where = [
@@ -427,7 +420,7 @@ class Model
     }
 
     $this->where_params[] = [$key, $operator, $value];
-    $this->where_sql = trim($this->where_sql .= " $key $operator :$key");
+    $this->where_sql = trim($this->where_sql .= " `$key` $operator :$key");
 
     return $this;
   }
@@ -441,7 +434,7 @@ class Model
   public function WhereNotNull($key, $conjunction = 'AND'): object
   {
     $this->whereConditions($conjunction);
-    $this->where_sql = trim($this->where_sql .= " $conjunction IS NOT NULL");
+    $this->where_sql = trim($this->where_sql .= " `$key` IS NOT NULL");
 
     return $this;
   }
@@ -455,7 +448,7 @@ class Model
   public function WhereNull($key, $conjunction = 'AND'): object
   {
     $this->whereConditions($conjunction);
-    $this->where_sql = trim($this->where_sql .= " $conjunction IS NULL");
+    $this->where_sql = trim($this->where_sql .= " `$key` IS NULL");
 
     return $this;
   }
@@ -466,22 +459,15 @@ class Model
    * @return $this
    *
    */
-  public function orPharanthesis(): object
+  public function openPharanthesis($key = ''): object
   {
-    $this->where_sql = trim($this->where_sql .= " OR (");
+    if ($this->where_sql === '') {
+      $this->where_sql .= ' WHERE (';
+    }
+    else {
+      $this->where_sql = trim($this->where_sql .= " $key (");
+    }
 
-    return $this;
-  }
-
-  /**
-   * Adds open parenthesis to query with and.
-   *
-   * @return $this
-   *
-   */
-  public function andPharanthesis(): object
-  {
-    $this->where_sql = trim($this->where_sql .= " AND (");
 
     return $this;
   }
@@ -508,7 +494,7 @@ class Model
    */
   public function order(string $order, string $by = 'ASC'): object
   {
-    $this->order = " ORDER BY " . $order . ' ' . strtoupper($by);
+    $this->order = " ORDER BY `" . $order . '` ' . strtoupper($by);
     return $this;
   }
 
@@ -542,7 +528,7 @@ class Model
         $table_name = $row[0];
       }
     }
-    $sql = "SELECT * FROM " . $table_name . " WHERE " . $this->table . "_id = :" . $this->table;
+    $sql = "SELECT * FROM `" . $table_name . "` WHERE `" . $this->table . "_id` = :" . $this->table;
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":" . $this->table, $this->where_key);
@@ -570,7 +556,7 @@ class Model
    */
   public function belongTo(string $table): array
   {
-    $sql = "SELECT * FROM " . $table . " WHERE id = :id LIMIT 1";
+    $sql = "SELECT * FROM `" . $table . "` WHERE `id` = :id LIMIT 1";
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":id", $this->{ $table . '_id'});
@@ -593,7 +579,7 @@ class Model
    */
   public function hasMany(string $table): array
   {
-    $sql = "SELECT * FROM " . $table . " WHERE " . $this->table . "_id = :id";
+    $sql = "SELECT * FROM `" . $table . "` WHERE `" . $this->table . "_id` = :id";
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":id", $this->where_key);
@@ -678,6 +664,23 @@ class Model
       $this->fields[] = $item['Field'];
       $this->{ $item['Field']} = null;
     }
+  }
+
+  /**
+   * Returns data in array format.
+   *
+   * @return array
+   *
+   */
+  public function toArray(): array
+  {
+    $array = [];
+    foreach ($this->fields as $field) {
+      if (isset($this->{ $field})) {
+        $array[$field] = $this->{ $field};
+      }
+    }
+    return $array;
   }
 
   public function __destruct()

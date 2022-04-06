@@ -7,6 +7,7 @@ use Hasdemir\Model\AccessToken;
 use Hasdemir\Model\User;
 use PDO;
 use Respect\Validation\Validator as v;
+use Hasdemir\Model\Option;
 
 class Auth
 {
@@ -74,6 +75,9 @@ class Auth
   public static function prepareResponse(AccessToken $access_token)
   {
     $user = User::findById($access_token->user_id);
+
+    $options = Option::findOptions('user',$user->id);
+
     $return = [
       'access_token' => $access_token->token,
       'scope' => $access_token->scope,
@@ -82,7 +86,7 @@ class Auth
       'last_name' => $user->last_name,
       'role' => $user->role,
       'email' => $user->email,
-      'options' => [],
+      'options' => $options,
       'permissions' => [],
     ];
     Session::getInstance()->set('user.session', $return);

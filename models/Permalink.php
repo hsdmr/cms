@@ -10,9 +10,18 @@ class Permalink extends Model
   protected array $unique = ['path'];
   protected bool $soft_delete = true;
 
-  public static function findById(int $id)
+  public static function findById(int $id, $with_deleted = null, $only_deleted = null, $with_hidden = null)
   {
     $item = new User();
+    if ($with_deleted) {
+      $item->withDeleted();
+    }
+    if ($only_deleted) {
+      $item->onlyDeleted();
+    }
+    if ($with_hidden) {
+      $item->withHidden();
+    }
     return $item->findByPrimaryKey($id);
   }
 
