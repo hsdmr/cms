@@ -8,19 +8,42 @@
 
   const auth = getSessionItem("auth");
 
+  $: url = window.location.pathname.split("/");
+
+  function setUrl() {
+    url = window.location.pathname.split("/");
+  }
+
+  let bodyClass =
+    "sidebar-mini " +
+    auth.options.theme_main_sidebar_collapsed +
+    " " +
+    auth.options.theme_text_size +
+    " " +
+    auth.options.theme_main_fixed +
+    " " +
+    auth.options.theme_navbar_fixed +
+    " " +
+    auth.options.theme_footer_fixed;
+
+  document.body.classList = bodyClass;
+
   async function logout() {
     const response = await deleteUserDetails(auth.access_token);
 
     if (response) {
       console.log(response);
-      navigate('/login');
+      navigate("/login");
     }
   }
 </script>
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside
+  class="main-sidebar elevation-4 {auth.options.theme_main_sidebar_expand} {auth
+    .options.theme_main_sidebar_bg}"
+>
   <!-- Brand Logo -->
-  <a href="/" class="brand-link">
+  <a href="/" class="brand-link {auth.options.theme_brand_logo_bg}">
     <img
       src="{APP_ROOT}/assets/admin/img/AdminLTELogo.png"
       alt="AdminLTE Logo"
@@ -52,31 +75,52 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul
-        class="nav nav-pills nav-sidebar flex-column"
+        class="nav nav-pills nav-sidebar flex-column {auth.options
+          .theme_main_sidebar_nav_style}"
         data-widget="treeview"
         role="menu"
         data-accordion="false"
       >
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        <li class="nav-item">
-          <Link to="" class="nav-link">
+        <li class="nav-item" on:click={setUrl}>
+          <Link
+            to="/{route.admin}"
+            class="nav-link {url[1] === 'admin' && !url.hasOwnProperty(2)
+              ? 'active'
+              : ''}"
+          >
             <i class="nav-icon fas fa-th" />
             <p>
               {$__("title.dashboard")}
             </p>
           </Link>
         </li>
-        <li class="nav-item">
-          <Link to={route.users} class="nav-link">
+        <li class="nav-item" on:click={setUrl}>
+          <Link
+            to="/{route.admin}/{route.users}"
+            class="nav-link {url[1] === 'admin' &&
+            (url[2] === 'users' || url[2] === 'user')
+              ? 'active'
+              : ''}"
+          >
             <i class="nav-icon fas fa-users" />
             <p>
               {$__("title.users")}
             </p>
           </Link>
         </li>
-        <li class="nav-item menu-open">
-          <a href={"#"} class="nav-link">
+        <li
+          class="nav-item {url[1] === 'admin' && url[2] === 'layouts'
+            ? 'menu-open active'
+            : ''}"
+        >
+          <a
+            href={"#"}
+            class="nav-link {url[1] === 'admin' && url[2] === 'layouts'
+              ? 'active'
+              : ''}"
+          >
             <i class="nav-icon fa-solid fa-gears" />
             <p>
               {$__("title.options")}
@@ -84,8 +128,13 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <Link to={route.layouts} class="nav-link">
+            <li class="nav-item" on:click={setUrl}>
+              <Link
+                to="/{route.admin}/{route.layouts}"
+                class="nav-link {url[1] === 'admin' && url[2] === 'layouts'
+                  ? 'active'
+                  : ''}"
+              >
                 <i class="nav-icon fas fa-table-columns" />
                 <p>
                   {$__("title.layouts")}
@@ -95,7 +144,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a href={'#'} on:click={logout} class="nav-link">
+          <a href={"#"} on:click={logout} class="nav-link">
             <i class="nav-icon fa-solid fa-power-off text-danger" />
             <p class="text">{$__("title.logout")}</p>
           </a>

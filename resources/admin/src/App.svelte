@@ -10,6 +10,7 @@
   import ControlSidebar from "src/layouts/ControlSidebar.svelte";
   import Footer from "src/layouts/Footer.svelte";
   import Users from "src/pages/users/index.svelte";
+  import UserCreate from "src/pages/users/create.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
   import { route } from "src/scripts/links";
@@ -39,6 +40,9 @@
               </Route>
               <Route path={route.users}>
                 <Users />
+              </Route>
+              <Route path={route.user}>
+                <UserCreate />
               </Route>
               <Route path={route.layouts}>
                 <Layouts />

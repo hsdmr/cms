@@ -29,5 +29,6 @@ export const route = {
   home: `/`,
   
   users: `users`,
+  user: `user`,
   layouts: `layouts`,
 }
