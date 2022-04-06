@@ -36,7 +36,6 @@
 
 <thead>
   <tr>
-    <th style="width: 10px">#</th>
     {#each titles as title, i}
       <th
         >{title}

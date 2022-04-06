@@ -3,10 +3,10 @@
   export let keys;
 </script>
 
+
 <tbody>
-  {#each JSON.parse(rows) as row, i}
+  {#each JSON.parse(rows) as row}
     <tr>
-      <td>{i + 1}</td>
       {#each keys as key}
         <td>{row[key]}</td>
       {/each}
