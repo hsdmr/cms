@@ -30,8 +30,10 @@ class Web
       ['GET', '/register', 'admin'],
       ['GET', '/forget-password', 'admin'],
       ['GET', '/admin', 'admin'],
-      ['GET', '/admin/option', 'admin'],
       ['GET', '/admin/users', 'admin'],
+      ['GET', '/admin/user', 'admin'],
+      ['GET', '/admin/user/{id}', 'admin'],
+      ['GET', '/admin/option', 'admin'],
       ['GET', '/admin/layouts', 'admin'],
     ];
 

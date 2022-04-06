@@ -77,11 +77,7 @@ class Api
     $routes['Option'][Codes::ROUTES] = [
       ['GET', '/option', 'search'],
       ['POST', '/option', 'create'],
-      ['GET', '/option/{option_id}', 'read'],
-      ['PUT', '/option/{option_id}', 'update'],
-      ['DELETE', '/option/{option_id}', 'delete'],
-      ['GET', '/user/{user_id}/option', 'userSearch'],
-      ['POST', '/user/{user_id}/option', 'userCreate'],
+      ['DELETE', '/option', 'delete'],
     ];
   }
 }
