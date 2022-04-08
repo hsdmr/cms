@@ -42,14 +42,14 @@
 
     const response = await registerUser(fullName, user, password, agreeTerms);
 
+    console.log(response);
     if (typeof response.access_token !== "undefined") {
-      console.log(response);
       if (error) error = "";
       navigate(route.admin);
     }
 
     if (typeof response.message !== "undefined") {
-      error = response.message;
+      error = response;
     }
   }
 </script>

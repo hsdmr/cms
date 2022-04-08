@@ -42,13 +42,19 @@ class Auth
     $user = $statement->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-      throw new AuthenticationException("'$key' is wrong");
+      switch ($key) {
+        case 'username':
+          throw new AuthenticationException("'username' is wrong", Codes::key(Codes::USERNAME_IS_WRONG));
+        
+        case 'email':
+          throw new AuthenticationException("'email' is wrong", Codes::key(Codes::EMAIL_IS_WRONG));
+      }
     }
     if ($user['deleted_at'] != null) {
       throw new AuthenticationException("This user deleted");
     }
     if (!password_verify($_POST['password'], $user['password'])) {
-      throw new AuthenticationException("'password' is incorrect");
+      throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::PASSWORD_IS_INCORRECT));
     }
     Session::getInstance()->set('user', $user);
     return true;

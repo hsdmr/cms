@@ -10,13 +10,14 @@
   let user = "hsdmrsoft@gmail.com";
   let password = "Rest135**";
   let rememberMe = false;
-  let error = "";
+  let errorMessage = "";
+  let errorKey = "";
 
   const showHidePassword = () => {
     active = !active;
     type = active ? "text" : "password";
   };
-  
+
   const getValue = (e) => {
     password = e.target.value;
   };
@@ -24,14 +25,18 @@
   async function login() {
     const response = await getUserDetails(user, password);
 
+    console.log(response);
     if (typeof response.access_token !== "undefined") {
-      console.log(response);
-      if (error) error = "";
+      if (errorMessage) {
+        errorMessage = "";
+        errorKey = "";
+      };
       navigate(route.admin);
     }
 
     if (typeof response.message !== "undefined") {
-      error = response.message;
+      errorMessage = response.message;
+      errorKey = response.key;
     }
   }
 </script>
@@ -39,7 +44,7 @@
 <div class="login-page">
   <div class="login-box">
     <!-- /.login-logo -->
-    <div class="card card-outline {error ? 'card-danger' : 'card-success'}">
+    <div class="card card-outline {errorMessage ? 'card-danger' : 'card-success'}">
       <div class="card-header text-center">
         <Lang />
         <a href="/" class="h1"><b>KM</b>PANEL</a>
@@ -47,8 +52,8 @@
       <div class="card-body">
         <p class="login-box-msg">{$__("login.message")}</p>
 
-        {#if error.includes("email")}
-          <div class="text-danger">{error}</div>
+        {#if errorMessage.includes("email")}
+          <div class="text-danger">{$__("error." + errorKey)}</div>
         {/if}
         <div class="input-group mb-3">
           <input
@@ -63,8 +68,8 @@
             </div>
           </div>
         </div>
-        {#if error.includes("password")}
-          <div class="text-danger">{error}</div>
+        {#if errorMessage.includes("password")}
+          <div class="text-danger">{$__("error." + errorKey)}</div>
         {/if}
         <div class="input-group mb-3">
           <input

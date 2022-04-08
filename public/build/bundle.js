@@ -813,6 +813,11 @@ var app = (function () {
         requestNew: "Request new password",
         login: "Login",
       },
+      error: {
+        emailIsWrong: "Email is wrong!",
+        usernameIsWrong: "Username is wrong!",
+        passwordIsIncorrect: "Password is Wrong!"
+      }
     };
 
     var tr = {
@@ -913,19 +918,10 @@ var app = (function () {
         requestNew: "Yeni şifre isteği",
         login: "Giriş",
       },
-      table: {
-        title: "Title",
-        description: "Description",
-        firstName: "First Name",
-        lastName: "Last Name",
-        fullName: "Full Name",
-        role: "Role",
-        username: "Username",
-        nickname: "Nickname",
-        email: "Email",
-        image: "Image",
-        createdAt: "Created At",
-        status: "Status",
+      error: {
+        emailIsWrong: "Email hatalı!",
+        usernameIsWrong: "Username hatalı!",
+        passwordIsIncorrect: "Password hatalı!"
       }
     };
 
@@ -3742,6 +3738,7 @@ var app = (function () {
       }).then((response) => {
         if (!response.ok) {
           console.error(`HTTP error: ${response.status}`);
+          console.log(response);
         }
         return response.json();
       }).then((user) => {
@@ -4018,24 +4015,25 @@ var app = (function () {
     const { console: console_1$4 } = globals;
     const file$j = "src\\pages\\auth\\Login.svelte";
 
-    // (50:8) {#if error.includes("email")}
+    // (55:8) {#if errorMessage.includes("email")}
     function create_if_block_1$4(ctx) {
     	let div;
+    	let t_value = /*$__*/ ctx[6]("error." + /*errorKey*/ ctx[5]) + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[4]);
+    			t = text(t_value);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$j, 50, 10, 1397);
+    			add_location(div, file$j, 55, 10, 1534);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*error*/ 16) set_data_dev(t, /*error*/ ctx[4]);
+    			if (dirty & /*$__, errorKey*/ 96 && t_value !== (t_value = /*$__*/ ctx[6]("error." + /*errorKey*/ ctx[5]) + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -4046,31 +4044,32 @@ var app = (function () {
     		block,
     		id: create_if_block_1$4.name,
     		type: "if",
-    		source: "(50:8) {#if error.includes(\\\"email\\\")}",
+    		source: "(55:8) {#if errorMessage.includes(\\\"email\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (66:8) {#if error.includes("password")}
+    // (71:8) {#if errorMessage.includes("password")}
     function create_if_block$5(ctx) {
     	let div;
+    	let t_value = /*$__*/ ctx[6]("error." + /*errorKey*/ ctx[5]) + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[4]);
+    			t = text(t_value);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$j, 66, 10, 1902);
+    			add_location(div, file$j, 71, 10, 2065);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*error*/ 16) set_data_dev(t, /*error*/ ctx[4]);
+    			if (dirty & /*$__, errorKey*/ 96 && t_value !== (t_value = /*$__*/ ctx[6]("error." + /*errorKey*/ ctx[5]) + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -4081,16 +4080,16 @@ var app = (function () {
     		block,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(66:8) {#if error.includes(\\\"password\\\")}",
+    		source: "(71:8) {#if errorMessage.includes(\\\"password\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:10) <Link to="/{route.forgetPassword}">
+    // (108:10) <Link to="/{route.forgetPassword}">
     function create_default_slot_1$2(ctx) {
-    	let t_value = /*$__*/ ctx[5]("login.forgetPassword") + "";
+    	let t_value = /*$__*/ ctx[6]("login.forgetPassword") + "";
     	let t;
 
     	const block = {
@@ -4101,7 +4100,7 @@ var app = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$__*/ 32 && t_value !== (t_value = /*$__*/ ctx[5]("login.forgetPassword") + "")) set_data_dev(t, t_value);
+    			if (dirty & /*$__*/ 64 && t_value !== (t_value = /*$__*/ ctx[6]("login.forgetPassword") + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -4112,16 +4111,16 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(103:10) <Link to=\\\"/{route.forgetPassword}\\\">",
+    		source: "(108:10) <Link to=\\\"/{route.forgetPassword}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (107:10) <Link to="/{route.register}" class="text-center"              >
+    // (112:10) <Link to="/{route.register}" class="text-center"              >
     function create_default_slot$7(ctx) {
-    	let t_value = /*$__*/ ctx[5]("login.registerNew") + "";
+    	let t_value = /*$__*/ ctx[6]("login.registerNew") + "";
     	let t;
 
     	const block = {
@@ -4132,7 +4131,7 @@ var app = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$__*/ 32 && t_value !== (t_value = /*$__*/ ctx[5]("login.registerNew") + "")) set_data_dev(t, t_value);
+    			if (dirty & /*$__*/ 64 && t_value !== (t_value = /*$__*/ ctx[6]("login.registerNew") + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -4143,7 +4142,7 @@ var app = (function () {
     		block,
     		id: create_default_slot$7.name,
     		type: "slot",
-    		source: "(107:10) <Link to=\\\"/{route.register}\\\" class=\\\"text-center\\\"              >",
+    		source: "(112:10) <Link to=\\\"/{route.register}\\\" class=\\\"text-center\\\"              >",
     		ctx
     	});
 
@@ -4163,10 +4162,10 @@ var app = (function () {
     	let t3;
     	let div10;
     	let p0;
-    	let t4_value = /*$__*/ ctx[5]("login.message") + "";
+    	let t4_value = /*$__*/ ctx[6]("login.message") + "";
     	let t4;
     	let t5;
-    	let show_if_1 = /*error*/ ctx[4].includes("email");
+    	let show_if_1 = /*errorMessage*/ ctx[4].includes("email");
     	let t6;
     	let div3;
     	let input0;
@@ -4176,7 +4175,7 @@ var app = (function () {
     	let div1;
     	let span0;
     	let t8;
-    	let show_if = /*error*/ ctx[4].includes("password");
+    	let show_if = /*errorMessage*/ ctx[4].includes("password");
     	let t9;
     	let div5;
     	let input1;
@@ -4192,12 +4191,12 @@ var app = (function () {
     	let input2;
     	let t12;
     	let label;
-    	let t13_value = /*$__*/ ctx[5]("login.rememberMe") + "";
+    	let t13_value = /*$__*/ ctx[6]("login.rememberMe") + "";
     	let t13;
     	let t14;
     	let div8;
     	let button1;
-    	let t15_value = /*$__*/ ctx[5]("login.signIn") + "";
+    	let t15_value = /*$__*/ ctx[6]("login.signIn") + "";
     	let t15;
     	let t16;
     	let p1;
@@ -4284,66 +4283,66 @@ var app = (function () {
     			t17 = space();
     			p2 = element("p");
     			create_component(link1.$$.fragment);
-    			add_location(b, file$j, 44, 31, 1220);
+    			add_location(b, file$j, 49, 31, 1350);
     			attr_dev(a, "href", "/");
     			attr_dev(a, "class", "h1");
-    			add_location(a, file$j, 44, 8, 1197);
+    			add_location(a, file$j, 49, 8, 1327);
     			attr_dev(div0, "class", "card-header text-center");
-    			add_location(div0, file$j, 42, 6, 1132);
+    			add_location(div0, file$j, 47, 6, 1262);
     			attr_dev(p0, "class", "login-box-msg");
-    			add_location(p0, file$j, 47, 8, 1293);
+    			add_location(p0, file$j, 52, 8, 1423);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control");
-    			attr_dev(input0, "placeholder", input0_placeholder_value = /*$__*/ ctx[5]("title.email"));
-    			add_location(input0, file$j, 53, 10, 1502);
+    			attr_dev(input0, "placeholder", input0_placeholder_value = /*$__*/ ctx[6]("title.email"));
+    			add_location(input0, file$j, 58, 10, 1658);
     			attr_dev(span0, "class", "fas fa-envelope");
-    			add_location(span0, file$j, 61, 14, 1762);
+    			add_location(span0, file$j, 66, 14, 1918);
     			attr_dev(div1, "class", "input-group-text");
-    			add_location(div1, file$j, 60, 12, 1716);
+    			add_location(div1, file$j, 65, 12, 1872);
     			attr_dev(div2, "class", "input-group-append");
-    			add_location(div2, file$j, 59, 10, 1670);
+    			add_location(div2, file$j, 64, 10, 1826);
     			attr_dev(div3, "class", "input-group mb-3");
-    			add_location(div3, file$j, 52, 8, 1460);
+    			add_location(div3, file$j, 57, 8, 1616);
     			attr_dev(input1, "type", /*type*/ ctx[0]);
     			input1.value = /*password*/ ctx[2];
     			attr_dev(input1, "class", "form-control");
-    			attr_dev(input1, "placeholder", input1_placeholder_value = /*$__*/ ctx[5]("title.password"));
-    			add_location(input1, file$j, 69, 10, 2007);
+    			attr_dev(input1, "placeholder", input1_placeholder_value = /*$__*/ ctx[6]("title.password"));
+    			add_location(input1, file$j, 74, 10, 2189);
     			attr_dev(span1, "class", "fas fa-eye");
-    			add_location(span1, file$j, 78, 14, 2328);
+    			add_location(span1, file$j, 83, 14, 2510);
     			attr_dev(button0, "class", "input-group-text");
-    			add_location(button0, file$j, 77, 12, 2251);
+    			add_location(button0, file$j, 82, 12, 2433);
     			attr_dev(div4, "class", "input-group-append");
-    			add_location(div4, file$j, 76, 10, 2205);
+    			add_location(div4, file$j, 81, 10, 2387);
     			attr_dev(div5, "class", "input-group mb-3");
-    			add_location(div5, file$j, 68, 8, 1965);
+    			add_location(div5, file$j, 73, 8, 2147);
     			attr_dev(input2, "type", "checkbox");
     			attr_dev(input2, "id", "remember");
-    			add_location(input2, file$j, 85, 14, 2528);
+    			add_location(input2, file$j, 90, 14, 2710);
     			attr_dev(label, "for", "remember");
-    			add_location(label, file$j, 86, 14, 2609);
+    			add_location(label, file$j, 91, 14, 2791);
     			attr_dev(div6, "class", "icheck-success");
-    			add_location(div6, file$j, 84, 12, 2484);
+    			add_location(div6, file$j, 89, 12, 2666);
     			attr_dev(div7, "class", "col-8");
-    			add_location(div7, file$j, 83, 10, 2451);
+    			add_location(div7, file$j, 88, 10, 2633);
     			attr_dev(button1, "class", "btn btn-success btn-block");
-    			add_location(button1, file$j, 93, 12, 2807);
+    			add_location(button1, file$j, 98, 12, 2989);
     			attr_dev(div8, "class", "col-4");
-    			add_location(div8, file$j, 92, 10, 2774);
+    			add_location(div8, file$j, 97, 10, 2956);
     			attr_dev(div9, "class", "row");
-    			add_location(div9, file$j, 82, 8, 2422);
+    			add_location(div9, file$j, 87, 8, 2604);
     			attr_dev(p1, "class", "mb-1");
-    			add_location(p1, file$j, 101, 8, 3036);
+    			add_location(p1, file$j, 106, 8, 3218);
     			attr_dev(p2, "class", "mb-0");
-    			add_location(p2, file$j, 105, 8, 3171);
+    			add_location(p2, file$j, 110, 8, 3353);
     			attr_dev(div10, "class", "card-body");
-    			add_location(div10, file$j, 46, 6, 1260);
-    			attr_dev(div11, "class", div11_class_value = "card card-outline " + (/*error*/ ctx[4] ? 'card-danger' : 'card-success'));
-    			add_location(div11, file$j, 41, 4, 1052);
+    			add_location(div10, file$j, 51, 6, 1390);
+    			attr_dev(div11, "class", div11_class_value = "card card-outline " + (/*errorMessage*/ ctx[4] ? 'card-danger' : 'card-success'));
+    			add_location(div11, file$j, 46, 4, 1175);
     			attr_dev(div12, "class", "login-box");
-    			add_location(div12, file$j, 39, 2, 996);
+    			add_location(div12, file$j, 44, 2, 1119);
     			attr_dev(div13, "class", "login-page");
-    			add_location(div13, file$j, 38, 0, 968);
+    			add_location(div13, file$j, 43, 0, 1091);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4404,19 +4403,19 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[9]),
-    					listen_dev(input1, "input", /*getValue*/ ctx[7], false, false, false),
-    					listen_dev(button0, "click", /*showHidePassword*/ ctx[6], false, false, false),
-    					listen_dev(input2, "change", /*input2_change_handler*/ ctx[10]),
-    					listen_dev(button1, "click", /*login*/ ctx[8], false, false, false)
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[10]),
+    					listen_dev(input1, "input", /*getValue*/ ctx[8], false, false, false),
+    					listen_dev(button0, "click", /*showHidePassword*/ ctx[7], false, false, false),
+    					listen_dev(input2, "change", /*input2_change_handler*/ ctx[11]),
+    					listen_dev(button1, "click", /*login*/ ctx[9], false, false, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if ((!current || dirty & /*$__*/ 32) && t4_value !== (t4_value = /*$__*/ ctx[5]("login.message") + "")) set_data_dev(t4, t4_value);
-    			if (dirty & /*error*/ 16) show_if_1 = /*error*/ ctx[4].includes("email");
+    			if ((!current || dirty & /*$__*/ 64) && t4_value !== (t4_value = /*$__*/ ctx[6]("login.message") + "")) set_data_dev(t4, t4_value);
+    			if (dirty & /*errorMessage*/ 16) show_if_1 = /*errorMessage*/ ctx[4].includes("email");
 
     			if (show_if_1) {
     				if (if_block0) {
@@ -4431,7 +4430,7 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (!current || dirty & /*$__*/ 32 && input0_placeholder_value !== (input0_placeholder_value = /*$__*/ ctx[5]("title.email"))) {
+    			if (!current || dirty & /*$__*/ 64 && input0_placeholder_value !== (input0_placeholder_value = /*$__*/ ctx[6]("title.email"))) {
     				attr_dev(input0, "placeholder", input0_placeholder_value);
     			}
 
@@ -4439,7 +4438,7 @@ var app = (function () {
     				set_input_value(input0, /*user*/ ctx[1]);
     			}
 
-    			if (dirty & /*error*/ 16) show_if = /*error*/ ctx[4].includes("password");
+    			if (dirty & /*errorMessage*/ 16) show_if = /*errorMessage*/ ctx[4].includes("password");
 
     			if (show_if) {
     				if (if_block1) {
@@ -4462,7 +4461,7 @@ var app = (function () {
     				prop_dev(input1, "value", /*password*/ ctx[2]);
     			}
 
-    			if (!current || dirty & /*$__*/ 32 && input1_placeholder_value !== (input1_placeholder_value = /*$__*/ ctx[5]("title.password"))) {
+    			if (!current || dirty & /*$__*/ 64 && input1_placeholder_value !== (input1_placeholder_value = /*$__*/ ctx[6]("title.password"))) {
     				attr_dev(input1, "placeholder", input1_placeholder_value);
     			}
 
@@ -4470,24 +4469,24 @@ var app = (function () {
     				input2.checked = /*rememberMe*/ ctx[3];
     			}
 
-    			if ((!current || dirty & /*$__*/ 32) && t13_value !== (t13_value = /*$__*/ ctx[5]("login.rememberMe") + "")) set_data_dev(t13, t13_value);
-    			if ((!current || dirty & /*$__*/ 32) && t15_value !== (t15_value = /*$__*/ ctx[5]("login.signIn") + "")) set_data_dev(t15, t15_value);
+    			if ((!current || dirty & /*$__*/ 64) && t13_value !== (t13_value = /*$__*/ ctx[6]("login.rememberMe") + "")) set_data_dev(t13, t13_value);
+    			if ((!current || dirty & /*$__*/ 64) && t15_value !== (t15_value = /*$__*/ ctx[6]("login.signIn") + "")) set_data_dev(t15, t15_value);
     			const link0_changes = {};
 
-    			if (dirty & /*$$scope, $__*/ 4128) {
+    			if (dirty & /*$$scope, $__*/ 8256) {
     				link0_changes.$$scope = { dirty, ctx };
     			}
 
     			link0.$set(link0_changes);
     			const link1_changes = {};
 
-    			if (dirty & /*$$scope, $__*/ 4128) {
+    			if (dirty & /*$$scope, $__*/ 8256) {
     				link1_changes.$$scope = { dirty, ctx };
     			}
 
     			link1.$set(link1_changes);
 
-    			if (!current || dirty & /*error*/ 16 && div11_class_value !== (div11_class_value = "card card-outline " + (/*error*/ ctx[4] ? 'card-danger' : 'card-success'))) {
+    			if (!current || dirty & /*errorMessage*/ 16 && div11_class_value !== (div11_class_value = "card card-outline " + (/*errorMessage*/ ctx[4] ? 'card-danger' : 'card-success'))) {
     				attr_dev(div11, "class", div11_class_value);
     			}
     		},
@@ -4530,7 +4529,7 @@ var app = (function () {
     function instance$j($$self, $$props, $$invalidate) {
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(5, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(6, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Login', slots, []);
     	let active = false;
@@ -4538,7 +4537,8 @@ var app = (function () {
     	let user = "hsdmrsoft@gmail.com";
     	let password = "Rest135**";
     	let rememberMe = false;
-    	let error = "";
+    	let errorMessage = "";
+    	let errorKey = "";
 
     	const showHidePassword = () => {
     		active = !active;
@@ -4551,15 +4551,19 @@ var app = (function () {
 
     	async function login() {
     		const response = await getUserDetails(user, password);
+    		console.log(response);
 
     		if (typeof response.access_token !== "undefined") {
-    			console.log(response);
-    			if (error) $$invalidate(4, error = "");
+    			if (errorMessage) {
+    				$$invalidate(4, errorMessage = "");
+    				$$invalidate(5, errorKey = "");
+    			}
     			navigate$1(route.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
-    			$$invalidate(4, error = response.message);
+    			$$invalidate(4, errorMessage = response.message);
+    			$$invalidate(5, errorKey = response.key);
     		}
     	}
 
@@ -4591,7 +4595,8 @@ var app = (function () {
     		user,
     		password,
     		rememberMe,
-    		error,
+    		errorMessage,
+    		errorKey,
     		showHidePassword,
     		getValue,
     		login,
@@ -4604,7 +4609,8 @@ var app = (function () {
     		if ('user' in $$props) $$invalidate(1, user = $$props.user);
     		if ('password' in $$props) $$invalidate(2, password = $$props.password);
     		if ('rememberMe' in $$props) $$invalidate(3, rememberMe = $$props.rememberMe);
-    		if ('error' in $$props) $$invalidate(4, error = $$props.error);
+    		if ('errorMessage' in $$props) $$invalidate(4, errorMessage = $$props.errorMessage);
+    		if ('errorKey' in $$props) $$invalidate(5, errorKey = $$props.errorKey);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -4616,7 +4622,8 @@ var app = (function () {
     		user,
     		password,
     		rememberMe,
-    		error,
+    		errorMessage,
+    		errorKey,
     		$__,
     		showHidePassword,
     		getValue,
@@ -4655,7 +4662,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$i, 67, 10, 1887);
+    			add_location(div, file$i, 67, 10, 1877);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4690,7 +4697,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$i, 83, 10, 2392);
+    			add_location(div, file$i, 83, 10, 2382);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4725,7 +4732,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$i, 99, 10, 2898);
+    			add_location(div, file$i, 99, 10, 2888);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4760,7 +4767,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$i, 121, 10, 3582);
+    			add_location(div, file$i, 121, 10, 3572);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4795,7 +4802,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "text-danger");
-    			add_location(div, file$i, 143, 10, 4298);
+    			add_location(div, file$i, 143, 10, 4288);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -5015,94 +5022,94 @@ var app = (function () {
     			t23 = text(t23_value);
     			t24 = space();
     			create_component(link.$$.fragment);
-    			add_location(b, file$i, 61, 31, 1708);
+    			add_location(b, file$i, 61, 31, 1698);
     			attr_dev(a0, "href", "/");
     			attr_dev(a0, "class", "h1");
-    			add_location(a0, file$i, 61, 8, 1685);
+    			add_location(a0, file$i, 61, 8, 1675);
     			attr_dev(div0, "class", "card-header text-center");
-    			add_location(div0, file$i, 59, 6, 1620);
+    			add_location(div0, file$i, 59, 6, 1610);
     			attr_dev(p, "class", "login-box-msg");
-    			add_location(p, file$i, 64, 8, 1781);
+    			add_location(p, file$i, 64, 8, 1771);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control");
     			attr_dev(input0, "placeholder", input0_placeholder_value = /*$__*/ ctx[8]("title.fullName"));
-    			add_location(input0, file$i, 70, 10, 1992);
+    			add_location(input0, file$i, 70, 10, 1982);
     			attr_dev(span0, "class", "fas fa-user");
-    			add_location(span0, file$i, 78, 14, 2259);
+    			add_location(span0, file$i, 78, 14, 2249);
     			attr_dev(div1, "class", "input-group-text");
-    			add_location(div1, file$i, 77, 12, 2213);
+    			add_location(div1, file$i, 77, 12, 2203);
     			attr_dev(div2, "class", "input-group-append");
-    			add_location(div2, file$i, 76, 10, 2167);
+    			add_location(div2, file$i, 76, 10, 2157);
     			attr_dev(div3, "class", "input-group mb-3");
-    			add_location(div3, file$i, 69, 8, 1950);
+    			add_location(div3, file$i, 69, 8, 1940);
     			attr_dev(input1, "type", "email");
     			attr_dev(input1, "class", "form-control");
     			attr_dev(input1, "placeholder", input1_placeholder_value = /*$__*/ ctx[8]("title.email"));
-    			add_location(input1, file$i, 86, 10, 2497);
+    			add_location(input1, file$i, 86, 10, 2487);
     			attr_dev(span1, "class", "fas fa-envelope");
-    			add_location(span1, file$i, 94, 14, 2758);
+    			add_location(span1, file$i, 94, 14, 2748);
     			attr_dev(div4, "class", "input-group-text");
-    			add_location(div4, file$i, 93, 12, 2712);
+    			add_location(div4, file$i, 93, 12, 2702);
     			attr_dev(div5, "class", "input-group-append");
-    			add_location(div5, file$i, 92, 10, 2666);
+    			add_location(div5, file$i, 92, 10, 2656);
     			attr_dev(div6, "class", "input-group mb-3");
-    			add_location(div6, file$i, 85, 8, 2455);
+    			add_location(div6, file$i, 85, 8, 2445);
     			input2.value = /*password*/ ctx[4];
     			attr_dev(input2, "type", /*typePassword*/ ctx[0]);
     			attr_dev(input2, "class", "form-control");
     			attr_dev(input2, "placeholder", input2_placeholder_value = /*$__*/ ctx[8]("title.password"));
     			attr_dev(input2, "id", "password");
-    			add_location(input2, file$i, 102, 10, 3003);
+    			add_location(input2, file$i, 102, 10, 2993);
     			attr_dev(span2, "class", "fas fa-eye");
-    			add_location(span2, file$i, 116, 14, 3447);
+    			add_location(span2, file$i, 116, 14, 3437);
     			attr_dev(button0, "class", "input-group-text");
     			attr_dev(button0, "id", "password-show-hide");
-    			add_location(button0, file$i, 111, 12, 3287);
+    			add_location(button0, file$i, 111, 12, 3277);
     			attr_dev(div7, "class", "input-group-append");
-    			add_location(div7, file$i, 110, 10, 3241);
+    			add_location(div7, file$i, 110, 10, 3231);
     			attr_dev(div8, "class", "input-group mb-3");
-    			add_location(div8, file$i, 101, 8, 2961);
+    			add_location(div8, file$i, 101, 8, 2951);
     			input3.value = /*retypePassword*/ ctx[5];
     			attr_dev(input3, "type", /*typeRetypePassword*/ ctx[1]);
     			attr_dev(input3, "class", "form-control");
     			attr_dev(input3, "placeholder", input3_placeholder_value = /*$__*/ ctx[8]("title.retypePassword"));
     			attr_dev(input3, "id", "retype-password");
-    			add_location(input3, file$i, 124, 10, 3687);
+    			add_location(input3, file$i, 124, 10, 3677);
     			attr_dev(span3, "class", "fas fa-eye");
-    			add_location(span3, file$i, 138, 14, 4163);
+    			add_location(span3, file$i, 138, 14, 4153);
     			attr_dev(button1, "class", "input-group-text");
     			attr_dev(button1, "id", "retype-password-show-hide");
-    			add_location(button1, file$i, 133, 12, 3996);
+    			add_location(button1, file$i, 133, 12, 3986);
     			attr_dev(div9, "class", "input-group-append");
-    			add_location(div9, file$i, 132, 10, 3950);
+    			add_location(div9, file$i, 132, 10, 3940);
     			attr_dev(div10, "class", "input-group mb-3");
-    			add_location(div10, file$i, 123, 8, 3645);
+    			add_location(div10, file$i, 123, 8, 3635);
     			attr_dev(input4, "type", "checkbox");
     			attr_dev(input4, "id", "agreeTerms");
     			attr_dev(input4, "name", "terms");
-    			add_location(input4, file$i, 148, 14, 4467);
+    			add_location(input4, file$i, 148, 14, 4457);
     			attr_dev(a1, "href", "/");
-    			add_location(a1, file$i, 155, 31, 4703);
+    			add_location(a1, file$i, 155, 31, 4693);
     			attr_dev(label, "for", "agreeTerms");
-    			add_location(label, file$i, 154, 14, 4646);
+    			add_location(label, file$i, 154, 14, 4636);
     			attr_dev(div11, "class", "icheck-success");
-    			add_location(div11, file$i, 147, 12, 4423);
+    			add_location(div11, file$i, 147, 12, 4413);
     			attr_dev(div12, "class", "col-8");
-    			add_location(div12, file$i, 146, 10, 4390);
+    			add_location(div12, file$i, 146, 10, 4380);
     			attr_dev(button2, "class", "btn btn-success btn-block");
-    			add_location(button2, file$i, 161, 12, 4857);
+    			add_location(button2, file$i, 161, 12, 4847);
     			attr_dev(div13, "class", "col-4");
-    			add_location(div13, file$i, 160, 10, 4824);
+    			add_location(div13, file$i, 160, 10, 4814);
     			attr_dev(div14, "class", "row");
-    			add_location(div14, file$i, 145, 8, 4361);
+    			add_location(div14, file$i, 145, 8, 4351);
     			attr_dev(div15, "class", "card-body");
-    			add_location(div15, file$i, 63, 6, 1748);
+    			add_location(div15, file$i, 63, 6, 1738);
     			attr_dev(div16, "class", div16_class_value = "card card-outline " + (/*error*/ ctx[7] ? 'card-danger' : 'card-success'));
-    			add_location(div16, file$i, 58, 4, 1540);
+    			add_location(div16, file$i, 58, 4, 1530);
     			attr_dev(div17, "class", "register-box");
-    			add_location(div17, file$i, 57, 2, 1508);
+    			add_location(div17, file$i, 57, 2, 1498);
     			attr_dev(div18, "class", "login-page");
-    			add_location(div18, file$i, 56, 0, 1480);
+    			add_location(div18, file$i, 56, 0, 1470);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -5406,15 +5413,15 @@ var app = (function () {
     		}
 
     		const response = await registerUser(fullName, user, password, agreeTerms);
+    		console.log(response);
 
     		if (typeof response.access_token !== "undefined") {
-    			console.log(response);
     			if (error) $$invalidate(7, error = "");
     			navigate(route.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
-    			$$invalidate(7, error = response.message);
+    			$$invalidate(7, error = response);
     		}
     	}
 

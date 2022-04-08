@@ -96,18 +96,9 @@ export default {
     requestNew: "Yeni şifre isteği",
     login: "Giriş",
   },
-  table: {
-    title: "Title",
-    description: "Description",
-    firstName: "First Name",
-    lastName: "Last Name",
-    fullName: "Full Name",
-    role: "Role",
-    username: "Username",
-    nickname: "Nickname",
-    email: "Email",
-    image: "Image",
-    createdAt: "Created At",
-    status: "Status",
+  error: {
+    emailIsWrong: "Email hatalı!",
+    usernameIsWrong: "Username hatalı!",
+    passwordIsIncorrect: "Password hatalı!"
   }
 }

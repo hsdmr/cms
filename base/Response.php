@@ -8,7 +8,8 @@ class Response
   {
     $response = [
       'message' => $message,
-      'link' => $header['Link']
+      //'link' => $header['Link'],
+      'key' => $e->key,
     ];
     Log::error($response, $e, $th);
     return $this->emit($http_code, $header, $response);

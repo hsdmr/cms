@@ -56,6 +56,7 @@ export const getUserDetails = async (user, password) => {
   }).then((response) => {
     if (!response.ok) {
       console.error(`HTTP error: ${response.status}`);
+      console.log(response);
     }
     return response.json();
   }).then((user) => {

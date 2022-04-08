@@ -96,4 +96,9 @@ export default {
     requestNew: "Request new password",
     login: "Login",
   },
+  error: {
+    emailIsWrong: "Email is wrong!",
+    usernameIsWrong: "Username is wrong!",
+    passwordIsIncorrect: "Password is Wrong!"
+  }
 }
