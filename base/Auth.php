@@ -35,7 +35,7 @@ class Auth
     if (v::key('user', v::email())->validate($credentials)) {
       $key = 'email';
     }
-    $sql = "SELECT * FROM user WHERE $key = :$key AND `deleted_at` IS NULL";
+    $sql = "SELECT * FROM user WHERE $key = :$key";
     $statement = $this->db->prepare($sql);
     $statement->bindValue(":$key", $credentials['user']);
     $statement->execute();
@@ -43,6 +43,9 @@ class Auth
 
     if (!$user) {
       throw new AuthenticationException("'$key' is wrong");
+    }
+    if ($user['deleted_at'] != null) {
+      throw new AuthenticationException("This user deleted");
     }
     if (!password_verify($_POST['password'], $user['password'])) {
       throw new AuthenticationException("'password' is incorrect");
