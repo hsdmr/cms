@@ -56,7 +56,7 @@ class PostApi extends Rest
       try {
         $post_id = $args['post_id'];
 
-        $post = Post::findById($post_id);
+        $post = Post::find($post_id);
         $response = $post->toArray();
         $response['categories'] = $post->categories();
         $response['permalink'] = $post->permalink();
@@ -79,7 +79,7 @@ class PostApi extends Rest
 
       $this->validate($_PUT);
 
-      $post = Post::findById($post_id);
+      $post = Post::find($post_id);
       $this->body = $post->update([
         'permalink_id' => $_PUT['permalink_id'],
         'user_id' => $_PUT['user_id'] ?? 1,
@@ -100,7 +100,7 @@ class PostApi extends Rest
     try {
       $post_id = $args['post_id'];
 
-      if (Post::findById($post_id)->delete()) {
+      if (Post::find($post_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {

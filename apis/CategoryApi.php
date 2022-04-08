@@ -54,7 +54,7 @@ class CategoryApi extends Rest
       try {
         $category_id = $args['category_id'];
 
-        $this->body = Category::findById($category_id)->toArray();
+        $this->body = Category::find($category_id)->toArray();
         $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Category not found', self::HELPER_LINK, $th);
@@ -73,7 +73,7 @@ class CategoryApi extends Rest
 
       $this->validate($_PUT);
 
-      $category = Category::findById($category_id);
+      $category = Category::find($category_id);
       $this->body = $category->update([
         'permalink_id' => $_PUT['permalink_id'],
         'file_id' => $_PUT['file_id'] ?? null,
@@ -94,7 +94,7 @@ class CategoryApi extends Rest
     try {
       $category_id = $args['category_id'];
 
-      if (Category::findById($category_id)->delete()) {
+      if (Category::find($category_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {

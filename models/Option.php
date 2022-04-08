@@ -10,14 +10,6 @@ class Option extends Model
 {
   protected string $table = 'option';
 
-  public static function findById(int $id, $with_deleted = null, $only_deleted = null, $with_hidden = null)
-  {
-    $item = new Option();
-    $item = $item->findByPrimaryKey($id);
-    $item->value = json_decode($item->value, true);
-    return $item;
-  }
-
   public static function findOption(string $type, int $type_id = null, string $key)
   {
     $item = new Option();
@@ -41,7 +33,7 @@ class Option extends Model
     $option = self::findOption($type, $type_id, $key);
     
     if ($option) {
-      self::findById($option['id'])->forceDelete();
+      self::find($option['id'])->forceDelete();
     }
 
     $item = new Option();

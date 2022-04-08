@@ -57,7 +57,7 @@ class PermalinkApi extends Rest
       try {
         $permalink_id = $args['permalink_id'];
 
-        $this->body = Permalink::findById($permalink_id)->toArray();
+        $this->body = Permalink::find($permalink_id)->toArray();
         return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Link not found', self::HELPER_LINK, $th);
@@ -76,7 +76,7 @@ class PermalinkApi extends Rest
 
       $this->validate($_PUT);
 
-      $permalink = Permalink::findById($permalink_id);
+      $permalink = Permalink::find($permalink_id);
       $this->body = $permalink->update([
         'owner' => $_PUT['owner'],
         'path' => $_PUT['path'],
@@ -98,7 +98,7 @@ class PermalinkApi extends Rest
     try {
       $permalink_id = $args['permalink_id'];
 
-      if (Permalink::findById($permalink_id)->delete()) {
+      if (Permalink::find($permalink_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {

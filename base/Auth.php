@@ -77,8 +77,9 @@ class Auth
 
   public static function prepareResponse(AccessToken $access_token)
   {
-    $user = User::findById($access_token->user_id);
-
+    $user = new User();
+    $user = $user->find($access_token->user_id);
+    
     $options = Option::findOptions('user',$user->id);
 
     $return = [

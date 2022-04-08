@@ -73,7 +73,7 @@ class OptionApi extends Rest
     try {
       $option_id = $args['option_id'];
 
-      if (Option::findById($option_id)->delete()) {
+      if (Option::find($option_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     }

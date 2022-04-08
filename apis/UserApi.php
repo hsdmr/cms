@@ -93,7 +93,7 @@ class UserApi extends Rest
       try {
         $user_id = $args['user_id'];
 
-        $user = User::findById($user_id);
+        $user = User::find($user_id);
         $response = $user->toArray();
         $options = Option::findOptions('user', $user->id);
         $response['options'] = $options;
@@ -118,7 +118,7 @@ class UserApi extends Rest
 
       $this->validate($_PUT, 'update');
 
-      $user = User::findById($user_id);
+      $user = User::find($user_id);
       $update = [
         'first_name' => $_PUT['first_name'],
         'last_name' => $_PUT['last_name'],
@@ -156,7 +156,7 @@ class UserApi extends Rest
     try {
       $user_id = $args['user_id'];
 
-      $user = User::findById($user_id);
+      $user = User::find($user_id);
 
       foreach($user->tokens() as $token) {
         $token->delete();
