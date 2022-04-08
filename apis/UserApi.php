@@ -38,8 +38,6 @@ class UserApi extends Rest
       }
       $response = $users->order($params['order'], $params['by'])
         ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))
-        ->onlyDeleted()
-        ->withHidden()
         ->get();
 
       $this->body = $response;
@@ -76,7 +74,7 @@ class UserApi extends Rest
       }
 
       $options = Option::findOptions('user', $user['id']);
-      
+
       $response = $user;
       $response['options'] = $options;
 
@@ -97,7 +95,8 @@ class UserApi extends Rest
 
         $user = User::findById($user_id);
         $response = $user->toArray();
-        $response['posts'] = $user->posts();
+        $options = Option::findOptions('user', $user->id);
+        $response['options'] = $options;
         $this->body = $response;
         $this->response(HTTP_OK);
       }
@@ -117,18 +116,33 @@ class UserApi extends Rest
       $_PUT = json_decode($request->body(), true);
       $user_id = $args['user_id'];
 
-      $this->validate($_PUT);
+      $this->validate($_PUT, 'update');
 
       $user = User::findById($user_id);
-      $this->body = (array)$user->update([
+      $update = [
         'first_name' => $_PUT['first_name'],
         'last_name' => $_PUT['last_name'],
         'role' => $_PUT['role'],
         'email' => $_PUT['email'],
         'username' => $_PUT['username'],
-        'password' => password_hash($_PUT['password'], PASSWORD_BCRYPT)
-      ])->toArray();
+      ];
+      if (isset($_PUT['password'])) {
+        $update['password'] = password_hash($_PUT['password'], PASSWORD_BCRYPT);
+      }
+      $user = $user->update($update)->toArray();
 
+      if (v::key('options')->validate($_PUT)) {
+        foreach ($_PUT['options'] as $key => $value) {
+          Option::createOption('user', $user['id'], $key, $value);
+        }
+      }
+
+      $options = Option::findOptions('user', $user['id']);
+
+      $response = $user;
+      $response['options'] = $options;
+
+      $this->body = $response;
       $this->response(HTTP_OK);
     }
     finally {
@@ -142,7 +156,13 @@ class UserApi extends Rest
     try {
       $user_id = $args['user_id'];
 
-      if (User::findById($user_id)->delete()) {
+      $user = User::findById($user_id);
+
+      foreach($user->tokens() as $token) {
+        $token->delete();
+      }
+
+      if ($user->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     }
@@ -151,7 +171,7 @@ class UserApi extends Rest
     }
   }
 
-  public function validate($params): void
+  public function validate($params, $method = 'create'): void
   {
     if (!v::key('first_name', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'first_name' must be string", self::HELPER_LINK);
@@ -168,14 +188,21 @@ class UserApi extends Rest
     if (!v::key('username', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'username' must be sent", self::HELPER_LINK);
     }
-    if (!v::key('password', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'password' must be valid an email", self::HELPER_LINK);
+    if ($method == 'create') {
+      if (!v::key('password', v::stringType())->validate($params)) {
+        throw new UnexpectedValueException("'password' not valid", self::HELPER_LINK);
+      }
     }
-    if (!v::key('password_verified', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'password_verified' must be valid an email", self::HELPER_LINK);
+    else {
+      if (!v::key('password', v::stringType(), false)->validate($params)) {
+        throw new UnexpectedValueException("'password' not valid", self::HELPER_LINK);
+      }
     }
-    if ($params['password'] != $params['password_verified']) {
-      throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", self::HELPER_LINK);
+
+    if (v::key('password')->validate($params) && v::key('password_verified')->validate($params)) {
+      if (!v::key('password', v::equals($params['password_verified']), false)->validate($params)) {
+        throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", self::HELPER_LINK);
+      }
     }
   }
 }

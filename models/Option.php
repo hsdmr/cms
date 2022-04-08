@@ -4,6 +4,7 @@ namespace Hasdemir\Model;
 
 use Hasdemir\Base\Model;
 use Hasdemir\Exception\NotFoundException;
+use Hasdemir\Base\Helper\Json;
 
 class Option extends Model
 {
@@ -30,10 +31,7 @@ class Option extends Model
 
     if ($item) {
       $item = $item->toArray();
-      if ($item['value']) {
-        $decoded_data = json_decode($item['value'], true);
-        $item['value'] = json_last_error() ? $item['value'] : $decoded_data;
-      }
+      $item['value'] =  Json::decode($item['value']);
     }
 
     return $item;
@@ -51,7 +49,7 @@ class Option extends Model
       'type' => $type,
       'type_id' => $type_id ? $type_id : null,
       'key' => $key,
-      'value' => json_encode($value),
+      'value' =>  Json::encode($value),
     ])->toArray();
 
     return $item;
@@ -72,10 +70,11 @@ class Option extends Model
     foreach ($items as $item) {
       if ($item) {
         $item = $item->toArray();
-        if ($item['value']) {
-          $decoded_data = json_decode($item['value'], true);
-        }
-        $options[$item['key']] = json_last_error() ? $item['value'] : $decoded_data;
+        $options[$item['key']] = Json::decode($item['value']);
+        //var_dump(json_last_error() . ' ' . json_last_error_msg() . ', ' . $item['value'] . ' => ' . $decoded_data . ' = ' . $options[$item['key']]);
+        //var_dump($item['value']);
+        //var_dump($decoded_data);
+        //var_dump('----');
       }
     }
     return $options;
