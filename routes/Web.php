@@ -31,8 +31,7 @@ class Web
       ['GET', '/forget-password', 'admin'],
       ['GET', '/admin', 'admin'],
       ['GET', '/admin/users', 'admin'],
-      ['GET', '/admin/user', 'admin'],
-      ['GET', '/admin/user/{id}', 'admin'],
+      ['GET', '/admin/users/{id}', 'admin'],
       ['GET', '/admin/option', 'admin'],
       ['GET', '/admin/layouts', 'admin'],
     ];

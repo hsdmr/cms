@@ -43,9 +43,9 @@ class User extends Model
   {
     return $this->hasMany('post');
   }
-
-  public function options()
+  public function tokens()
   {
-    return $this->hasMany('option');
+    return $this->hasMany('access_token');
   }
+
 }

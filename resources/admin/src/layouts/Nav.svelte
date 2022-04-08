@@ -1,12 +1,15 @@
 <script>
   import { languages, locale, __ } from "src/scripts/i18n.js";
+  import { getSessionItem } from "src/scripts/session.js";
+
+  const auth = getSessionItem("auth");
 
   function setLocale(lang) {
     $locale = lang;
   }
 </script>
 
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="main-header navbar navbar-expand {auth.options.theme_navbar_bg} {auth.options.theme_navbar_no_border ? 'border-bottom-0' : ''}">
   <!-- Left navbar links -->
   <ul class="navbar-nav">
     <li class="nav-item">

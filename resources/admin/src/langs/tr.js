@@ -33,6 +33,7 @@ export default {
     
     customize: "Özelleştir",
     darkMode: "Karanlık Mod",
+    noBorder: "Çerçeve Yok",
     fixed: "Sabit",
     collapsed: "Daralt",
     navFlat: "Düz Menu",

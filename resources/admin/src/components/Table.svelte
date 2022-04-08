@@ -12,6 +12,7 @@
   export let titles;
   export let keys;
   export let apiUrl;
+  export let routeUrl;
 
   $: search = "";
   $: total = 0;
@@ -75,6 +76,10 @@
     console.log(page);
     promise = getData();
   };
+
+  const onDelete = (event) => {
+    promise = getData();
+  };
 </script>
 
 <div class="card">
@@ -98,7 +103,7 @@
           </div>
         </div>
       {:then datas}
-        <Tbody {keys} rows={datas} />
+        <Tbody {routeUrl} {apiUrl} {keys} rows={datas} on:delete={onDelete}/>
       {/await}
     </table>
   </div>

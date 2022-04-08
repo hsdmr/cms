@@ -10,7 +10,7 @@
   import ControlSidebar from "src/layouts/ControlSidebar.svelte";
   import Footer from "src/layouts/Footer.svelte";
   import Users from "src/pages/users/index.svelte";
-  import UserCreate from "src/pages/users/create.svelte";
+  import UserSingle from "src/pages/users/single.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
   import { route } from "src/scripts/links";
@@ -35,14 +35,16 @@
           <!-- Content Wrapper. Contains page content -->
           <div class="content-wrapper">
             <div class="content">
-              <Route path={route.home}>
+              <Route path="/">
                 <Dashboard />
               </Route>
-              <Route path={route.users}>
-                <Users />
-              </Route>
-              <Route path={route.user}>
-                <UserCreate />
+              <Route path="{route.users}/*">
+                <Route path="/">
+                  <Users />
+                </Route>
+                <Route path=":id" let:params>
+                  <UserSingle id={params.id} />
+                </Route>
               </Route>
               <Route path={route.layouts}>
                 <Layouts />

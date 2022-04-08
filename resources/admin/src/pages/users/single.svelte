@@ -1,58 +1,110 @@
 <script>
+  import { navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import Breadcrump from "src/components/Breadcrump.svelte";
   import { create, update, read } from "src/scripts/crud.js";
-  import { api } from "src/scripts/links.js";
+  import { api, route } from "src/scripts/links.js";
+  import { onMount } from "svelte";
+  import { DoubleBounce } from "svelte-loading-spinners";
 
   $: title = $__("title.users");
   $: active = title;
   $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
 
-  let first_name = 'Murat';
-  let last_name = 'Hasdemir';
-  let email = 'q@c.c';
-  let username = 'hs';
-  let nickname = 'hs';
-  let role = 'admin';
-  let password = '1';
-  let retypePassword = '1';
+  export let id;
+  let first_name;
+  let last_name;
+  let email;
+  let username;
+  let nickname;
+  let role;
+  let password;
+  let retypePassword;
 
-  let brand_logo_bg;
-  let navbar_bg;
-  let main_sidebar_bg;
-  let main_sidebar_nav_style = [];
-  let main_sidebar_collapsed;
-  let main_fixed;
-  let main_sidebar_expand;
-  let navbar_fixed;
-  let footer_fixed;
-  let text_size;
-  let dark_mode;
+  let brand_logo_bg = "";
+  let navbar_bg = "navbar-light bg-white";
+  let sidebar_bg = "sidebar-dark-primary";
+  let sidebar_nav_flat = false;
+  let sidebar_nav_legacy = false;
+  let sidebar_nav_compact = false;
+  let sidebar_nav_child_indent = false;
+  let sidebar_nav_hide_on_collapse = false;
+  let sidebar_collapsed = false;
+  let sidebar_expand = false;
+  let main_fixed = false;
+  let navbar_fixed = false;
+  let navbar_no_border = false;
+  let footer_fixed = false;
+  let text_size = false;
+  let dark_mode = false;
+
+  let error = "";
+  let loading = false;
 
   let roles = ["admin", "editor"];
-  let promise;
 
-  let options;
+  async function getData() {
+    if (id != route.new) {
+      loading = true;
+      const user = await read(api.user, id);
+      loading = false;
+
+      if (typeof user.id !== "undefined") {
+        first_name = user.first_name;
+        last_name = user.last_name;
+        email = user.email;
+        username = user.username;
+        nickname = user.nickname;
+        role = user.role;
+        password = user.password;
+
+        brand_logo_bg = user.options.theme_brand_logo_bg;
+        navbar_bg = user.options.theme_navbar_bg;
+        sidebar_bg = user.options.theme_sidebar_bg;
+        sidebar_nav_flat = user.options.theme_sidebar_nav_flat;
+        sidebar_nav_legacy = user.options.theme_sidebar_nav_legacy;
+        sidebar_nav_compact = user.options.theme_sidebar_nav_compact;
+        sidebar_nav_child_indent = user.options.theme_sidebar_nav_child_indent;
+        sidebar_nav_hide_on_collapse =
+          user.options.theme_sidebar_nav_hide_on_collapse;
+        sidebar_collapsed = user.options.theme_sidebar_collapsed;
+        sidebar_expand = user.options.theme_sidebar_expand;
+        main_fixed = user.options.theme_main_fixed;
+        navbar_no_border = user.options.theme_navbar_no_border;
+        navbar_fixed = user.options.theme_navbar_fixed;
+        footer_fixed = user.options.theme_footer_fixed;
+        text_size = user.options.theme_text_size;
+        dark_mode = user.options.theme_dark_mode;
+      }
+    }
+  }
+
+  onMount(getData);
 
   async function submit() {
-    options = {
+    loading = true;
+
+    const options = {
       theme_brand_logo_bg: brand_logo_bg,
       theme_navbar_bg: navbar_bg,
-      theme_main_sidebar_bg: main_sidebar_bg,
-      theme_main_sidebar_nav_style: main_sidebar_nav_style.join(" "),
-      theme_main_sidebar_collapsed:
-        main_sidebar_collapsed == "true" ? "sidebar-collapse" : "",
-      theme_main_fixed: main_fixed == "true" ? "layout-fixed" : "",
-      theme_main_sidebar_expand:
-        main_sidebar_expand == "true" ? "sidebar-no-expand" : "",
-      theme_navbar_fixed: navbar_fixed == "true" ? "layout-navbar-fixed" : "",
-      theme_footer_fixed: footer_fixed == "true" ? "layout-footer-fixed" : "",
-      theme_text_size: text_size == "true" ? "text-sm" : "",
-      theme_dark_mode: dark_mode == "true" ? "dark-mode" : "",
+      theme_sidebar_bg: sidebar_bg,
+      theme_sidebar_nav_flat: sidebar_nav_flat,
+      theme_sidebar_nav_legacy: sidebar_nav_legacy,
+      theme_sidebar_nav_compact: sidebar_nav_compact,
+      theme_sidebar_nav_child_indent: sidebar_nav_child_indent,
+      theme_sidebar_nav_hide_on_collapse: sidebar_nav_hide_on_collapse,
+      theme_sidebar_collapsed: sidebar_collapsed,
+      theme_main_fixed: main_fixed,
+      theme_sidebar_expand: sidebar_expand,
+      theme_navbar_no_border: navbar_no_border,
+      theme_navbar_fixed: navbar_fixed,
+      theme_footer_fixed: footer_fixed,
+      theme_text_size: text_size,
+      theme_dark_mode: dark_mode,
     };
 
-    if (password == retypePassword) {
-      promise = await create(api.user, {
+    if (id == route.new) {
+      const res = await create(api.user, "User create successfully", {
         first_name,
         last_name,
         email,
@@ -63,6 +115,32 @@
         password_verified: retypePassword,
         options,
       });
+      loading = false;
+
+      if (typeof res.id !== "undefined") {
+        navigate(`/${route.admin}/${route.users}/${res.id}`);
+      }
+
+      if (typeof res.message !== "undefined") {
+        error = res.message;
+      }
+    } else {
+      const res = await update(api.user, id, "User updated successfully", {
+        first_name,
+        last_name,
+        email,
+        username,
+        nickname,
+        role,
+        password,
+        password_verified: retypePassword,
+        options,
+      });
+      loading = false;
+
+      if (typeof res.message !== "undefined") {
+        error = res.message;
+      }
     }
   }
 </script>
@@ -99,6 +177,9 @@
             <label class="col-form-label" for="email"
               >{$__("title.email")}</label
             >
+            {#if error.includes("email")}
+              <div class="text-danger float-right">{error}</div>
+            {/if}
             <input
               bind:value={email}
               type="text"
@@ -110,6 +191,9 @@
             <label class="col-form-label" for="username"
               >{$__("title.username")}</label
             >
+            {#if error.includes("username")}
+              <div class="text-danger float-right">{error}</div>
+            {/if}
             <input
               bind:value={username}
               type="text"
@@ -132,6 +216,9 @@
             <label class="col-form-label" for="password"
               >{$__("title.password")}</label
             >
+            {#if error.includes("password")}
+              <div class="text-danger float-right">{error}</div>
+            {/if}
             <input
               bind:value={password}
               type="text"
@@ -143,6 +230,9 @@
             <label class="col-form-label" for="retypePassword"
               >{$__("title.retypePassword")}</label
             >
+            {#if error.includes("password")}
+              <div class="text-danger float-right">{error}</div>
+            {/if}
             <input
               bind:value={retypePassword}
               type="text"
@@ -163,20 +253,18 @@
     </div>
     <div class="col-md-3">
       <div class="card">
-        <div class="card-body">
-          {#await promise}
-            <button type="button" class="btn btn-success float-right" disabled
-              >{$__("any.save")}</button
-            >
-          {:then value}
-            <button
-              type="button"
-              class="btn btn-success float-right"
-              on:click={submit}>{$__("any.save")}</button
-            >
-          {:catch error}
-            {toastr.error(error.message)}
-          {/await}
+        <div class="card-body text-center">
+          <div style="display: inline;float: right;">
+            {#if loading}
+              <DoubleBounce size="30" color="#FF3E00" unit="px" duration="2s" />
+            {:else}
+              <button
+                type="button"
+                class="btn btn-success float-right"
+                on:click={submit}>{$__("any.save")}</button
+              >
+            {/if}
+          </div>
         </div>
       </div>
       <div class="card">
@@ -193,6 +281,15 @@
             /><label for="darkMode">{$__("any.darkMode")}</label>
           </div>
           <h6>{$__("any.headerOptions")}</h6>
+          <div class="mb-1">
+            <input
+              bind:checked={navbar_no_border}
+              id="noBorder"
+              type="checkbox"
+              value="layout-navbar-fixed"
+              class="mr-1"
+            /><label for="noBorder">{$__("any.noBorder")}</label>
+          </div>
           <div class="mb-4">
             <input
               bind:checked={navbar_fixed}
@@ -205,7 +302,7 @@
           <h6>{$__("any.sidebarOptions")}</h6>
           <div class="mb-1">
             <input
-              bind:checked={main_sidebar_collapsed}
+              bind:checked={sidebar_collapsed}
               id="collapsed"
               type="checkbox"
               value="collapsed"
@@ -223,7 +320,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:group={main_sidebar_nav_style}
+              bind:checked={sidebar_nav_flat}
               id="navFlat"
               type="checkbox"
               value="nav-flat"
@@ -232,7 +329,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:group={main_sidebar_nav_style}
+              bind:checked={sidebar_nav_legacy}
               id="navLegacy"
               type="checkbox"
               value="nav-legacy"
@@ -241,7 +338,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:group={main_sidebar_nav_style}
+              bind:checked={sidebar_nav_compact}
               id="navCompact"
               type="checkbox"
               value="nav-compact"
@@ -250,7 +347,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:group={main_sidebar_nav_style}
+              bind:checked={sidebar_nav_child_indent}
               id="navChildIndent"
               type="checkbox"
               value="nav-child-indent"
@@ -259,7 +356,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:group={main_sidebar_nav_style}
+              bind:checked={sidebar_nav_hide_on_collapse}
               id="navChildHideOnCollapse"
               type="checkbox"
               value="nav-collapse-hide-child"
@@ -270,7 +367,7 @@
           </div>
           <div class="mb-4">
             <input
-              bind:checked={main_sidebar_expand}
+              bind:checked={sidebar_expand}
               id="disableHoverFocusAutoExpand"
               type="checkbox"
               value="sidebar-no-expand"
@@ -306,57 +403,68 @@
               bind:value={navbar_bg}
             >
               <option class="bg-primary" value="navbar-dark bg-primary"
-                >Primary</option
+                >{$__("any.primary")}</option
               >
               <option class="bg-secondary" value="navbar-dark bg-secondary"
-                >Secondary</option
+                >{$__("any.secondary")}</option
               >
-              <option class="bg-info" value="navbar-dark bg-info">Info</option>
+              <option class="bg-info" value="navbar-dark bg-info"
+                >{$__("any.info")}</option
+              >
               <option class="bg-success" value="navbar-dark bg-success"
-                >Success</option
+                >{$__("any.success")}</option
               >
               <option class="bg-danger" value="navbar-dark bg-danger"
-                >Danger</option
+                >{$__("any.danger")}</option
               >
               <option class="bg-indigo" value="navbar-dark bg-indigo"
-                >Indigo</option
+                >{$__("any.indigo")}</option
               >
               <option class="bg-purple" value="navbar-dark bg-purple"
-                >Purple</option
+                >{$__("any.purple")}</option
               >
-              <option class="bg-pink" value="navbar-dark bg-pink">Pink</option>
-              <option class="bg-navy" value="navbar-dark bg-navy">Navy</option>
+              <option class="bg-pink" value="navbar-dark bg-pink"
+                >{$__("any.pink")}</option
+              >
+              <option class="bg-navy" value="navbar-dark bg-navy"
+                >{$__("any.navy")}</option
+              >
               <option class="bg-lightblue" value="navbar-dark bg-lightblue"
-                >Lightblue</option
+                >{$__("any.lightblue")}</option
               >
-              <option class="bg-teal" value="navbar-dark bg-teal">Teal</option>
-              <option class="bg-cyan" value="navbar-dark bg-cyan">Cyan</option>
-              <option class="bg-dark" value="navbar-dark bg-dark">Dark</option>
+              <option class="bg-teal" value="navbar-dark bg-teal"
+                >{$__("any.teal")}</option
+              >
+              <option class="bg-cyan" value="navbar-dark bg-cyan"
+                >{$__("any.cyan")}</option
+              >
+              <option class="bg-dark" value="navbar-dark bg-dark"
+                >{$__("any.dark")}</option
+              >
               <option class="bg-gray-dark" value="navbar-dark bg-gray-dark"
-                >Gray dark</option
+                >{$__("any.grayDark")}</option
               >
-              <option class="bg-gray" value="navbar-dark bg-gray">Gray</option>
-              <option class="bg-light" value="navbar-dark bg-light"
-                >Light</option
+              <option class="bg-gray" value="navbar-dark bg-gray"
+                >{$__("any.gray")}</option
+              >
+              <option class="bg-light" value="navbar-light bg-light"
+                >{$__("any.light")}</option
               >
               <option class="bg-warning" value="navbar-light bg-warning"
-                >Warning</option
+                >{$__("any.warning")}</option
               >
               <option class="bg-white" value="navbar-light bg-white"
-                >White</option
+                >{$__("any.white")}</option
               >
               <option class="bg-orange" value="navbar-light bg-orange"
-                >Orange</option
+                >{$__("any.orange")}</option
               >
             </select>
           </div>
           <h6>{$__("any.sidebarVariants")}</h6>
           <div class="d-flex" />
-          <select
-            class="custom-select mb-3 border-0"
-            bind:value={main_sidebar_bg}
-          >
-            <option>{$__("any.noneSelected")}</option>
+          <select class="custom-select mb-3 border-0" bind:value={sidebar_bg}>
+            <option value="">{$__("any.noneSelected")}</option>
             <option value="sidebar-dark-primary"
               >{$__("any.dark")} - {$__("any.primary")}</option
             >
@@ -460,29 +568,73 @@
             class="custom-select mb-3 border-0"
             bind:value={brand_logo_bg}
           >
-            <option>{$__("any.noneSelected")}</option>
-            <option class="bg-primary">Primary</option>
-            <option class="bg-secondary">Secondary</option>
-            <option class="bg-info">Info</option>
-            <option class="bg-success">Success</option>
-            <option class="bg-danger">Danger</option>
-            <option class="bg-indigo">Indigo</option>
-            <option class="bg-purple">Purple</option>
-            <option class="bg-pink">Pink</option>
-            <option class="bg-navy">Navy</option>
-            <option class="bg-lightblue">Lightblue</option>
-            <option class="bg-teal">Teal</option>
-            <option class="bg-cyan">Cyan</option>
-            <option class="bg-dark">Dark</option>
-            <option class="bg-gray-dark">Gray dark</option>
-            <option class="bg-gray">Gray</option>
-            <option class="bg-light">Light</option>
-            <option class="bg-warning">Warning</option>
-            <option class="bg-white">White</option>
-            <option class="bg-orange">Orange</option>
+            <option value="">{$__("any.noneSelected")}</option>
+            <option class="bg-primary" value="navbar-dark bg-primary"
+              >{$__("any.primary")}</option
+            >
+            <option class="bg-secondary" value="navbar-dark bg-secondary"
+              >{$__("any.secondary")}</option
+            >
+            <option class="bg-info" value="navbar-dark bg-info"
+              >{$__("any.info")}</option
+            >
+            <option class="bg-success" value="navbar-dark bg-success"
+              >{$__("any.success")}</option
+            >
+            <option class="bg-danger" value="navbar-dark bg-danger"
+              >{$__("any.danger")}</option
+            >
+            <option class="bg-indigo" value="navbar-dark bg-indigo"
+              >{$__("any.indigo")}</option
+            >
+            <option class="bg-purple" value="navbar-dark bg-purple"
+              >{$__("any.purple")}</option
+            >
+            <option class="bg-pink" value="navbar-dark bg-pink"
+              >{$__("any.pink")}</option
+            >
+            <option class="bg-navy" value="navbar-dark bg-navy"
+              >{$__("any.navy")}</option
+            >
+            <option class="bg-lightblue" value="bg-lightblue"
+              >{$__("any.lightblue")}</option
+            >
+            <option class="bg-teal" value="navbar-dark bg-teal"
+              >{$__("any.teal")}</option
+            >
+            <option class="bg-cyan" value="navbar-dark bg-cyan"
+              >{$__("any.cyan")}</option
+            >
+            <option class="bg-dark" value="navbar-dark bg-dark"
+              >{$__("any.dark")}</option
+            >
+            <option class="bg-gray-dark" value="navbar-dark bg-gray-dark"
+              >{$__("any.grayDark")}</option
+            >
+            <option class="bg-gray" value="navbar-dark bg-gray"
+              >{$__("any.gray")}</option
+            >
+            <option class="bg-light" value="navbar-light bg-light"
+              >{$__("any.light")}</option
+            >
+            <option class="bg-warning" value="navbar-light bg-warning"
+              >{$__("any.warning")}</option
+            >
+            <option class="bg-white" value="navbar-light bg-white"
+              >{$__("any.white")}</option
+            >
+            <option class="bg-orange" value="navbar-light bg-orange"
+              >{$__("any.orange")}</option
+            >
           </select>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+  select {
+    font-weight: 700;
+  }
+</style>

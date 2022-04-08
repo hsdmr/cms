@@ -33,10 +33,10 @@
 <div class="container-fluid users">
   <div class="card">
     <div class="card-header">
-      <Link to="/{route.admin}/{route.user}/" class="btn btn-success">
+      <Link to="/{route.admin}/{route.users}/{route.new}" class="btn btn-success">
         {$__("any.addNew")}
       </Link>
     </div>
   </div>
-  <Table {titles} {keys} apiUrl={api.user} />
+  <Table {titles} {keys} apiUrl={api.user} routeUrl="/{route.admin}/{route.users}" />
 </div>

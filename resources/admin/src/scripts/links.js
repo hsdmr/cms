@@ -27,6 +27,7 @@ export const route = {
   forgetPassword: `forget-password`,
   admin: `admin`,
   home: `/`,
+  new: `new`,
   
   users: `users`,
   user: `user`,

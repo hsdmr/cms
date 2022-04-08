@@ -3,8 +3,8 @@
   import { Link, navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import { route } from "src/scripts/links.js";
-  import { getSessionItem } from "src/scripts/session.js";
   import { deleteUserDetails } from "src/scripts/auth.js";
+  import { getSessionItem } from "src/scripts/session.js";
 
   const auth = getSessionItem("auth");
 
@@ -16,15 +16,17 @@
 
   let bodyClass =
     "sidebar-mini " +
-    auth.options.theme_main_sidebar_collapsed +
+    (auth.options.theme_sidebar_collapsed ? "sidebar-collapse" : "") +
     " " +
-    auth.options.theme_text_size +
+    (auth.options.theme_text_size ? "text-sm" : "") +
     " " +
-    auth.options.theme_main_fixed +
+    (auth.options.theme_main_fixed ? "layout-fixed" : "") +
     " " +
-    auth.options.theme_navbar_fixed +
+    (auth.options.theme_navbar_fixed ? "layout-navbar-fixed" : "") +
     " " +
-    auth.options.theme_footer_fixed;
+    (auth.options.theme_footer_fixed ? "layout-footer-fixed" : "") +
+    " " +
+    (auth.options.theme_dark_mode ? "dark-mode" : "");
 
   document.body.classList = bodyClass;
 
@@ -39,8 +41,9 @@
 </script>
 
 <aside
-  class="main-sidebar elevation-4 {auth.options.theme_main_sidebar_expand} {auth
-    .options.theme_main_sidebar_bg}"
+  class="main-sidebar elevation-4 {auth.options.theme_sidebar_expand
+    ? 'sidebar-no-expand'
+    : ''} {auth.options.theme_sidebar_bg}"
 >
   <!-- Brand Logo -->
   <a href="/" class="brand-link {auth.options.theme_brand_logo_bg}">
@@ -50,7 +53,7 @@
       class="brand-image img-circle elevation-3"
       style="opacity: 0.8"
     />
-    <span class="brand-text font-weight-light">AdminLTE 3</span>
+    <span class="brand-text font-weight-light">KM PANEL</span>
   </a>
 
   <!-- Sidebar -->
@@ -76,7 +79,17 @@
     <nav class="mt-2">
       <ul
         class="nav nav-pills nav-sidebar flex-column {auth.options
-          .theme_main_sidebar_nav_style}"
+          .theme_sidebar_nav_flat
+          ? 'nav-flat'
+          : ''} {auth.options.theme_sidebar_nav_legacy
+          ? 'nav-legacy'
+          : ''} {auth.options.theme_sidebar_nav_compact
+          ? 'nav-compact'
+          : ''} {auth.options.theme_sidebar_nav_child_indent
+          ? 'nav-child-indent'
+          : ''} {auth.options.theme_sidebar_nav_hide_on_collapse
+          ? 'nav-collapse-hide-child'
+          : ''}"
         data-widget="treeview"
         role="menu"
         data-accordion="false"

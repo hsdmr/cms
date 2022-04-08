@@ -33,6 +33,7 @@ export default {
     
     customize: "Customize",
     darkMode: "Dark Mode",
+    noBorder: "No Border",
     fixed: "Fixed",
     collapsed: "Collapsed",
     navFlat: "Nav Flat",
