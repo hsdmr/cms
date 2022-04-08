@@ -35,7 +35,7 @@ class Auth
     if (v::key('user', v::email())->validate($credentials)) {
       $key = 'email';
     }
-    $sql = "SELECT * FROM user WHERE $key = :$key";
+    $sql = "SELECT * FROM user WHERE $key = :$key AND `deleted_at` IS NULL";
     $statement = $this->db->prepare($sql);
     $statement->bindValue(":$key", $credentials['user']);
     $statement->execute();
