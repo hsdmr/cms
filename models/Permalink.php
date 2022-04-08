@@ -10,6 +10,12 @@ class Permalink extends Model
   protected array $unique = ['path'];
   protected bool $soft_delete = true;
 
+  public static function find(int $id)
+  {
+    $item = new User();
+    return $item->findByPrimaryKey($id);
+  }
+  
   public static function findByPath(string $path)
   {
     $item = new User();

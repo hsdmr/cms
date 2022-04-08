@@ -12,6 +12,12 @@ class User extends Model
   protected array $protected = ['password'];
   protected bool $soft_delete = true;
 
+  public static function find(int $id)
+  {
+    $item = new User();
+    return $item->findByPrimaryKey($id);
+  }
+
   public static function findByEmail(string $email)
   {
     $item = new User();

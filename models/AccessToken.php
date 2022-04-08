@@ -11,6 +11,12 @@ class AccessToken extends Model
   protected bool $soft_delete = false;
 
 
+  public static function find(int $id)
+  {
+    $item = new AccessToken();
+    return $item->findByPrimaryKey($id);
+  }
+  
   public static function findByToken(string $token)
   {
     $item = new AccessToken();

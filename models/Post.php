@@ -11,6 +11,12 @@ class Post extends Model
   protected array $hidden = ['created_at', 'updated_at'];
   protected bool $soft_delete = true;
 
+  public static function find(int $id)
+  {
+    $item = new Post();
+    return $item->findByPrimaryKey($id);
+  }
+
   public static function findByPermalinkId(int $permalink_id)
   {
     $item = new Post();

@@ -91,11 +91,10 @@ class UserApi extends Rest
     Log::currentJob(Codes::JOB_USER_READ);
     try {
       try {
-        $user_id = $args['user_id'];
-
-        $user = User::find($user_id);
-        $response = $user->toArray();
+        $user = User::find($args['user_id']);
         $options = Option::findOptions('user', $user->id);
+
+        $response = $user->toArray();
         $response['options'] = $options;
         $this->body = $response;
         $this->response(HTTP_OK);
@@ -114,11 +113,11 @@ class UserApi extends Rest
     Log::currentJob(Codes::JOB_USER_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
-      $user_id = $args['user_id'];
 
       $this->validate($_PUT, 'update');
 
-      $user = User::find($user_id);
+      $user = User::find($args['user_id']);
+
       $update = [
         'first_name' => $_PUT['first_name'],
         'last_name' => $_PUT['last_name'],
@@ -129,6 +128,7 @@ class UserApi extends Rest
       if (isset($_PUT['password'])) {
         $update['password'] = password_hash($_PUT['password'], PASSWORD_BCRYPT);
       }
+
       $user = $user->update($update)->toArray();
 
       if (v::key('options')->validate($_PUT)) {
@@ -154,9 +154,7 @@ class UserApi extends Rest
   {
     Log::currentJob(Codes::JOB_USER_DELETE);
     try {
-      $user_id = $args['user_id'];
-
-      $user = User::find($user_id);
+      $user = User::find($args['user_id']);
 
       foreach($user->tokens() as $token) {
         $token->delete();
