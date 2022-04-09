@@ -9,7 +9,7 @@ class Seeds200
     $db = System::getPdo();
     $sql = [];
     $sql['user'] = "INSERT INTO `user` (`id`, `first_name`, `last_name`, `role`, `email`, `username`, `email_verified_at`, `password`, `deleted_at`, `created_at`, `updated_at`) VALUES (NULL, 'Murat', 'Hasdemir', 'admin', 'hsdmrsoft@gmail.com', 'admin', NULL, '" . password_hash('Rest135**', PASSWORD_BCRYPT) . "', NULL, " . time() . ", " . time() . ")";
-    $sql['post'] = "INSERT INTO `post` (`id`, `permalink_id`, `user_id`, `file_id`, `status`, `title`, `content`, `sidebar`, `template`, `deleted_at`, `created_at`, `updated_at`) VALUES (NULL, '1', '1', NULL, 'published', 'Title 1', 'NULL', 'NULL', 'NULL', NULL, " . time() . ", " . time() . ")";
+    $sql['post'] = "INSERT INTO `post` (`id`, `slug_id`, `user_id`, `file_id`, `status`, `title`, `content`, `sidebar`, `template`, `deleted_at`, `created_at`, `updated_at`) VALUES (NULL, '1', '1', NULL, 'published', 'Title 1', 'NULL', 'NULL', 'NULL', NULL, " . time() . ", " . time() . ")";
     $sql['option1'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_brand_logo_bg', \"\", " . time() . ", " . time() . ")";
     $sql['option2'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_navbar_bg', '\"navbar-light bg-white\"', " . time() . ", " . time() . ")";
     $sql['option3'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_sidebar_bg', '\"sidebar-dark-success\"', " . time() . ", " . time() . ")";
