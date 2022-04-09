@@ -96,6 +96,9 @@ export default {
     requestNew: "Request new password",
     login: "Login",
   },
+  notify: {
+    languagePreferenceSaved: "Language preference Saved",
+  },
   error: {
     emailIsWrong: "Email is wrong!",
     usernameIsWrong: "Username is wrong!",

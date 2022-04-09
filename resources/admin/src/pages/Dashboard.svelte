@@ -3,6 +3,7 @@
   import Breadcrump from "src/components/Breadcrump.svelte";
   import { onMount } from "svelte";
   import { checkAuth } from "src/scripts/auth.js";
+  
   onMount(checkAuth);
   $: title = $__("title.dashboard");
   $: active = title;

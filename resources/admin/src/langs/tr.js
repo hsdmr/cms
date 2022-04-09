@@ -96,6 +96,9 @@ export default {
     requestNew: "Yeni şifre isteği",
     login: "Giriş",
   },
+  notify: {
+    languagePreferenceSaved: "Dil Tercihi Kaydedildi",
+  },
   error: {
     emailIsWrong: "Email hatalı!",
     usernameIsWrong: "Username hatalı!",

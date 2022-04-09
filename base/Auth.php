@@ -91,7 +91,7 @@ class Auth
     $return = [
       'access_token' => $access_token->token,
       'scope' => $access_token->scope,
-      'user_id' => $user->id,
+      'id' => $user->id,
       'first_name' => $user->first_name,
       'last_name' => $user->last_name,
       'role' => $user->role,

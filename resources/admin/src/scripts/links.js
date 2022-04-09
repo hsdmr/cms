@@ -17,7 +17,8 @@ export const api = {
   register: `${apiUrl}/register`,
   forgetPassword: `${apiUrl}/forget-password`,
   admin: `${apiUrl}/admin`,
-  
+
+  option: `${apiUrl}/option`,
   user: `${apiUrl}/user`,
 }
 

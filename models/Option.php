@@ -10,6 +10,11 @@ class Option extends Model
 {
   protected string $table = 'option';
 
+  public static function find(int $id)
+  {
+    $item = new Option();
+    return $item->findByPrimaryKey($id);
+  }
   public static function findOption(string $type, int $type_id = null, string $key)
   {
     $item = new Option();
