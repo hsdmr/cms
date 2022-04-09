@@ -4,9 +4,9 @@ namespace Hasdemir\Model;
 
 use Hasdemir\Base\Model;
 
-class Permalink extends Model
+class Slug extends Model
 {
-  protected string $table = 'permalink';
+  protected string $table = 'slug';
   protected array $unique = ['path'];
   protected bool $soft_delete = true;
 

@@ -7,19 +7,19 @@ use Hasdemir\Base\Log;
 use Hasdemir\Base\Rest;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
-use Hasdemir\Model\Permalink;
+use Hasdemir\Model\Slug;
 use Respect\Validation\Validator as v;
 
-class PermalinkApi extends Rest
+class SlugApi extends Rest
 {
-  const HELPER_LINK = ['link' => 'permalink'];
+  const HELPER_LINK = ['link' => 'slug'];
 
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_PERMALINK_SEARCH);
+    Log::currentJob(Codes::JOB_SLUG_SEARCH);
     try {
-      $permalink = new Permalink();
-      $this->body = $permalink->all();
+      $slug = new Slug();
+      $this->body = $slug->all();
       return $this->response(HTTP_OK);
     } finally {
       Log::endJob();
@@ -28,14 +28,14 @@ class PermalinkApi extends Rest
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_PERMALINK_CREATE);
+    Log::currentJob(Codes::JOB_SLUG_CREATE);
     try {
       $_POST = json_decode($request->body(), true);
 
       $this->validate($_POST);
 
-      $permalink = new Permalink();
-      $this->body = $permalink->create([
+      $slug = new Slug();
+      $this->body = $slug->create([
         'owner' => $_POST['owner'],
         'path' => $_POST['path'],
         'seo_title' => $_POST['seo_title'] ?? null,
@@ -52,12 +52,12 @@ class PermalinkApi extends Rest
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_PERMALINK_READ);
+    Log::currentJob(Codes::JOB_SLUG_READ);
     try {
       try {
-        $permalink_id = $args['permalink_id'];
+        $slug_id = $args['slug_id'];
 
-        $this->body = Permalink::find($permalink_id)->toArray();
+        $this->body = Slug::find($slug_id)->toArray();
         return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Link not found', self::HELPER_LINK, $th);
@@ -69,15 +69,15 @@ class PermalinkApi extends Rest
 
   public function update($request, $args)
   {
-    Log::currentJob(Codes::JOB_PERMALINK_UPDATE);
+    Log::currentJob(Codes::JOB_SLUG_UPDATE);
     try {
       $_PUT = json_decode($request->body(), true);
-      $permalink_id = $args['permalink_id'];
+      $slug_id = $args['slug_id'];
 
       $this->validate($_PUT);
 
-      $permalink = Permalink::find($permalink_id);
-      $this->body = $permalink->update([
+      $slug = Slug::find($slug_id);
+      $this->body = $slug->update([
         'owner' => $_PUT['owner'],
         'path' => $_PUT['path'],
         'seo_title' => $_PUT['seo_title'] ?? null,
@@ -94,11 +94,11 @@ class PermalinkApi extends Rest
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_PERMALINK_DELETE);
+    Log::currentJob(Codes::JOB_SLUG_DELETE);
     try {
-      $permalink_id = $args['permalink_id'];
+      $slug_id = $args['slug_id'];
 
-      if (Permalink::find($permalink_id)->delete()) {
+      if (Slug::find($slug_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {
