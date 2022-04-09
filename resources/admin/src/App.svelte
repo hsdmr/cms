@@ -13,7 +13,15 @@
   import UserSingle from "src/pages/users/single.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
-  import { route } from "src/scripts/links";
+  import { route } from "src/scripts/links.js";
+  import { checkAuth } from "src/scripts/auth.js";
+  import { getSessionItem } from "src/scripts/session.js";
+
+  const auth = getSessionItem("auth");
+
+  if (!auth) {
+    checkAuth();
+  }
 
 </script>
 
