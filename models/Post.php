@@ -7,7 +7,7 @@ use Hasdemir\Base\Model;
 class Post extends Model
 {
   protected string $table = 'post';
-  protected array $unique = ['permalink_id'];
+  protected array $unique = ['slug_id'];
   protected array $hidden = ['created_at', 'updated_at'];
   protected bool $soft_delete = true;
 
@@ -17,10 +17,10 @@ class Post extends Model
     return $item->findByPrimaryKey($id);
   }
 
-  public static function findByPermalinkId(int $permalink_id)
+  public static function findBySlugId(int $slug_id)
   {
     $item = new Post();
-    return $item->where('permalink_id', '=', $permalink_id)->first();
+    return $item->where('slug_id', '=', $slug_id)->first();
   }
 
   public function categories()
@@ -33,8 +33,8 @@ class Post extends Model
     return $this->belongTo('user');
   }
 
-  public function permalink()
+  public function slug()
   {
-    return $this->belongTo('permalink');
+    return $this->belongTo('slug');
   }
 }

@@ -34,7 +34,7 @@ class CategoryApi extends Rest
       $this->validate($_POST);
       $category = new Category();
       $this->body = $category->create([
-        'permalink_id' => $_POST['permalink_id'],
+        'slug_id' => $_POST['slug_id'],
         'file_id' => $_POST['file_id'] ?? null,
         'parent_id' => $_POST['parent_id'] ?? null,
         'owner' => $_POST['owner'],
@@ -75,7 +75,7 @@ class CategoryApi extends Rest
 
       $category = Category::find($category_id);
       $this->body = $category->update([
-        'permalink_id' => $_PUT['permalink_id'],
+        'slug_id' => $_PUT['slug_id'],
         'file_id' => $_PUT['file_id'] ?? null,
         'parent_id' => $_PUT['parent_id'] ?? null,
         'owner' => $_PUT['owner'],
@@ -104,8 +104,8 @@ class CategoryApi extends Rest
 
   public function validate($params)
   {
-    if (!v::key('permalink_id', v::positive())->validate($params)) {
-      throw new UnexpectedValueException("'permalink_id' must be positive number", self::HELPER_LINK);
+    if (!v::key('slug_id', v::positive())->validate($params)) {
+      throw new UnexpectedValueException("'slug_id' must be positive number", self::HELPER_LINK);
     }
     if (!v::key('owner', v::in(['post', 'product', 'lesson']))->validate($params)) {
       throw new UnexpectedValueException("'owner' must be 'post', 'product', 'lesson'", self::HELPER_LINK);

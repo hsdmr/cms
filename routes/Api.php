@@ -64,13 +64,13 @@ class Api
       ['DELETE', '/auto-link/{link_id}', 'delete'],
     ];
 
-    $routes['Permalink'][Codes::MIDDLEWARE] = ['Auth'];
-    $routes['Permalink'][Codes::ROUTES] = [
-      ['GET', '/permalink', 'search'],
-      ['POST', '/permalink', 'create'],
-      ['GET', '/permalink/{permalink_id}', 'read'],
-      ['PUT', '/permalink/{permalink_id}', 'update'],
-      ['DELETE', '/permalink/{permalink_id}', 'delete'],
+    $routes['Slug'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Slug'][Codes::ROUTES] = [
+      ['GET', '/slug', 'search'],
+      ['POST', '/slug', 'create'],
+      ['GET', '/slug/{slug_id}', 'read'],
+      ['PUT', '/slug/{slug_id}', 'update'],
+      ['DELETE', '/slug/{slug_id}', 'delete'],
     ];
 
     $routes['Option'][Codes::MIDDLEWARE] = ['Auth'];

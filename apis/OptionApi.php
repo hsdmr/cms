@@ -9,7 +9,7 @@ use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Option;
 use Respect\Validation\Validator as v;
-use Hasdemir\Model\Permalink;
+use Hasdemir\Model\Slug;
 
 class OptionApi extends Rest
 {

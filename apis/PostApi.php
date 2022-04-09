@@ -36,7 +36,7 @@ class PostApi extends Rest
 
       $post = new Post();
       $this->body = $post->create([
-        'permalink_id' => $_POST['permalink_id'],
+        'slug_id' => $_POST['slug_id'],
         'user_id' => $_POST['user_id'] ?? 1,
         'file_id' => $_POST['file_id'] ?? null,
         'status' => $_POST['status'] ?? 'published',
@@ -59,7 +59,7 @@ class PostApi extends Rest
         $post = Post::find($post_id);
         $response = $post->toArray();
         $response['categories'] = $post->categories();
-        $response['permalink'] = $post->permalink();
+        $response['slug'] = $post->slug();
         $this->body = $response;
         return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
@@ -81,7 +81,7 @@ class PostApi extends Rest
 
       $post = Post::find($post_id);
       $this->body = $post->update([
-        'permalink_id' => $_PUT['permalink_id'],
+        'slug_id' => $_PUT['slug_id'],
         'user_id' => $_PUT['user_id'] ?? 1,
         'file_id' => $_PUT['file_id'] ?? null,
         'status' => $_PUT['status'] ?? 'published',
@@ -110,8 +110,8 @@ class PostApi extends Rest
 
   public function validate($params)
   {
-    if (!v::key('permalink_id', v::positive())->validate($params)) {
-      throw new UnexpectedValueException("'permalink_id' must be positive number", self::HELPER_LINK);
+    if (!v::key('slug_id', v::positive())->validate($params)) {
+      throw new UnexpectedValueException("'slug_id' must be positive number", self::HELPER_LINK);
     }
     if (!v::key('user_id', v::positive())->validate($params)) {
       throw new UnexpectedValueException("'user_id'  must be positive number", self::HELPER_LINK);

@@ -19,11 +19,11 @@ class Codes extends BaseCodes
   const JOB_POST_READ = 'postRead';
   const JOB_POST_UPDATE = 'postUpdate';
   const JOB_POST_DELETE = 'postDelete';
-  const JOB_PERMALINK_SEARCH = 'permalinkSearch';
-  const JOB_PERMALINK_CREATE = 'permalinkCreate';
-  const JOB_PERMALINK_READ = 'permalinkRead';
-  const JOB_PERMALINK_UPDATE = 'permalinkUpdate';
-  const JOB_PERMALINK_DELETE = 'permalinkDelete';
+  const JOB_SLUG_SEARCH = 'slugSearch';
+  const JOB_SLUG_CREATE = 'slugCreate';
+  const JOB_SLUG_READ = 'slugRead';
+  const JOB_SLUG_UPDATE = 'slugUpdate';
+  const JOB_SLUG_DELETE = 'slugDelete';
   const JOB_OPTION_SEARCH = 'optionSearch';
   const JOB_OPTION_CREATE = 'optionCreate';
   const JOB_OPTION_READ = 'optionRead';

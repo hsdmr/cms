@@ -7,7 +7,7 @@ use Hasdemir\Base\Model;
 class Category extends Model
 {
   protected string $table = 'category';
-  protected array $unique = ['permalink_id'];
+  protected array $unique = ['slug_id'];
   protected bool $soft_delete = false;
 
   public static function find(int $id)
