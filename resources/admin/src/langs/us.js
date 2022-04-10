@@ -10,6 +10,7 @@ export default {
     email: "Email",
     password: "Password",
     retypePassword: "Retype password",
+    trash: "Trash",
 
     description: "Description",
     firstName: "First Name",

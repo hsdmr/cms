@@ -7,7 +7,7 @@
 
   $: title = $__("title.layouts");
   $: active = title;
-  $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
+  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
 </script>
 
 <Breadcrump {title} {active} {links} />

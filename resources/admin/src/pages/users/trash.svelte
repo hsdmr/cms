@@ -1,13 +1,16 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
   import Breadcrump from "src/components/Breadcrump.svelte";
-  import Table from "src/components/Table.svelte";
+  import Table from "src/components/table/Table.svelte";
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-  $: title = $__("title.users");
+  $: title = $__("title.trash");
   $: active = title;
-  $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
+  $: links = [
+    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+  ];
 
   $: titles = [
     $__("title.firstName"),
@@ -30,5 +33,13 @@
 
 <Breadcrump {title} {active} {links} />
 <div class="container-fluid users">
-  <Table {titles} {keys} apiUrl={api.user} routeUrl="/{route.admin}/{route.users}" addNewButton={false} trashButton={false} currentPage="trash" />
+  <Table
+    {titles}
+    {keys}
+    apiUrl={api.user}
+    routeUrl="/{route.admin}/{route.users}"
+    addNewButton={false}
+    trashButton={false}
+    currentPage="trash"
+  />
 </div>

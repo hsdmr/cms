@@ -10,6 +10,7 @@ export default {
     email: "Eposta",
     password: "Şifre",
     retypePassword: "Şifre tekrar",
+    trash: "Silinenler",
 
     description: "Açıklama",
     firstName: "İsim",
