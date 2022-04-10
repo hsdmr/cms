@@ -8,8 +8,8 @@ class Initial200
   {
     $db = System::getPdo();
     $sql = [];
-    $timestamps = "`created_at` BIGINT(20) NULL , `updated_at` BIGINT(20) NULL";
-    $timestamps_with_delete = "`deleted_at` BIGINT(20) NULL , `created_at` BIGINT(20) NULL , `updated_at` BIGINT(20) NULL";
+    $timestamps = timestamps();
+    $timestamps_with_delete = timestamps(true);
     $sql['user'] = "CREATE TABLE `rest`.`user` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(255) NULL , `last_name` VARCHAR(255) NULL , `role` VARCHAR(50) NOT NULL , `email` VARCHAR(255) NOT NULL , `username` VARCHAR(255) NOT NULL , `nickname` VARCHAR(255) NULL , `phone` VARCHAR(255) NULL , `email_verified_at` BIGINT(20) NULL , `password` VARCHAR(255) NOT NULL , {$timestamps_with_delete} , PRIMARY KEY (`id`), UNIQUE `uniqeu_email` (`email`)) ENGINE = InnoDB;";
     $sql['option'] = "CREATE TABLE `rest`.`option` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,`type` VARCHAR(255) NULL , `type_id` BIGINT(20) NULL , `key` VARCHAR(255) NOT NULL , `value` TEXT NULL , {$timestamps} , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
     $sql['slug'] = "CREATE TABLE `rest`.`slug` ( `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT , `owner` VARCHAR(255) NOT NULL , `path` VARCHAR(255) NOT NULL , `seo_title` VARCHAR(255) NULL , `seo_description` TEXT NULL , `seo_index` TINYINT(1) NOT NULL DEFAULT '1' , `seo_follow` TINYINT(1) NOT NULL DEFAULT '1' , `language_id` BIGINT(20) NOT NULL , {$timestamps_with_delete} , PRIMARY KEY (`id`), UNIQUE `slug_path_unique` (`path`)) ENGINE = InnoDB;";
@@ -45,7 +45,7 @@ class Initial200
         $db->exec($value);
       }
     } catch (\Throwable $th) {
-      echo $th->getMessage();
+      echo " => " . $th->getMessage();
     }
   }
 }

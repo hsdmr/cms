@@ -35,13 +35,13 @@ class Route
   public function run()
   {
     if ($this->isApi()) {
-      $this->handle(Api::getRoutes(), Codes::NAMESPACE_API, API_PREFIX, 'Api');
+      $this->handle(Api::getRoutes(), Codes::NAMESPACE_CONTROLLER, API_PREFIX);
     }
 
     if (!$this->isApi()) {
-      $this->handle(Web::getRoutes(), Codes::NAMESPACE_CONTROLLER, '', 'Controller');
+      $this->handle(Web::getRoutes(), Codes::NAMESPACE_CONTROLLER, '');
     }
-
+    
     self::hasRoute();
   }
 
@@ -57,7 +57,7 @@ class Route
     return '/' . explode('/', $this->request->path())[1] === API_PREFIX;
   }
 
-  public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = '')
+  public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = 'Controller')
   {
     foreach ($routes as $key => $value) {
       foreach ($value[Codes::ROUTES] as $route) {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Hasdemir\Rest;
+namespace Hasdemir\Controller;
 
 use Hasdemir\Base\Auth;
-use Hasdemir\Rest\Codes;
+use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Log;
-use Hasdemir\Base\Rest;
+use Hasdemir\Base\Controller;
 use Hasdemir\Model\AccessToken;
 
-class AuthApi extends Rest
+class AuthController extends Controller
 {
   const LIFE_TIME = '+2 hour';
 

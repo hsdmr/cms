@@ -95,9 +95,7 @@ class Migration
 
   private static function echoLog($message, $code = 2)
   {
-    global $return;
-    $echo = "\033[3" . $code . "m[" . date("Y-m-d H:i:s") . "] - " . $message . PHP_EOL;
-    $return .= $echo;
+    $echo = PHP_EOL . "\033[3" . $code . "m[" . date("Y-m-d H:i:s") . "] - \033[0m" . $message;
     echo $echo;
   }
 }

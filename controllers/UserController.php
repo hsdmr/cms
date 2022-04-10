@@ -1,10 +1,10 @@
 <?php
 
-namespace Hasdemir\Rest;
+namespace Hasdemir\Controller;
 
-use Hasdemir\Rest\Codes;
+use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Log;
-use Hasdemir\Base\Rest;
+use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
@@ -12,7 +12,7 @@ use Respect\Validation\Validator as v;
 use Hasdemir\Base\Request;
 use Hasdemir\Model\Option;
 
-class UserApi extends Rest
+class UserController extends Controller
 {
   const HELPER_LINK = ['link' => 'user'];
 

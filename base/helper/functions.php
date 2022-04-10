@@ -40,6 +40,20 @@ if (!function_exists('asset')) {
   }
 }
 
+if (!function_exists('timestamps')) {
+  function timestamps($soft_delete = false): string
+  {
+    $timestamps = "`created_at` BIGINT(20) NULL , `updated_at` BIGINT(20) NULL";
+    $timestamps_with_delete = "`deleted_at` BIGINT(20) NULL , `created_at` BIGINT(20) NULL , `updated_at` BIGINT(20) NULL";
+
+    if ($soft_delete) {
+      return $timestamps_with_delete;
+    } else {
+      return $timestamps;
+    }
+  }
+}
+
 if (!function_exists('slugify')) {
   function slugify(string $str, string $seperator = ''): string
   {

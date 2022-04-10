@@ -1,16 +1,16 @@
 <?php
 
-namespace Hasdemir\Rest;
+namespace Hasdemir\Controller;
 
-use Hasdemir\Rest\Codes;
+use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Log;
-use Hasdemir\Base\Rest;
+use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Post;
 use Respect\Validation\Validator as v;
 
-class PostApi extends Rest
+class PostController extends Controller
 {
   const HELPER_LINK = ['link' => 'post'];
 
