@@ -7,6 +7,7 @@
   export let page;
   export let total;
   export let limit;
+  export let color;
 
   $: totalPage = Math.ceil(total / limit);
 
@@ -41,8 +42,7 @@
         <li class="page-item">
           <button
             type="button"
-            class="page-link"
-            style="background-color: whitesmoke;"
+            class="page-link bg-{color}"
             disabled>{i}</button
           >
         </li>

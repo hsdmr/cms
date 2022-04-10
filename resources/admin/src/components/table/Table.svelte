@@ -2,17 +2,24 @@
   import { __ } from "src/scripts/i18n.js";
   import { getSessionItem } from "src/scripts/session.js";
   import { checkAuth } from "src/scripts/auth.js";
-  import Limit from "src/Components/Limit.svelte";
-  import Pagination from "src/Components/Pagination.svelte";
-  import Search from "src/Components/Search.svelte";
-  import Tbody from "src/Components/Tbody.svelte";
-  import Thead from "src/Components/Thead.svelte";
+  import Limit from "src/components/table/Limit.svelte";
+  import Pagination from "src/components/table/Pagination.svelte";
+  import Search from "src/components/table/Search.svelte";
+  import Tbody from "src/components/table/Tbody.svelte";
+  import Thead from "src/components/table/Thead.svelte";
   import { APP_ROOT } from "src/scripts/links.js";
+  import { Link } from "svelte-navigator";
+  import { route } from "src/scripts/links.js";
 
   export let titles;
   export let keys;
   export let apiUrl;
   export let routeUrl;
+  export let currentPage = "index";
+  export let searchBar = true;
+  export let addNewButton = true;
+  export let trashButton = true;
+  let color;
 
   $: search = "";
   $: total = 0;
@@ -20,6 +27,13 @@
   $: page = 1;
   $: order = "id";
   $: by = "asc";
+  $: trash = currentPage == "index" ? false : true;
+
+  if (currentPage == "index") {
+    color = "info";
+  } else if (currentPage == "trash") {
+    color = "warning";
+  }
 
   let promise;
 
@@ -29,7 +43,7 @@
 
     const res = await fetch(
       apiUrl +
-        `?search=${search}&page=${page}&limit=${limit}&order=${order}&by=${by}`,
+        `?search=${search}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`,
       {
         method: "GET",
         headers: {
@@ -82,10 +96,33 @@
   };
 </script>
 
-<div class="card">
+<div class="card card-outline card-{color}">
   <div class="card-header">
-    <Limit {limit} on:limit={setLimit} />
-    <Search {search} on:search={setSearch} />
+    <div class="row">
+      <div class="col-md-3">
+        {#if searchBar}
+          <Search {search} on:search={setSearch} {color} />
+        {/if}
+      </div>
+      <div class="col-md-9">
+        {#if trashButton}
+          <Link
+            to="/{routeUrl}/{route.trash}"
+            class="btn btn-warning btn-sm float-right ml-2"
+            ><i class="fa-solid fa-trash" />
+            {$__("any.trash")}
+          </Link>
+        {/if}
+        {#if addNewButton}
+          <Link
+            to="/{routeUrl}/{route.new}"
+            class="btn btn-success btn-sm float-right"
+            ><i class="fa-solid fa-plus" />
+            {$__("any.addNew")}
+          </Link>
+        {/if}
+      </div>
+    </div>
   </div>
   <!-- /.card-header -->
   <div class="card-body p-0">
@@ -103,12 +140,13 @@
           </div>
         </div>
       {:then datas}
-        <Tbody {routeUrl} {apiUrl} {keys} rows={datas} on:delete={onDelete}/>
+        <Tbody {routeUrl} {apiUrl} {keys} rows={datas} on:delete={onDelete} />
       {/await}
     </table>
   </div>
   <div class="card-footer clearfix">
-    <Pagination {page} {total} {limit} on:page={setPage} />
+    <Limit {limit} on:limit={setLimit} />
+    <Pagination {page} {total} {limit} on:page={setPage} {color} />
   </div>
   <!-- /.card-body -->
 </div>
