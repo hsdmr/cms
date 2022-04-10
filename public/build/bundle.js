@@ -3699,7 +3699,7 @@ var app = (function () {
       user: `${apiUrl}/user`,
     };
 
-    const route$1 = {
+    const route = {
       login: `login`,
       register: `register`,
       forgetPassword: `forget-password`,
@@ -3741,7 +3741,7 @@ var app = (function () {
         if (typeof response.message !== "undefined") {
           toastr.error(response.message);
         }
-        navigate$1("/" + route$1.login);
+        navigate$1("/" + route.login);
       }
     }
 
@@ -4232,7 +4232,7 @@ var app = (function () {
 
     	link0 = new Link$1({
     			props: {
-    				to: "/" + route$1.forgetPassword,
+    				to: "/" + route.forgetPassword,
     				$$slots: { default: [create_default_slot_1$3] },
     				$$scope: { ctx }
     			},
@@ -4241,7 +4241,7 @@ var app = (function () {
 
     	link1 = new Link$1({
     			props: {
-    				to: "/" + route$1.register,
+    				to: "/" + route.register,
     				class: "text-center",
     				$$slots: { default: [create_default_slot$7] },
     				$$scope: { ctx }
@@ -4576,7 +4576,7 @@ var app = (function () {
     				$$invalidate(4, errorMessage = "");
     				$$invalidate(5, errorKey = "");
     			}
-    			navigate$1(route$1.admin);
+    			navigate$1(route.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
@@ -4607,7 +4607,7 @@ var app = (function () {
     		__,
     		getUserDetails,
     		Lang,
-    		route: route$1,
+    		route,
     		active,
     		type,
     		user,
@@ -4962,7 +4962,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + route$1.login,
+    				to: "/" + route.login,
     				class: "text-center",
     				$$slots: { default: [create_default_slot$6] },
     				$$scope: { ctx }
@@ -5435,7 +5435,7 @@ var app = (function () {
 
     		if (typeof response.access_token !== "undefined") {
     			if (error) $$invalidate(7, error = "");
-    			navigate(route$1.admin);
+    			navigate(route.admin);
     		}
 
     		if (typeof response.message !== "undefined") {
@@ -5467,7 +5467,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Link: Link$1,
     		__,
-    		route: route$1,
+    		route,
     		Lang,
     		activePassword,
     		activeRetypePassword,
@@ -5610,7 +5610,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + route$1.login,
+    				to: "/" + route.login,
     				$$slots: { default: [create_default_slot$5] },
     				$$scope: { ctx }
     			},
@@ -5800,7 +5800,7 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$3.warn(`<Password> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ Link: Link$1, __, Lang, route: route$1, api, submit, $__ });
+    	$$self.$capture_state = () => ({ Link: Link$1, __, Lang, route, api, submit, $__ });
     	return [$__, submit];
     }
 
@@ -6958,7 +6958,7 @@ var app = (function () {
 
     	link0 = new Link$1({
     			props: {
-    				to: "/" + route$1.admin,
+    				to: "/" + route.admin,
     				class: "nav-link " + (/*url*/ ctx[0][1] === 'admin' && !/*url*/ ctx[0].hasOwnProperty(2)
     				? 'active'
     				: ''),
@@ -6970,7 +6970,7 @@ var app = (function () {
 
     	link1 = new Link$1({
     			props: {
-    				to: "/" + route$1.admin + "/" + route$1.users,
+    				to: "/" + route.admin + "/" + route.users,
     				class: "nav-link " + (/*url*/ ctx[0][1] === 'admin' && (/*url*/ ctx[0][2] === 'users' || /*url*/ ctx[0][2] === 'user')
     				? 'active'
     				: ''),
@@ -6982,7 +6982,7 @@ var app = (function () {
 
     	link2 = new Link$1({
     			props: {
-    				to: "/" + route$1.admin + "/" + route$1.layouts,
+    				to: "/" + route.admin + "/" + route.layouts,
     				class: "nav-link " + (/*url*/ ctx[0][1] === 'admin' && /*url*/ ctx[0][2] === 'layouts'
     				? 'active'
     				: ''),
@@ -7308,7 +7308,7 @@ var app = (function () {
     		Link: Link$1,
     		navigate: navigate$1,
     		__,
-    		route: route$1,
+    		route,
     		deleteUserDetails,
     		getSessionItem,
     		auth,
@@ -10242,7 +10242,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + /*routeUrl*/ ctx[3] + "/" + route$1.trash,
+    				to: "/" + /*routeUrl*/ ctx[3] + "/" + route.trash,
     				class: "btn btn-warning btn-sm float-right ml-2",
     				$$slots: { default: [create_default_slot_1$1] },
     				$$scope: { ctx }
@@ -10260,7 +10260,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const link_changes = {};
-    			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route$1.trash;
+    			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route.trash;
 
     			if (dirty & /*$$scope, $__*/ 33587200) {
     				link_changes.$$scope = { dirty, ctx };
@@ -10341,7 +10341,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + /*routeUrl*/ ctx[3] + "/" + route$1.new,
+    				to: "/" + /*routeUrl*/ ctx[3] + "/" + route.new,
     				class: "btn btn-success btn-sm float-right",
     				$$slots: { default: [create_default_slot$1] },
     				$$scope: { ctx }
@@ -10359,7 +10359,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const link_changes = {};
-    			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route$1.new;
+    			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route.new;
 
     			if (dirty & /*$$scope, $__*/ 33587200) {
     				link_changes.$$scope = { dirty, ctx };
@@ -10970,7 +10970,7 @@ var app = (function () {
     		Thead,
     		APP_ROOT,
     		Link: Link$1,
-    		route: route$1,
+    		route,
     		titles,
     		keys,
     		apiUrl,
@@ -11190,7 +11190,7 @@ var app = (function () {
     				titles: /*titles*/ ctx[2],
     				keys: /*keys*/ ctx[3],
     				apiUrl: api.user,
-    				routeUrl: "/" + route$1.admin + "/" + route$1.users
+    				routeUrl: "/" + route.admin + "/" + route.users
     			},
     			$$inline: true
     		});
@@ -11274,7 +11274,7 @@ var app = (function () {
     		Breadcrump,
     		Table,
     		api,
-    		route: route$1,
+    		route,
     		keys,
     		links,
     		title,
@@ -11311,7 +11311,7 @@ var app = (function () {
     		if ($$self.$$.dirty & /*$__*/ 16) {
     			$$invalidate(0, links = [
     				{
-    					pageUrl: route$1.admin,
+    					pageUrl: route.admin,
     					pageTitle: $__("title.dashboard")
     				}
     			]);
@@ -11358,7 +11358,7 @@ var app = (function () {
     				titles: /*titles*/ ctx[2],
     				keys: /*keys*/ ctx[3],
     				apiUrl: api.user,
-    				routeUrl: "/" + route$1.admin + "/" + route$1.users,
+    				routeUrl: "/" + route.admin + "/" + route.users,
     				addNewButton: false,
     				trashButton: false,
     				currentPage: "trash"
@@ -11445,7 +11445,7 @@ var app = (function () {
     		Breadcrump,
     		Table,
     		api,
-    		route: route$1,
+    		route,
     		keys,
     		links,
     		title,
@@ -11482,11 +11482,11 @@ var app = (function () {
     		if ($$self.$$.dirty & /*$__*/ 16) {
     			$$invalidate(0, links = [
     				{
-    					pageUrl: route$1.admin,
+    					pageUrl: route.admin,
     					pageTitle: $__("title.dashboard")
     				},
     				{
-    					pageUrl: route$1.admin + "/" + route$1.users,
+    					pageUrl: route.admin + "/" + route.users,
     					pageTitle: $__("title.users")
     				}
     			]);
@@ -14092,7 +14092,7 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Single', slots, []);
     	let { id } = $$props;
-    	const color = id == route$1.new ? "success" : "primary";
+    	const color = id == route.new ? "success" : "primary";
     	let first_name = "";
     	let last_name = "";
     	let email;
@@ -14122,7 +14122,7 @@ var app = (function () {
     	let roles = ["admin", "editor"];
 
     	async function getData() {
-    		if (id != route$1.new) {
+    		if (id != route.new) {
     			$$invalidate(26, loading = true);
     			const user = await read(api.user, id);
     			$$invalidate(26, loading = false);
@@ -14180,7 +14180,7 @@ var app = (function () {
     			languagePreference: $locale
     		};
 
-    		if (id == route$1.new) {
+    		if (id == route.new) {
     			const res = await create(api.user, "User create successfully", {
     				first_name,
     				last_name,
@@ -14196,7 +14196,7 @@ var app = (function () {
     			$$invalidate(26, loading = false);
 
     			if (typeof res.id !== "undefined") {
-    				navigate$1(`/${route$1.admin}/${route$1.users}/${res.id}`);
+    				navigate$1(`/${route.admin}/${route.users}/${res.id}`);
     			}
 
     			if (typeof res.message !== "undefined") {
@@ -14362,7 +14362,7 @@ var app = (function () {
     		update,
     		read,
     		api,
-    		route: route$1,
+    		route,
     		onMount,
     		DoubleBounce,
     		locale,
@@ -14442,7 +14442,7 @@ var app = (function () {
 
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty[0] & /*first_name, last_name, $__*/ 7 | $$self.$$.dirty[1] & /*id*/ 2) {
-    			$$invalidate(28, title = id != route$1.new
+    			$$invalidate(28, title = id != route.new
     			? first_name + ' ' + last_name
     			: $__("any.addNew"));
     		}
@@ -14450,11 +14450,11 @@ var app = (function () {
     		if ($$self.$$.dirty[0] & /*$__*/ 4) {
     			$$invalidate(27, links = [
     				{
-    					pageUrl: route$1.admin,
+    					pageUrl: route.admin,
     					pageTitle: $__("title.dashboard")
     				},
     				{
-    					pageUrl: route$1.admin + "/" + route$1.users,
+    					pageUrl: route.admin + "/" + route.users,
     					pageTitle: $__("title.users")
     				}
     			]);
@@ -14577,7 +14577,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid layouts");
-    			add_location(div, file$2, 12, 0, 391);
+    			add_location(div, file$2, 13, 0, 440);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -14643,6 +14643,7 @@ var app = (function () {
     		Breadcrump,
     		checkAuth,
     		onMount,
+    		route,
     		links,
     		title,
     		$__
@@ -14715,7 +14716,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid dashboard");
-    			add_location(div, file$1, 12, 0, 334);
+    			add_location(div, file$1, 13, 0, 383);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -14781,6 +14782,7 @@ var app = (function () {
     		Breadcrump,
     		onMount,
     		checkAuth,
+    		route,
     		links,
     		title,
     		$__
@@ -15124,7 +15126,7 @@ var app = (function () {
 
     	route1 = new Route$1({
     			props: {
-    				path: "" + (route$1.trash + "/"),
+    				path: "" + (route.trash + "/"),
     				$$slots: { default: [create_default_slot_6] },
     				$$scope: { ctx }
     			},
@@ -15290,7 +15292,7 @@ var app = (function () {
 
     	route1 = new Route$1({
     			props: {
-    				path: "" + (route$1.users + "/*"),
+    				path: "" + (route.users + "/*"),
     				$$slots: { default: [create_default_slot_4] },
     				$$scope: { ctx }
     			},
@@ -15299,7 +15301,7 @@ var app = (function () {
 
     	route2 = new Route$1({
     			props: {
-    				path: route$1.layouts,
+    				path: route.layouts,
     				$$slots: { default: [create_default_slot_3] },
     				$$scope: { ctx }
     			},
@@ -15434,7 +15436,7 @@ var app = (function () {
 
     	route0 = new Route$1({
     			props: {
-    				path: route$1.login,
+    				path: route.login,
     				primary: false,
     				$$slots: { default: [create_default_slot_11] },
     				$$scope: { ctx }
@@ -15444,7 +15446,7 @@ var app = (function () {
 
     	route1 = new Route$1({
     			props: {
-    				path: route$1.register,
+    				path: route.register,
     				primary: false,
     				$$slots: { default: [create_default_slot_10] },
     				$$scope: { ctx }
@@ -15454,7 +15456,7 @@ var app = (function () {
 
     	route2 = new Route$1({
     			props: {
-    				path: route$1.forgetPassword,
+    				path: route.forgetPassword,
     				primary: false,
     				$$slots: { default: [create_default_slot_9] },
     				$$scope: { ctx }
@@ -15464,7 +15466,7 @@ var app = (function () {
 
     	route3 = new Route$1({
     			props: {
-    				path: "" + (route$1.admin + "/*"),
+    				path: "" + (route.admin + "/*"),
     				meta: { name: "admin" },
     				$$slots: { default: [create_default_slot_2] },
     				$$scope: { ctx }
@@ -15705,7 +15707,7 @@ var app = (function () {
     		UserSingle: Single,
     		Layouts,
     		Dashboard,
-    		route: route$1,
+    		route,
     		checkAuth,
     		getSessionItem,
     		auth

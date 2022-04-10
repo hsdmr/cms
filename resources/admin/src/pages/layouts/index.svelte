@@ -3,6 +3,7 @@
   import Breadcrump from "src/components/Breadcrump.svelte";
   import { checkAuth } from "src/scripts/auth.js";
   import { onMount } from "svelte";
+  import { route } from "src/scripts/links.js";
   
   $: title = $__("title.layouts");
   $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
