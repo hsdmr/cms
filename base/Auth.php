@@ -63,18 +63,18 @@ class Auth
   public function check()
   {
     if (!v::key('Authorization')->validate($this->header)) {
-      throw new AuthenticationException('Authorization key must be sent');
+      throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ACCESS_TOKEN_NOT_SENT));
     }
 
     $authorization_key = $this->header['Authorization'];
     $access_token = AccessToken::findByToken(sha1($authorization_key));
     
     if (!(bool) $access_token) {
-      throw new AuthenticationException('Authorization key not found');
+      throw new AuthenticationException('Authorization key not found', Codes::key(Codes::ACCESS_TOKEN_NOT_FOUND));
     }
     
     if ($access_token->expires < time()) {
-      throw new AuthenticationException('Authorization key expired');
+      throw new AuthenticationException('Authorization key expired', Codes::key(Codes::ACCESS_TOKEN_EXPIRED));
     }
     
     $access_token->token = $authorization_key;

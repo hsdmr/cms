@@ -29,4 +29,7 @@ class Codes
   const PASSWORD_IS_INCORRECT = 'passwordIsIncorrect';
   const EMAIL_IS_WRONG = 'emailIsWrong';
   const USERNAME_IS_WRONG = 'usernameIsWrong';
+  const ACCESS_TOKEN_NOT_SENT = 'accessTokenNotSent';
+  const ACCESS_TOKEN_NOT_FOUND = 'accessTokenNotFound';
+  const ACCESS_TOKEN_EXPIRED = 'accessTokenExpired';
 }

@@ -102,6 +102,9 @@ export default {
   error: {
     emailIsWrong: "Email is wrong!",
     usernameIsWrong: "Username is wrong!",
-    passwordIsIncorrect: "Password is Wrong!"
+    passwordIsIncorrect: "Password is Wrong!",
+    accessTokenNotSent: "Access Token Not Sent!",
+    accessTokenNotFound: "Access Token Not Found!",
+    accessTokenExpired: "Access Token Expired!",
   }
 }

@@ -819,7 +819,10 @@ var app = (function () {
       error: {
         emailIsWrong: "Email is wrong!",
         usernameIsWrong: "Username is wrong!",
-        passwordIsIncorrect: "Password is Wrong!"
+        passwordIsIncorrect: "Password is Wrong!",
+        accessTokenNotSent: "Access Token Not Sent!",
+        accessTokenNotFound: "Access Token Not Found!",
+        accessTokenExpired: "Access Token Expired!",
       }
     };
 
@@ -927,7 +930,10 @@ var app = (function () {
       error: {
         emailIsWrong: "Email hatalı!",
         usernameIsWrong: "Username hatalı!",
-        passwordIsIncorrect: "Password hatalı!"
+        passwordIsIncorrect: "Password hatalı!",
+        accessTokenNotSent: "Access Token Gönderilmedi!",
+        accessTokenNotFound: "Access Token Bulunamadı!",
+        accessTokenExpired: "Access Token Süresi Doldu!",
       }
     };
 
@@ -5911,7 +5917,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (212:8) {#each languages as lang}
+    // (207:8) {#each languages as lang}
     function create_each_block$7(ctx) {
     	let a;
     	let i;
@@ -5934,10 +5940,10 @@ var app = (function () {
     			t1 = text(t1_value);
     			t2 = space();
     			attr_dev(i, "class", "flag-icon flag-icon-" + /*lang*/ ctx[5] + " mr-2");
-    			add_location(i, file$g, 213, 12, 7202);
+    			add_location(i, file$g, 208, 12, 7091);
     			attr_dev(a, "href", "#");
     			attr_dev(a, "class", "dropdown-item");
-    			add_location(a, file$g, 212, 10, 7119);
+    			add_location(a, file$g, 207, 10, 7008);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -5965,7 +5971,7 @@ var app = (function () {
     		block,
     		id: create_each_block$7.name,
     		type: "each",
-    		source: "(212:8) {#each languages as lang}",
+    		source: "(207:8) {#each languages as lang}",
     		ctx
     	});
 
@@ -6270,225 +6276,225 @@ var app = (function () {
     			a14 = element("a");
     			i17 = element("i");
     			attr_dev(i0, "class", "fas fa-bars");
-    			add_location(i0, file$g, 48, 9, 1297);
+    			add_location(i0, file$g, 43, 9, 1186);
     			attr_dev(a0, "class", "nav-link");
     			attr_dev(a0, "data-widget", "pushmenu");
     			attr_dev(a0, "href", "#");
     			attr_dev(a0, "role", "button");
-    			add_location(a0, file$g, 47, 6, 1219);
+    			add_location(a0, file$g, 42, 6, 1108);
     			attr_dev(li0, "class", "nav-item");
-    			add_location(li0, file$g, 46, 4, 1190);
+    			add_location(li0, file$g, 41, 4, 1079);
     			attr_dev(ul0, "class", "navbar-nav");
-    			add_location(ul0, file$g, 45, 2, 1161);
+    			add_location(ul0, file$g, 40, 2, 1050);
     			attr_dev(i1, "class", "fas fa-search");
-    			add_location(i1, file$g, 59, 8, 1570);
+    			add_location(i1, file$g, 54, 8, 1459);
     			attr_dev(a1, "class", "nav-link");
     			attr_dev(a1, "data-widget", "navbar-search");
     			attr_dev(a1, "href", "#");
     			attr_dev(a1, "role", "button");
-    			add_location(a1, file$g, 58, 6, 1487);
+    			add_location(a1, file$g, 53, 6, 1376);
     			attr_dev(input, "class", "form-control form-control-navbar");
     			attr_dev(input, "type", "search");
     			attr_dev(input, "placeholder", "Search");
     			attr_dev(input, "aria-label", "Search");
-    			add_location(input, file$g, 64, 12, 1752);
+    			add_location(input, file$g, 59, 12, 1641);
     			attr_dev(i2, "class", "fas fa-search");
-    			add_location(i2, file$g, 72, 16, 2055);
+    			add_location(i2, file$g, 67, 16, 1944);
     			attr_dev(button0, "class", "btn btn-navbar");
     			attr_dev(button0, "type", "submit");
-    			add_location(button0, file$g, 71, 14, 1992);
+    			add_location(button0, file$g, 66, 14, 1881);
     			attr_dev(i3, "class", "fas fa-times");
-    			add_location(i3, file$g, 79, 16, 2281);
+    			add_location(i3, file$g, 74, 16, 2170);
     			attr_dev(button1, "class", "btn btn-navbar");
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "data-widget", "navbar-search");
-    			add_location(button1, file$g, 74, 14, 2123);
+    			add_location(button1, file$g, 69, 14, 2012);
     			attr_dev(div0, "class", "input-group-append");
-    			add_location(div0, file$g, 70, 12, 1944);
+    			add_location(div0, file$g, 65, 12, 1833);
     			attr_dev(div1, "class", "input-group input-group-sm");
-    			add_location(div1, file$g, 63, 10, 1698);
+    			add_location(div1, file$g, 58, 10, 1587);
     			attr_dev(form, "class", "form-inline");
-    			add_location(form, file$g, 62, 8, 1660);
+    			add_location(form, file$g, 57, 8, 1549);
     			attr_dev(div2, "class", "navbar-search-block");
-    			add_location(div2, file$g, 61, 6, 1617);
+    			add_location(div2, file$g, 56, 6, 1506);
     			attr_dev(li1, "class", "nav-item");
-    			add_location(li1, file$g, 57, 4, 1458);
+    			add_location(li1, file$g, 52, 4, 1347);
     			attr_dev(i4, "class", "far fa-comments");
-    			add_location(i4, file$g, 90, 8, 2559);
+    			add_location(i4, file$g, 85, 8, 2448);
     			attr_dev(span0, "class", "badge badge-danger navbar-badge");
-    			add_location(span0, file$g, 91, 8, 2598);
+    			add_location(span0, file$g, 86, 8, 2487);
     			attr_dev(a2, "class", "nav-link");
     			attr_dev(a2, "data-toggle", "dropdown");
     			attr_dev(a2, "href", "#");
-    			add_location(a2, file$g, 89, 6, 2495);
+    			add_location(a2, file$g, 84, 6, 2384);
     			if (!src_url_equal(img0.src, img0_src_value = "/assets/admin/img/user1-128x128.jpg")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "User Avatar");
     			attr_dev(img0, "class", "img-size-50 mr-3 img-circle");
-    			add_location(img0, file$g, 97, 12, 2861);
+    			add_location(img0, file$g, 92, 12, 2750);
     			attr_dev(i5, "class", "fas fa-star");
-    			add_location(i5, file$g, 106, 19, 3221);
+    			add_location(i5, file$g, 101, 19, 3110);
     			attr_dev(span1, "class", "float-right text-sm text-danger");
-    			add_location(span1, file$g, 105, 16, 3155);
+    			add_location(span1, file$g, 100, 16, 3044);
     			attr_dev(h30, "class", "dropdown-item-title");
-    			add_location(h30, file$g, 103, 14, 3076);
+    			add_location(h30, file$g, 98, 14, 2965);
     			attr_dev(p0, "class", "text-sm");
-    			add_location(p0, file$g, 109, 14, 3308);
+    			add_location(p0, file$g, 104, 14, 3197);
     			attr_dev(i6, "class", "far fa-clock mr-1");
-    			add_location(i6, file$g, 111, 16, 3422);
+    			add_location(i6, file$g, 106, 16, 3311);
     			attr_dev(p1, "class", "text-sm text-muted");
-    			add_location(p1, file$g, 110, 14, 3374);
+    			add_location(p1, file$g, 105, 14, 3263);
     			attr_dev(div3, "class", "media-body");
-    			add_location(div3, file$g, 102, 12, 3036);
+    			add_location(div3, file$g, 97, 12, 2925);
     			attr_dev(div4, "class", "media");
-    			add_location(div4, file$g, 96, 10, 2828);
+    			add_location(div4, file$g, 91, 10, 2717);
     			attr_dev(a3, "href", "#");
     			attr_dev(a3, "class", "dropdown-item");
-    			add_location(a3, file$g, 94, 8, 2746);
+    			add_location(a3, file$g, 89, 8, 2635);
     			attr_dev(div5, "class", "dropdown-divider");
-    			add_location(div5, file$g, 117, 8, 3579);
+    			add_location(div5, file$g, 112, 8, 3468);
     			if (!src_url_equal(img1.src, img1_src_value = "/assets/admin/img/user8-128x128.jpg")) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "User Avatar");
     			attr_dev(img1, "class", "img-size-50 img-circle mr-3");
-    			add_location(img1, file$g, 121, 12, 3736);
+    			add_location(img1, file$g, 116, 12, 3625);
     			attr_dev(i7, "class", "fas fa-star");
-    			add_location(i7, file$g, 130, 19, 4095);
+    			add_location(i7, file$g, 125, 19, 3984);
     			attr_dev(span2, "class", "float-right text-sm text-muted");
-    			add_location(span2, file$g, 129, 16, 4030);
+    			add_location(span2, file$g, 124, 16, 3919);
     			attr_dev(h31, "class", "dropdown-item-title");
-    			add_location(h31, file$g, 127, 14, 3951);
+    			add_location(h31, file$g, 122, 14, 3840);
     			attr_dev(p2, "class", "text-sm");
-    			add_location(p2, file$g, 133, 14, 4182);
+    			add_location(p2, file$g, 128, 14, 4071);
     			attr_dev(i8, "class", "far fa-clock mr-1");
-    			add_location(i8, file$g, 135, 16, 4291);
+    			add_location(i8, file$g, 130, 16, 4180);
     			attr_dev(p3, "class", "text-sm text-muted");
-    			add_location(p3, file$g, 134, 14, 4243);
+    			add_location(p3, file$g, 129, 14, 4132);
     			attr_dev(div6, "class", "media-body");
-    			add_location(div6, file$g, 126, 12, 3911);
+    			add_location(div6, file$g, 121, 12, 3800);
     			attr_dev(div7, "class", "media");
-    			add_location(div7, file$g, 120, 10, 3703);
+    			add_location(div7, file$g, 115, 10, 3592);
     			attr_dev(a4, "href", "#");
     			attr_dev(a4, "class", "dropdown-item");
-    			add_location(a4, file$g, 118, 8, 3621);
+    			add_location(a4, file$g, 113, 8, 3510);
     			attr_dev(div8, "class", "dropdown-divider");
-    			add_location(div8, file$g, 141, 8, 4448);
+    			add_location(div8, file$g, 136, 8, 4337);
     			if (!src_url_equal(img2.src, img2_src_value = "..//assets/admin/img/user3-128x128.jpg")) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "User Avatar");
     			attr_dev(img2, "class", "img-size-50 img-circle mr-3");
-    			add_location(img2, file$g, 145, 12, 4605);
+    			add_location(img2, file$g, 140, 12, 4494);
     			attr_dev(i9, "class", "fas fa-star");
-    			add_location(i9, file$g, 154, 19, 4972);
+    			add_location(i9, file$g, 149, 19, 4861);
     			attr_dev(span3, "class", "float-right text-sm text-warning");
-    			add_location(span3, file$g, 153, 16, 4905);
+    			add_location(span3, file$g, 148, 16, 4794);
     			attr_dev(h32, "class", "dropdown-item-title");
-    			add_location(h32, file$g, 151, 14, 4823);
+    			add_location(h32, file$g, 146, 14, 4712);
     			attr_dev(p4, "class", "text-sm");
-    			add_location(p4, file$g, 157, 14, 5059);
+    			add_location(p4, file$g, 152, 14, 4948);
     			attr_dev(i10, "class", "far fa-clock mr-1");
-    			add_location(i10, file$g, 159, 16, 5167);
+    			add_location(i10, file$g, 154, 16, 5056);
     			attr_dev(p5, "class", "text-sm text-muted");
-    			add_location(p5, file$g, 158, 14, 5119);
+    			add_location(p5, file$g, 153, 14, 5008);
     			attr_dev(div9, "class", "media-body");
-    			add_location(div9, file$g, 150, 12, 4783);
+    			add_location(div9, file$g, 145, 12, 4672);
     			attr_dev(div10, "class", "media");
-    			add_location(div10, file$g, 144, 10, 4572);
+    			add_location(div10, file$g, 139, 10, 4461);
     			attr_dev(a5, "href", "#");
     			attr_dev(a5, "class", "dropdown-item");
-    			add_location(a5, file$g, 142, 8, 4490);
+    			add_location(a5, file$g, 137, 8, 4379);
     			attr_dev(div11, "class", "dropdown-divider");
-    			add_location(div11, file$g, 165, 8, 5324);
+    			add_location(div11, file$g, 160, 8, 5213);
     			attr_dev(a6, "href", "#");
     			attr_dev(a6, "class", "dropdown-item dropdown-footer");
-    			add_location(a6, file$g, 166, 8, 5366);
+    			add_location(a6, file$g, 161, 8, 5255);
     			attr_dev(div12, "class", "dropdown-menu dropdown-menu-lg dropdown-menu-right");
-    			add_location(div12, file$g, 93, 6, 2672);
+    			add_location(div12, file$g, 88, 6, 2561);
     			attr_dev(li2, "class", "nav-item dropdown");
-    			add_location(li2, file$g, 88, 4, 2457);
+    			add_location(li2, file$g, 83, 4, 2346);
     			attr_dev(i11, "class", "far fa-bell");
-    			add_location(i11, file$g, 172, 8, 5613);
+    			add_location(i11, file$g, 167, 8, 5502);
     			attr_dev(span4, "class", "badge badge-warning navbar-badge");
-    			add_location(span4, file$g, 173, 8, 5648);
+    			add_location(span4, file$g, 168, 8, 5537);
     			attr_dev(a7, "class", "nav-link");
     			attr_dev(a7, "data-toggle", "dropdown");
     			attr_dev(a7, "href", "#");
-    			add_location(a7, file$g, 171, 6, 5549);
+    			add_location(a7, file$g, 166, 6, 5438);
     			attr_dev(span5, "class", "dropdown-header");
-    			add_location(span5, file$g, 176, 8, 5798);
+    			add_location(span5, file$g, 171, 8, 5687);
     			attr_dev(div13, "class", "dropdown-divider");
-    			add_location(div13, file$g, 177, 8, 5861);
+    			add_location(div13, file$g, 172, 8, 5750);
     			attr_dev(i12, "class", "fas fa-envelope mr-2");
-    			add_location(i12, file$g, 179, 10, 5951);
+    			add_location(i12, file$g, 174, 10, 5840);
     			attr_dev(span6, "class", "float-right text-muted text-sm");
-    			add_location(span6, file$g, 180, 10, 6012);
+    			add_location(span6, file$g, 175, 10, 5901);
     			attr_dev(a8, "href", "#");
     			attr_dev(a8, "class", "dropdown-item");
-    			add_location(a8, file$g, 178, 8, 5903);
+    			add_location(a8, file$g, 173, 8, 5792);
     			attr_dev(div14, "class", "dropdown-divider");
-    			add_location(div14, file$g, 182, 8, 6094);
+    			add_location(div14, file$g, 177, 8, 5983);
     			attr_dev(i13, "class", "fas fa-users mr-2");
-    			add_location(i13, file$g, 184, 10, 6184);
+    			add_location(i13, file$g, 179, 10, 6073);
     			attr_dev(span7, "class", "float-right text-muted text-sm");
-    			add_location(span7, file$g, 185, 10, 6245);
+    			add_location(span7, file$g, 180, 10, 6134);
     			attr_dev(a9, "href", "#");
     			attr_dev(a9, "class", "dropdown-item");
-    			add_location(a9, file$g, 183, 8, 6136);
+    			add_location(a9, file$g, 178, 8, 6025);
     			attr_dev(div15, "class", "dropdown-divider");
-    			add_location(div15, file$g, 187, 8, 6329);
+    			add_location(div15, file$g, 182, 8, 6218);
     			attr_dev(i14, "class", "fas fa-file mr-2");
-    			add_location(i14, file$g, 189, 10, 6419);
+    			add_location(i14, file$g, 184, 10, 6308);
     			attr_dev(span8, "class", "float-right text-muted text-sm");
-    			add_location(span8, file$g, 190, 10, 6475);
+    			add_location(span8, file$g, 185, 10, 6364);
     			attr_dev(a10, "href", "#");
     			attr_dev(a10, "class", "dropdown-item");
-    			add_location(a10, file$g, 188, 8, 6371);
+    			add_location(a10, file$g, 183, 8, 6260);
     			attr_dev(div16, "class", "dropdown-divider");
-    			add_location(div16, file$g, 192, 8, 6557);
+    			add_location(div16, file$g, 187, 8, 6446);
     			attr_dev(a11, "href", "#");
     			attr_dev(a11, "class", "dropdown-item dropdown-footer");
-    			add_location(a11, file$g, 193, 8, 6599);
+    			add_location(a11, file$g, 188, 8, 6488);
     			attr_dev(div17, "class", "dropdown-menu dropdown-menu-lg dropdown-menu-right");
-    			add_location(div17, file$g, 175, 6, 5724);
+    			add_location(div17, file$g, 170, 6, 5613);
     			attr_dev(li3, "class", "nav-item dropdown");
-    			add_location(li3, file$g, 170, 4, 5511);
+    			add_location(li3, file$g, 165, 4, 5400);
     			attr_dev(i15, "class", i15_class_value = "flag-icon flag-icon-" + /*$locale*/ ctx[0]);
-    			add_location(i15, file$g, 205, 8, 6897);
+    			add_location(i15, file$g, 200, 8, 6786);
     			attr_dev(a12, "class", "nav-link");
     			attr_dev(a12, "data-toggle", "dropdown");
     			attr_dev(a12, "href", "#");
     			attr_dev(a12, "aria-expanded", "false");
-    			add_location(a12, file$g, 199, 6, 6767);
+    			add_location(a12, file$g, 194, 6, 6656);
     			attr_dev(div18, "class", "dropdown-menu dropdown-menu-right p-0");
     			set_style(div18, "left", "inherit");
     			set_style(div18, "right", "0px");
-    			add_location(div18, file$g, 207, 6, 6960);
+    			add_location(div18, file$g, 202, 6, 6849);
     			attr_dev(li4, "class", "nav-item dropdown");
-    			add_location(li4, file$g, 198, 4, 6729);
+    			add_location(li4, file$g, 193, 4, 6618);
     			attr_dev(i16, "class", "fas fa-expand-arrows-alt");
-    			add_location(i16, file$g, 221, 8, 7454);
+    			add_location(i16, file$g, 216, 8, 7343);
     			attr_dev(a13, "class", "nav-link");
     			attr_dev(a13, "data-widget", "fullscreen");
     			attr_dev(a13, "href", "#");
     			attr_dev(a13, "role", "button");
-    			add_location(a13, file$g, 220, 6, 7374);
+    			add_location(a13, file$g, 215, 6, 7263);
     			attr_dev(li5, "class", "nav-item");
-    			add_location(li5, file$g, 219, 4, 7345);
+    			add_location(li5, file$g, 214, 4, 7234);
     			attr_dev(i17, "class", "fas fa-th-large");
-    			add_location(i17, file$g, 232, 8, 7706);
+    			add_location(i17, file$g, 227, 8, 7595);
     			attr_dev(a14, "class", "nav-link");
     			attr_dev(a14, "data-widget", "control-sidebar");
     			attr_dev(a14, "data-slide", "true");
     			attr_dev(a14, "href", "#");
     			attr_dev(a14, "role", "button");
-    			add_location(a14, file$g, 225, 6, 7550);
+    			add_location(a14, file$g, 220, 6, 7439);
     			attr_dev(li6, "class", "nav-item");
-    			add_location(li6, file$g, 224, 4, 7521);
+    			add_location(li6, file$g, 219, 4, 7410);
     			attr_dev(ul1, "class", "navbar-nav ml-auto");
-    			add_location(ul1, file$g, 54, 2, 1391);
+    			add_location(ul1, file$g, 49, 2, 1280);
 
     			attr_dev(nav, "class", "main-header navbar navbar-expand " + /*auth*/ ctx[1].options.theme_navbar_bg + " " + (/*auth*/ ctx[1].options.theme_navbar_no_border
     			? 'border-bottom-0'
     			: ''));
 
-    			add_location(nav, file$g, 38, 0, 966);
+    			add_location(nav, file$g, 33, 0, 855);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6693,12 +6699,8 @@ var app = (function () {
     	const auth = getSessionItem("auth");
 
     	onMount(() => {
-    		if (auth) {
-    			if (typeof auth.options !== undefined) {
-    				if (typeof auth.options.language_preference !== undefined) {
-    					set_store_value(locale, $locale = auth.options.language_preference, $locale);
-    				}
-    			}
+    		if ('language_preference' in auth.options) {
+    			set_store_value(locale, $locale = auth.options.language_preference, $locale);
     		}
     	});
 
@@ -10948,11 +10950,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[58] = list[i];
+    	child_ctx[59] = list[i];
     	return child_ctx;
     }
 
-    // (180:12) {#if error.includes("email")}
+    // (181:12) {#if error.includes("email")}
     function create_if_block_4(ctx) {
     	let div;
     	let t;
@@ -10962,7 +10964,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[26]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 180, 14, 5664);
+    			add_location(div, file$3, 181, 14, 5739);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -10980,14 +10982,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(180:12) {#if error.includes(\\\"email\\\")}",
+    		source: "(181:12) {#if error.includes(\\\"email\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (194:12) {#if error.includes("username")}
+    // (195:12) {#if error.includes("username")}
     function create_if_block_3(ctx) {
     	let div;
     	let t;
@@ -10997,7 +10999,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[26]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 194, 14, 6128);
+    			add_location(div, file$3, 195, 14, 6203);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -11015,14 +11017,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(194:12) {#if error.includes(\\\"username\\\")}",
+    		source: "(195:12) {#if error.includes(\\\"username\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (219:12) {#if error.includes("password")}
+    // (220:12) {#if error.includes("password")}
     function create_if_block_2(ctx) {
     	let div;
     	let t;
@@ -11032,7 +11034,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[26]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 219, 14, 6937);
+    			add_location(div, file$3, 220, 14, 7012);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -11050,14 +11052,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(219:12) {#if error.includes(\\\"password\\\")}",
+    		source: "(220:12) {#if error.includes(\\\"password\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (233:12) {#if error.includes("password")}
+    // (234:12) {#if error.includes("password")}
     function create_if_block_1(ctx) {
     	let div;
     	let t;
@@ -11067,7 +11069,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[26]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 233, 14, 7419);
+    			add_location(div, file$3, 234, 14, 7494);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -11085,26 +11087,26 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(233:12) {#if error.includes(\\\"password\\\")}",
+    		source: "(234:12) {#if error.includes(\\\"password\\\")}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (246:14) {#each roles as item}
+    // (247:14) {#each roles as item}
     function create_each_block(ctx) {
     	let option;
-    	let t_value = /*item*/ ctx[58] + "";
+    	let t_value = /*item*/ ctx[59] + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			option = element("option");
     			t = text(t_value);
-    			option.__value = /*item*/ ctx[58];
+    			option.__value = /*item*/ ctx[59];
     			option.value = option.__value;
-    			add_location(option, file$3, 246, 16, 7927);
+    			add_location(option, file$3, 247, 16, 8002);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -11120,14 +11122,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(246:14) {#each roles as item}",
+    		source: "(247:14) {#each roles as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (260:12) {:else}
+    // (261:12) {:else}
     function create_else_block(ctx) {
     	let button;
     	let t_value = /*$__*/ ctx[1]("any.save") + "";
@@ -11141,7 +11143,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(button, "type", "button");
     			attr_dev(button, "class", "btn btn-success float-right");
-    			add_location(button, file$3, 260, 14, 8369);
+    			add_location(button, file$3, 261, 14, 8444);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -11168,14 +11170,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(260:12) {:else}",
+    		source: "(261:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (258:12) {#if loading}
+    // (259:12) {#if loading}
     function create_if_block(ctx) {
     	let doublebounce;
     	let current;
@@ -11217,7 +11219,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(258:12) {#if loading}",
+    		source: "(259:12) {#if loading}",
     		ctx
     	});
 
@@ -12164,508 +12166,508 @@ var app = (function () {
     			t212 = text(t212_value);
     			attr_dev(label0, "class", "col-form-label");
     			attr_dev(label0, "for", "first_name");
-    			add_location(label0, file$3, 154, 12, 4817);
+    			add_location(label0, file$3, 155, 12, 4892);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control");
     			attr_dev(input0, "id", "first_name");
-    			add_location(input0, file$3, 157, 12, 4940);
+    			add_location(input0, file$3, 158, 12, 5015);
     			attr_dev(div0, "class", "form-group");
-    			add_location(div0, file$3, 153, 10, 4779);
+    			add_location(div0, file$3, 154, 10, 4854);
     			attr_dev(label1, "class", "col-form-label");
     			attr_dev(label1, "for", "last_name");
-    			add_location(label1, file$3, 165, 12, 5163);
+    			add_location(label1, file$3, 166, 12, 5238);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control");
     			attr_dev(input1, "id", "last_name");
-    			add_location(input1, file$3, 168, 12, 5284);
+    			add_location(input1, file$3, 169, 12, 5359);
     			attr_dev(div1, "class", "form-group");
-    			add_location(div1, file$3, 164, 10, 5125);
+    			add_location(div1, file$3, 165, 10, 5200);
     			attr_dev(label2, "class", "col-form-label");
     			attr_dev(label2, "for", "email");
-    			add_location(label2, file$3, 176, 12, 5505);
+    			add_location(label2, file$3, 177, 12, 5580);
     			attr_dev(input2, "type", "text");
     			attr_dev(input2, "class", "form-control");
     			attr_dev(input2, "id", "email");
-    			add_location(input2, file$3, 182, 12, 5747);
+    			add_location(input2, file$3, 183, 12, 5822);
     			attr_dev(div2, "class", "form-group");
-    			add_location(div2, file$3, 175, 10, 5467);
+    			add_location(div2, file$3, 176, 10, 5542);
     			attr_dev(label3, "class", "col-form-label");
     			attr_dev(label3, "for", "username");
-    			add_location(label3, file$3, 190, 12, 5960);
+    			add_location(label3, file$3, 191, 12, 6035);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "class", "form-control");
     			attr_dev(input3, "id", "username");
-    			add_location(input3, file$3, 196, 12, 6211);
+    			add_location(input3, file$3, 197, 12, 6286);
     			attr_dev(div3, "class", "form-group");
-    			add_location(div3, file$3, 189, 10, 5922);
+    			add_location(div3, file$3, 190, 10, 5997);
     			attr_dev(label4, "class", "col-form-label");
     			attr_dev(label4, "for", "nickname");
-    			add_location(label4, file$3, 204, 12, 6430);
+    			add_location(label4, file$3, 205, 12, 6505);
     			attr_dev(input4, "type", "text");
     			attr_dev(input4, "class", "form-control");
     			attr_dev(input4, "id", "nickname");
-    			add_location(input4, file$3, 207, 12, 6550);
+    			add_location(input4, file$3, 208, 12, 6625);
     			attr_dev(div4, "class", "form-group");
-    			add_location(div4, file$3, 203, 10, 6392);
+    			add_location(div4, file$3, 204, 10, 6467);
     			attr_dev(label5, "class", "col-form-label");
     			attr_dev(label5, "for", "password");
-    			add_location(label5, file$3, 215, 12, 6769);
+    			add_location(label5, file$3, 216, 12, 6844);
     			attr_dev(input5, "type", "text");
     			attr_dev(input5, "class", "form-control");
     			attr_dev(input5, "id", "password");
-    			add_location(input5, file$3, 221, 12, 7020);
+    			add_location(input5, file$3, 222, 12, 7095);
     			attr_dev(div5, "class", "form-group");
-    			add_location(div5, file$3, 214, 10, 6731);
+    			add_location(div5, file$3, 215, 10, 6806);
     			attr_dev(label6, "class", "col-form-label");
     			attr_dev(label6, "for", "retypePassword");
-    			add_location(label6, file$3, 229, 12, 7239);
+    			add_location(label6, file$3, 230, 12, 7314);
     			attr_dev(input6, "type", "text");
     			attr_dev(input6, "class", "form-control");
     			attr_dev(input6, "id", "retypePassword");
-    			add_location(input6, file$3, 235, 12, 7502);
+    			add_location(input6, file$3, 236, 12, 7577);
     			attr_dev(div6, "class", "form-group");
-    			add_location(div6, file$3, 228, 10, 7201);
+    			add_location(div6, file$3, 229, 10, 7276);
     			attr_dev(label7, "class", "col-form-label");
     			attr_dev(label7, "for", "role");
-    			add_location(label7, file$3, 243, 12, 7733);
+    			add_location(label7, file$3, 244, 12, 7808);
     			attr_dev(select0, "class", "form-control svelte-1s8hmr3");
     			attr_dev(select0, "id", "role");
     			if (/*role*/ ctx[7] === void 0) add_render_callback(() => /*select0_change_handler*/ ctx[40].call(select0));
-    			add_location(select0, file$3, 244, 12, 7815);
+    			add_location(select0, file$3, 245, 12, 7890);
     			attr_dev(div7, "class", "form-group");
-    			add_location(div7, file$3, 242, 10, 7695);
+    			add_location(div7, file$3, 243, 10, 7770);
     			attr_dev(div8, "class", "card-body");
-    			add_location(div8, file$3, 152, 8, 4744);
+    			add_location(div8, file$3, 153, 8, 4819);
     			attr_dev(div9, "class", "card");
-    			add_location(div9, file$3, 151, 6, 4716);
+    			add_location(div9, file$3, 152, 6, 4791);
     			attr_dev(div10, "class", "col-md-9");
-    			add_location(div10, file$3, 150, 4, 4686);
+    			add_location(div10, file$3, 151, 4, 4761);
     			set_style(div11, "display", "inline");
     			set_style(div11, "float", "right");
-    			add_location(div11, file$3, 256, 10, 8180);
+    			add_location(div11, file$3, 257, 10, 8255);
     			attr_dev(div12, "class", "card-body text-center");
-    			add_location(div12, file$3, 255, 8, 8133);
+    			add_location(div12, file$3, 256, 8, 8208);
     			attr_dev(div13, "class", "card");
-    			add_location(div13, file$3, 254, 6, 8105);
-    			add_location(h5, file$3, 271, 10, 8676);
+    			add_location(div13, file$3, 255, 6, 8180);
+    			add_location(h5, file$3, 272, 10, 8751);
     			attr_dev(hr, "class", "mb-2");
-    			add_location(hr, file$3, 272, 10, 8719);
+    			add_location(hr, file$3, 273, 10, 8794);
     			attr_dev(input7, "id", "darkMode");
     			attr_dev(input7, "type", "checkbox");
     			input7.__value = "dark-mode";
     			input7.value = input7.__value;
     			attr_dev(input7, "class", "mr-1");
-    			add_location(input7, file$3, 274, 12, 8782);
+    			add_location(input7, file$3, 275, 12, 8857);
     			attr_dev(label8, "for", "darkMode");
-    			add_location(label8, file$3, 280, 14, 8965);
+    			add_location(label8, file$3, 281, 14, 9040);
     			attr_dev(div14, "class", "mb-4");
-    			add_location(div14, file$3, 273, 10, 8750);
-    			add_location(h60, file$3, 282, 10, 9046);
+    			add_location(div14, file$3, 274, 10, 8825);
+    			add_location(h60, file$3, 283, 10, 9121);
     			attr_dev(input8, "id", "noBorder");
     			attr_dev(input8, "type", "checkbox");
     			input8.__value = "layout-navbar-fixed";
     			input8.value = input8.__value;
     			attr_dev(input8, "class", "mr-1");
-    			add_location(input8, file$3, 284, 12, 9125);
+    			add_location(input8, file$3, 285, 12, 9200);
     			attr_dev(label9, "for", "noBorder");
-    			add_location(label9, file$3, 290, 14, 9325);
+    			add_location(label9, file$3, 291, 14, 9400);
     			attr_dev(div15, "class", "mb-1");
-    			add_location(div15, file$3, 283, 10, 9093);
+    			add_location(div15, file$3, 284, 10, 9168);
     			attr_dev(input9, "id", "fixed1");
     			attr_dev(input9, "type", "checkbox");
     			input9.__value = "layout-navbar-fixed";
     			input9.value = input9.__value;
     			attr_dev(input9, "class", "mr-1");
-    			add_location(input9, file$3, 293, 12, 9438);
+    			add_location(input9, file$3, 294, 12, 9513);
     			attr_dev(label10, "for", "fixed1");
-    			add_location(label10, file$3, 299, 14, 9632);
+    			add_location(label10, file$3, 300, 14, 9707);
     			attr_dev(div16, "class", "mb-4");
-    			add_location(div16, file$3, 292, 10, 9406);
-    			add_location(h61, file$3, 301, 10, 9708);
+    			add_location(div16, file$3, 293, 10, 9481);
+    			add_location(h61, file$3, 302, 10, 9783);
     			attr_dev(input10, "id", "collapsed");
     			attr_dev(input10, "type", "checkbox");
     			input10.__value = "collapsed";
     			input10.value = input10.__value;
     			attr_dev(input10, "class", "mr-1");
-    			add_location(input10, file$3, 303, 12, 9788);
+    			add_location(input10, file$3, 304, 12, 9863);
     			attr_dev(label11, "for", "collapsed");
-    			add_location(label11, file$3, 309, 14, 9980);
+    			add_location(label11, file$3, 310, 14, 10055);
     			attr_dev(div17, "class", "mb-1");
-    			add_location(div17, file$3, 302, 10, 9756);
+    			add_location(div17, file$3, 303, 10, 9831);
     			attr_dev(input11, "id", "fixed2");
     			attr_dev(input11, "type", "checkbox");
     			input11.__value = "layout-fixed";
     			input11.value = input11.__value;
     			attr_dev(input11, "class", "mr-1");
-    			add_location(input11, file$3, 312, 12, 10095);
+    			add_location(input11, file$3, 313, 12, 10170);
     			attr_dev(label12, "for", "fixed2");
-    			add_location(label12, file$3, 318, 14, 10280);
+    			add_location(label12, file$3, 319, 14, 10355);
     			attr_dev(div18, "class", "mb-1");
-    			add_location(div18, file$3, 311, 10, 10063);
+    			add_location(div18, file$3, 312, 10, 10138);
     			attr_dev(input12, "id", "navFlat");
     			attr_dev(input12, "type", "checkbox");
     			input12.__value = "nav-flat";
     			input12.value = input12.__value;
     			attr_dev(input12, "class", "mr-1");
-    			add_location(input12, file$3, 321, 12, 10388);
+    			add_location(input12, file$3, 322, 12, 10463);
     			attr_dev(label13, "for", "navFlat");
-    			add_location(label13, file$3, 327, 14, 10576);
+    			add_location(label13, file$3, 328, 14, 10651);
     			attr_dev(div19, "class", "mb-1");
-    			add_location(div19, file$3, 320, 10, 10356);
+    			add_location(div19, file$3, 321, 10, 10431);
     			attr_dev(input13, "id", "navLegacy");
     			attr_dev(input13, "type", "checkbox");
     			input13.__value = "nav-legacy";
     			input13.value = input13.__value;
     			attr_dev(input13, "class", "mr-1");
-    			add_location(input13, file$3, 330, 12, 10687);
+    			add_location(input13, file$3, 331, 12, 10762);
     			attr_dev(label14, "for", "navLegacy");
-    			add_location(label14, file$3, 336, 14, 10881);
+    			add_location(label14, file$3, 337, 14, 10956);
     			attr_dev(div20, "class", "mb-1");
-    			add_location(div20, file$3, 329, 10, 10655);
+    			add_location(div20, file$3, 330, 10, 10730);
     			attr_dev(input14, "id", "navCompact");
     			attr_dev(input14, "type", "checkbox");
     			input14.__value = "nav-compact";
     			input14.value = input14.__value;
     			attr_dev(input14, "class", "mr-1");
-    			add_location(input14, file$3, 339, 12, 10996);
+    			add_location(input14, file$3, 340, 12, 11071);
     			attr_dev(label15, "for", "navCompact");
-    			add_location(label15, file$3, 345, 14, 11193);
+    			add_location(label15, file$3, 346, 14, 11268);
     			attr_dev(div21, "class", "mb-1");
-    			add_location(div21, file$3, 338, 10, 10964);
+    			add_location(div21, file$3, 339, 10, 11039);
     			attr_dev(input15, "id", "navChildIndent");
     			attr_dev(input15, "type", "checkbox");
     			input15.__value = "nav-child-indent";
     			input15.value = input15.__value;
     			attr_dev(input15, "class", "mr-1");
-    			add_location(input15, file$3, 348, 12, 11310);
+    			add_location(input15, file$3, 349, 12, 11385);
     			attr_dev(label16, "for", "navChildIndent");
-    			add_location(label16, file$3, 354, 14, 11521);
+    			add_location(label16, file$3, 355, 14, 11596);
     			attr_dev(div22, "class", "mb-1");
-    			add_location(div22, file$3, 347, 10, 11278);
+    			add_location(div22, file$3, 348, 10, 11353);
     			attr_dev(input16, "id", "navChildHideOnCollapse");
     			attr_dev(input16, "type", "checkbox");
     			input16.__value = "nav-collapse-hide-child";
     			input16.value = input16.__value;
     			attr_dev(input16, "class", "mr-1");
-    			add_location(input16, file$3, 357, 12, 11646);
+    			add_location(input16, file$3, 358, 12, 11721);
     			attr_dev(label17, "for", "navChildHideOnCollapse");
-    			add_location(label17, file$3, 363, 14, 11876);
+    			add_location(label17, file$3, 364, 14, 11951);
     			attr_dev(div23, "class", "mb-1");
-    			add_location(div23, file$3, 356, 10, 11614);
+    			add_location(div23, file$3, 357, 10, 11689);
     			attr_dev(input17, "id", "disableHoverFocusAutoExpand");
     			attr_dev(input17, "type", "checkbox");
     			input17.__value = "sidebar-no-expand";
     			input17.value = input17.__value;
     			attr_dev(input17, "class", "mr-1");
-    			add_location(input17, file$3, 368, 12, 12047);
+    			add_location(input17, file$3, 369, 12, 12122);
     			attr_dev(label18, "for", "disableHoverFocusAutoExpand");
-    			add_location(label18, file$3, 374, 14, 12262);
+    			add_location(label18, file$3, 375, 14, 12337);
     			attr_dev(div24, "class", "mb-4");
-    			add_location(div24, file$3, 367, 10, 12015);
-    			add_location(h62, file$3, 378, 10, 12411);
+    			add_location(div24, file$3, 368, 10, 12090);
+    			add_location(h62, file$3, 379, 10, 12486);
     			attr_dev(input18, "id", "fixed3");
     			attr_dev(input18, "type", "checkbox");
     			input18.__value = "layout-footer-fixed";
     			input18.value = input18.__value;
     			attr_dev(input18, "class", "mr-1");
-    			add_location(input18, file$3, 380, 12, 12490);
+    			add_location(input18, file$3, 381, 12, 12565);
     			attr_dev(label19, "for", "fixed3");
-    			add_location(label19, file$3, 386, 14, 12684);
+    			add_location(label19, file$3, 387, 14, 12759);
     			attr_dev(div25, "class", "mb-4");
-    			add_location(div25, file$3, 379, 10, 12458);
-    			add_location(h63, file$3, 388, 10, 12760);
+    			add_location(div25, file$3, 380, 10, 12533);
+    			add_location(h63, file$3, 389, 10, 12835);
     			attr_dev(input19, "id", "body1");
     			attr_dev(input19, "type", "checkbox");
     			input19.__value = "text-sm";
     			input19.value = input19.__value;
     			attr_dev(input19, "class", "mr-1");
-    			add_location(input19, file$3, 390, 12, 12841);
+    			add_location(input19, file$3, 391, 12, 12916);
     			attr_dev(label20, "for", "body1");
-    			add_location(label20, file$3, 396, 14, 13019);
+    			add_location(label20, file$3, 397, 14, 13094);
     			attr_dev(div26, "class", "mb-4");
-    			add_location(div26, file$3, 389, 10, 12809);
-    			add_location(h64, file$3, 398, 10, 13093);
+    			add_location(div26, file$3, 390, 10, 12884);
+    			add_location(h64, file$3, 399, 10, 13168);
     			attr_dev(option0, "class", "bg-primary");
     			option0.__value = "navbar-dark bg-primary";
     			option0.value = option0.__value;
-    			add_location(option0, file$3, 404, 14, 13322);
+    			add_location(option0, file$3, 405, 14, 13397);
     			attr_dev(option1, "class", "bg-secondary");
     			option1.__value = "navbar-dark bg-secondary";
     			option1.value = option1.__value;
-    			add_location(option1, file$3, 407, 14, 13459);
+    			add_location(option1, file$3, 408, 14, 13534);
     			attr_dev(option2, "class", "bg-info");
     			option2.__value = "navbar-dark bg-info";
     			option2.value = option2.__value;
-    			add_location(option2, file$3, 410, 14, 13602);
+    			add_location(option2, file$3, 411, 14, 13677);
     			attr_dev(option3, "class", "bg-success");
     			option3.__value = "navbar-dark bg-success";
     			option3.value = option3.__value;
-    			add_location(option3, file$3, 413, 14, 13730);
+    			add_location(option3, file$3, 414, 14, 13805);
     			attr_dev(option4, "class", "bg-danger");
     			option4.__value = "navbar-dark bg-danger";
     			option4.value = option4.__value;
-    			add_location(option4, file$3, 416, 14, 13867);
+    			add_location(option4, file$3, 417, 14, 13942);
     			attr_dev(option5, "class", "bg-indigo");
     			option5.__value = "navbar-dark bg-indigo";
     			option5.value = option5.__value;
-    			add_location(option5, file$3, 419, 14, 14001);
+    			add_location(option5, file$3, 420, 14, 14076);
     			attr_dev(option6, "class", "bg-purple");
     			option6.__value = "navbar-dark bg-purple";
     			option6.value = option6.__value;
-    			add_location(option6, file$3, 422, 14, 14135);
+    			add_location(option6, file$3, 423, 14, 14210);
     			attr_dev(option7, "class", "bg-pink");
     			option7.__value = "navbar-dark bg-pink";
     			option7.value = option7.__value;
-    			add_location(option7, file$3, 425, 14, 14269);
+    			add_location(option7, file$3, 426, 14, 14344);
     			attr_dev(option8, "class", "bg-navy");
     			option8.__value = "navbar-dark bg-navy";
     			option8.value = option8.__value;
-    			add_location(option8, file$3, 428, 14, 14397);
+    			add_location(option8, file$3, 429, 14, 14472);
     			attr_dev(option9, "class", "bg-lightblue");
     			option9.__value = "navbar-dark bg-lightblue";
     			option9.value = option9.__value;
-    			add_location(option9, file$3, 431, 14, 14525);
+    			add_location(option9, file$3, 432, 14, 14600);
     			attr_dev(option10, "class", "bg-teal");
     			option10.__value = "navbar-dark bg-teal";
     			option10.value = option10.__value;
-    			add_location(option10, file$3, 434, 14, 14668);
+    			add_location(option10, file$3, 435, 14, 14743);
     			attr_dev(option11, "class", "bg-cyan");
     			option11.__value = "navbar-dark bg-cyan";
     			option11.value = option11.__value;
-    			add_location(option11, file$3, 437, 14, 14796);
+    			add_location(option11, file$3, 438, 14, 14871);
     			attr_dev(option12, "class", "bg-dark");
     			option12.__value = "navbar-dark bg-dark";
     			option12.value = option12.__value;
-    			add_location(option12, file$3, 440, 14, 14924);
+    			add_location(option12, file$3, 441, 14, 14999);
     			attr_dev(option13, "class", "bg-gray-dark");
     			option13.__value = "navbar-dark bg-gray-dark";
     			option13.value = option13.__value;
-    			add_location(option13, file$3, 443, 14, 15052);
+    			add_location(option13, file$3, 444, 14, 15127);
     			attr_dev(option14, "class", "bg-gray");
     			option14.__value = "navbar-dark bg-gray";
     			option14.value = option14.__value;
-    			add_location(option14, file$3, 446, 14, 15194);
+    			add_location(option14, file$3, 447, 14, 15269);
     			attr_dev(option15, "class", "bg-light");
     			option15.__value = "navbar-light bg-light";
     			option15.value = option15.__value;
-    			add_location(option15, file$3, 449, 14, 15322);
+    			add_location(option15, file$3, 450, 14, 15397);
     			attr_dev(option16, "class", "bg-warning");
     			option16.__value = "navbar-light bg-warning";
     			option16.value = option16.__value;
-    			add_location(option16, file$3, 452, 14, 15454);
+    			add_location(option16, file$3, 453, 14, 15529);
     			attr_dev(option17, "class", "bg-white");
     			option17.__value = "navbar-light bg-white";
     			option17.value = option17.__value;
-    			add_location(option17, file$3, 455, 14, 15592);
+    			add_location(option17, file$3, 456, 14, 15667);
     			attr_dev(option18, "class", "bg-orange");
     			option18.__value = "navbar-light bg-orange";
     			option18.value = option18.__value;
-    			add_location(option18, file$3, 458, 14, 15724);
+    			add_location(option18, file$3, 459, 14, 15799);
     			attr_dev(select1, "class", "custom-select mb-3 text-light border-0 bg-white svelte-1s8hmr3");
     			if (/*navbar_bg*/ ctx[11] === void 0) add_render_callback(() => /*select1_change_handler*/ ctx[54].call(select1));
-    			add_location(select1, file$3, 400, 12, 13175);
+    			add_location(select1, file$3, 401, 12, 13250);
     			attr_dev(div27, "class", "d-flex");
-    			add_location(div27, file$3, 399, 10, 13141);
-    			add_location(h65, file$3, 463, 10, 15896);
+    			add_location(div27, file$3, 400, 10, 13216);
+    			add_location(h65, file$3, 464, 10, 15971);
     			attr_dev(div28, "class", "d-flex");
-    			add_location(div28, file$3, 464, 10, 15945);
+    			add_location(div28, file$3, 465, 10, 16020);
     			option19.__value = "";
     			option19.value = option19.__value;
-    			add_location(option19, file$3, 466, 12, 16061);
+    			add_location(option19, file$3, 467, 12, 16136);
     			option20.__value = "sidebar-dark-primary";
     			option20.value = option20.__value;
-    			add_location(option20, file$3, 467, 12, 16126);
+    			add_location(option20, file$3, 468, 12, 16201);
     			option21.__value = "sidebar-dark-warning";
     			option21.value = option21.__value;
-    			add_location(option21, file$3, 470, 12, 16256);
+    			add_location(option21, file$3, 471, 12, 16331);
     			option22.__value = "sidebar-dark-info";
     			option22.value = option22.__value;
-    			add_location(option22, file$3, 473, 12, 16386);
+    			add_location(option22, file$3, 474, 12, 16461);
     			option23.__value = "sidebar-dark-danger";
     			option23.value = option23.__value;
-    			add_location(option23, file$3, 476, 12, 16510);
+    			add_location(option23, file$3, 477, 12, 16585);
     			option24.__value = "sidebar-dark-success";
     			option24.value = option24.__value;
-    			add_location(option24, file$3, 479, 12, 16638);
+    			add_location(option24, file$3, 480, 12, 16713);
     			option25.__value = "sidebar-dark-indigo";
     			option25.value = option25.__value;
-    			add_location(option25, file$3, 482, 12, 16768);
+    			add_location(option25, file$3, 483, 12, 16843);
     			option26.__value = "sidebar-dark-lightblue";
     			option26.value = option26.__value;
-    			add_location(option26, file$3, 485, 12, 16896);
+    			add_location(option26, file$3, 486, 12, 16971);
     			option27.__value = "sidebar-dark-navy";
     			option27.value = option27.__value;
-    			add_location(option27, file$3, 488, 12, 17030);
+    			add_location(option27, file$3, 489, 12, 17105);
     			option28.__value = "sidebar-dark-purple";
     			option28.value = option28.__value;
-    			add_location(option28, file$3, 491, 12, 17154);
+    			add_location(option28, file$3, 492, 12, 17229);
     			option29.__value = "sidebar-dark-fuchsia";
     			option29.value = option29.__value;
-    			add_location(option29, file$3, 494, 12, 17282);
+    			add_location(option29, file$3, 495, 12, 17357);
     			option30.__value = "sidebar-dark-pink";
     			option30.value = option30.__value;
-    			add_location(option30, file$3, 497, 12, 17412);
+    			add_location(option30, file$3, 498, 12, 17487);
     			option31.__value = "sidebar-dark-maroon";
     			option31.value = option31.__value;
-    			add_location(option31, file$3, 500, 12, 17536);
+    			add_location(option31, file$3, 501, 12, 17611);
     			option32.__value = "sidebar-dark-orange";
     			option32.value = option32.__value;
-    			add_location(option32, file$3, 503, 12, 17664);
+    			add_location(option32, file$3, 504, 12, 17739);
     			option33.__value = "sidebar-dark-lime";
     			option33.value = option33.__value;
-    			add_location(option33, file$3, 506, 12, 17792);
+    			add_location(option33, file$3, 507, 12, 17867);
     			option34.__value = "sidebar-dark-teal";
     			option34.value = option34.__value;
-    			add_location(option34, file$3, 509, 12, 17916);
+    			add_location(option34, file$3, 510, 12, 17991);
     			option35.__value = "sidebar-dark-olive";
     			option35.value = option35.__value;
-    			add_location(option35, file$3, 512, 12, 18040);
+    			add_location(option35, file$3, 513, 12, 18115);
     			option36.__value = "sidebar-light-primary";
     			option36.value = option36.__value;
-    			add_location(option36, file$3, 515, 12, 18166);
+    			add_location(option36, file$3, 516, 12, 18241);
     			option37.__value = "sidebar-light-warning";
     			option37.value = option37.__value;
-    			add_location(option37, file$3, 518, 12, 18298);
+    			add_location(option37, file$3, 519, 12, 18373);
     			option38.__value = "sidebar-light-info";
     			option38.value = option38.__value;
-    			add_location(option38, file$3, 521, 12, 18430);
+    			add_location(option38, file$3, 522, 12, 18505);
     			option39.__value = "sidebar-light-danger";
     			option39.value = option39.__value;
-    			add_location(option39, file$3, 524, 12, 18556);
+    			add_location(option39, file$3, 525, 12, 18631);
     			option40.__value = "sidebar-light-success";
     			option40.value = option40.__value;
-    			add_location(option40, file$3, 527, 12, 18686);
+    			add_location(option40, file$3, 528, 12, 18761);
     			option41.__value = "sidebar-light-indigo";
     			option41.value = option41.__value;
-    			add_location(option41, file$3, 530, 12, 18818);
+    			add_location(option41, file$3, 531, 12, 18893);
     			option42.__value = "sidebar-light-lightblue";
     			option42.value = option42.__value;
-    			add_location(option42, file$3, 533, 12, 18948);
+    			add_location(option42, file$3, 534, 12, 19023);
     			option43.__value = "sidebar-light-navy";
     			option43.value = option43.__value;
-    			add_location(option43, file$3, 536, 12, 19084);
+    			add_location(option43, file$3, 537, 12, 19159);
     			option44.__value = "sidebar-light-purple";
     			option44.value = option44.__value;
-    			add_location(option44, file$3, 539, 12, 19210);
+    			add_location(option44, file$3, 540, 12, 19285);
     			option45.__value = "sidebar-light-fuchsia";
     			option45.value = option45.__value;
-    			add_location(option45, file$3, 542, 12, 19340);
+    			add_location(option45, file$3, 543, 12, 19415);
     			option46.__value = "sidebar-light-pink";
     			option46.value = option46.__value;
-    			add_location(option46, file$3, 545, 12, 19472);
+    			add_location(option46, file$3, 546, 12, 19547);
     			option47.__value = "sidebar-light-maroon";
     			option47.value = option47.__value;
-    			add_location(option47, file$3, 548, 12, 19598);
+    			add_location(option47, file$3, 549, 12, 19673);
     			option48.__value = "sidebar-light-orange";
     			option48.value = option48.__value;
-    			add_location(option48, file$3, 551, 12, 19728);
+    			add_location(option48, file$3, 552, 12, 19803);
     			option49.__value = "sidebar-light-lime";
     			option49.value = option49.__value;
-    			add_location(option49, file$3, 554, 12, 19858);
+    			add_location(option49, file$3, 555, 12, 19933);
     			option50.__value = "sidebar-light-teal";
     			option50.value = option50.__value;
-    			add_location(option50, file$3, 557, 12, 19984);
+    			add_location(option50, file$3, 558, 12, 20059);
     			option51.__value = "sidebar-light-olive";
     			option51.value = option51.__value;
-    			add_location(option51, file$3, 560, 12, 20110);
+    			add_location(option51, file$3, 561, 12, 20185);
     			attr_dev(select2, "class", "custom-select mb-3 border-0 svelte-1s8hmr3");
     			if (/*sidebar_bg*/ ctx[12] === void 0) add_render_callback(() => /*select2_change_handler*/ ctx[55].call(select2));
-    			add_location(select2, file$3, 465, 10, 15979);
-    			add_location(h66, file$3, 564, 10, 20257);
+    			add_location(select2, file$3, 466, 10, 16054);
+    			add_location(h66, file$3, 565, 10, 20332);
     			attr_dev(div29, "class", "d-flex");
-    			add_location(div29, file$3, 565, 10, 20308);
+    			add_location(div29, file$3, 566, 10, 20383);
     			option52.__value = "";
     			option52.value = option52.__value;
-    			add_location(option52, file$3, 570, 12, 20465);
+    			add_location(option52, file$3, 571, 12, 20540);
     			attr_dev(option53, "class", "bg-primary");
     			option53.__value = "navbar-dark bg-primary";
     			option53.value = option53.__value;
-    			add_location(option53, file$3, 571, 12, 20530);
+    			add_location(option53, file$3, 572, 12, 20605);
     			attr_dev(option54, "class", "bg-secondary");
     			option54.__value = "navbar-dark bg-secondary";
     			option54.value = option54.__value;
-    			add_location(option54, file$3, 574, 12, 20661);
+    			add_location(option54, file$3, 575, 12, 20736);
     			attr_dev(option55, "class", "bg-info");
     			option55.__value = "navbar-dark bg-info";
     			option55.value = option55.__value;
-    			add_location(option55, file$3, 577, 12, 20798);
+    			add_location(option55, file$3, 578, 12, 20873);
     			attr_dev(option56, "class", "bg-success");
     			option56.__value = "navbar-dark bg-success";
     			option56.value = option56.__value;
-    			add_location(option56, file$3, 580, 12, 20920);
+    			add_location(option56, file$3, 581, 12, 20995);
     			attr_dev(option57, "class", "bg-danger");
     			option57.__value = "navbar-dark bg-danger";
     			option57.value = option57.__value;
-    			add_location(option57, file$3, 583, 12, 21051);
+    			add_location(option57, file$3, 584, 12, 21126);
     			attr_dev(option58, "class", "bg-indigo");
     			option58.__value = "navbar-dark bg-indigo";
     			option58.value = option58.__value;
-    			add_location(option58, file$3, 586, 12, 21179);
+    			add_location(option58, file$3, 587, 12, 21254);
     			attr_dev(option59, "class", "bg-purple");
     			option59.__value = "navbar-dark bg-purple";
     			option59.value = option59.__value;
-    			add_location(option59, file$3, 589, 12, 21307);
+    			add_location(option59, file$3, 590, 12, 21382);
     			attr_dev(option60, "class", "bg-pink");
     			option60.__value = "navbar-dark bg-pink";
     			option60.value = option60.__value;
-    			add_location(option60, file$3, 592, 12, 21435);
+    			add_location(option60, file$3, 593, 12, 21510);
     			attr_dev(option61, "class", "bg-navy");
     			option61.__value = "navbar-dark bg-navy";
     			option61.value = option61.__value;
-    			add_location(option61, file$3, 595, 12, 21557);
+    			add_location(option61, file$3, 596, 12, 21632);
     			attr_dev(option62, "class", "bg-lightblue");
     			option62.__value = "bg-lightblue";
     			option62.value = option62.__value;
-    			add_location(option62, file$3, 598, 12, 21679);
+    			add_location(option62, file$3, 599, 12, 21754);
     			attr_dev(option63, "class", "bg-teal");
     			option63.__value = "navbar-dark bg-teal";
     			option63.value = option63.__value;
-    			add_location(option63, file$3, 601, 12, 21804);
+    			add_location(option63, file$3, 602, 12, 21879);
     			attr_dev(option64, "class", "bg-cyan");
     			option64.__value = "navbar-dark bg-cyan";
     			option64.value = option64.__value;
-    			add_location(option64, file$3, 604, 12, 21926);
+    			add_location(option64, file$3, 605, 12, 22001);
     			attr_dev(option65, "class", "bg-dark");
     			option65.__value = "navbar-dark bg-dark";
     			option65.value = option65.__value;
-    			add_location(option65, file$3, 607, 12, 22048);
+    			add_location(option65, file$3, 608, 12, 22123);
     			attr_dev(option66, "class", "bg-gray-dark");
     			option66.__value = "navbar-dark bg-gray-dark";
     			option66.value = option66.__value;
-    			add_location(option66, file$3, 610, 12, 22170);
+    			add_location(option66, file$3, 611, 12, 22245);
     			attr_dev(option67, "class", "bg-gray");
     			option67.__value = "navbar-dark bg-gray";
     			option67.value = option67.__value;
-    			add_location(option67, file$3, 613, 12, 22306);
+    			add_location(option67, file$3, 614, 12, 22381);
     			attr_dev(option68, "class", "bg-light");
     			option68.__value = "navbar-light bg-light";
     			option68.value = option68.__value;
-    			add_location(option68, file$3, 616, 12, 22428);
+    			add_location(option68, file$3, 617, 12, 22503);
     			attr_dev(option69, "class", "bg-warning");
     			option69.__value = "navbar-light bg-warning";
     			option69.value = option69.__value;
-    			add_location(option69, file$3, 619, 12, 22554);
+    			add_location(option69, file$3, 620, 12, 22629);
     			attr_dev(option70, "class", "bg-white");
     			option70.__value = "navbar-light bg-white";
     			option70.value = option70.__value;
-    			add_location(option70, file$3, 622, 12, 22686);
+    			add_location(option70, file$3, 623, 12, 22761);
     			attr_dev(option71, "class", "bg-orange");
     			option71.__value = "navbar-light bg-orange";
     			option71.value = option71.__value;
-    			add_location(option71, file$3, 625, 12, 22812);
+    			add_location(option71, file$3, 626, 12, 22887);
     			attr_dev(select3, "class", "custom-select mb-3 border-0 svelte-1s8hmr3");
     			if (/*brand_logo_bg*/ ctx[10] === void 0) add_render_callback(() => /*select3_change_handler*/ ctx[56].call(select3));
-    			add_location(select3, file$3, 566, 10, 20342);
+    			add_location(select3, file$3, 567, 10, 20417);
     			attr_dev(div30, "class", "card-body");
-    			add_location(div30, file$3, 270, 8, 8641);
+    			add_location(div30, file$3, 271, 8, 8716);
     			attr_dev(div31, "class", "card");
-    			add_location(div31, file$3, 269, 6, 8613);
+    			add_location(div31, file$3, 270, 6, 8688);
     			attr_dev(div32, "class", "col-md-3");
-    			add_location(div32, file$3, 253, 4, 8075);
+    			add_location(div32, file$3, 254, 4, 8150);
     			attr_dev(div33, "class", "row");
-    			add_location(div33, file$3, 149, 2, 4663);
+    			add_location(div33, file$3, 150, 2, 4738);
     			attr_dev(div34, "class", "container-fluid users");
-    			add_location(div34, file$3, 148, 0, 4624);
+    			add_location(div34, file$3, 149, 0, 4699);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -13519,7 +13521,10 @@ var app = (function () {
     	let title;
     	let active;
     	let links;
+    	let $locale;
     	let $__;
+    	validate_store(locale, 'locale');
+    	component_subscribe($$self, locale, $$value => $$invalidate(57, $locale = $$value));
     	validate_store(__, '__');
     	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
@@ -13608,7 +13613,8 @@ var app = (function () {
     			theme_navbar_fixed: navbar_fixed,
     			theme_footer_fixed: footer_fixed,
     			theme_text_size: text_size,
-    			theme_dark_mode: dark_mode
+    			theme_dark_mode: dark_mode,
+    			language_preference: $locale
     		};
 
     		if (id == route.new) {
@@ -13796,6 +13802,7 @@ var app = (function () {
     		route,
     		onMount,
     		DoubleBounce,
+    		locale,
     		id,
     		first_name,
     		last_name,
@@ -13829,6 +13836,7 @@ var app = (function () {
     		links,
     		title,
     		active,
+    		$locale,
     		$__
     	});
 

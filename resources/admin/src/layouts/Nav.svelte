@@ -6,14 +6,9 @@
   import { onMount } from "svelte";
 
   const auth = getSessionItem("auth");
-
   onMount(() => {
-    if (auth) {
-      if (typeof auth.options !== undefined) {
-        if (typeof auth.options.language_preference !== undefined) {
-          $locale = auth.options.language_preference;
-        }
-      }
+    if ('language_preference' in auth.options) {
+      $locale = auth.options.language_preference;
     }
   });
 

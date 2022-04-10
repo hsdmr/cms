@@ -102,6 +102,9 @@ export default {
   error: {
     emailIsWrong: "Email hatalı!",
     usernameIsWrong: "Username hatalı!",
-    passwordIsIncorrect: "Password hatalı!"
+    passwordIsIncorrect: "Password hatalı!",
+    accessTokenNotSent: "Access Token Gönderilmedi!",
+    accessTokenNotFound: "Access Token Bulunamadı!",
+    accessTokenExpired: "Access Token Süresi Doldu!",
   }
 }

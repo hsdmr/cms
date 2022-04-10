@@ -6,6 +6,7 @@
   import { api, route } from "src/scripts/links.js";
   import { onMount } from "svelte";
   import { DoubleBounce } from "svelte-loading-spinners";
+  import { locale } from "src/scripts/i18n.js";
 
   $: title = $__("title.users");
   $: active = title;
@@ -65,8 +66,7 @@
         sidebar_nav_legacy = user.options.theme_sidebar_nav_legacy;
         sidebar_nav_compact = user.options.theme_sidebar_nav_compact;
         sidebar_nav_child_indent = user.options.theme_sidebar_nav_child_indent;
-        sidebar_nav_hide_on_collapse =
-          user.options.theme_sidebar_nav_hide_on_collapse;
+        sidebar_nav_hide_on_collapse = user.options.theme_sidebar_nav_hide_on_collapse;
         sidebar_collapsed = user.options.theme_sidebar_collapsed;
         sidebar_expand = user.options.theme_sidebar_expand;
         main_fixed = user.options.theme_main_fixed;
@@ -101,6 +101,7 @@
       theme_footer_fixed: footer_fixed,
       theme_text_size: text_size,
       theme_dark_mode: dark_mode,
+      language_preference: $locale,
     };
 
     if (id == route.new) {

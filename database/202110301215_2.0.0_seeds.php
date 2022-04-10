@@ -13,6 +13,7 @@ class Seeds200
     $sql['option1'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_brand_logo_bg', \"\", " . time() . ", " . time() . ")";
     $sql['option2'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_navbar_bg', '\"navbar-light bg-white\"', " . time() . ", " . time() . ")";
     $sql['option3'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'theme_sidebar_bg', '\"sidebar-dark-success\"', " . time() . ", " . time() . ")";
+    $sql['option4'] = "INSERT INTO `option` (`type`, `type_id`, `key`, `value`, `created_at`, `updated_at`) VALUES ('user', '1', 'language_preference', '\"tr\"', " . time() . ", " . time() . ")";
 
     try {
       foreach ($sql as $key => $value) {
