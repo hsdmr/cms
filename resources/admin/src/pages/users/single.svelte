@@ -7,18 +7,12 @@
   import { onMount } from "svelte";
   import { DoubleBounce } from "svelte-loading-spinners";
   import { locale } from "src/scripts/i18n.js";
-
-  $: title = $__("title.users");
-  $: active = title;
-  $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
-  ];
-
+  
   export let id;
+
   const color = id == route.new ? "success" : "primary";
-  let first_name;
-  let last_name;
+  let first_name = "";
+  let last_name = "";
   let email;
   let username;
   let nickname;
@@ -148,9 +142,15 @@
       }
     }
   }
+  
+  $: title = id != route.new ? first_name + ' ' + last_name : $__("any.addNew");
+  $: links = [
+    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+  ];
 </script>
 
-<Breadcrump {title} {active} {links} />
+<Breadcrump {title} {links} />
 <div class="container-fluid users">
   <div class="row">
     <div class="col-md-9">

@@ -5,9 +5,6 @@
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-  $: title = $__("title.users");
-  $: active = title;
-  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
 
   $: titles = [
     $__("title.firstName"),
@@ -26,9 +23,12 @@
     "username",
     "nickname",
   ];
+  
+  $: title = $__("title.users");
+  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
 </script>
 
-<Breadcrump {title} {active} {links} />
+<Breadcrump {title} {links} />
 <div class="container-fluid users">
   <Table
     {titles}

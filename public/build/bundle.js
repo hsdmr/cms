@@ -7555,13 +7555,13 @@ var app = (function () {
 
     function get_each_context$6(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[2] = list[i];
     	return child_ctx;
     }
 
-    // (20:14) <Link to="/{item.pageUrl}">
+    // (19:14) <Link to="/{item.pageUrl}">
     function create_default_slot$3(ctx) {
-    	let t_value = /*item*/ ctx[3].pageTitle + "";
+    	let t_value = /*item*/ ctx[2].pageTitle + "";
     	let t;
 
     	const block = {
@@ -7572,7 +7572,7 @@ var app = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*links*/ 2 && t_value !== (t_value = /*item*/ ctx[3].pageTitle + "")) set_data_dev(t, t_value);
+    			if (dirty & /*links*/ 2 && t_value !== (t_value = /*item*/ ctx[2].pageTitle + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -7583,14 +7583,14 @@ var app = (function () {
     		block,
     		id: create_default_slot$3.name,
     		type: "slot",
-    		source: "(20:14) <Link to=\\\"/{item.pageUrl}\\\">",
+    		source: "(19:14) <Link to=\\\"/{item.pageUrl}\\\">",
     		ctx
     	});
 
     	return block;
     }
 
-    // (18:10) {#each links as item}
+    // (17:10) {#each links as item}
     function create_each_block$6(ctx) {
     	let li;
     	let link;
@@ -7598,7 +7598,7 @@ var app = (function () {
 
     	link = new Link$1({
     			props: {
-    				to: "/" + /*item*/ ctx[3].pageUrl,
+    				to: "/" + /*item*/ ctx[2].pageUrl,
     				$$slots: { default: [create_default_slot$3] },
     				$$scope: { ctx }
     			},
@@ -7610,7 +7610,7 @@ var app = (function () {
     			li = element("li");
     			create_component(link.$$.fragment);
     			attr_dev(li, "class", "breadcrumb-item");
-    			add_location(li, file$d, 18, 12, 451);
+    			add_location(li, file$d, 17, 12, 429);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -7619,9 +7619,9 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const link_changes = {};
-    			if (dirty & /*links*/ 2) link_changes.to = "/" + /*item*/ ctx[3].pageUrl;
+    			if (dirty & /*links*/ 2) link_changes.to = "/" + /*item*/ ctx[2].pageUrl;
 
-    			if (dirty & /*$$scope, links*/ 66) {
+    			if (dirty & /*$$scope, links*/ 34) {
     				link_changes.$$scope = { dirty, ctx };
     			}
 
@@ -7646,7 +7646,7 @@ var app = (function () {
     		block,
     		id: create_each_block$6.name,
     		type: "each",
-    		source: "(18:10) {#each links as item}",
+    		source: "(17:10) {#each links as item}",
     		ctx
     	});
 
@@ -7697,23 +7697,23 @@ var app = (function () {
 
     			t2 = space();
     			li = element("li");
-    			t3 = text(/*active*/ ctx[2]);
+    			t3 = text(/*title*/ ctx[0]);
     			attr_dev(h1, "class", "m-0");
-    			add_location(h1, file$d, 12, 8, 262);
+    			add_location(h1, file$d, 11, 8, 240);
     			attr_dev(div0, "class", "col-sm-6");
-    			add_location(div0, file$d, 11, 6, 230);
+    			add_location(div0, file$d, 10, 6, 208);
     			attr_dev(li, "class", "breadcrumb-item active");
-    			add_location(li, file$d, 22, 10, 595);
+    			add_location(li, file$d, 21, 10, 573);
     			attr_dev(ol, "class", "breadcrumb float-sm-right");
-    			add_location(ol, file$d, 16, 8, 366);
+    			add_location(ol, file$d, 15, 8, 344);
     			attr_dev(div1, "class", "col-sm-6");
-    			add_location(div1, file$d, 15, 6, 334);
+    			add_location(div1, file$d, 14, 6, 312);
     			attr_dev(div2, "class", "row mb-2");
-    			add_location(div2, file$d, 10, 4, 200);
+    			add_location(div2, file$d, 9, 4, 178);
     			attr_dev(div3, "class", "container-fluid");
-    			add_location(div3, file$d, 9, 2, 165);
+    			add_location(div3, file$d, 8, 2, 143);
     			attr_dev(div4, "class", "content-header");
-    			add_location(div4, file$d, 8, 0, 133);
+    			add_location(div4, file$d, 7, 0, 111);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -7769,7 +7769,7 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (!current || dirty & /*active*/ 4) set_data_dev(t3, /*active*/ ctx[2]);
+    			if (!current || dirty & /*title*/ 1) set_data_dev(t3, /*title*/ ctx[0]);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -7811,8 +7811,7 @@ var app = (function () {
     	validate_slots('Breadcrump', slots, []);
     	let { title } = $$props;
     	let { links } = $$props;
-    	let { active } = $$props;
-    	const writable_props = ['title', 'links', 'active'];
+    	const writable_props = ['title', 'links'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Breadcrump> was created with unknown prop '${key}'`);
@@ -7821,28 +7820,26 @@ var app = (function () {
     	$$self.$$set = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
     		if ('links' in $$props) $$invalidate(1, links = $$props.links);
-    		if ('active' in $$props) $$invalidate(2, active = $$props.active);
     	};
 
-    	$$self.$capture_state = () => ({ Link: Link$1, title, links, active });
+    	$$self.$capture_state = () => ({ Link: Link$1, title, links });
 
     	$$self.$inject_state = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
     		if ('links' in $$props) $$invalidate(1, links = $$props.links);
-    		if ('active' in $$props) $$invalidate(2, active = $$props.active);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [title, links, active];
+    	return [title, links];
     }
 
     class Breadcrump extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$d, create_fragment$d, safe_not_equal, { title: 0, links: 1, active: 2 });
+    		init(this, options, instance$d, create_fragment$d, safe_not_equal, { title: 0, links: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -7861,10 +7858,6 @@ var app = (function () {
     		if (/*links*/ ctx[1] === undefined && !('links' in props)) {
     			console.warn("<Breadcrump> was created without expected prop 'links'");
     		}
-
-    		if (/*active*/ ctx[2] === undefined && !('active' in props)) {
-    			console.warn("<Breadcrump> was created without expected prop 'active'");
-    		}
     	}
 
     	get title() {
@@ -7880,14 +7873,6 @@ var app = (function () {
     	}
 
     	set links(value) {
-    		throw new Error("<Breadcrump>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	get active() {
-    		throw new Error("<Breadcrump>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set active(value) {
     		throw new Error("<Breadcrump>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -11194,17 +11179,16 @@ var app = (function () {
 
     	breadcrump = new Breadcrump({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[3],
-    				links: /*links*/ ctx[2]
+    				title: /*title*/ ctx[1],
+    				links: /*links*/ ctx[0]
     			},
     			$$inline: true
     		});
 
     	table = new Table({
     			props: {
-    				titles: /*titles*/ ctx[1],
-    				keys: /*keys*/ ctx[4],
+    				titles: /*titles*/ ctx[2],
+    				keys: /*keys*/ ctx[3],
     				apiUrl: api.user,
     				routeUrl: "/" + route$1.admin + "/" + route$1.users
     			},
@@ -11218,7 +11202,7 @@ var app = (function () {
     			div = element("div");
     			create_component(table.$$.fragment);
     			attr_dev(div, "class", "container-fluid users");
-    			add_location(div, file$5, 31, 0, 771);
+    			add_location(div, file$5, 31, 0, 744);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -11232,12 +11216,11 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			const breadcrump_changes = {};
-    			if (dirty & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty & /*active*/ 8) breadcrump_changes.active = /*active*/ ctx[3];
-    			if (dirty & /*links*/ 4) breadcrump_changes.links = /*links*/ ctx[2];
+    			if (dirty & /*title*/ 2) breadcrump_changes.title = /*title*/ ctx[1];
+    			if (dirty & /*links*/ 1) breadcrump_changes.links = /*links*/ ctx[0];
     			breadcrump.$set(breadcrump_changes);
     			const table_changes = {};
-    			if (dirty & /*titles*/ 2) table_changes.titles = /*titles*/ ctx[1];
+    			if (dirty & /*titles*/ 4) table_changes.titles = /*titles*/ ctx[2];
     			table.$set(table_changes);
     		},
     		i: function intro(local) {
@@ -11271,13 +11254,12 @@ var app = (function () {
     }
 
     function instance$5($$self, $$props, $$invalidate) {
-    	let title;
-    	let active;
-    	let links;
     	let titles;
+    	let title;
+    	let links;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(5, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(4, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Users', slots, []);
     	const keys = ["first_name", "last_name", "role", "email", "username", "nickname"];
@@ -11294,18 +11276,16 @@ var app = (function () {
     		api,
     		route: route$1,
     		keys,
-    		titles,
     		links,
     		title,
-    		active,
+    		titles,
     		$__
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('titles' in $$props) $$invalidate(1, titles = $$props.titles);
-    		if ('links' in $$props) $$invalidate(2, links = $$props.links);
-    		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(3, active = $$props.active);
+    		if ('links' in $$props) $$invalidate(0, links = $$props.links);
+    		if ('title' in $$props) $$invalidate(1, title = $$props.title);
+    		if ('titles' in $$props) $$invalidate(2, titles = $$props.titles);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -11313,25 +11293,8 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(0, title = $__("title.users"));
-    		}
-
-    		if ($$self.$$.dirty & /*title*/ 1) {
-    			$$invalidate(3, active = title);
-    		}
-
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(2, links = [
-    				{
-    					pageUrl: route$1.admin,
-    					pageTitle: $__("title.dashboard")
-    				}
-    			]);
-    		}
-
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(1, titles = [
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(2, titles = [
     				$__("title.firstName"),
     				$__("title.lastName"),
     				$__("title.role"),
@@ -11340,9 +11303,22 @@ var app = (function () {
     				$__("title.nickname")
     			]);
     		}
+
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(1, title = $__("title.users"));
+    		}
+
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(0, links = [
+    				{
+    					pageUrl: route$1.admin,
+    					pageTitle: $__("title.dashboard")
+    				}
+    			]);
+    		}
     	};
 
-    	return [title, titles, links, active, keys, $__];
+    	return [links, title, titles, keys, $__];
     }
 
     class Users extends SvelteComponentDev {
@@ -11371,17 +11347,16 @@ var app = (function () {
 
     	breadcrump = new Breadcrump({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[3],
-    				links: /*links*/ ctx[2]
+    				title: /*title*/ ctx[1],
+    				links: /*links*/ ctx[0]
     			},
     			$$inline: true
     		});
 
     	table = new Table({
     			props: {
-    				titles: /*titles*/ ctx[1],
-    				keys: /*keys*/ ctx[4],
+    				titles: /*titles*/ ctx[2],
+    				keys: /*keys*/ ctx[3],
     				apiUrl: api.user,
     				routeUrl: "/" + route$1.admin + "/" + route$1.users,
     				addNewButton: false,
@@ -11398,7 +11373,7 @@ var app = (function () {
     			div = element("div");
     			create_component(table.$$.fragment);
     			attr_dev(div, "class", "container-fluid users");
-    			add_location(div, file$4, 34, 0, 864);
+    			add_location(div, file$4, 33, 0, 833);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -11412,12 +11387,11 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			const breadcrump_changes = {};
-    			if (dirty & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty & /*active*/ 8) breadcrump_changes.active = /*active*/ ctx[3];
-    			if (dirty & /*links*/ 4) breadcrump_changes.links = /*links*/ ctx[2];
+    			if (dirty & /*title*/ 2) breadcrump_changes.title = /*title*/ ctx[1];
+    			if (dirty & /*links*/ 1) breadcrump_changes.links = /*links*/ ctx[0];
     			breadcrump.$set(breadcrump_changes);
     			const table_changes = {};
-    			if (dirty & /*titles*/ 2) table_changes.titles = /*titles*/ ctx[1];
+    			if (dirty & /*titles*/ 4) table_changes.titles = /*titles*/ ctx[2];
     			table.$set(table_changes);
     		},
     		i: function intro(local) {
@@ -11451,13 +11425,12 @@ var app = (function () {
     }
 
     function instance$4($$self, $$props, $$invalidate) {
-    	let title;
-    	let active;
-    	let links;
     	let titles;
+    	let title;
+    	let links;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(5, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(4, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Trash', slots, []);
     	const keys = ["first_name", "last_name", "role", "email", "username", "nickname"];
@@ -11474,18 +11447,16 @@ var app = (function () {
     		api,
     		route: route$1,
     		keys,
-    		titles,
     		links,
     		title,
-    		active,
+    		titles,
     		$__
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('titles' in $$props) $$invalidate(1, titles = $$props.titles);
-    		if ('links' in $$props) $$invalidate(2, links = $$props.links);
-    		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(3, active = $$props.active);
+    		if ('links' in $$props) $$invalidate(0, links = $$props.links);
+    		if ('title' in $$props) $$invalidate(1, title = $$props.title);
+    		if ('titles' in $$props) $$invalidate(2, titles = $$props.titles);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -11493,16 +11464,23 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(0, title = $__("title.trash"));
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(2, titles = [
+    				$__("title.firstName"),
+    				$__("title.lastName"),
+    				$__("title.role"),
+    				$__("title.email"),
+    				$__("title.username"),
+    				$__("title.nickname")
+    			]);
     		}
 
-    		if ($$self.$$.dirty & /*title*/ 1) {
-    			$$invalidate(3, active = title);
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(1, title = $__("title.trash"));
     		}
 
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(2, links = [
+    		if ($$self.$$.dirty & /*$__*/ 16) {
+    			$$invalidate(0, links = [
     				{
     					pageUrl: route$1.admin,
     					pageTitle: $__("title.dashboard")
@@ -11513,20 +11491,9 @@ var app = (function () {
     				}
     			]);
     		}
-
-    		if ($$self.$$.dirty & /*$__*/ 32) {
-    			$$invalidate(1, titles = [
-    				$__("title.firstName"),
-    				$__("title.lastName"),
-    				$__("title.role"),
-    				$__("title.email"),
-    				$__("title.username"),
-    				$__("title.nickname")
-    			]);
-    		}
     	};
 
-    	return [title, titles, links, active, keys, $__];
+    	return [links, title, titles, keys, $__];
     }
 
     class Trash extends SvelteComponentDev {
@@ -11548,7 +11515,7 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[60] = list[i];
+    	child_ctx[59] = list[i];
     	return child_ctx;
     }
 
@@ -11560,16 +11527,16 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[26]);
+    			t = text(/*error*/ ctx[25]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 185, 14, 5597);
+    			add_location(div, file$3, 185, 14, 5630);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*error*/ 67108864) set_data_dev(t, /*error*/ ctx[26]);
+    			if (dirty[0] & /*error*/ 33554432) set_data_dev(t, /*error*/ ctx[25]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -11595,16 +11562,16 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[26]);
+    			t = text(/*error*/ ctx[25]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 199, 14, 6061);
+    			add_location(div, file$3, 199, 14, 6094);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*error*/ 67108864) set_data_dev(t, /*error*/ ctx[26]);
+    			if (dirty[0] & /*error*/ 33554432) set_data_dev(t, /*error*/ ctx[25]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -11630,16 +11597,16 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[26]);
+    			t = text(/*error*/ ctx[25]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 224, 14, 6870);
+    			add_location(div, file$3, 224, 14, 6903);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*error*/ 67108864) set_data_dev(t, /*error*/ ctx[26]);
+    			if (dirty[0] & /*error*/ 33554432) set_data_dev(t, /*error*/ ctx[25]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -11665,16 +11632,16 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			t = text(/*error*/ ctx[26]);
+    			t = text(/*error*/ ctx[25]);
     			attr_dev(div, "class", "text-danger float-right");
-    			add_location(div, file$3, 238, 14, 7352);
+    			add_location(div, file$3, 238, 14, 7385);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*error*/ 67108864) set_data_dev(t, /*error*/ ctx[26]);
+    			if (dirty[0] & /*error*/ 33554432) set_data_dev(t, /*error*/ ctx[25]);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -11695,16 +11662,16 @@ var app = (function () {
     // (251:14) {#each roles as item}
     function create_each_block(ctx) {
     	let option;
-    	let t_value = /*item*/ ctx[60] + "";
+    	let t_value = /*item*/ ctx[59] + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			option = element("option");
     			t = text(t_value);
-    			option.__value = /*item*/ ctx[60];
+    			option.__value = /*item*/ ctx[59];
     			option.value = option.__value;
-    			add_location(option, file$3, 251, 16, 7860);
+    			add_location(option, file$3, 251, 16, 7893);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -11730,7 +11697,7 @@ var app = (function () {
     // (265:12) {:else}
     function create_else_block(ctx) {
     	let button;
-    	let t_value = /*$__*/ ctx[1]("any.save") + "";
+    	let t_value = /*$__*/ ctx[2]("any.save") + "";
     	let t;
     	let mounted;
     	let dispose;
@@ -11741,19 +11708,19 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(button, "type", "button");
     			attr_dev(button, "class", "btn btn-success float-right");
-    			add_location(button, file$3, 265, 14, 8328);
+    			add_location(button, file$3, 265, 14, 8361);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
     			append_dev(button, t);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*submit*/ ctx[32], false, false, false);
+    				dispose = listen_dev(button, "click", /*submit*/ ctx[31], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*$__*/ 2 && t_value !== (t_value = /*$__*/ ctx[1]("any.save") + "")) set_data_dev(t, t_value);
+    			if (dirty[0] & /*$__*/ 4 && t_value !== (t_value = /*$__*/ ctx[2]("any.save") + "")) set_data_dev(t, t_value);
     		},
     		i: noop,
     		o: noop,
@@ -11834,64 +11801,64 @@ var app = (function () {
     	let div8;
     	let div0;
     	let label0;
-    	let t1_value = /*$__*/ ctx[1]("title.firstName") + "";
+    	let t1_value = /*$__*/ ctx[2]("title.firstName") + "";
     	let t1;
     	let t2;
     	let input0;
     	let t3;
     	let div1;
     	let label1;
-    	let t4_value = /*$__*/ ctx[1]("title.lastName") + "";
+    	let t4_value = /*$__*/ ctx[2]("title.lastName") + "";
     	let t4;
     	let t5;
     	let input1;
     	let t6;
     	let div2;
     	let label2;
-    	let t7_value = /*$__*/ ctx[1]("title.email") + "";
+    	let t7_value = /*$__*/ ctx[2]("title.email") + "";
     	let t7;
     	let t8;
-    	let show_if_3 = /*error*/ ctx[26].includes("email");
+    	let show_if_3 = /*error*/ ctx[25].includes("email");
     	let t9;
     	let input2;
     	let t10;
     	let div3;
     	let label3;
-    	let t11_value = /*$__*/ ctx[1]("title.username") + "";
+    	let t11_value = /*$__*/ ctx[2]("title.username") + "";
     	let t11;
     	let t12;
-    	let show_if_2 = /*error*/ ctx[26].includes("username");
+    	let show_if_2 = /*error*/ ctx[25].includes("username");
     	let t13;
     	let input3;
     	let t14;
     	let div4;
     	let label4;
-    	let t15_value = /*$__*/ ctx[1]("title.nickname") + "";
+    	let t15_value = /*$__*/ ctx[2]("title.nickname") + "";
     	let t15;
     	let t16;
     	let input4;
     	let t17;
     	let div5;
     	let label5;
-    	let t18_value = /*$__*/ ctx[1]("title.password") + "";
+    	let t18_value = /*$__*/ ctx[2]("title.password") + "";
     	let t18;
     	let t19;
-    	let show_if_1 = /*error*/ ctx[26].includes("password");
+    	let show_if_1 = /*error*/ ctx[25].includes("password");
     	let t20;
     	let input5;
     	let t21;
     	let div6;
     	let label6;
-    	let t22_value = /*$__*/ ctx[1]("title.retypePassword") + "";
+    	let t22_value = /*$__*/ ctx[2]("title.retypePassword") + "";
     	let t22;
     	let t23;
-    	let show_if = /*error*/ ctx[26].includes("password");
+    	let show_if = /*error*/ ctx[25].includes("password");
     	let t24;
     	let input6;
     	let t25;
     	let div7;
     	let label7;
-    	let t26_value = /*$__*/ ctx[1]("title.role") + "";
+    	let t26_value = /*$__*/ ctx[2]("title.role") + "";
     	let t26;
     	let t27;
     	let select0;
@@ -11906,7 +11873,7 @@ var app = (function () {
     	let div31;
     	let div30;
     	let h5;
-    	let t30_value = /*$__*/ ctx[1]("any.customize") + "";
+    	let t30_value = /*$__*/ ctx[2]("any.customize") + "";
     	let t30;
     	let t31;
     	let hr;
@@ -11914,430 +11881,430 @@ var app = (function () {
     	let div14;
     	let input7;
     	let label8;
-    	let t33_value = /*$__*/ ctx[1]("any.darkMode") + "";
+    	let t33_value = /*$__*/ ctx[2]("any.darkMode") + "";
     	let t33;
     	let t34;
     	let h60;
-    	let t35_value = /*$__*/ ctx[1]("any.headerOptions") + "";
+    	let t35_value = /*$__*/ ctx[2]("any.headerOptions") + "";
     	let t35;
     	let t36;
     	let div15;
     	let input8;
     	let label9;
-    	let t37_value = /*$__*/ ctx[1]("any.noBorder") + "";
+    	let t37_value = /*$__*/ ctx[2]("any.noBorder") + "";
     	let t37;
     	let t38;
     	let div16;
     	let input9;
     	let label10;
-    	let t39_value = /*$__*/ ctx[1]("any.fixed") + "";
+    	let t39_value = /*$__*/ ctx[2]("any.fixed") + "";
     	let t39;
     	let t40;
     	let h61;
-    	let t41_value = /*$__*/ ctx[1]("any.sidebarOptions") + "";
+    	let t41_value = /*$__*/ ctx[2]("any.sidebarOptions") + "";
     	let t41;
     	let t42;
     	let div17;
     	let input10;
     	let label11;
-    	let t43_value = /*$__*/ ctx[1]("any.collapsed") + "";
+    	let t43_value = /*$__*/ ctx[2]("any.collapsed") + "";
     	let t43;
     	let t44;
     	let div18;
     	let input11;
     	let label12;
-    	let t45_value = /*$__*/ ctx[1]("any.fixed") + "";
+    	let t45_value = /*$__*/ ctx[2]("any.fixed") + "";
     	let t45;
     	let t46;
     	let div19;
     	let input12;
     	let label13;
-    	let t47_value = /*$__*/ ctx[1]("any.navFlat") + "";
+    	let t47_value = /*$__*/ ctx[2]("any.navFlat") + "";
     	let t47;
     	let t48;
     	let div20;
     	let input13;
     	let label14;
-    	let t49_value = /*$__*/ ctx[1]("any.navLegacy") + "";
+    	let t49_value = /*$__*/ ctx[2]("any.navLegacy") + "";
     	let t49;
     	let t50;
     	let div21;
     	let input14;
     	let label15;
-    	let t51_value = /*$__*/ ctx[1]("any.navCompact") + "";
+    	let t51_value = /*$__*/ ctx[2]("any.navCompact") + "";
     	let t51;
     	let t52;
     	let div22;
     	let input15;
     	let label16;
-    	let t53_value = /*$__*/ ctx[1]("any.navChildIndent") + "";
+    	let t53_value = /*$__*/ ctx[2]("any.navChildIndent") + "";
     	let t53;
     	let t54;
     	let div23;
     	let input16;
     	let label17;
-    	let t55_value = /*$__*/ ctx[1]("any.navChildHideOnCollapse") + "";
+    	let t55_value = /*$__*/ ctx[2]("any.navChildHideOnCollapse") + "";
     	let t55;
     	let t56;
     	let div24;
     	let input17;
     	let label18;
-    	let t57_value = /*$__*/ ctx[1]("any.disableHoverFocusAutoExpand") + "";
+    	let t57_value = /*$__*/ ctx[2]("any.disableHoverFocusAutoExpand") + "";
     	let t57;
     	let t58;
     	let h62;
-    	let t59_value = /*$__*/ ctx[1]("any.footerOptions") + "";
+    	let t59_value = /*$__*/ ctx[2]("any.footerOptions") + "";
     	let t59;
     	let t60;
     	let div25;
     	let input18;
     	let label19;
-    	let t61_value = /*$__*/ ctx[1]("any.fixed") + "";
+    	let t61_value = /*$__*/ ctx[2]("any.fixed") + "";
     	let t61;
     	let t62;
     	let h63;
-    	let t63_value = /*$__*/ ctx[1]("any.smallTextOption") + "";
+    	let t63_value = /*$__*/ ctx[2]("any.smallTextOption") + "";
     	let t63;
     	let t64;
     	let div26;
     	let input19;
     	let label20;
-    	let t65_value = /*$__*/ ctx[1]("any.body") + "";
+    	let t65_value = /*$__*/ ctx[2]("any.body") + "";
     	let t65;
     	let t66;
     	let h64;
-    	let t67_value = /*$__*/ ctx[1]("any.navbarVariants") + "";
+    	let t67_value = /*$__*/ ctx[2]("any.navbarVariants") + "";
     	let t67;
     	let t68;
     	let div27;
     	let select1;
     	let option0;
-    	let t69_value = /*$__*/ ctx[1]("any.primary") + "";
+    	let t69_value = /*$__*/ ctx[2]("any.primary") + "";
     	let t69;
     	let option1;
-    	let t70_value = /*$__*/ ctx[1]("any.secondary") + "";
+    	let t70_value = /*$__*/ ctx[2]("any.secondary") + "";
     	let t70;
     	let option2;
-    	let t71_value = /*$__*/ ctx[1]("any.info") + "";
+    	let t71_value = /*$__*/ ctx[2]("any.info") + "";
     	let t71;
     	let option3;
-    	let t72_value = /*$__*/ ctx[1]("any.success") + "";
+    	let t72_value = /*$__*/ ctx[2]("any.success") + "";
     	let t72;
     	let option4;
-    	let t73_value = /*$__*/ ctx[1]("any.danger") + "";
+    	let t73_value = /*$__*/ ctx[2]("any.danger") + "";
     	let t73;
     	let option5;
-    	let t74_value = /*$__*/ ctx[1]("any.indigo") + "";
+    	let t74_value = /*$__*/ ctx[2]("any.indigo") + "";
     	let t74;
     	let option6;
-    	let t75_value = /*$__*/ ctx[1]("any.purple") + "";
+    	let t75_value = /*$__*/ ctx[2]("any.purple") + "";
     	let t75;
     	let option7;
-    	let t76_value = /*$__*/ ctx[1]("any.pink") + "";
+    	let t76_value = /*$__*/ ctx[2]("any.pink") + "";
     	let t76;
     	let option8;
-    	let t77_value = /*$__*/ ctx[1]("any.navy") + "";
+    	let t77_value = /*$__*/ ctx[2]("any.navy") + "";
     	let t77;
     	let option9;
-    	let t78_value = /*$__*/ ctx[1]("any.lightblue") + "";
+    	let t78_value = /*$__*/ ctx[2]("any.lightblue") + "";
     	let t78;
     	let option10;
-    	let t79_value = /*$__*/ ctx[1]("any.teal") + "";
+    	let t79_value = /*$__*/ ctx[2]("any.teal") + "";
     	let t79;
     	let option11;
-    	let t80_value = /*$__*/ ctx[1]("any.cyan") + "";
+    	let t80_value = /*$__*/ ctx[2]("any.cyan") + "";
     	let t80;
     	let option12;
-    	let t81_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t81_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t81;
     	let option13;
-    	let t82_value = /*$__*/ ctx[1]("any.grayDark") + "";
+    	let t82_value = /*$__*/ ctx[2]("any.grayDark") + "";
     	let t82;
     	let option14;
-    	let t83_value = /*$__*/ ctx[1]("any.gray") + "";
+    	let t83_value = /*$__*/ ctx[2]("any.gray") + "";
     	let t83;
     	let option15;
-    	let t84_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t84_value = /*$__*/ ctx[2]("any.light") + "";
     	let t84;
     	let option16;
-    	let t85_value = /*$__*/ ctx[1]("any.warning") + "";
+    	let t85_value = /*$__*/ ctx[2]("any.warning") + "";
     	let t85;
     	let option17;
-    	let t86_value = /*$__*/ ctx[1]("any.white") + "";
+    	let t86_value = /*$__*/ ctx[2]("any.white") + "";
     	let t86;
     	let option18;
-    	let t87_value = /*$__*/ ctx[1]("any.orange") + "";
+    	let t87_value = /*$__*/ ctx[2]("any.orange") + "";
     	let t87;
     	let t88;
     	let h65;
-    	let t89_value = /*$__*/ ctx[1]("any.sidebarVariants") + "";
+    	let t89_value = /*$__*/ ctx[2]("any.sidebarVariants") + "";
     	let t89;
     	let t90;
     	let div28;
     	let t91;
     	let select2;
     	let option19;
-    	let t92_value = /*$__*/ ctx[1]("any.noneSelected") + "";
+    	let t92_value = /*$__*/ ctx[2]("any.noneSelected") + "";
     	let t92;
     	let option20;
-    	let t93_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t93_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t93;
     	let t94;
-    	let t95_value = /*$__*/ ctx[1]("any.primary") + "";
+    	let t95_value = /*$__*/ ctx[2]("any.primary") + "";
     	let t95;
     	let option21;
-    	let t96_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t96_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t96;
     	let t97;
-    	let t98_value = /*$__*/ ctx[1]("any.warning") + "";
+    	let t98_value = /*$__*/ ctx[2]("any.warning") + "";
     	let t98;
     	let option22;
-    	let t99_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t99_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t99;
     	let t100;
-    	let t101_value = /*$__*/ ctx[1]("any.info") + "";
+    	let t101_value = /*$__*/ ctx[2]("any.info") + "";
     	let t101;
     	let option23;
-    	let t102_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t102_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t102;
     	let t103;
-    	let t104_value = /*$__*/ ctx[1]("any.danger") + "";
+    	let t104_value = /*$__*/ ctx[2]("any.danger") + "";
     	let t104;
     	let option24;
-    	let t105_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t105_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t105;
     	let t106;
-    	let t107_value = /*$__*/ ctx[1]("any.success") + "";
+    	let t107_value = /*$__*/ ctx[2]("any.success") + "";
     	let t107;
     	let option25;
-    	let t108_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t108_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t108;
     	let t109;
-    	let t110_value = /*$__*/ ctx[1]("any.indigo") + "";
+    	let t110_value = /*$__*/ ctx[2]("any.indigo") + "";
     	let t110;
     	let option26;
-    	let t111_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t111_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t111;
     	let t112;
-    	let t113_value = /*$__*/ ctx[1]("any.lightblue") + "";
+    	let t113_value = /*$__*/ ctx[2]("any.lightblue") + "";
     	let t113;
     	let option27;
-    	let t114_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t114_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t114;
     	let t115;
-    	let t116_value = /*$__*/ ctx[1]("any.navy") + "";
+    	let t116_value = /*$__*/ ctx[2]("any.navy") + "";
     	let t116;
     	let option28;
-    	let t117_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t117_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t117;
     	let t118;
-    	let t119_value = /*$__*/ ctx[1]("any.purple") + "";
+    	let t119_value = /*$__*/ ctx[2]("any.purple") + "";
     	let t119;
     	let option29;
-    	let t120_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t120_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t120;
     	let t121;
-    	let t122_value = /*$__*/ ctx[1]("any.fuchsia") + "";
+    	let t122_value = /*$__*/ ctx[2]("any.fuchsia") + "";
     	let t122;
     	let option30;
-    	let t123_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t123_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t123;
     	let t124;
-    	let t125_value = /*$__*/ ctx[1]("any.pink") + "";
+    	let t125_value = /*$__*/ ctx[2]("any.pink") + "";
     	let t125;
     	let option31;
-    	let t126_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t126_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t126;
     	let t127;
-    	let t128_value = /*$__*/ ctx[1]("any.maroon") + "";
+    	let t128_value = /*$__*/ ctx[2]("any.maroon") + "";
     	let t128;
     	let option32;
-    	let t129_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t129_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t129;
     	let t130;
-    	let t131_value = /*$__*/ ctx[1]("any.orange") + "";
+    	let t131_value = /*$__*/ ctx[2]("any.orange") + "";
     	let t131;
     	let option33;
-    	let t132_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t132_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t132;
     	let t133;
-    	let t134_value = /*$__*/ ctx[1]("any.lime") + "";
+    	let t134_value = /*$__*/ ctx[2]("any.lime") + "";
     	let t134;
     	let option34;
-    	let t135_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t135_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t135;
     	let t136;
-    	let t137_value = /*$__*/ ctx[1]("any.teal") + "";
+    	let t137_value = /*$__*/ ctx[2]("any.teal") + "";
     	let t137;
     	let option35;
-    	let t138_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t138_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t138;
     	let t139;
-    	let t140_value = /*$__*/ ctx[1]("any.olive") + "";
+    	let t140_value = /*$__*/ ctx[2]("any.olive") + "";
     	let t140;
     	let option36;
-    	let t141_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t141_value = /*$__*/ ctx[2]("any.light") + "";
     	let t141;
     	let t142;
-    	let t143_value = /*$__*/ ctx[1]("any.primary") + "";
+    	let t143_value = /*$__*/ ctx[2]("any.primary") + "";
     	let t143;
     	let option37;
-    	let t144_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t144_value = /*$__*/ ctx[2]("any.light") + "";
     	let t144;
     	let t145;
-    	let t146_value = /*$__*/ ctx[1]("any.warning") + "";
+    	let t146_value = /*$__*/ ctx[2]("any.warning") + "";
     	let t146;
     	let option38;
-    	let t147_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t147_value = /*$__*/ ctx[2]("any.light") + "";
     	let t147;
     	let t148;
-    	let t149_value = /*$__*/ ctx[1]("any.info") + "";
+    	let t149_value = /*$__*/ ctx[2]("any.info") + "";
     	let t149;
     	let option39;
-    	let t150_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t150_value = /*$__*/ ctx[2]("any.light") + "";
     	let t150;
     	let t151;
-    	let t152_value = /*$__*/ ctx[1]("any.danger") + "";
+    	let t152_value = /*$__*/ ctx[2]("any.danger") + "";
     	let t152;
     	let option40;
-    	let t153_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t153_value = /*$__*/ ctx[2]("any.light") + "";
     	let t153;
     	let t154;
-    	let t155_value = /*$__*/ ctx[1]("any.success") + "";
+    	let t155_value = /*$__*/ ctx[2]("any.success") + "";
     	let t155;
     	let option41;
-    	let t156_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t156_value = /*$__*/ ctx[2]("any.light") + "";
     	let t156;
     	let t157;
-    	let t158_value = /*$__*/ ctx[1]("any.indigo") + "";
+    	let t158_value = /*$__*/ ctx[2]("any.indigo") + "";
     	let t158;
     	let option42;
-    	let t159_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t159_value = /*$__*/ ctx[2]("any.light") + "";
     	let t159;
     	let t160;
-    	let t161_value = /*$__*/ ctx[1]("any.lightblue") + "";
+    	let t161_value = /*$__*/ ctx[2]("any.lightblue") + "";
     	let t161;
     	let option43;
-    	let t162_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t162_value = /*$__*/ ctx[2]("any.light") + "";
     	let t162;
     	let t163;
-    	let t164_value = /*$__*/ ctx[1]("any.navy") + "";
+    	let t164_value = /*$__*/ ctx[2]("any.navy") + "";
     	let t164;
     	let option44;
-    	let t165_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t165_value = /*$__*/ ctx[2]("any.light") + "";
     	let t165;
     	let t166;
-    	let t167_value = /*$__*/ ctx[1]("any.purple") + "";
+    	let t167_value = /*$__*/ ctx[2]("any.purple") + "";
     	let t167;
     	let option45;
-    	let t168_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t168_value = /*$__*/ ctx[2]("any.light") + "";
     	let t168;
     	let t169;
-    	let t170_value = /*$__*/ ctx[1]("any.fuchsia") + "";
+    	let t170_value = /*$__*/ ctx[2]("any.fuchsia") + "";
     	let t170;
     	let option46;
-    	let t171_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t171_value = /*$__*/ ctx[2]("any.light") + "";
     	let t171;
     	let t172;
-    	let t173_value = /*$__*/ ctx[1]("any.pink") + "";
+    	let t173_value = /*$__*/ ctx[2]("any.pink") + "";
     	let t173;
     	let option47;
-    	let t174_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t174_value = /*$__*/ ctx[2]("any.light") + "";
     	let t174;
     	let t175;
-    	let t176_value = /*$__*/ ctx[1]("any.maroon") + "";
+    	let t176_value = /*$__*/ ctx[2]("any.maroon") + "";
     	let t176;
     	let option48;
-    	let t177_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t177_value = /*$__*/ ctx[2]("any.light") + "";
     	let t177;
     	let t178;
-    	let t179_value = /*$__*/ ctx[1]("any.orange") + "";
+    	let t179_value = /*$__*/ ctx[2]("any.orange") + "";
     	let t179;
     	let option49;
-    	let t180_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t180_value = /*$__*/ ctx[2]("any.light") + "";
     	let t180;
     	let t181;
-    	let t182_value = /*$__*/ ctx[1]("any.lime") + "";
+    	let t182_value = /*$__*/ ctx[2]("any.lime") + "";
     	let t182;
     	let option50;
-    	let t183_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t183_value = /*$__*/ ctx[2]("any.light") + "";
     	let t183;
     	let t184;
-    	let t185_value = /*$__*/ ctx[1]("any.teal") + "";
+    	let t185_value = /*$__*/ ctx[2]("any.teal") + "";
     	let t185;
     	let option51;
-    	let t186_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t186_value = /*$__*/ ctx[2]("any.light") + "";
     	let t186;
     	let t187;
-    	let t188_value = /*$__*/ ctx[1]("any.olive") + "";
+    	let t188_value = /*$__*/ ctx[2]("any.olive") + "";
     	let t188;
     	let t189;
     	let h66;
-    	let t190_value = /*$__*/ ctx[1]("any.brandLogoVariants") + "";
+    	let t190_value = /*$__*/ ctx[2]("any.brandLogoVariants") + "";
     	let t190;
     	let t191;
     	let div29;
     	let t192;
     	let select3;
     	let option52;
-    	let t193_value = /*$__*/ ctx[1]("any.noneSelected") + "";
+    	let t193_value = /*$__*/ ctx[2]("any.noneSelected") + "";
     	let t193;
     	let option53;
-    	let t194_value = /*$__*/ ctx[1]("any.primary") + "";
+    	let t194_value = /*$__*/ ctx[2]("any.primary") + "";
     	let t194;
     	let option54;
-    	let t195_value = /*$__*/ ctx[1]("any.secondary") + "";
+    	let t195_value = /*$__*/ ctx[2]("any.secondary") + "";
     	let t195;
     	let option55;
-    	let t196_value = /*$__*/ ctx[1]("any.info") + "";
+    	let t196_value = /*$__*/ ctx[2]("any.info") + "";
     	let t196;
     	let option56;
-    	let t197_value = /*$__*/ ctx[1]("any.success") + "";
+    	let t197_value = /*$__*/ ctx[2]("any.success") + "";
     	let t197;
     	let option57;
-    	let t198_value = /*$__*/ ctx[1]("any.danger") + "";
+    	let t198_value = /*$__*/ ctx[2]("any.danger") + "";
     	let t198;
     	let option58;
-    	let t199_value = /*$__*/ ctx[1]("any.indigo") + "";
+    	let t199_value = /*$__*/ ctx[2]("any.indigo") + "";
     	let t199;
     	let option59;
-    	let t200_value = /*$__*/ ctx[1]("any.purple") + "";
+    	let t200_value = /*$__*/ ctx[2]("any.purple") + "";
     	let t200;
     	let option60;
-    	let t201_value = /*$__*/ ctx[1]("any.pink") + "";
+    	let t201_value = /*$__*/ ctx[2]("any.pink") + "";
     	let t201;
     	let option61;
-    	let t202_value = /*$__*/ ctx[1]("any.navy") + "";
+    	let t202_value = /*$__*/ ctx[2]("any.navy") + "";
     	let t202;
     	let option62;
-    	let t203_value = /*$__*/ ctx[1]("any.lightblue") + "";
+    	let t203_value = /*$__*/ ctx[2]("any.lightblue") + "";
     	let t203;
     	let option63;
-    	let t204_value = /*$__*/ ctx[1]("any.teal") + "";
+    	let t204_value = /*$__*/ ctx[2]("any.teal") + "";
     	let t204;
     	let option64;
-    	let t205_value = /*$__*/ ctx[1]("any.cyan") + "";
+    	let t205_value = /*$__*/ ctx[2]("any.cyan") + "";
     	let t205;
     	let option65;
-    	let t206_value = /*$__*/ ctx[1]("any.dark") + "";
+    	let t206_value = /*$__*/ ctx[2]("any.dark") + "";
     	let t206;
     	let option66;
-    	let t207_value = /*$__*/ ctx[1]("any.grayDark") + "";
+    	let t207_value = /*$__*/ ctx[2]("any.grayDark") + "";
     	let t207;
     	let option67;
-    	let t208_value = /*$__*/ ctx[1]("any.gray") + "";
+    	let t208_value = /*$__*/ ctx[2]("any.gray") + "";
     	let t208;
     	let option68;
-    	let t209_value = /*$__*/ ctx[1]("any.light") + "";
+    	let t209_value = /*$__*/ ctx[2]("any.light") + "";
     	let t209;
     	let option69;
-    	let t210_value = /*$__*/ ctx[1]("any.warning") + "";
+    	let t210_value = /*$__*/ ctx[2]("any.warning") + "";
     	let t210;
     	let option70;
-    	let t211_value = /*$__*/ ctx[1]("any.white") + "";
+    	let t211_value = /*$__*/ ctx[2]("any.white") + "";
     	let t211;
     	let option71;
-    	let t212_value = /*$__*/ ctx[1]("any.orange") + "";
+    	let t212_value = /*$__*/ ctx[2]("any.orange") + "";
     	let t212;
     	let current;
     	let mounted;
@@ -12345,9 +12312,8 @@ var app = (function () {
 
     	breadcrump = new Breadcrump({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[29],
-    				links: /*links*/ ctx[28]
+    				title: /*title*/ ctx[28],
+    				links: /*links*/ ctx[27]
     			},
     			$$inline: true
     		});
@@ -12356,7 +12322,7 @@ var app = (function () {
     	let if_block1 = show_if_2 && create_if_block_3(ctx);
     	let if_block2 = show_if_1 && create_if_block_2(ctx);
     	let if_block3 = show_if && create_if_block_1(ctx);
-    	let each_value = /*roles*/ ctx[31];
+    	let each_value = /*roles*/ ctx[30];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -12368,7 +12334,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*loading*/ ctx[27]) return 0;
+    		if (/*loading*/ ctx[26]) return 0;
     		return 1;
     	}
 
@@ -12764,508 +12730,508 @@ var app = (function () {
     			t212 = text(t212_value);
     			attr_dev(label0, "class", "col-form-label");
     			attr_dev(label0, "for", "first_name");
-    			add_location(label0, file$3, 159, 12, 4750);
+    			add_location(label0, file$3, 159, 12, 4783);
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control");
     			attr_dev(input0, "id", "first_name");
-    			add_location(input0, file$3, 162, 12, 4873);
+    			add_location(input0, file$3, 162, 12, 4906);
     			attr_dev(div0, "class", "form-group");
-    			add_location(div0, file$3, 158, 10, 4712);
+    			add_location(div0, file$3, 158, 10, 4745);
     			attr_dev(label1, "class", "col-form-label");
     			attr_dev(label1, "for", "last_name");
-    			add_location(label1, file$3, 170, 12, 5096);
+    			add_location(label1, file$3, 170, 12, 5129);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control");
     			attr_dev(input1, "id", "last_name");
-    			add_location(input1, file$3, 173, 12, 5217);
+    			add_location(input1, file$3, 173, 12, 5250);
     			attr_dev(div1, "class", "form-group");
-    			add_location(div1, file$3, 169, 10, 5058);
+    			add_location(div1, file$3, 169, 10, 5091);
     			attr_dev(label2, "class", "col-form-label");
     			attr_dev(label2, "for", "email");
-    			add_location(label2, file$3, 181, 12, 5438);
+    			add_location(label2, file$3, 181, 12, 5471);
     			attr_dev(input2, "type", "text");
     			attr_dev(input2, "class", "form-control");
     			attr_dev(input2, "id", "email");
-    			add_location(input2, file$3, 187, 12, 5680);
+    			add_location(input2, file$3, 187, 12, 5713);
     			attr_dev(div2, "class", "form-group");
-    			add_location(div2, file$3, 180, 10, 5400);
+    			add_location(div2, file$3, 180, 10, 5433);
     			attr_dev(label3, "class", "col-form-label");
     			attr_dev(label3, "for", "username");
-    			add_location(label3, file$3, 195, 12, 5893);
+    			add_location(label3, file$3, 195, 12, 5926);
     			attr_dev(input3, "type", "text");
     			attr_dev(input3, "class", "form-control");
     			attr_dev(input3, "id", "username");
-    			add_location(input3, file$3, 201, 12, 6144);
+    			add_location(input3, file$3, 201, 12, 6177);
     			attr_dev(div3, "class", "form-group");
-    			add_location(div3, file$3, 194, 10, 5855);
+    			add_location(div3, file$3, 194, 10, 5888);
     			attr_dev(label4, "class", "col-form-label");
     			attr_dev(label4, "for", "nickname");
-    			add_location(label4, file$3, 209, 12, 6363);
+    			add_location(label4, file$3, 209, 12, 6396);
     			attr_dev(input4, "type", "text");
     			attr_dev(input4, "class", "form-control");
     			attr_dev(input4, "id", "nickname");
-    			add_location(input4, file$3, 212, 12, 6483);
+    			add_location(input4, file$3, 212, 12, 6516);
     			attr_dev(div4, "class", "form-group");
-    			add_location(div4, file$3, 208, 10, 6325);
+    			add_location(div4, file$3, 208, 10, 6358);
     			attr_dev(label5, "class", "col-form-label");
     			attr_dev(label5, "for", "password");
-    			add_location(label5, file$3, 220, 12, 6702);
+    			add_location(label5, file$3, 220, 12, 6735);
     			attr_dev(input5, "type", "text");
     			attr_dev(input5, "class", "form-control");
     			attr_dev(input5, "id", "password");
-    			add_location(input5, file$3, 226, 12, 6953);
+    			add_location(input5, file$3, 226, 12, 6986);
     			attr_dev(div5, "class", "form-group");
-    			add_location(div5, file$3, 219, 10, 6664);
+    			add_location(div5, file$3, 219, 10, 6697);
     			attr_dev(label6, "class", "col-form-label");
     			attr_dev(label6, "for", "retypePassword");
-    			add_location(label6, file$3, 234, 12, 7172);
+    			add_location(label6, file$3, 234, 12, 7205);
     			attr_dev(input6, "type", "text");
     			attr_dev(input6, "class", "form-control");
     			attr_dev(input6, "id", "retypePassword");
-    			add_location(input6, file$3, 240, 12, 7435);
+    			add_location(input6, file$3, 240, 12, 7468);
     			attr_dev(div6, "class", "form-group");
-    			add_location(div6, file$3, 233, 10, 7134);
+    			add_location(div6, file$3, 233, 10, 7167);
     			attr_dev(label7, "class", "col-form-label");
     			attr_dev(label7, "for", "role");
-    			add_location(label7, file$3, 248, 12, 7666);
+    			add_location(label7, file$3, 248, 12, 7699);
     			attr_dev(select0, "class", "form-control svelte-1s8hmr3");
     			attr_dev(select0, "id", "role");
-    			if (/*role*/ ctx[7] === void 0) add_render_callback(() => /*select0_change_handler*/ ctx[41].call(select0));
-    			add_location(select0, file$3, 249, 12, 7748);
+    			if (/*role*/ ctx[6] === void 0) add_render_callback(() => /*select0_change_handler*/ ctx[40].call(select0));
+    			add_location(select0, file$3, 249, 12, 7781);
     			attr_dev(div7, "class", "form-group");
-    			add_location(div7, file$3, 247, 10, 7628);
+    			add_location(div7, file$3, 247, 10, 7661);
     			attr_dev(div8, "class", "card-body");
-    			add_location(div8, file$3, 157, 8, 4677);
-    			attr_dev(div9, "class", "card card-outline card-" + /*color*/ ctx[30]);
-    			add_location(div9, file$3, 156, 6, 4623);
+    			add_location(div8, file$3, 157, 8, 4710);
+    			attr_dev(div9, "class", "card card-outline card-" + /*color*/ ctx[29]);
+    			add_location(div9, file$3, 156, 6, 4656);
     			attr_dev(div10, "class", "col-md-9");
-    			add_location(div10, file$3, 155, 4, 4593);
+    			add_location(div10, file$3, 155, 4, 4626);
     			set_style(div11, "display", "inline");
     			set_style(div11, "float", "right");
-    			add_location(div11, file$3, 261, 10, 8139);
+    			add_location(div11, file$3, 261, 10, 8172);
     			attr_dev(div12, "class", "card-body text-center");
-    			add_location(div12, file$3, 260, 8, 8092);
-    			attr_dev(div13, "class", "card card-outline card-" + /*color*/ ctx[30]);
-    			add_location(div13, file$3, 259, 6, 8038);
-    			add_location(h5, file$3, 276, 10, 8661);
+    			add_location(div12, file$3, 260, 8, 8125);
+    			attr_dev(div13, "class", "card card-outline card-" + /*color*/ ctx[29]);
+    			add_location(div13, file$3, 259, 6, 8071);
+    			add_location(h5, file$3, 276, 10, 8694);
     			attr_dev(hr, "class", "mb-2");
-    			add_location(hr, file$3, 277, 10, 8704);
+    			add_location(hr, file$3, 277, 10, 8737);
     			attr_dev(input7, "id", "darkMode");
     			attr_dev(input7, "type", "checkbox");
     			input7.__value = "dark-mode";
     			input7.value = input7.__value;
     			attr_dev(input7, "class", "mr-1");
-    			add_location(input7, file$3, 279, 12, 8767);
+    			add_location(input7, file$3, 279, 12, 8800);
     			attr_dev(label8, "for", "darkMode");
-    			add_location(label8, file$3, 285, 14, 8949);
+    			add_location(label8, file$3, 285, 14, 8982);
     			attr_dev(div14, "class", "mb-4");
-    			add_location(div14, file$3, 278, 10, 8735);
-    			add_location(h60, file$3, 287, 10, 9030);
+    			add_location(div14, file$3, 278, 10, 8768);
+    			add_location(h60, file$3, 287, 10, 9063);
     			attr_dev(input8, "id", "noBorder");
     			attr_dev(input8, "type", "checkbox");
     			input8.__value = "layout-navbar-fixed";
     			input8.value = input8.__value;
     			attr_dev(input8, "class", "mr-1");
-    			add_location(input8, file$3, 289, 12, 9109);
+    			add_location(input8, file$3, 289, 12, 9142);
     			attr_dev(label9, "for", "noBorder");
-    			add_location(label9, file$3, 295, 14, 9307);
+    			add_location(label9, file$3, 295, 14, 9340);
     			attr_dev(div15, "class", "mb-1");
-    			add_location(div15, file$3, 288, 10, 9077);
+    			add_location(div15, file$3, 288, 10, 9110);
     			attr_dev(input9, "id", "fixed1");
     			attr_dev(input9, "type", "checkbox");
     			input9.__value = "layout-navbar-fixed";
     			input9.value = input9.__value;
     			attr_dev(input9, "class", "mr-1");
-    			add_location(input9, file$3, 298, 12, 9420);
+    			add_location(input9, file$3, 298, 12, 9453);
     			attr_dev(label10, "for", "fixed1");
-    			add_location(label10, file$3, 304, 14, 9613);
+    			add_location(label10, file$3, 304, 14, 9646);
     			attr_dev(div16, "class", "mb-4");
-    			add_location(div16, file$3, 297, 10, 9388);
-    			add_location(h61, file$3, 306, 10, 9689);
+    			add_location(div16, file$3, 297, 10, 9421);
+    			add_location(h61, file$3, 306, 10, 9722);
     			attr_dev(input10, "id", "collapsed");
     			attr_dev(input10, "type", "checkbox");
     			input10.__value = "collapsed";
     			input10.value = input10.__value;
     			attr_dev(input10, "class", "mr-1");
-    			add_location(input10, file$3, 308, 12, 9769);
+    			add_location(input10, file$3, 308, 12, 9802);
     			attr_dev(label11, "for", "collapsed");
-    			add_location(label11, file$3, 314, 14, 9960);
+    			add_location(label11, file$3, 314, 14, 9993);
     			attr_dev(div17, "class", "mb-1");
-    			add_location(div17, file$3, 307, 10, 9737);
+    			add_location(div17, file$3, 307, 10, 9770);
     			attr_dev(input11, "id", "fixed2");
     			attr_dev(input11, "type", "checkbox");
     			input11.__value = "layout-fixed";
     			input11.value = input11.__value;
     			attr_dev(input11, "class", "mr-1");
-    			add_location(input11, file$3, 317, 12, 10075);
+    			add_location(input11, file$3, 317, 12, 10108);
     			attr_dev(label12, "for", "fixed2");
-    			add_location(label12, file$3, 323, 14, 10259);
+    			add_location(label12, file$3, 323, 14, 10292);
     			attr_dev(div18, "class", "mb-1");
-    			add_location(div18, file$3, 316, 10, 10043);
+    			add_location(div18, file$3, 316, 10, 10076);
     			attr_dev(input12, "id", "navFlat");
     			attr_dev(input12, "type", "checkbox");
     			input12.__value = "nav-flat";
     			input12.value = input12.__value;
     			attr_dev(input12, "class", "mr-1");
-    			add_location(input12, file$3, 326, 12, 10367);
+    			add_location(input12, file$3, 326, 12, 10400);
     			attr_dev(label13, "for", "navFlat");
-    			add_location(label13, file$3, 332, 14, 10553);
+    			add_location(label13, file$3, 332, 14, 10586);
     			attr_dev(div19, "class", "mb-1");
-    			add_location(div19, file$3, 325, 10, 10335);
+    			add_location(div19, file$3, 325, 10, 10368);
     			attr_dev(input13, "id", "navLegacy");
     			attr_dev(input13, "type", "checkbox");
     			input13.__value = "nav-legacy";
     			input13.value = input13.__value;
     			attr_dev(input13, "class", "mr-1");
-    			add_location(input13, file$3, 335, 12, 10664);
+    			add_location(input13, file$3, 335, 12, 10697);
     			attr_dev(label14, "for", "navLegacy");
-    			add_location(label14, file$3, 341, 14, 10856);
+    			add_location(label14, file$3, 341, 14, 10889);
     			attr_dev(div20, "class", "mb-1");
-    			add_location(div20, file$3, 334, 10, 10632);
+    			add_location(div20, file$3, 334, 10, 10665);
     			attr_dev(input14, "id", "navCompact");
     			attr_dev(input14, "type", "checkbox");
     			input14.__value = "nav-compact";
     			input14.value = input14.__value;
     			attr_dev(input14, "class", "mr-1");
-    			add_location(input14, file$3, 344, 12, 10971);
+    			add_location(input14, file$3, 344, 12, 11004);
     			attr_dev(label15, "for", "navCompact");
-    			add_location(label15, file$3, 350, 14, 11166);
+    			add_location(label15, file$3, 350, 14, 11199);
     			attr_dev(div21, "class", "mb-1");
-    			add_location(div21, file$3, 343, 10, 10939);
+    			add_location(div21, file$3, 343, 10, 10972);
     			attr_dev(input15, "id", "navChildIndent");
     			attr_dev(input15, "type", "checkbox");
     			input15.__value = "nav-child-indent";
     			input15.value = input15.__value;
     			attr_dev(input15, "class", "mr-1");
-    			add_location(input15, file$3, 353, 12, 11283);
+    			add_location(input15, file$3, 353, 12, 11316);
     			attr_dev(label16, "for", "navChildIndent");
-    			add_location(label16, file$3, 359, 14, 11491);
+    			add_location(label16, file$3, 359, 14, 11524);
     			attr_dev(div22, "class", "mb-1");
-    			add_location(div22, file$3, 352, 10, 11251);
+    			add_location(div22, file$3, 352, 10, 11284);
     			attr_dev(input16, "id", "navChildHideOnCollapse");
     			attr_dev(input16, "type", "checkbox");
     			input16.__value = "nav-collapse-hide-child";
     			input16.value = input16.__value;
     			attr_dev(input16, "class", "mr-1");
-    			add_location(input16, file$3, 362, 12, 11616);
+    			add_location(input16, file$3, 362, 12, 11649);
     			attr_dev(label17, "for", "navChildHideOnCollapse");
-    			add_location(label17, file$3, 368, 14, 11842);
+    			add_location(label17, file$3, 368, 14, 11875);
     			attr_dev(div23, "class", "mb-1");
-    			add_location(div23, file$3, 361, 10, 11584);
+    			add_location(div23, file$3, 361, 10, 11617);
     			attr_dev(input17, "id", "disableHoverFocusAutoExpand");
     			attr_dev(input17, "type", "checkbox");
     			input17.__value = "sidebar-no-expand";
     			input17.value = input17.__value;
     			attr_dev(input17, "class", "mr-1");
-    			add_location(input17, file$3, 373, 12, 12013);
+    			add_location(input17, file$3, 373, 12, 12046);
     			attr_dev(label18, "for", "disableHoverFocusAutoExpand");
-    			add_location(label18, file$3, 379, 14, 12227);
+    			add_location(label18, file$3, 379, 14, 12260);
     			attr_dev(div24, "class", "mb-4");
-    			add_location(div24, file$3, 372, 10, 11981);
-    			add_location(h62, file$3, 383, 10, 12376);
+    			add_location(div24, file$3, 372, 10, 12014);
+    			add_location(h62, file$3, 383, 10, 12409);
     			attr_dev(input18, "id", "fixed3");
     			attr_dev(input18, "type", "checkbox");
     			input18.__value = "layout-footer-fixed";
     			input18.value = input18.__value;
     			attr_dev(input18, "class", "mr-1");
-    			add_location(input18, file$3, 385, 12, 12455);
+    			add_location(input18, file$3, 385, 12, 12488);
     			attr_dev(label19, "for", "fixed3");
-    			add_location(label19, file$3, 391, 14, 12648);
+    			add_location(label19, file$3, 391, 14, 12681);
     			attr_dev(div25, "class", "mb-4");
-    			add_location(div25, file$3, 384, 10, 12423);
-    			add_location(h63, file$3, 393, 10, 12724);
+    			add_location(div25, file$3, 384, 10, 12456);
+    			add_location(h63, file$3, 393, 10, 12757);
     			attr_dev(input19, "id", "body1");
     			attr_dev(input19, "type", "checkbox");
     			input19.__value = "text-sm";
     			input19.value = input19.__value;
     			attr_dev(input19, "class", "mr-1");
-    			add_location(input19, file$3, 395, 12, 12805);
+    			add_location(input19, file$3, 395, 12, 12838);
     			attr_dev(label20, "for", "body1");
-    			add_location(label20, file$3, 401, 14, 12982);
+    			add_location(label20, file$3, 401, 14, 13015);
     			attr_dev(div26, "class", "mb-4");
-    			add_location(div26, file$3, 394, 10, 12773);
-    			add_location(h64, file$3, 403, 10, 13056);
+    			add_location(div26, file$3, 394, 10, 12806);
+    			add_location(h64, file$3, 403, 10, 13089);
     			attr_dev(option0, "class", "bg-primary");
     			option0.__value = "navbar-dark bg-primary";
     			option0.value = option0.__value;
-    			add_location(option0, file$3, 409, 14, 13284);
+    			add_location(option0, file$3, 409, 14, 13317);
     			attr_dev(option1, "class", "bg-secondary");
     			option1.__value = "navbar-dark bg-secondary";
     			option1.value = option1.__value;
-    			add_location(option1, file$3, 412, 14, 13421);
+    			add_location(option1, file$3, 412, 14, 13454);
     			attr_dev(option2, "class", "bg-info");
     			option2.__value = "navbar-dark bg-info";
     			option2.value = option2.__value;
-    			add_location(option2, file$3, 415, 14, 13564);
+    			add_location(option2, file$3, 415, 14, 13597);
     			attr_dev(option3, "class", "bg-success");
     			option3.__value = "navbar-dark bg-success";
     			option3.value = option3.__value;
-    			add_location(option3, file$3, 418, 14, 13692);
+    			add_location(option3, file$3, 418, 14, 13725);
     			attr_dev(option4, "class", "bg-danger");
     			option4.__value = "navbar-dark bg-danger";
     			option4.value = option4.__value;
-    			add_location(option4, file$3, 421, 14, 13829);
+    			add_location(option4, file$3, 421, 14, 13862);
     			attr_dev(option5, "class", "bg-indigo");
     			option5.__value = "navbar-dark bg-indigo";
     			option5.value = option5.__value;
-    			add_location(option5, file$3, 424, 14, 13963);
+    			add_location(option5, file$3, 424, 14, 13996);
     			attr_dev(option6, "class", "bg-purple");
     			option6.__value = "navbar-dark bg-purple";
     			option6.value = option6.__value;
-    			add_location(option6, file$3, 427, 14, 14097);
+    			add_location(option6, file$3, 427, 14, 14130);
     			attr_dev(option7, "class", "bg-pink");
     			option7.__value = "navbar-dark bg-pink";
     			option7.value = option7.__value;
-    			add_location(option7, file$3, 430, 14, 14231);
+    			add_location(option7, file$3, 430, 14, 14264);
     			attr_dev(option8, "class", "bg-navy");
     			option8.__value = "navbar-dark bg-navy";
     			option8.value = option8.__value;
-    			add_location(option8, file$3, 433, 14, 14359);
+    			add_location(option8, file$3, 433, 14, 14392);
     			attr_dev(option9, "class", "bg-lightblue");
     			option9.__value = "navbar-dark bg-lightblue";
     			option9.value = option9.__value;
-    			add_location(option9, file$3, 436, 14, 14487);
+    			add_location(option9, file$3, 436, 14, 14520);
     			attr_dev(option10, "class", "bg-teal");
     			option10.__value = "navbar-dark bg-teal";
     			option10.value = option10.__value;
-    			add_location(option10, file$3, 439, 14, 14630);
+    			add_location(option10, file$3, 439, 14, 14663);
     			attr_dev(option11, "class", "bg-cyan");
     			option11.__value = "navbar-dark bg-cyan";
     			option11.value = option11.__value;
-    			add_location(option11, file$3, 442, 14, 14758);
+    			add_location(option11, file$3, 442, 14, 14791);
     			attr_dev(option12, "class", "bg-dark");
     			option12.__value = "navbar-dark bg-dark";
     			option12.value = option12.__value;
-    			add_location(option12, file$3, 445, 14, 14886);
+    			add_location(option12, file$3, 445, 14, 14919);
     			attr_dev(option13, "class", "bg-gray-dark");
     			option13.__value = "navbar-dark bg-gray-dark";
     			option13.value = option13.__value;
-    			add_location(option13, file$3, 448, 14, 15014);
+    			add_location(option13, file$3, 448, 14, 15047);
     			attr_dev(option14, "class", "bg-gray");
     			option14.__value = "navbar-dark bg-gray";
     			option14.value = option14.__value;
-    			add_location(option14, file$3, 451, 14, 15156);
+    			add_location(option14, file$3, 451, 14, 15189);
     			attr_dev(option15, "class", "bg-light");
     			option15.__value = "navbar-light bg-light";
     			option15.value = option15.__value;
-    			add_location(option15, file$3, 454, 14, 15284);
+    			add_location(option15, file$3, 454, 14, 15317);
     			attr_dev(option16, "class", "bg-warning");
     			option16.__value = "navbar-light bg-warning";
     			option16.value = option16.__value;
-    			add_location(option16, file$3, 457, 14, 15416);
+    			add_location(option16, file$3, 457, 14, 15449);
     			attr_dev(option17, "class", "bg-white");
     			option17.__value = "navbar-light bg-white";
     			option17.value = option17.__value;
-    			add_location(option17, file$3, 460, 14, 15554);
+    			add_location(option17, file$3, 460, 14, 15587);
     			attr_dev(option18, "class", "bg-orange");
     			option18.__value = "navbar-light bg-orange";
     			option18.value = option18.__value;
-    			add_location(option18, file$3, 463, 14, 15686);
+    			add_location(option18, file$3, 463, 14, 15719);
     			attr_dev(select1, "class", "custom-select mb-3 text-light border-0 bg-white svelte-1s8hmr3");
-    			if (/*navbarBg*/ ctx[11] === void 0) add_render_callback(() => /*select1_change_handler*/ ctx[55].call(select1));
-    			add_location(select1, file$3, 405, 12, 13138);
+    			if (/*navbarBg*/ ctx[10] === void 0) add_render_callback(() => /*select1_change_handler*/ ctx[54].call(select1));
+    			add_location(select1, file$3, 405, 12, 13171);
     			attr_dev(div27, "class", "d-flex");
-    			add_location(div27, file$3, 404, 10, 13104);
-    			add_location(h65, file$3, 468, 10, 15858);
+    			add_location(div27, file$3, 404, 10, 13137);
+    			add_location(h65, file$3, 468, 10, 15891);
     			attr_dev(div28, "class", "d-flex");
-    			add_location(div28, file$3, 469, 10, 15907);
+    			add_location(div28, file$3, 469, 10, 15940);
     			option19.__value = "";
     			option19.value = option19.__value;
-    			add_location(option19, file$3, 471, 12, 16022);
+    			add_location(option19, file$3, 471, 12, 16055);
     			option20.__value = "sidebar-dark-primary";
     			option20.value = option20.__value;
-    			add_location(option20, file$3, 472, 12, 16087);
+    			add_location(option20, file$3, 472, 12, 16120);
     			option21.__value = "sidebar-dark-warning";
     			option21.value = option21.__value;
-    			add_location(option21, file$3, 475, 12, 16217);
+    			add_location(option21, file$3, 475, 12, 16250);
     			option22.__value = "sidebar-dark-info";
     			option22.value = option22.__value;
-    			add_location(option22, file$3, 478, 12, 16347);
+    			add_location(option22, file$3, 478, 12, 16380);
     			option23.__value = "sidebar-dark-danger";
     			option23.value = option23.__value;
-    			add_location(option23, file$3, 481, 12, 16471);
+    			add_location(option23, file$3, 481, 12, 16504);
     			option24.__value = "sidebar-dark-success";
     			option24.value = option24.__value;
-    			add_location(option24, file$3, 484, 12, 16599);
+    			add_location(option24, file$3, 484, 12, 16632);
     			option25.__value = "sidebar-dark-indigo";
     			option25.value = option25.__value;
-    			add_location(option25, file$3, 487, 12, 16729);
+    			add_location(option25, file$3, 487, 12, 16762);
     			option26.__value = "sidebar-dark-lightblue";
     			option26.value = option26.__value;
-    			add_location(option26, file$3, 490, 12, 16857);
+    			add_location(option26, file$3, 490, 12, 16890);
     			option27.__value = "sidebar-dark-navy";
     			option27.value = option27.__value;
-    			add_location(option27, file$3, 493, 12, 16991);
+    			add_location(option27, file$3, 493, 12, 17024);
     			option28.__value = "sidebar-dark-purple";
     			option28.value = option28.__value;
-    			add_location(option28, file$3, 496, 12, 17115);
+    			add_location(option28, file$3, 496, 12, 17148);
     			option29.__value = "sidebar-dark-fuchsia";
     			option29.value = option29.__value;
-    			add_location(option29, file$3, 499, 12, 17243);
+    			add_location(option29, file$3, 499, 12, 17276);
     			option30.__value = "sidebar-dark-pink";
     			option30.value = option30.__value;
-    			add_location(option30, file$3, 502, 12, 17373);
+    			add_location(option30, file$3, 502, 12, 17406);
     			option31.__value = "sidebar-dark-maroon";
     			option31.value = option31.__value;
-    			add_location(option31, file$3, 505, 12, 17497);
+    			add_location(option31, file$3, 505, 12, 17530);
     			option32.__value = "sidebar-dark-orange";
     			option32.value = option32.__value;
-    			add_location(option32, file$3, 508, 12, 17625);
+    			add_location(option32, file$3, 508, 12, 17658);
     			option33.__value = "sidebar-dark-lime";
     			option33.value = option33.__value;
-    			add_location(option33, file$3, 511, 12, 17753);
+    			add_location(option33, file$3, 511, 12, 17786);
     			option34.__value = "sidebar-dark-teal";
     			option34.value = option34.__value;
-    			add_location(option34, file$3, 514, 12, 17877);
+    			add_location(option34, file$3, 514, 12, 17910);
     			option35.__value = "sidebar-dark-olive";
     			option35.value = option35.__value;
-    			add_location(option35, file$3, 517, 12, 18001);
+    			add_location(option35, file$3, 517, 12, 18034);
     			option36.__value = "sidebar-light-primary";
     			option36.value = option36.__value;
-    			add_location(option36, file$3, 520, 12, 18127);
+    			add_location(option36, file$3, 520, 12, 18160);
     			option37.__value = "sidebar-light-warning";
     			option37.value = option37.__value;
-    			add_location(option37, file$3, 523, 12, 18259);
+    			add_location(option37, file$3, 523, 12, 18292);
     			option38.__value = "sidebar-light-info";
     			option38.value = option38.__value;
-    			add_location(option38, file$3, 526, 12, 18391);
+    			add_location(option38, file$3, 526, 12, 18424);
     			option39.__value = "sidebar-light-danger";
     			option39.value = option39.__value;
-    			add_location(option39, file$3, 529, 12, 18517);
+    			add_location(option39, file$3, 529, 12, 18550);
     			option40.__value = "sidebar-light-success";
     			option40.value = option40.__value;
-    			add_location(option40, file$3, 532, 12, 18647);
+    			add_location(option40, file$3, 532, 12, 18680);
     			option41.__value = "sidebar-light-indigo";
     			option41.value = option41.__value;
-    			add_location(option41, file$3, 535, 12, 18779);
+    			add_location(option41, file$3, 535, 12, 18812);
     			option42.__value = "sidebar-light-lightblue";
     			option42.value = option42.__value;
-    			add_location(option42, file$3, 538, 12, 18909);
+    			add_location(option42, file$3, 538, 12, 18942);
     			option43.__value = "sidebar-light-navy";
     			option43.value = option43.__value;
-    			add_location(option43, file$3, 541, 12, 19045);
+    			add_location(option43, file$3, 541, 12, 19078);
     			option44.__value = "sidebar-light-purple";
     			option44.value = option44.__value;
-    			add_location(option44, file$3, 544, 12, 19171);
+    			add_location(option44, file$3, 544, 12, 19204);
     			option45.__value = "sidebar-light-fuchsia";
     			option45.value = option45.__value;
-    			add_location(option45, file$3, 547, 12, 19301);
+    			add_location(option45, file$3, 547, 12, 19334);
     			option46.__value = "sidebar-light-pink";
     			option46.value = option46.__value;
-    			add_location(option46, file$3, 550, 12, 19433);
+    			add_location(option46, file$3, 550, 12, 19466);
     			option47.__value = "sidebar-light-maroon";
     			option47.value = option47.__value;
-    			add_location(option47, file$3, 553, 12, 19559);
+    			add_location(option47, file$3, 553, 12, 19592);
     			option48.__value = "sidebar-light-orange";
     			option48.value = option48.__value;
-    			add_location(option48, file$3, 556, 12, 19689);
+    			add_location(option48, file$3, 556, 12, 19722);
     			option49.__value = "sidebar-light-lime";
     			option49.value = option49.__value;
-    			add_location(option49, file$3, 559, 12, 19819);
+    			add_location(option49, file$3, 559, 12, 19852);
     			option50.__value = "sidebar-light-teal";
     			option50.value = option50.__value;
-    			add_location(option50, file$3, 562, 12, 19945);
+    			add_location(option50, file$3, 562, 12, 19978);
     			option51.__value = "sidebar-light-olive";
     			option51.value = option51.__value;
-    			add_location(option51, file$3, 565, 12, 20071);
+    			add_location(option51, file$3, 565, 12, 20104);
     			attr_dev(select2, "class", "custom-select mb-3 border-0 svelte-1s8hmr3");
-    			if (/*sidebarBg*/ ctx[12] === void 0) add_render_callback(() => /*select2_change_handler*/ ctx[56].call(select2));
-    			add_location(select2, file$3, 470, 10, 15941);
-    			add_location(h66, file$3, 569, 10, 20218);
+    			if (/*sidebarBg*/ ctx[11] === void 0) add_render_callback(() => /*select2_change_handler*/ ctx[55].call(select2));
+    			add_location(select2, file$3, 470, 10, 15974);
+    			add_location(h66, file$3, 569, 10, 20251);
     			attr_dev(div29, "class", "d-flex");
-    			add_location(div29, file$3, 570, 10, 20269);
+    			add_location(div29, file$3, 570, 10, 20302);
     			option52.__value = "";
     			option52.value = option52.__value;
-    			add_location(option52, file$3, 575, 12, 20424);
+    			add_location(option52, file$3, 575, 12, 20457);
     			attr_dev(option53, "class", "bg-primary");
     			option53.__value = "navbar-dark bg-primary";
     			option53.value = option53.__value;
-    			add_location(option53, file$3, 576, 12, 20489);
+    			add_location(option53, file$3, 576, 12, 20522);
     			attr_dev(option54, "class", "bg-secondary");
     			option54.__value = "navbar-dark bg-secondary";
     			option54.value = option54.__value;
-    			add_location(option54, file$3, 579, 12, 20620);
+    			add_location(option54, file$3, 579, 12, 20653);
     			attr_dev(option55, "class", "bg-info");
     			option55.__value = "navbar-dark bg-info";
     			option55.value = option55.__value;
-    			add_location(option55, file$3, 582, 12, 20757);
+    			add_location(option55, file$3, 582, 12, 20790);
     			attr_dev(option56, "class", "bg-success");
     			option56.__value = "navbar-dark bg-success";
     			option56.value = option56.__value;
-    			add_location(option56, file$3, 585, 12, 20879);
+    			add_location(option56, file$3, 585, 12, 20912);
     			attr_dev(option57, "class", "bg-danger");
     			option57.__value = "navbar-dark bg-danger";
     			option57.value = option57.__value;
-    			add_location(option57, file$3, 588, 12, 21010);
+    			add_location(option57, file$3, 588, 12, 21043);
     			attr_dev(option58, "class", "bg-indigo");
     			option58.__value = "navbar-dark bg-indigo";
     			option58.value = option58.__value;
-    			add_location(option58, file$3, 591, 12, 21138);
+    			add_location(option58, file$3, 591, 12, 21171);
     			attr_dev(option59, "class", "bg-purple");
     			option59.__value = "navbar-dark bg-purple";
     			option59.value = option59.__value;
-    			add_location(option59, file$3, 594, 12, 21266);
+    			add_location(option59, file$3, 594, 12, 21299);
     			attr_dev(option60, "class", "bg-pink");
     			option60.__value = "navbar-dark bg-pink";
     			option60.value = option60.__value;
-    			add_location(option60, file$3, 597, 12, 21394);
+    			add_location(option60, file$3, 597, 12, 21427);
     			attr_dev(option61, "class", "bg-navy");
     			option61.__value = "navbar-dark bg-navy";
     			option61.value = option61.__value;
-    			add_location(option61, file$3, 600, 12, 21516);
+    			add_location(option61, file$3, 600, 12, 21549);
     			attr_dev(option62, "class", "bg-lightblue");
     			option62.__value = "bg-lightblue";
     			option62.value = option62.__value;
-    			add_location(option62, file$3, 603, 12, 21638);
+    			add_location(option62, file$3, 603, 12, 21671);
     			attr_dev(option63, "class", "bg-teal");
     			option63.__value = "navbar-dark bg-teal";
     			option63.value = option63.__value;
-    			add_location(option63, file$3, 606, 12, 21763);
+    			add_location(option63, file$3, 606, 12, 21796);
     			attr_dev(option64, "class", "bg-cyan");
     			option64.__value = "navbar-dark bg-cyan";
     			option64.value = option64.__value;
-    			add_location(option64, file$3, 609, 12, 21885);
+    			add_location(option64, file$3, 609, 12, 21918);
     			attr_dev(option65, "class", "bg-dark");
     			option65.__value = "navbar-dark bg-dark";
     			option65.value = option65.__value;
-    			add_location(option65, file$3, 612, 12, 22007);
+    			add_location(option65, file$3, 612, 12, 22040);
     			attr_dev(option66, "class", "bg-gray-dark");
     			option66.__value = "navbar-dark bg-gray-dark";
     			option66.value = option66.__value;
-    			add_location(option66, file$3, 615, 12, 22129);
+    			add_location(option66, file$3, 615, 12, 22162);
     			attr_dev(option67, "class", "bg-gray");
     			option67.__value = "navbar-dark bg-gray";
     			option67.value = option67.__value;
-    			add_location(option67, file$3, 618, 12, 22265);
+    			add_location(option67, file$3, 618, 12, 22298);
     			attr_dev(option68, "class", "bg-light");
     			option68.__value = "navbar-light bg-light";
     			option68.value = option68.__value;
-    			add_location(option68, file$3, 621, 12, 22387);
+    			add_location(option68, file$3, 621, 12, 22420);
     			attr_dev(option69, "class", "bg-warning");
     			option69.__value = "navbar-light bg-warning";
     			option69.value = option69.__value;
-    			add_location(option69, file$3, 624, 12, 22513);
+    			add_location(option69, file$3, 624, 12, 22546);
     			attr_dev(option70, "class", "bg-white");
     			option70.__value = "navbar-light bg-white";
     			option70.value = option70.__value;
-    			add_location(option70, file$3, 627, 12, 22645);
+    			add_location(option70, file$3, 627, 12, 22678);
     			attr_dev(option71, "class", "bg-orange");
     			option71.__value = "navbar-light bg-orange";
     			option71.value = option71.__value;
-    			add_location(option71, file$3, 630, 12, 22771);
+    			add_location(option71, file$3, 630, 12, 22804);
     			attr_dev(select3, "class", "custom-select mb-3 border-0 svelte-1s8hmr3");
-    			if (/*brandLogoBg*/ ctx[10] === void 0) add_render_callback(() => /*select3_change_handler*/ ctx[57].call(select3));
-    			add_location(select3, file$3, 571, 10, 20303);
+    			if (/*brandLogoBg*/ ctx[9] === void 0) add_render_callback(() => /*select3_change_handler*/ ctx[56].call(select3));
+    			add_location(select3, file$3, 571, 10, 20336);
     			attr_dev(div30, "class", "card-body");
-    			add_location(div30, file$3, 275, 8, 8626);
-    			attr_dev(div31, "class", "card card-outline card-" + /*color*/ ctx[30]);
-    			add_location(div31, file$3, 274, 6, 8572);
+    			add_location(div30, file$3, 275, 8, 8659);
+    			attr_dev(div31, "class", "card card-outline card-" + /*color*/ ctx[29]);
+    			add_location(div31, file$3, 274, 6, 8605);
     			attr_dev(div32, "class", "col-md-3");
-    			add_location(div32, file$3, 258, 4, 8008);
+    			add_location(div32, file$3, 258, 4, 8041);
     			attr_dev(div33, "class", "row");
-    			add_location(div33, file$3, 154, 2, 4570);
+    			add_location(div33, file$3, 154, 2, 4603);
     			attr_dev(div34, "class", "container-fluid users");
-    			add_location(div34, file$3, 153, 0, 4531);
+    			add_location(div34, file$3, 153, 0, 4564);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -13283,14 +13249,14 @@ var app = (function () {
     			append_dev(label0, t1);
     			append_dev(div0, t2);
     			append_dev(div0, input0);
-    			set_input_value(input0, /*first_name*/ ctx[2]);
+    			set_input_value(input0, /*first_name*/ ctx[0]);
     			append_dev(div8, t3);
     			append_dev(div8, div1);
     			append_dev(div1, label1);
     			append_dev(label1, t4);
     			append_dev(div1, t5);
     			append_dev(div1, input1);
-    			set_input_value(input1, /*last_name*/ ctx[3]);
+    			set_input_value(input1, /*last_name*/ ctx[1]);
     			append_dev(div8, t6);
     			append_dev(div8, div2);
     			append_dev(div2, label2);
@@ -13299,7 +13265,7 @@ var app = (function () {
     			if (if_block0) if_block0.m(div2, null);
     			append_dev(div2, t9);
     			append_dev(div2, input2);
-    			set_input_value(input2, /*email*/ ctx[4]);
+    			set_input_value(input2, /*email*/ ctx[3]);
     			append_dev(div8, t10);
     			append_dev(div8, div3);
     			append_dev(div3, label3);
@@ -13308,14 +13274,14 @@ var app = (function () {
     			if (if_block1) if_block1.m(div3, null);
     			append_dev(div3, t13);
     			append_dev(div3, input3);
-    			set_input_value(input3, /*username*/ ctx[5]);
+    			set_input_value(input3, /*username*/ ctx[4]);
     			append_dev(div8, t14);
     			append_dev(div8, div4);
     			append_dev(div4, label4);
     			append_dev(label4, t15);
     			append_dev(div4, t16);
     			append_dev(div4, input4);
-    			set_input_value(input4, /*nickname*/ ctx[6]);
+    			set_input_value(input4, /*nickname*/ ctx[5]);
     			append_dev(div8, t17);
     			append_dev(div8, div5);
     			append_dev(div5, label5);
@@ -13324,7 +13290,7 @@ var app = (function () {
     			if (if_block2) if_block2.m(div5, null);
     			append_dev(div5, t20);
     			append_dev(div5, input5);
-    			set_input_value(input5, /*password*/ ctx[8]);
+    			set_input_value(input5, /*password*/ ctx[7]);
     			append_dev(div8, t21);
     			append_dev(div8, div6);
     			append_dev(div6, label6);
@@ -13333,7 +13299,7 @@ var app = (function () {
     			if (if_block3) if_block3.m(div6, null);
     			append_dev(div6, t24);
     			append_dev(div6, input6);
-    			set_input_value(input6, /*retypePassword*/ ctx[9]);
+    			set_input_value(input6, /*retypePassword*/ ctx[8]);
     			append_dev(div8, t25);
     			append_dev(div8, div7);
     			append_dev(div7, label7);
@@ -13345,7 +13311,7 @@ var app = (function () {
     				each_blocks[i].m(select0, null);
     			}
 
-    			select_option(select0, /*role*/ ctx[7]);
+    			select_option(select0, /*role*/ ctx[6]);
     			append_dev(div33, t28);
     			append_dev(div33, div32);
     			append_dev(div32, div13);
@@ -13362,7 +13328,7 @@ var app = (function () {
     			append_dev(div30, t32);
     			append_dev(div30, div14);
     			append_dev(div14, input7);
-    			input7.checked = /*darkMode*/ ctx[25];
+    			input7.checked = /*darkMode*/ ctx[24];
     			append_dev(div14, label8);
     			append_dev(label8, t33);
     			append_dev(div30, t34);
@@ -13371,13 +13337,13 @@ var app = (function () {
     			append_dev(div30, t36);
     			append_dev(div30, div15);
     			append_dev(div15, input8);
-    			input8.checked = /*navbarNoBorder*/ ctx[22];
+    			input8.checked = /*navbarNoBorder*/ ctx[21];
     			append_dev(div15, label9);
     			append_dev(label9, t37);
     			append_dev(div30, t38);
     			append_dev(div30, div16);
     			append_dev(div16, input9);
-    			input9.checked = /*navbarFixed*/ ctx[21];
+    			input9.checked = /*navbarFixed*/ ctx[20];
     			append_dev(div16, label10);
     			append_dev(label10, t39);
     			append_dev(div30, t40);
@@ -13386,49 +13352,49 @@ var app = (function () {
     			append_dev(div30, t42);
     			append_dev(div30, div17);
     			append_dev(div17, input10);
-    			input10.checked = /*sidebarCollapsed*/ ctx[18];
+    			input10.checked = /*sidebarCollapsed*/ ctx[17];
     			append_dev(div17, label11);
     			append_dev(label11, t43);
     			append_dev(div30, t44);
     			append_dev(div30, div18);
     			append_dev(div18, input11);
-    			input11.checked = /*mainFixed*/ ctx[20];
+    			input11.checked = /*mainFixed*/ ctx[19];
     			append_dev(div18, label12);
     			append_dev(label12, t45);
     			append_dev(div30, t46);
     			append_dev(div30, div19);
     			append_dev(div19, input12);
-    			input12.checked = /*sidebarNavFlat*/ ctx[13];
+    			input12.checked = /*sidebarNavFlat*/ ctx[12];
     			append_dev(div19, label13);
     			append_dev(label13, t47);
     			append_dev(div30, t48);
     			append_dev(div30, div20);
     			append_dev(div20, input13);
-    			input13.checked = /*sidebarNavLegacy*/ ctx[14];
+    			input13.checked = /*sidebarNavLegacy*/ ctx[13];
     			append_dev(div20, label14);
     			append_dev(label14, t49);
     			append_dev(div30, t50);
     			append_dev(div30, div21);
     			append_dev(div21, input14);
-    			input14.checked = /*sidebarNavCompact*/ ctx[15];
+    			input14.checked = /*sidebarNavCompact*/ ctx[14];
     			append_dev(div21, label15);
     			append_dev(label15, t51);
     			append_dev(div30, t52);
     			append_dev(div30, div22);
     			append_dev(div22, input15);
-    			input15.checked = /*sidebarNavChildIndent*/ ctx[16];
+    			input15.checked = /*sidebarNavChildIndent*/ ctx[15];
     			append_dev(div22, label16);
     			append_dev(label16, t53);
     			append_dev(div30, t54);
     			append_dev(div30, div23);
     			append_dev(div23, input16);
-    			input16.checked = /*sidebarNavHideOnCollapse*/ ctx[17];
+    			input16.checked = /*sidebarNavHideOnCollapse*/ ctx[16];
     			append_dev(div23, label17);
     			append_dev(label17, t55);
     			append_dev(div30, t56);
     			append_dev(div30, div24);
     			append_dev(div24, input17);
-    			input17.checked = /*sidebarExpand*/ ctx[19];
+    			input17.checked = /*sidebarExpand*/ ctx[18];
     			append_dev(div24, label18);
     			append_dev(label18, t57);
     			append_dev(div30, t58);
@@ -13437,7 +13403,7 @@ var app = (function () {
     			append_dev(div30, t60);
     			append_dev(div30, div25);
     			append_dev(div25, input18);
-    			input18.checked = /*footerFixed*/ ctx[23];
+    			input18.checked = /*footerFixed*/ ctx[22];
     			append_dev(div25, label19);
     			append_dev(label19, t61);
     			append_dev(div30, t62);
@@ -13446,7 +13412,7 @@ var app = (function () {
     			append_dev(div30, t64);
     			append_dev(div30, div26);
     			append_dev(div26, input19);
-    			input19.checked = /*textSize*/ ctx[24];
+    			input19.checked = /*textSize*/ ctx[23];
     			append_dev(div26, label20);
     			append_dev(label20, t65);
     			append_dev(div30, t66);
@@ -13493,7 +13459,7 @@ var app = (function () {
     			append_dev(option17, t86);
     			append_dev(select1, option18);
     			append_dev(option18, t87);
-    			select_option(select1, /*navbarBg*/ ctx[11]);
+    			select_option(select1, /*navbarBg*/ ctx[10]);
     			append_dev(div30, t88);
     			append_dev(div30, h65);
     			append_dev(h65, t89);
@@ -13631,7 +13597,7 @@ var app = (function () {
     			append_dev(option51, t186);
     			append_dev(option51, t187);
     			append_dev(option51, t188);
-    			select_option(select2, /*sidebarBg*/ ctx[12]);
+    			select_option(select2, /*sidebarBg*/ ctx[11]);
     			append_dev(div30, t189);
     			append_dev(div30, h66);
     			append_dev(h66, t190);
@@ -13679,35 +13645,35 @@ var app = (function () {
     			append_dev(option70, t211);
     			append_dev(select3, option71);
     			append_dev(option71, t212);
-    			select_option(select3, /*brandLogoBg*/ ctx[10]);
+    			select_option(select3, /*brandLogoBg*/ ctx[9]);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[34]),
-    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[35]),
-    					listen_dev(input2, "input", /*input2_input_handler*/ ctx[36]),
-    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[37]),
-    					listen_dev(input4, "input", /*input4_input_handler*/ ctx[38]),
-    					listen_dev(input5, "input", /*input5_input_handler*/ ctx[39]),
-    					listen_dev(input6, "input", /*input6_input_handler*/ ctx[40]),
-    					listen_dev(select0, "change", /*select0_change_handler*/ ctx[41]),
-    					listen_dev(input7, "change", /*input7_change_handler*/ ctx[42]),
-    					listen_dev(input8, "change", /*input8_change_handler*/ ctx[43]),
-    					listen_dev(input9, "change", /*input9_change_handler*/ ctx[44]),
-    					listen_dev(input10, "change", /*input10_change_handler*/ ctx[45]),
-    					listen_dev(input11, "change", /*input11_change_handler*/ ctx[46]),
-    					listen_dev(input12, "change", /*input12_change_handler*/ ctx[47]),
-    					listen_dev(input13, "change", /*input13_change_handler*/ ctx[48]),
-    					listen_dev(input14, "change", /*input14_change_handler*/ ctx[49]),
-    					listen_dev(input15, "change", /*input15_change_handler*/ ctx[50]),
-    					listen_dev(input16, "change", /*input16_change_handler*/ ctx[51]),
-    					listen_dev(input17, "change", /*input17_change_handler*/ ctx[52]),
-    					listen_dev(input18, "change", /*input18_change_handler*/ ctx[53]),
-    					listen_dev(input19, "change", /*input19_change_handler*/ ctx[54]),
-    					listen_dev(select1, "change", /*select1_change_handler*/ ctx[55]),
-    					listen_dev(select2, "change", /*select2_change_handler*/ ctx[56]),
-    					listen_dev(select3, "change", /*select3_change_handler*/ ctx[57])
+    					listen_dev(input0, "input", /*input0_input_handler*/ ctx[33]),
+    					listen_dev(input1, "input", /*input1_input_handler*/ ctx[34]),
+    					listen_dev(input2, "input", /*input2_input_handler*/ ctx[35]),
+    					listen_dev(input3, "input", /*input3_input_handler*/ ctx[36]),
+    					listen_dev(input4, "input", /*input4_input_handler*/ ctx[37]),
+    					listen_dev(input5, "input", /*input5_input_handler*/ ctx[38]),
+    					listen_dev(input6, "input", /*input6_input_handler*/ ctx[39]),
+    					listen_dev(select0, "change", /*select0_change_handler*/ ctx[40]),
+    					listen_dev(input7, "change", /*input7_change_handler*/ ctx[41]),
+    					listen_dev(input8, "change", /*input8_change_handler*/ ctx[42]),
+    					listen_dev(input9, "change", /*input9_change_handler*/ ctx[43]),
+    					listen_dev(input10, "change", /*input10_change_handler*/ ctx[44]),
+    					listen_dev(input11, "change", /*input11_change_handler*/ ctx[45]),
+    					listen_dev(input12, "change", /*input12_change_handler*/ ctx[46]),
+    					listen_dev(input13, "change", /*input13_change_handler*/ ctx[47]),
+    					listen_dev(input14, "change", /*input14_change_handler*/ ctx[48]),
+    					listen_dev(input15, "change", /*input15_change_handler*/ ctx[49]),
+    					listen_dev(input16, "change", /*input16_change_handler*/ ctx[50]),
+    					listen_dev(input17, "change", /*input17_change_handler*/ ctx[51]),
+    					listen_dev(input18, "change", /*input18_change_handler*/ ctx[52]),
+    					listen_dev(input19, "change", /*input19_change_handler*/ ctx[53]),
+    					listen_dev(select1, "change", /*select1_change_handler*/ ctx[54]),
+    					listen_dev(select2, "change", /*select2_change_handler*/ ctx[55]),
+    					listen_dev(select3, "change", /*select3_change_handler*/ ctx[56])
     				];
 
     				mounted = true;
@@ -13715,24 +13681,23 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const breadcrump_changes = {};
-    			if (dirty[0] & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty[0] & /*active*/ 536870912) breadcrump_changes.active = /*active*/ ctx[29];
-    			if (dirty[0] & /*links*/ 268435456) breadcrump_changes.links = /*links*/ ctx[28];
+    			if (dirty[0] & /*title*/ 268435456) breadcrump_changes.title = /*title*/ ctx[28];
+    			if (dirty[0] & /*links*/ 134217728) breadcrump_changes.links = /*links*/ ctx[27];
     			breadcrump.$set(breadcrump_changes);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t1_value !== (t1_value = /*$__*/ ctx[1]("title.firstName") + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t1_value !== (t1_value = /*$__*/ ctx[2]("title.firstName") + "")) set_data_dev(t1, t1_value);
 
-    			if (dirty[0] & /*first_name*/ 4 && input0.value !== /*first_name*/ ctx[2]) {
-    				set_input_value(input0, /*first_name*/ ctx[2]);
+    			if (dirty[0] & /*first_name*/ 1 && input0.value !== /*first_name*/ ctx[0]) {
+    				set_input_value(input0, /*first_name*/ ctx[0]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t4_value !== (t4_value = /*$__*/ ctx[1]("title.lastName") + "")) set_data_dev(t4, t4_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t4_value !== (t4_value = /*$__*/ ctx[2]("title.lastName") + "")) set_data_dev(t4, t4_value);
 
-    			if (dirty[0] & /*last_name*/ 8 && input1.value !== /*last_name*/ ctx[3]) {
-    				set_input_value(input1, /*last_name*/ ctx[3]);
+    			if (dirty[0] & /*last_name*/ 2 && input1.value !== /*last_name*/ ctx[1]) {
+    				set_input_value(input1, /*last_name*/ ctx[1]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t7_value !== (t7_value = /*$__*/ ctx[1]("title.email") + "")) set_data_dev(t7, t7_value);
-    			if (dirty[0] & /*error*/ 67108864) show_if_3 = /*error*/ ctx[26].includes("email");
+    			if ((!current || dirty[0] & /*$__*/ 4) && t7_value !== (t7_value = /*$__*/ ctx[2]("title.email") + "")) set_data_dev(t7, t7_value);
+    			if (dirty[0] & /*error*/ 33554432) show_if_3 = /*error*/ ctx[25].includes("email");
 
     			if (show_if_3) {
     				if (if_block0) {
@@ -13747,12 +13712,12 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (dirty[0] & /*email*/ 16 && input2.value !== /*email*/ ctx[4]) {
-    				set_input_value(input2, /*email*/ ctx[4]);
+    			if (dirty[0] & /*email*/ 8 && input2.value !== /*email*/ ctx[3]) {
+    				set_input_value(input2, /*email*/ ctx[3]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t11_value !== (t11_value = /*$__*/ ctx[1]("title.username") + "")) set_data_dev(t11, t11_value);
-    			if (dirty[0] & /*error*/ 67108864) show_if_2 = /*error*/ ctx[26].includes("username");
+    			if ((!current || dirty[0] & /*$__*/ 4) && t11_value !== (t11_value = /*$__*/ ctx[2]("title.username") + "")) set_data_dev(t11, t11_value);
+    			if (dirty[0] & /*error*/ 33554432) show_if_2 = /*error*/ ctx[25].includes("username");
 
     			if (show_if_2) {
     				if (if_block1) {
@@ -13767,18 +13732,18 @@ var app = (function () {
     				if_block1 = null;
     			}
 
-    			if (dirty[0] & /*username*/ 32 && input3.value !== /*username*/ ctx[5]) {
-    				set_input_value(input3, /*username*/ ctx[5]);
+    			if (dirty[0] & /*username*/ 16 && input3.value !== /*username*/ ctx[4]) {
+    				set_input_value(input3, /*username*/ ctx[4]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t15_value !== (t15_value = /*$__*/ ctx[1]("title.nickname") + "")) set_data_dev(t15, t15_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t15_value !== (t15_value = /*$__*/ ctx[2]("title.nickname") + "")) set_data_dev(t15, t15_value);
 
-    			if (dirty[0] & /*nickname*/ 64 && input4.value !== /*nickname*/ ctx[6]) {
-    				set_input_value(input4, /*nickname*/ ctx[6]);
+    			if (dirty[0] & /*nickname*/ 32 && input4.value !== /*nickname*/ ctx[5]) {
+    				set_input_value(input4, /*nickname*/ ctx[5]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t18_value !== (t18_value = /*$__*/ ctx[1]("title.password") + "")) set_data_dev(t18, t18_value);
-    			if (dirty[0] & /*error*/ 67108864) show_if_1 = /*error*/ ctx[26].includes("password");
+    			if ((!current || dirty[0] & /*$__*/ 4) && t18_value !== (t18_value = /*$__*/ ctx[2]("title.password") + "")) set_data_dev(t18, t18_value);
+    			if (dirty[0] & /*error*/ 33554432) show_if_1 = /*error*/ ctx[25].includes("password");
 
     			if (show_if_1) {
     				if (if_block2) {
@@ -13793,12 +13758,12 @@ var app = (function () {
     				if_block2 = null;
     			}
 
-    			if (dirty[0] & /*password*/ 256 && input5.value !== /*password*/ ctx[8]) {
-    				set_input_value(input5, /*password*/ ctx[8]);
+    			if (dirty[0] & /*password*/ 128 && input5.value !== /*password*/ ctx[7]) {
+    				set_input_value(input5, /*password*/ ctx[7]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t22_value !== (t22_value = /*$__*/ ctx[1]("title.retypePassword") + "")) set_data_dev(t22, t22_value);
-    			if (dirty[0] & /*error*/ 67108864) show_if = /*error*/ ctx[26].includes("password");
+    			if ((!current || dirty[0] & /*$__*/ 4) && t22_value !== (t22_value = /*$__*/ ctx[2]("title.retypePassword") + "")) set_data_dev(t22, t22_value);
+    			if (dirty[0] & /*error*/ 33554432) show_if = /*error*/ ctx[25].includes("password");
 
     			if (show_if) {
     				if (if_block3) {
@@ -13813,14 +13778,14 @@ var app = (function () {
     				if_block3 = null;
     			}
 
-    			if (dirty[0] & /*retypePassword*/ 512 && input6.value !== /*retypePassword*/ ctx[9]) {
-    				set_input_value(input6, /*retypePassword*/ ctx[9]);
+    			if (dirty[0] & /*retypePassword*/ 256 && input6.value !== /*retypePassword*/ ctx[8]) {
+    				set_input_value(input6, /*retypePassword*/ ctx[8]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t26_value !== (t26_value = /*$__*/ ctx[1]("title.role") + "")) set_data_dev(t26, t26_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t26_value !== (t26_value = /*$__*/ ctx[2]("title.role") + "")) set_data_dev(t26, t26_value);
 
-    			if (dirty[1] & /*roles*/ 1) {
-    				each_value = /*roles*/ ctx[31];
+    			if (dirty[0] & /*roles*/ 1073741824) {
+    				each_value = /*roles*/ ctx[30];
     				validate_each_argument(each_value);
     				let i;
 
@@ -13843,8 +13808,8 @@ var app = (function () {
     				each_blocks.length = each_value.length;
     			}
 
-    			if (dirty[0] & /*role*/ 128 | dirty[1] & /*roles*/ 1) {
-    				select_option(select0, /*role*/ ctx[7]);
+    			if (dirty[0] & /*role, roles*/ 1073741888) {
+    				select_option(select0, /*role*/ ctx[6]);
     			}
 
     			let previous_block_index = current_block_type_index;
@@ -13873,209 +13838,209 @@ var app = (function () {
     				if_block4.m(div11, null);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t30_value !== (t30_value = /*$__*/ ctx[1]("any.customize") + "")) set_data_dev(t30, t30_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t30_value !== (t30_value = /*$__*/ ctx[2]("any.customize") + "")) set_data_dev(t30, t30_value);
 
-    			if (dirty[0] & /*darkMode*/ 33554432) {
-    				input7.checked = /*darkMode*/ ctx[25];
+    			if (dirty[0] & /*darkMode*/ 16777216) {
+    				input7.checked = /*darkMode*/ ctx[24];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t33_value !== (t33_value = /*$__*/ ctx[1]("any.darkMode") + "")) set_data_dev(t33, t33_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t35_value !== (t35_value = /*$__*/ ctx[1]("any.headerOptions") + "")) set_data_dev(t35, t35_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t33_value !== (t33_value = /*$__*/ ctx[2]("any.darkMode") + "")) set_data_dev(t33, t33_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t35_value !== (t35_value = /*$__*/ ctx[2]("any.headerOptions") + "")) set_data_dev(t35, t35_value);
 
-    			if (dirty[0] & /*navbarNoBorder*/ 4194304) {
-    				input8.checked = /*navbarNoBorder*/ ctx[22];
+    			if (dirty[0] & /*navbarNoBorder*/ 2097152) {
+    				input8.checked = /*navbarNoBorder*/ ctx[21];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t37_value !== (t37_value = /*$__*/ ctx[1]("any.noBorder") + "")) set_data_dev(t37, t37_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t37_value !== (t37_value = /*$__*/ ctx[2]("any.noBorder") + "")) set_data_dev(t37, t37_value);
 
-    			if (dirty[0] & /*navbarFixed*/ 2097152) {
-    				input9.checked = /*navbarFixed*/ ctx[21];
+    			if (dirty[0] & /*navbarFixed*/ 1048576) {
+    				input9.checked = /*navbarFixed*/ ctx[20];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t39_value !== (t39_value = /*$__*/ ctx[1]("any.fixed") + "")) set_data_dev(t39, t39_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t41_value !== (t41_value = /*$__*/ ctx[1]("any.sidebarOptions") + "")) set_data_dev(t41, t41_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t39_value !== (t39_value = /*$__*/ ctx[2]("any.fixed") + "")) set_data_dev(t39, t39_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t41_value !== (t41_value = /*$__*/ ctx[2]("any.sidebarOptions") + "")) set_data_dev(t41, t41_value);
 
-    			if (dirty[0] & /*sidebarCollapsed*/ 262144) {
-    				input10.checked = /*sidebarCollapsed*/ ctx[18];
+    			if (dirty[0] & /*sidebarCollapsed*/ 131072) {
+    				input10.checked = /*sidebarCollapsed*/ ctx[17];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t43_value !== (t43_value = /*$__*/ ctx[1]("any.collapsed") + "")) set_data_dev(t43, t43_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t43_value !== (t43_value = /*$__*/ ctx[2]("any.collapsed") + "")) set_data_dev(t43, t43_value);
 
-    			if (dirty[0] & /*mainFixed*/ 1048576) {
-    				input11.checked = /*mainFixed*/ ctx[20];
+    			if (dirty[0] & /*mainFixed*/ 524288) {
+    				input11.checked = /*mainFixed*/ ctx[19];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t45_value !== (t45_value = /*$__*/ ctx[1]("any.fixed") + "")) set_data_dev(t45, t45_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t45_value !== (t45_value = /*$__*/ ctx[2]("any.fixed") + "")) set_data_dev(t45, t45_value);
 
-    			if (dirty[0] & /*sidebarNavFlat*/ 8192) {
-    				input12.checked = /*sidebarNavFlat*/ ctx[13];
+    			if (dirty[0] & /*sidebarNavFlat*/ 4096) {
+    				input12.checked = /*sidebarNavFlat*/ ctx[12];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t47_value !== (t47_value = /*$__*/ ctx[1]("any.navFlat") + "")) set_data_dev(t47, t47_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t47_value !== (t47_value = /*$__*/ ctx[2]("any.navFlat") + "")) set_data_dev(t47, t47_value);
 
-    			if (dirty[0] & /*sidebarNavLegacy*/ 16384) {
-    				input13.checked = /*sidebarNavLegacy*/ ctx[14];
+    			if (dirty[0] & /*sidebarNavLegacy*/ 8192) {
+    				input13.checked = /*sidebarNavLegacy*/ ctx[13];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t49_value !== (t49_value = /*$__*/ ctx[1]("any.navLegacy") + "")) set_data_dev(t49, t49_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t49_value !== (t49_value = /*$__*/ ctx[2]("any.navLegacy") + "")) set_data_dev(t49, t49_value);
 
-    			if (dirty[0] & /*sidebarNavCompact*/ 32768) {
-    				input14.checked = /*sidebarNavCompact*/ ctx[15];
+    			if (dirty[0] & /*sidebarNavCompact*/ 16384) {
+    				input14.checked = /*sidebarNavCompact*/ ctx[14];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t51_value !== (t51_value = /*$__*/ ctx[1]("any.navCompact") + "")) set_data_dev(t51, t51_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t51_value !== (t51_value = /*$__*/ ctx[2]("any.navCompact") + "")) set_data_dev(t51, t51_value);
 
-    			if (dirty[0] & /*sidebarNavChildIndent*/ 65536) {
-    				input15.checked = /*sidebarNavChildIndent*/ ctx[16];
+    			if (dirty[0] & /*sidebarNavChildIndent*/ 32768) {
+    				input15.checked = /*sidebarNavChildIndent*/ ctx[15];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t53_value !== (t53_value = /*$__*/ ctx[1]("any.navChildIndent") + "")) set_data_dev(t53, t53_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t53_value !== (t53_value = /*$__*/ ctx[2]("any.navChildIndent") + "")) set_data_dev(t53, t53_value);
 
-    			if (dirty[0] & /*sidebarNavHideOnCollapse*/ 131072) {
-    				input16.checked = /*sidebarNavHideOnCollapse*/ ctx[17];
+    			if (dirty[0] & /*sidebarNavHideOnCollapse*/ 65536) {
+    				input16.checked = /*sidebarNavHideOnCollapse*/ ctx[16];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t55_value !== (t55_value = /*$__*/ ctx[1]("any.navChildHideOnCollapse") + "")) set_data_dev(t55, t55_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t55_value !== (t55_value = /*$__*/ ctx[2]("any.navChildHideOnCollapse") + "")) set_data_dev(t55, t55_value);
 
-    			if (dirty[0] & /*sidebarExpand*/ 524288) {
-    				input17.checked = /*sidebarExpand*/ ctx[19];
+    			if (dirty[0] & /*sidebarExpand*/ 262144) {
+    				input17.checked = /*sidebarExpand*/ ctx[18];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t57_value !== (t57_value = /*$__*/ ctx[1]("any.disableHoverFocusAutoExpand") + "")) set_data_dev(t57, t57_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t59_value !== (t59_value = /*$__*/ ctx[1]("any.footerOptions") + "")) set_data_dev(t59, t59_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t57_value !== (t57_value = /*$__*/ ctx[2]("any.disableHoverFocusAutoExpand") + "")) set_data_dev(t57, t57_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t59_value !== (t59_value = /*$__*/ ctx[2]("any.footerOptions") + "")) set_data_dev(t59, t59_value);
 
-    			if (dirty[0] & /*footerFixed*/ 8388608) {
-    				input18.checked = /*footerFixed*/ ctx[23];
+    			if (dirty[0] & /*footerFixed*/ 4194304) {
+    				input18.checked = /*footerFixed*/ ctx[22];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t61_value !== (t61_value = /*$__*/ ctx[1]("any.fixed") + "")) set_data_dev(t61, t61_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t63_value !== (t63_value = /*$__*/ ctx[1]("any.smallTextOption") + "")) set_data_dev(t63, t63_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t61_value !== (t61_value = /*$__*/ ctx[2]("any.fixed") + "")) set_data_dev(t61, t61_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t63_value !== (t63_value = /*$__*/ ctx[2]("any.smallTextOption") + "")) set_data_dev(t63, t63_value);
 
-    			if (dirty[0] & /*textSize*/ 16777216) {
-    				input19.checked = /*textSize*/ ctx[24];
+    			if (dirty[0] & /*textSize*/ 8388608) {
+    				input19.checked = /*textSize*/ ctx[23];
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t65_value !== (t65_value = /*$__*/ ctx[1]("any.body") + "")) set_data_dev(t65, t65_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t67_value !== (t67_value = /*$__*/ ctx[1]("any.navbarVariants") + "")) set_data_dev(t67, t67_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t69_value !== (t69_value = /*$__*/ ctx[1]("any.primary") + "")) set_data_dev(t69, t69_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t70_value !== (t70_value = /*$__*/ ctx[1]("any.secondary") + "")) set_data_dev(t70, t70_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t71_value !== (t71_value = /*$__*/ ctx[1]("any.info") + "")) set_data_dev(t71, t71_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t72_value !== (t72_value = /*$__*/ ctx[1]("any.success") + "")) set_data_dev(t72, t72_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t73_value !== (t73_value = /*$__*/ ctx[1]("any.danger") + "")) set_data_dev(t73, t73_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t74_value !== (t74_value = /*$__*/ ctx[1]("any.indigo") + "")) set_data_dev(t74, t74_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t75_value !== (t75_value = /*$__*/ ctx[1]("any.purple") + "")) set_data_dev(t75, t75_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t76_value !== (t76_value = /*$__*/ ctx[1]("any.pink") + "")) set_data_dev(t76, t76_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t77_value !== (t77_value = /*$__*/ ctx[1]("any.navy") + "")) set_data_dev(t77, t77_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t78_value !== (t78_value = /*$__*/ ctx[1]("any.lightblue") + "")) set_data_dev(t78, t78_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t79_value !== (t79_value = /*$__*/ ctx[1]("any.teal") + "")) set_data_dev(t79, t79_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t80_value !== (t80_value = /*$__*/ ctx[1]("any.cyan") + "")) set_data_dev(t80, t80_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t81_value !== (t81_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t81, t81_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t82_value !== (t82_value = /*$__*/ ctx[1]("any.grayDark") + "")) set_data_dev(t82, t82_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t83_value !== (t83_value = /*$__*/ ctx[1]("any.gray") + "")) set_data_dev(t83, t83_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t84_value !== (t84_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t84, t84_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t85_value !== (t85_value = /*$__*/ ctx[1]("any.warning") + "")) set_data_dev(t85, t85_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t86_value !== (t86_value = /*$__*/ ctx[1]("any.white") + "")) set_data_dev(t86, t86_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t87_value !== (t87_value = /*$__*/ ctx[1]("any.orange") + "")) set_data_dev(t87, t87_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t65_value !== (t65_value = /*$__*/ ctx[2]("any.body") + "")) set_data_dev(t65, t65_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t67_value !== (t67_value = /*$__*/ ctx[2]("any.navbarVariants") + "")) set_data_dev(t67, t67_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t69_value !== (t69_value = /*$__*/ ctx[2]("any.primary") + "")) set_data_dev(t69, t69_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t70_value !== (t70_value = /*$__*/ ctx[2]("any.secondary") + "")) set_data_dev(t70, t70_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t71_value !== (t71_value = /*$__*/ ctx[2]("any.info") + "")) set_data_dev(t71, t71_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t72_value !== (t72_value = /*$__*/ ctx[2]("any.success") + "")) set_data_dev(t72, t72_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t73_value !== (t73_value = /*$__*/ ctx[2]("any.danger") + "")) set_data_dev(t73, t73_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t74_value !== (t74_value = /*$__*/ ctx[2]("any.indigo") + "")) set_data_dev(t74, t74_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t75_value !== (t75_value = /*$__*/ ctx[2]("any.purple") + "")) set_data_dev(t75, t75_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t76_value !== (t76_value = /*$__*/ ctx[2]("any.pink") + "")) set_data_dev(t76, t76_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t77_value !== (t77_value = /*$__*/ ctx[2]("any.navy") + "")) set_data_dev(t77, t77_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t78_value !== (t78_value = /*$__*/ ctx[2]("any.lightblue") + "")) set_data_dev(t78, t78_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t79_value !== (t79_value = /*$__*/ ctx[2]("any.teal") + "")) set_data_dev(t79, t79_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t80_value !== (t80_value = /*$__*/ ctx[2]("any.cyan") + "")) set_data_dev(t80, t80_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t81_value !== (t81_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t81, t81_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t82_value !== (t82_value = /*$__*/ ctx[2]("any.grayDark") + "")) set_data_dev(t82, t82_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t83_value !== (t83_value = /*$__*/ ctx[2]("any.gray") + "")) set_data_dev(t83, t83_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t84_value !== (t84_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t84, t84_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t85_value !== (t85_value = /*$__*/ ctx[2]("any.warning") + "")) set_data_dev(t85, t85_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t86_value !== (t86_value = /*$__*/ ctx[2]("any.white") + "")) set_data_dev(t86, t86_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t87_value !== (t87_value = /*$__*/ ctx[2]("any.orange") + "")) set_data_dev(t87, t87_value);
 
-    			if (dirty[0] & /*navbarBg*/ 2048) {
-    				select_option(select1, /*navbarBg*/ ctx[11]);
+    			if (dirty[0] & /*navbarBg*/ 1024) {
+    				select_option(select1, /*navbarBg*/ ctx[10]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t89_value !== (t89_value = /*$__*/ ctx[1]("any.sidebarVariants") + "")) set_data_dev(t89, t89_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t92_value !== (t92_value = /*$__*/ ctx[1]("any.noneSelected") + "")) set_data_dev(t92, t92_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t93_value !== (t93_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t93, t93_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t95_value !== (t95_value = /*$__*/ ctx[1]("any.primary") + "")) set_data_dev(t95, t95_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t96_value !== (t96_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t96, t96_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t98_value !== (t98_value = /*$__*/ ctx[1]("any.warning") + "")) set_data_dev(t98, t98_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t99_value !== (t99_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t99, t99_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t101_value !== (t101_value = /*$__*/ ctx[1]("any.info") + "")) set_data_dev(t101, t101_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t102_value !== (t102_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t102, t102_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t104_value !== (t104_value = /*$__*/ ctx[1]("any.danger") + "")) set_data_dev(t104, t104_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t105_value !== (t105_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t105, t105_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t107_value !== (t107_value = /*$__*/ ctx[1]("any.success") + "")) set_data_dev(t107, t107_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t108_value !== (t108_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t108, t108_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t110_value !== (t110_value = /*$__*/ ctx[1]("any.indigo") + "")) set_data_dev(t110, t110_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t111_value !== (t111_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t111, t111_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t113_value !== (t113_value = /*$__*/ ctx[1]("any.lightblue") + "")) set_data_dev(t113, t113_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t114_value !== (t114_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t114, t114_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t116_value !== (t116_value = /*$__*/ ctx[1]("any.navy") + "")) set_data_dev(t116, t116_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t117_value !== (t117_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t117, t117_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t119_value !== (t119_value = /*$__*/ ctx[1]("any.purple") + "")) set_data_dev(t119, t119_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t120_value !== (t120_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t120, t120_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t122_value !== (t122_value = /*$__*/ ctx[1]("any.fuchsia") + "")) set_data_dev(t122, t122_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t123_value !== (t123_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t123, t123_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t125_value !== (t125_value = /*$__*/ ctx[1]("any.pink") + "")) set_data_dev(t125, t125_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t126_value !== (t126_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t126, t126_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t128_value !== (t128_value = /*$__*/ ctx[1]("any.maroon") + "")) set_data_dev(t128, t128_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t129_value !== (t129_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t129, t129_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t131_value !== (t131_value = /*$__*/ ctx[1]("any.orange") + "")) set_data_dev(t131, t131_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t132_value !== (t132_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t132, t132_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t134_value !== (t134_value = /*$__*/ ctx[1]("any.lime") + "")) set_data_dev(t134, t134_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t135_value !== (t135_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t135, t135_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t137_value !== (t137_value = /*$__*/ ctx[1]("any.teal") + "")) set_data_dev(t137, t137_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t138_value !== (t138_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t138, t138_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t140_value !== (t140_value = /*$__*/ ctx[1]("any.olive") + "")) set_data_dev(t140, t140_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t141_value !== (t141_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t141, t141_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t143_value !== (t143_value = /*$__*/ ctx[1]("any.primary") + "")) set_data_dev(t143, t143_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t144_value !== (t144_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t144, t144_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t146_value !== (t146_value = /*$__*/ ctx[1]("any.warning") + "")) set_data_dev(t146, t146_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t147_value !== (t147_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t147, t147_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t149_value !== (t149_value = /*$__*/ ctx[1]("any.info") + "")) set_data_dev(t149, t149_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t150_value !== (t150_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t150, t150_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t152_value !== (t152_value = /*$__*/ ctx[1]("any.danger") + "")) set_data_dev(t152, t152_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t153_value !== (t153_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t153, t153_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t155_value !== (t155_value = /*$__*/ ctx[1]("any.success") + "")) set_data_dev(t155, t155_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t156_value !== (t156_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t156, t156_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t158_value !== (t158_value = /*$__*/ ctx[1]("any.indigo") + "")) set_data_dev(t158, t158_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t159_value !== (t159_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t159, t159_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t161_value !== (t161_value = /*$__*/ ctx[1]("any.lightblue") + "")) set_data_dev(t161, t161_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t162_value !== (t162_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t162, t162_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t164_value !== (t164_value = /*$__*/ ctx[1]("any.navy") + "")) set_data_dev(t164, t164_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t165_value !== (t165_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t165, t165_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t167_value !== (t167_value = /*$__*/ ctx[1]("any.purple") + "")) set_data_dev(t167, t167_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t168_value !== (t168_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t168, t168_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t170_value !== (t170_value = /*$__*/ ctx[1]("any.fuchsia") + "")) set_data_dev(t170, t170_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t171_value !== (t171_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t171, t171_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t173_value !== (t173_value = /*$__*/ ctx[1]("any.pink") + "")) set_data_dev(t173, t173_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t174_value !== (t174_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t174, t174_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t176_value !== (t176_value = /*$__*/ ctx[1]("any.maroon") + "")) set_data_dev(t176, t176_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t177_value !== (t177_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t177, t177_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t179_value !== (t179_value = /*$__*/ ctx[1]("any.orange") + "")) set_data_dev(t179, t179_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t180_value !== (t180_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t180, t180_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t182_value !== (t182_value = /*$__*/ ctx[1]("any.lime") + "")) set_data_dev(t182, t182_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t183_value !== (t183_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t183, t183_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t185_value !== (t185_value = /*$__*/ ctx[1]("any.teal") + "")) set_data_dev(t185, t185_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t186_value !== (t186_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t186, t186_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t188_value !== (t188_value = /*$__*/ ctx[1]("any.olive") + "")) set_data_dev(t188, t188_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t89_value !== (t89_value = /*$__*/ ctx[2]("any.sidebarVariants") + "")) set_data_dev(t89, t89_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t92_value !== (t92_value = /*$__*/ ctx[2]("any.noneSelected") + "")) set_data_dev(t92, t92_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t93_value !== (t93_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t93, t93_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t95_value !== (t95_value = /*$__*/ ctx[2]("any.primary") + "")) set_data_dev(t95, t95_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t96_value !== (t96_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t96, t96_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t98_value !== (t98_value = /*$__*/ ctx[2]("any.warning") + "")) set_data_dev(t98, t98_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t99_value !== (t99_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t99, t99_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t101_value !== (t101_value = /*$__*/ ctx[2]("any.info") + "")) set_data_dev(t101, t101_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t102_value !== (t102_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t102, t102_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t104_value !== (t104_value = /*$__*/ ctx[2]("any.danger") + "")) set_data_dev(t104, t104_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t105_value !== (t105_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t105, t105_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t107_value !== (t107_value = /*$__*/ ctx[2]("any.success") + "")) set_data_dev(t107, t107_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t108_value !== (t108_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t108, t108_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t110_value !== (t110_value = /*$__*/ ctx[2]("any.indigo") + "")) set_data_dev(t110, t110_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t111_value !== (t111_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t111, t111_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t113_value !== (t113_value = /*$__*/ ctx[2]("any.lightblue") + "")) set_data_dev(t113, t113_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t114_value !== (t114_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t114, t114_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t116_value !== (t116_value = /*$__*/ ctx[2]("any.navy") + "")) set_data_dev(t116, t116_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t117_value !== (t117_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t117, t117_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t119_value !== (t119_value = /*$__*/ ctx[2]("any.purple") + "")) set_data_dev(t119, t119_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t120_value !== (t120_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t120, t120_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t122_value !== (t122_value = /*$__*/ ctx[2]("any.fuchsia") + "")) set_data_dev(t122, t122_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t123_value !== (t123_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t123, t123_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t125_value !== (t125_value = /*$__*/ ctx[2]("any.pink") + "")) set_data_dev(t125, t125_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t126_value !== (t126_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t126, t126_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t128_value !== (t128_value = /*$__*/ ctx[2]("any.maroon") + "")) set_data_dev(t128, t128_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t129_value !== (t129_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t129, t129_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t131_value !== (t131_value = /*$__*/ ctx[2]("any.orange") + "")) set_data_dev(t131, t131_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t132_value !== (t132_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t132, t132_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t134_value !== (t134_value = /*$__*/ ctx[2]("any.lime") + "")) set_data_dev(t134, t134_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t135_value !== (t135_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t135, t135_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t137_value !== (t137_value = /*$__*/ ctx[2]("any.teal") + "")) set_data_dev(t137, t137_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t138_value !== (t138_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t138, t138_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t140_value !== (t140_value = /*$__*/ ctx[2]("any.olive") + "")) set_data_dev(t140, t140_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t141_value !== (t141_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t141, t141_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t143_value !== (t143_value = /*$__*/ ctx[2]("any.primary") + "")) set_data_dev(t143, t143_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t144_value !== (t144_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t144, t144_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t146_value !== (t146_value = /*$__*/ ctx[2]("any.warning") + "")) set_data_dev(t146, t146_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t147_value !== (t147_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t147, t147_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t149_value !== (t149_value = /*$__*/ ctx[2]("any.info") + "")) set_data_dev(t149, t149_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t150_value !== (t150_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t150, t150_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t152_value !== (t152_value = /*$__*/ ctx[2]("any.danger") + "")) set_data_dev(t152, t152_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t153_value !== (t153_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t153, t153_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t155_value !== (t155_value = /*$__*/ ctx[2]("any.success") + "")) set_data_dev(t155, t155_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t156_value !== (t156_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t156, t156_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t158_value !== (t158_value = /*$__*/ ctx[2]("any.indigo") + "")) set_data_dev(t158, t158_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t159_value !== (t159_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t159, t159_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t161_value !== (t161_value = /*$__*/ ctx[2]("any.lightblue") + "")) set_data_dev(t161, t161_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t162_value !== (t162_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t162, t162_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t164_value !== (t164_value = /*$__*/ ctx[2]("any.navy") + "")) set_data_dev(t164, t164_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t165_value !== (t165_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t165, t165_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t167_value !== (t167_value = /*$__*/ ctx[2]("any.purple") + "")) set_data_dev(t167, t167_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t168_value !== (t168_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t168, t168_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t170_value !== (t170_value = /*$__*/ ctx[2]("any.fuchsia") + "")) set_data_dev(t170, t170_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t171_value !== (t171_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t171, t171_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t173_value !== (t173_value = /*$__*/ ctx[2]("any.pink") + "")) set_data_dev(t173, t173_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t174_value !== (t174_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t174, t174_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t176_value !== (t176_value = /*$__*/ ctx[2]("any.maroon") + "")) set_data_dev(t176, t176_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t177_value !== (t177_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t177, t177_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t179_value !== (t179_value = /*$__*/ ctx[2]("any.orange") + "")) set_data_dev(t179, t179_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t180_value !== (t180_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t180, t180_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t182_value !== (t182_value = /*$__*/ ctx[2]("any.lime") + "")) set_data_dev(t182, t182_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t183_value !== (t183_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t183, t183_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t185_value !== (t185_value = /*$__*/ ctx[2]("any.teal") + "")) set_data_dev(t185, t185_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t186_value !== (t186_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t186, t186_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t188_value !== (t188_value = /*$__*/ ctx[2]("any.olive") + "")) set_data_dev(t188, t188_value);
 
-    			if (dirty[0] & /*sidebarBg*/ 4096) {
-    				select_option(select2, /*sidebarBg*/ ctx[12]);
+    			if (dirty[0] & /*sidebarBg*/ 2048) {
+    				select_option(select2, /*sidebarBg*/ ctx[11]);
     			}
 
-    			if ((!current || dirty[0] & /*$__*/ 2) && t190_value !== (t190_value = /*$__*/ ctx[1]("any.brandLogoVariants") + "")) set_data_dev(t190, t190_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t193_value !== (t193_value = /*$__*/ ctx[1]("any.noneSelected") + "")) set_data_dev(t193, t193_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t194_value !== (t194_value = /*$__*/ ctx[1]("any.primary") + "")) set_data_dev(t194, t194_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t195_value !== (t195_value = /*$__*/ ctx[1]("any.secondary") + "")) set_data_dev(t195, t195_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t196_value !== (t196_value = /*$__*/ ctx[1]("any.info") + "")) set_data_dev(t196, t196_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t197_value !== (t197_value = /*$__*/ ctx[1]("any.success") + "")) set_data_dev(t197, t197_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t198_value !== (t198_value = /*$__*/ ctx[1]("any.danger") + "")) set_data_dev(t198, t198_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t199_value !== (t199_value = /*$__*/ ctx[1]("any.indigo") + "")) set_data_dev(t199, t199_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t200_value !== (t200_value = /*$__*/ ctx[1]("any.purple") + "")) set_data_dev(t200, t200_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t201_value !== (t201_value = /*$__*/ ctx[1]("any.pink") + "")) set_data_dev(t201, t201_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t202_value !== (t202_value = /*$__*/ ctx[1]("any.navy") + "")) set_data_dev(t202, t202_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t203_value !== (t203_value = /*$__*/ ctx[1]("any.lightblue") + "")) set_data_dev(t203, t203_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t204_value !== (t204_value = /*$__*/ ctx[1]("any.teal") + "")) set_data_dev(t204, t204_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t205_value !== (t205_value = /*$__*/ ctx[1]("any.cyan") + "")) set_data_dev(t205, t205_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t206_value !== (t206_value = /*$__*/ ctx[1]("any.dark") + "")) set_data_dev(t206, t206_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t207_value !== (t207_value = /*$__*/ ctx[1]("any.grayDark") + "")) set_data_dev(t207, t207_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t208_value !== (t208_value = /*$__*/ ctx[1]("any.gray") + "")) set_data_dev(t208, t208_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t209_value !== (t209_value = /*$__*/ ctx[1]("any.light") + "")) set_data_dev(t209, t209_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t210_value !== (t210_value = /*$__*/ ctx[1]("any.warning") + "")) set_data_dev(t210, t210_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t211_value !== (t211_value = /*$__*/ ctx[1]("any.white") + "")) set_data_dev(t211, t211_value);
-    			if ((!current || dirty[0] & /*$__*/ 2) && t212_value !== (t212_value = /*$__*/ ctx[1]("any.orange") + "")) set_data_dev(t212, t212_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t190_value !== (t190_value = /*$__*/ ctx[2]("any.brandLogoVariants") + "")) set_data_dev(t190, t190_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t193_value !== (t193_value = /*$__*/ ctx[2]("any.noneSelected") + "")) set_data_dev(t193, t193_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t194_value !== (t194_value = /*$__*/ ctx[2]("any.primary") + "")) set_data_dev(t194, t194_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t195_value !== (t195_value = /*$__*/ ctx[2]("any.secondary") + "")) set_data_dev(t195, t195_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t196_value !== (t196_value = /*$__*/ ctx[2]("any.info") + "")) set_data_dev(t196, t196_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t197_value !== (t197_value = /*$__*/ ctx[2]("any.success") + "")) set_data_dev(t197, t197_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t198_value !== (t198_value = /*$__*/ ctx[2]("any.danger") + "")) set_data_dev(t198, t198_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t199_value !== (t199_value = /*$__*/ ctx[2]("any.indigo") + "")) set_data_dev(t199, t199_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t200_value !== (t200_value = /*$__*/ ctx[2]("any.purple") + "")) set_data_dev(t200, t200_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t201_value !== (t201_value = /*$__*/ ctx[2]("any.pink") + "")) set_data_dev(t201, t201_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t202_value !== (t202_value = /*$__*/ ctx[2]("any.navy") + "")) set_data_dev(t202, t202_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t203_value !== (t203_value = /*$__*/ ctx[2]("any.lightblue") + "")) set_data_dev(t203, t203_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t204_value !== (t204_value = /*$__*/ ctx[2]("any.teal") + "")) set_data_dev(t204, t204_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t205_value !== (t205_value = /*$__*/ ctx[2]("any.cyan") + "")) set_data_dev(t205, t205_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t206_value !== (t206_value = /*$__*/ ctx[2]("any.dark") + "")) set_data_dev(t206, t206_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t207_value !== (t207_value = /*$__*/ ctx[2]("any.grayDark") + "")) set_data_dev(t207, t207_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t208_value !== (t208_value = /*$__*/ ctx[2]("any.gray") + "")) set_data_dev(t208, t208_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t209_value !== (t209_value = /*$__*/ ctx[2]("any.light") + "")) set_data_dev(t209, t209_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t210_value !== (t210_value = /*$__*/ ctx[2]("any.warning") + "")) set_data_dev(t210, t210_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t211_value !== (t211_value = /*$__*/ ctx[2]("any.white") + "")) set_data_dev(t211, t211_value);
+    			if ((!current || dirty[0] & /*$__*/ 4) && t212_value !== (t212_value = /*$__*/ ctx[2]("any.orange") + "")) set_data_dev(t212, t212_value);
 
-    			if (dirty[0] & /*brandLogoBg*/ 1024) {
-    				select_option(select3, /*brandLogoBg*/ ctx[10]);
+    			if (dirty[0] & /*brandLogoBg*/ 512) {
+    				select_option(select3, /*brandLogoBg*/ ctx[9]);
     			}
     		},
     		i: function intro(local) {
@@ -14117,20 +14082,19 @@ var app = (function () {
 
     function instance$3($$self, $$props, $$invalidate) {
     	let title;
-    	let active;
     	let links;
-    	let $locale;
     	let $__;
-    	validate_store(locale, 'locale');
-    	component_subscribe($$self, locale, $$value => $$invalidate(58, $locale = $$value));
+    	let $locale;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(2, $__ = $$value));
+    	validate_store(locale, 'locale');
+    	component_subscribe($$self, locale, $$value => $$invalidate(57, $locale = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Single', slots, []);
     	let { id } = $$props;
     	const color = id == route$1.new ? "success" : "primary";
-    	let first_name;
-    	let last_name;
+    	let first_name = "";
+    	let last_name = "";
     	let email;
     	let username;
     	let nickname;
@@ -14159,34 +14123,34 @@ var app = (function () {
 
     	async function getData() {
     		if (id != route$1.new) {
-    			$$invalidate(27, loading = true);
+    			$$invalidate(26, loading = true);
     			const user = await read(api.user, id);
-    			$$invalidate(27, loading = false);
+    			$$invalidate(26, loading = false);
 
     			if (typeof user.id !== "undefined") {
-    				$$invalidate(2, first_name = user.first_name);
-    				$$invalidate(3, last_name = user.last_name);
-    				$$invalidate(4, email = user.email);
-    				$$invalidate(5, username = user.username);
-    				$$invalidate(6, nickname = user.nickname);
-    				$$invalidate(7, role = user.role);
-    				$$invalidate(8, password = user.password);
-    				$$invalidate(10, brandLogoBg = user.options.brandLogoBg);
-    				$$invalidate(11, navbarBg = user.options.navbarBg);
-    				$$invalidate(12, sidebarBg = user.options.sidebarBg);
-    				$$invalidate(13, sidebarNavFlat = user.options.sidebarNavFlat);
-    				$$invalidate(14, sidebarNavLegacy = user.options.sidebarNavLegacy);
-    				$$invalidate(15, sidebarNavCompact = user.options.sidebarNavCompact);
-    				$$invalidate(16, sidebarNavChildIndent = user.options.sidebarNavChildIndent);
-    				$$invalidate(17, sidebarNavHideOnCollapse = user.options.sidebarNavHideOnCollapse);
-    				$$invalidate(18, sidebarCollapsed = user.options.sidebarCollapsed);
-    				$$invalidate(19, sidebarExpand = user.options.sidebarExpand);
-    				$$invalidate(20, mainFixed = user.options.mainFixed);
-    				$$invalidate(22, navbarNoBorder = user.options.navbarNoBorder);
-    				$$invalidate(21, navbarFixed = user.options.navbarFixed);
-    				$$invalidate(23, footerFixed = user.options.footerFixed);
-    				$$invalidate(24, textSize = user.options.textSize);
-    				$$invalidate(25, darkMode = user.options.darkMode);
+    				$$invalidate(0, first_name = user.first_name);
+    				$$invalidate(1, last_name = user.last_name);
+    				$$invalidate(3, email = user.email);
+    				$$invalidate(4, username = user.username);
+    				$$invalidate(5, nickname = user.nickname);
+    				$$invalidate(6, role = user.role);
+    				$$invalidate(7, password = user.password);
+    				$$invalidate(9, brandLogoBg = user.options.brandLogoBg);
+    				$$invalidate(10, navbarBg = user.options.navbarBg);
+    				$$invalidate(11, sidebarBg = user.options.sidebarBg);
+    				$$invalidate(12, sidebarNavFlat = user.options.sidebarNavFlat);
+    				$$invalidate(13, sidebarNavLegacy = user.options.sidebarNavLegacy);
+    				$$invalidate(14, sidebarNavCompact = user.options.sidebarNavCompact);
+    				$$invalidate(15, sidebarNavChildIndent = user.options.sidebarNavChildIndent);
+    				$$invalidate(16, sidebarNavHideOnCollapse = user.options.sidebarNavHideOnCollapse);
+    				$$invalidate(17, sidebarCollapsed = user.options.sidebarCollapsed);
+    				$$invalidate(18, sidebarExpand = user.options.sidebarExpand);
+    				$$invalidate(19, mainFixed = user.options.mainFixed);
+    				$$invalidate(21, navbarNoBorder = user.options.navbarNoBorder);
+    				$$invalidate(20, navbarFixed = user.options.navbarFixed);
+    				$$invalidate(22, footerFixed = user.options.footerFixed);
+    				$$invalidate(23, textSize = user.options.textSize);
+    				$$invalidate(24, darkMode = user.options.darkMode);
     			}
     		}
     	}
@@ -14194,7 +14158,7 @@ var app = (function () {
     	onMount(getData);
 
     	async function submit() {
-    		$$invalidate(27, loading = true);
+    		$$invalidate(26, loading = true);
 
     		const options = {
     			brandLogoBg,
@@ -14229,14 +14193,14 @@ var app = (function () {
     				options
     			});
 
-    			$$invalidate(27, loading = false);
+    			$$invalidate(26, loading = false);
 
     			if (typeof res.id !== "undefined") {
     				navigate$1(`/${route$1.admin}/${route$1.users}/${res.id}`);
     			}
 
     			if (typeof res.message !== "undefined") {
-    				$$invalidate(26, error = res.message);
+    				$$invalidate(25, error = res.message);
     			}
     		} else {
     			const res = await update(api.user, id, "User updated successfully", {
@@ -14251,10 +14215,10 @@ var app = (function () {
     				options
     			});
 
-    			$$invalidate(27, loading = false);
+    			$$invalidate(26, loading = false);
 
     			if (typeof res.message !== "undefined") {
-    				$$invalidate(26, error = res.message);
+    				$$invalidate(25, error = res.message);
     			}
     		}
     	}
@@ -14267,127 +14231,127 @@ var app = (function () {
 
     	function input0_input_handler() {
     		first_name = this.value;
-    		$$invalidate(2, first_name);
+    		$$invalidate(0, first_name);
     	}
 
     	function input1_input_handler() {
     		last_name = this.value;
-    		$$invalidate(3, last_name);
+    		$$invalidate(1, last_name);
     	}
 
     	function input2_input_handler() {
     		email = this.value;
-    		$$invalidate(4, email);
+    		$$invalidate(3, email);
     	}
 
     	function input3_input_handler() {
     		username = this.value;
-    		$$invalidate(5, username);
+    		$$invalidate(4, username);
     	}
 
     	function input4_input_handler() {
     		nickname = this.value;
-    		$$invalidate(6, nickname);
+    		$$invalidate(5, nickname);
     	}
 
     	function input5_input_handler() {
     		password = this.value;
-    		$$invalidate(8, password);
+    		$$invalidate(7, password);
     	}
 
     	function input6_input_handler() {
     		retypePassword = this.value;
-    		$$invalidate(9, retypePassword);
+    		$$invalidate(8, retypePassword);
     	}
 
     	function select0_change_handler() {
     		role = select_value(this);
-    		$$invalidate(7, role);
-    		$$invalidate(31, roles);
+    		$$invalidate(6, role);
+    		$$invalidate(30, roles);
     	}
 
     	function input7_change_handler() {
     		darkMode = this.checked;
-    		$$invalidate(25, darkMode);
+    		$$invalidate(24, darkMode);
     	}
 
     	function input8_change_handler() {
     		navbarNoBorder = this.checked;
-    		$$invalidate(22, navbarNoBorder);
+    		$$invalidate(21, navbarNoBorder);
     	}
 
     	function input9_change_handler() {
     		navbarFixed = this.checked;
-    		$$invalidate(21, navbarFixed);
+    		$$invalidate(20, navbarFixed);
     	}
 
     	function input10_change_handler() {
     		sidebarCollapsed = this.checked;
-    		$$invalidate(18, sidebarCollapsed);
+    		$$invalidate(17, sidebarCollapsed);
     	}
 
     	function input11_change_handler() {
     		mainFixed = this.checked;
-    		$$invalidate(20, mainFixed);
+    		$$invalidate(19, mainFixed);
     	}
 
     	function input12_change_handler() {
     		sidebarNavFlat = this.checked;
-    		$$invalidate(13, sidebarNavFlat);
+    		$$invalidate(12, sidebarNavFlat);
     	}
 
     	function input13_change_handler() {
     		sidebarNavLegacy = this.checked;
-    		$$invalidate(14, sidebarNavLegacy);
+    		$$invalidate(13, sidebarNavLegacy);
     	}
 
     	function input14_change_handler() {
     		sidebarNavCompact = this.checked;
-    		$$invalidate(15, sidebarNavCompact);
+    		$$invalidate(14, sidebarNavCompact);
     	}
 
     	function input15_change_handler() {
     		sidebarNavChildIndent = this.checked;
-    		$$invalidate(16, sidebarNavChildIndent);
+    		$$invalidate(15, sidebarNavChildIndent);
     	}
 
     	function input16_change_handler() {
     		sidebarNavHideOnCollapse = this.checked;
-    		$$invalidate(17, sidebarNavHideOnCollapse);
+    		$$invalidate(16, sidebarNavHideOnCollapse);
     	}
 
     	function input17_change_handler() {
     		sidebarExpand = this.checked;
-    		$$invalidate(19, sidebarExpand);
+    		$$invalidate(18, sidebarExpand);
     	}
 
     	function input18_change_handler() {
     		footerFixed = this.checked;
-    		$$invalidate(23, footerFixed);
+    		$$invalidate(22, footerFixed);
     	}
 
     	function input19_change_handler() {
     		textSize = this.checked;
-    		$$invalidate(24, textSize);
+    		$$invalidate(23, textSize);
     	}
 
     	function select1_change_handler() {
     		navbarBg = select_value(this);
-    		$$invalidate(11, navbarBg);
+    		$$invalidate(10, navbarBg);
     	}
 
     	function select2_change_handler() {
     		sidebarBg = select_value(this);
-    		$$invalidate(12, sidebarBg);
+    		$$invalidate(11, sidebarBg);
     	}
 
     	function select3_change_handler() {
     		brandLogoBg = select_value(this);
-    		$$invalidate(10, brandLogoBg);
+    		$$invalidate(9, brandLogoBg);
     	}
 
     	$$self.$$set = $$props => {
-    		if ('id' in $$props) $$invalidate(33, id = $$props.id);
+    		if ('id' in $$props) $$invalidate(32, id = $$props.id);
     	};
 
     	$$self.$capture_state = () => ({
@@ -14435,43 +14399,41 @@ var app = (function () {
     		submit,
     		links,
     		title,
-    		active,
-    		$locale,
-    		$__
+    		$__,
+    		$locale
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('id' in $$props) $$invalidate(33, id = $$props.id);
-    		if ('first_name' in $$props) $$invalidate(2, first_name = $$props.first_name);
-    		if ('last_name' in $$props) $$invalidate(3, last_name = $$props.last_name);
-    		if ('email' in $$props) $$invalidate(4, email = $$props.email);
-    		if ('username' in $$props) $$invalidate(5, username = $$props.username);
-    		if ('nickname' in $$props) $$invalidate(6, nickname = $$props.nickname);
-    		if ('role' in $$props) $$invalidate(7, role = $$props.role);
-    		if ('password' in $$props) $$invalidate(8, password = $$props.password);
-    		if ('retypePassword' in $$props) $$invalidate(9, retypePassword = $$props.retypePassword);
-    		if ('brandLogoBg' in $$props) $$invalidate(10, brandLogoBg = $$props.brandLogoBg);
-    		if ('navbarBg' in $$props) $$invalidate(11, navbarBg = $$props.navbarBg);
-    		if ('sidebarBg' in $$props) $$invalidate(12, sidebarBg = $$props.sidebarBg);
-    		if ('sidebarNavFlat' in $$props) $$invalidate(13, sidebarNavFlat = $$props.sidebarNavFlat);
-    		if ('sidebarNavLegacy' in $$props) $$invalidate(14, sidebarNavLegacy = $$props.sidebarNavLegacy);
-    		if ('sidebarNavCompact' in $$props) $$invalidate(15, sidebarNavCompact = $$props.sidebarNavCompact);
-    		if ('sidebarNavChildIndent' in $$props) $$invalidate(16, sidebarNavChildIndent = $$props.sidebarNavChildIndent);
-    		if ('sidebarNavHideOnCollapse' in $$props) $$invalidate(17, sidebarNavHideOnCollapse = $$props.sidebarNavHideOnCollapse);
-    		if ('sidebarCollapsed' in $$props) $$invalidate(18, sidebarCollapsed = $$props.sidebarCollapsed);
-    		if ('sidebarExpand' in $$props) $$invalidate(19, sidebarExpand = $$props.sidebarExpand);
-    		if ('mainFixed' in $$props) $$invalidate(20, mainFixed = $$props.mainFixed);
-    		if ('navbarFixed' in $$props) $$invalidate(21, navbarFixed = $$props.navbarFixed);
-    		if ('navbarNoBorder' in $$props) $$invalidate(22, navbarNoBorder = $$props.navbarNoBorder);
-    		if ('footerFixed' in $$props) $$invalidate(23, footerFixed = $$props.footerFixed);
-    		if ('textSize' in $$props) $$invalidate(24, textSize = $$props.textSize);
-    		if ('darkMode' in $$props) $$invalidate(25, darkMode = $$props.darkMode);
-    		if ('error' in $$props) $$invalidate(26, error = $$props.error);
-    		if ('loading' in $$props) $$invalidate(27, loading = $$props.loading);
-    		if ('roles' in $$props) $$invalidate(31, roles = $$props.roles);
-    		if ('links' in $$props) $$invalidate(28, links = $$props.links);
-    		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(29, active = $$props.active);
+    		if ('id' in $$props) $$invalidate(32, id = $$props.id);
+    		if ('first_name' in $$props) $$invalidate(0, first_name = $$props.first_name);
+    		if ('last_name' in $$props) $$invalidate(1, last_name = $$props.last_name);
+    		if ('email' in $$props) $$invalidate(3, email = $$props.email);
+    		if ('username' in $$props) $$invalidate(4, username = $$props.username);
+    		if ('nickname' in $$props) $$invalidate(5, nickname = $$props.nickname);
+    		if ('role' in $$props) $$invalidate(6, role = $$props.role);
+    		if ('password' in $$props) $$invalidate(7, password = $$props.password);
+    		if ('retypePassword' in $$props) $$invalidate(8, retypePassword = $$props.retypePassword);
+    		if ('brandLogoBg' in $$props) $$invalidate(9, brandLogoBg = $$props.brandLogoBg);
+    		if ('navbarBg' in $$props) $$invalidate(10, navbarBg = $$props.navbarBg);
+    		if ('sidebarBg' in $$props) $$invalidate(11, sidebarBg = $$props.sidebarBg);
+    		if ('sidebarNavFlat' in $$props) $$invalidate(12, sidebarNavFlat = $$props.sidebarNavFlat);
+    		if ('sidebarNavLegacy' in $$props) $$invalidate(13, sidebarNavLegacy = $$props.sidebarNavLegacy);
+    		if ('sidebarNavCompact' in $$props) $$invalidate(14, sidebarNavCompact = $$props.sidebarNavCompact);
+    		if ('sidebarNavChildIndent' in $$props) $$invalidate(15, sidebarNavChildIndent = $$props.sidebarNavChildIndent);
+    		if ('sidebarNavHideOnCollapse' in $$props) $$invalidate(16, sidebarNavHideOnCollapse = $$props.sidebarNavHideOnCollapse);
+    		if ('sidebarCollapsed' in $$props) $$invalidate(17, sidebarCollapsed = $$props.sidebarCollapsed);
+    		if ('sidebarExpand' in $$props) $$invalidate(18, sidebarExpand = $$props.sidebarExpand);
+    		if ('mainFixed' in $$props) $$invalidate(19, mainFixed = $$props.mainFixed);
+    		if ('navbarFixed' in $$props) $$invalidate(20, navbarFixed = $$props.navbarFixed);
+    		if ('navbarNoBorder' in $$props) $$invalidate(21, navbarNoBorder = $$props.navbarNoBorder);
+    		if ('footerFixed' in $$props) $$invalidate(22, footerFixed = $$props.footerFixed);
+    		if ('textSize' in $$props) $$invalidate(23, textSize = $$props.textSize);
+    		if ('darkMode' in $$props) $$invalidate(24, darkMode = $$props.darkMode);
+    		if ('error' in $$props) $$invalidate(25, error = $$props.error);
+    		if ('loading' in $$props) $$invalidate(26, loading = $$props.loading);
+    		if ('roles' in $$props) $$invalidate(30, roles = $$props.roles);
+    		if ('links' in $$props) $$invalidate(27, links = $$props.links);
+    		if ('title' in $$props) $$invalidate(28, title = $$props.title);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -14479,16 +14441,14 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty[0] & /*$__*/ 2) {
-    			$$invalidate(0, title = $__("title.users"));
+    		if ($$self.$$.dirty[0] & /*first_name, last_name, $__*/ 7 | $$self.$$.dirty[1] & /*id*/ 2) {
+    			$$invalidate(28, title = id != route$1.new
+    			? first_name + ' ' + last_name
+    			: $__("any.addNew"));
     		}
 
-    		if ($$self.$$.dirty[0] & /*title*/ 1) {
-    			$$invalidate(29, active = title);
-    		}
-
-    		if ($$self.$$.dirty[0] & /*$__*/ 2) {
-    			$$invalidate(28, links = [
+    		if ($$self.$$.dirty[0] & /*$__*/ 4) {
+    			$$invalidate(27, links = [
     				{
     					pageUrl: route$1.admin,
     					pageTitle: $__("title.dashboard")
@@ -14502,10 +14462,9 @@ var app = (function () {
     	};
 
     	return [
-    		title,
-    		$__,
     		first_name,
     		last_name,
+    		$__,
     		email,
     		username,
     		nickname,
@@ -14531,7 +14490,7 @@ var app = (function () {
     		error,
     		loading,
     		links,
-    		active,
+    		title,
     		color,
     		roles,
     		submit,
@@ -14566,7 +14525,7 @@ var app = (function () {
     class Single extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { id: 33 }, null, [-1, -1, -1]);
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { id: 32 }, null, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -14578,7 +14537,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*id*/ ctx[33] === undefined && !('id' in props)) {
+    		if (/*id*/ ctx[32] === undefined && !('id' in props)) {
     			console.warn("<Single> was created without expected prop 'id'");
     		}
     	}
@@ -14599,15 +14558,14 @@ var app = (function () {
     	let breadcrump;
     	let t0;
     	let div;
-    	let t1_value = /*$__*/ ctx[1]("title.layouts") + "";
+    	let t1_value = /*$__*/ ctx[0]("title.layouts") + "";
     	let t1;
     	let current;
 
     	breadcrump = new Breadcrump({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[3],
-    				links: /*links*/ ctx[2]
+    				title: /*title*/ ctx[2],
+    				links: /*links*/ ctx[1]
     			},
     			$$inline: true
     		});
@@ -14619,7 +14577,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid layouts");
-    			add_location(div, file$2, 13, 0, 420);
+    			add_location(div, file$2, 12, 0, 391);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -14633,11 +14591,10 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			const breadcrump_changes = {};
-    			if (dirty & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty & /*active*/ 8) breadcrump_changes.active = /*active*/ ctx[3];
-    			if (dirty & /*links*/ 4) breadcrump_changes.links = /*links*/ ctx[2];
+    			if (dirty & /*title*/ 4) breadcrump_changes.title = /*title*/ ctx[2];
+    			if (dirty & /*links*/ 2) breadcrump_changes.links = /*links*/ ctx[1];
     			breadcrump.$set(breadcrump_changes);
-    			if ((!current || dirty & /*$__*/ 2) && t1_value !== (t1_value = /*$__*/ ctx[1]("title.layouts") + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty & /*$__*/ 1) && t1_value !== (t1_value = /*$__*/ ctx[0]("title.layouts") + "")) set_data_dev(t1, t1_value);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -14668,11 +14625,10 @@ var app = (function () {
 
     function instance$2($$self, $$props, $$invalidate) {
     	let title;
-    	let active;
     	let links;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(0, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Layouts', slots, []);
     	onMount(checkAuth);
@@ -14689,14 +14645,12 @@ var app = (function () {
     		onMount,
     		links,
     		title,
-    		active,
     		$__
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('links' in $$props) $$invalidate(2, links = $$props.links);
-    		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(3, active = $$props.active);
+    		if ('links' in $$props) $$invalidate(1, links = $$props.links);
+    		if ('title' in $$props) $$invalidate(2, title = $$props.title);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -14704,16 +14658,12 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$__*/ 2) {
-    			$$invalidate(0, title = $__("title.layouts"));
+    		if ($$self.$$.dirty & /*$__*/ 1) {
+    			$$invalidate(2, title = $__("title.layouts"));
     		}
 
-    		if ($$self.$$.dirty & /*title*/ 1) {
-    			$$invalidate(3, active = title);
-    		}
-
-    		if ($$self.$$.dirty & /*$__*/ 2) {
-    			$$invalidate(2, links = [
+    		if ($$self.$$.dirty & /*$__*/ 1) {
+    			$$invalidate(1, links = [
     				{
     					pageUrl: route.admin,
     					pageTitle: $__("title.dashboard")
@@ -14722,7 +14672,7 @@ var app = (function () {
     		}
     	};
 
-    	return [title, $__, links, active];
+    	return [$__, links, title];
     }
 
     class Layouts extends SvelteComponentDev {
@@ -14746,15 +14696,14 @@ var app = (function () {
     	let breadcrump;
     	let t0;
     	let div;
-    	let t1_value = /*$__*/ ctx[1]("title.dashboard") + "";
+    	let t1_value = /*$__*/ ctx[0]("title.dashboard") + "";
     	let t1;
     	let current;
 
     	breadcrump = new Breadcrump({
     			props: {
-    				title: /*title*/ ctx[0],
-    				active: /*active*/ ctx[3],
-    				links: /*links*/ ctx[2]
+    				title: /*title*/ ctx[2],
+    				links: /*links*/ ctx[1]
     			},
     			$$inline: true
     		});
@@ -14766,7 +14715,7 @@ var app = (function () {
     			div = element("div");
     			t1 = text(t1_value);
     			attr_dev(div, "class", "container-fluid dashboard");
-    			add_location(div, file$1, 14, 0, 369);
+    			add_location(div, file$1, 12, 0, 334);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -14780,11 +14729,10 @@ var app = (function () {
     		},
     		p: function update(ctx, [dirty]) {
     			const breadcrump_changes = {};
-    			if (dirty & /*title*/ 1) breadcrump_changes.title = /*title*/ ctx[0];
-    			if (dirty & /*active*/ 8) breadcrump_changes.active = /*active*/ ctx[3];
-    			if (dirty & /*links*/ 4) breadcrump_changes.links = /*links*/ ctx[2];
+    			if (dirty & /*title*/ 4) breadcrump_changes.title = /*title*/ ctx[2];
+    			if (dirty & /*links*/ 2) breadcrump_changes.links = /*links*/ ctx[1];
     			breadcrump.$set(breadcrump_changes);
-    			if ((!current || dirty & /*$__*/ 2) && t1_value !== (t1_value = /*$__*/ ctx[1]("title.dashboard") + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty & /*$__*/ 1) && t1_value !== (t1_value = /*$__*/ ctx[0]("title.dashboard") + "")) set_data_dev(t1, t1_value);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -14815,11 +14763,10 @@ var app = (function () {
 
     function instance$1($$self, $$props, $$invalidate) {
     	let title;
-    	let active;
     	let links;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(1, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(0, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Dashboard', slots, []);
     	onMount(checkAuth);
@@ -14836,14 +14783,12 @@ var app = (function () {
     		checkAuth,
     		links,
     		title,
-    		active,
     		$__
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('links' in $$props) $$invalidate(2, links = $$props.links);
-    		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('active' in $$props) $$invalidate(3, active = $$props.active);
+    		if ('links' in $$props) $$invalidate(1, links = $$props.links);
+    		if ('title' in $$props) $$invalidate(2, title = $$props.title);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -14851,17 +14796,13 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$__*/ 2) {
-    			$$invalidate(0, title = $__("title.dashboard"));
-    		}
-
-    		if ($$self.$$.dirty & /*title*/ 1) {
-    			$$invalidate(3, active = title);
+    		if ($$self.$$.dirty & /*$__*/ 1) {
+    			$$invalidate(2, title = $__("title.dashboard"));
     		}
     	};
 
-    	$$invalidate(2, links = []);
-    	return [title, $__, links, active];
+    	$$invalidate(1, links = []);
+    	return [$__, links, title];
     }
 
     class Dashboard extends SvelteComponentDev {

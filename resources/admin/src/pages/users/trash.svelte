@@ -5,13 +5,6 @@
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-  $: title = $__("title.trash");
-  $: active = title;
-  $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
-  ];
-
   $: titles = [
     $__("title.firstName"),
     $__("title.lastName"),
@@ -29,9 +22,15 @@
     "username",
     "nickname",
   ];
+
+  $: title = $__("title.trash");
+  $: links = [
+    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+  ];
 </script>
 
-<Breadcrump {title} {active} {links} />
+<Breadcrump {title} {links} />
 <div class="container-fluid users">
   <Table
     {titles}
