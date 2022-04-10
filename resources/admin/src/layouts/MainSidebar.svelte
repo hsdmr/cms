@@ -16,17 +16,17 @@
 
   let bodyClass =
     "sidebar-mini " +
-    (auth.options.theme_sidebar_collapsed ? "sidebar-collapse" : "") +
+    (auth.options.sidebarCollapsed ? "sidebar-collapse" : "") +
     " " +
-    (auth.options.theme_text_size ? "text-sm" : "") +
+    (auth.options.textSize ? "text-sm" : "") +
     " " +
-    (auth.options.theme_main_fixed ? "layout-fixed" : "") +
+    (auth.options.mainFixed ? "layout-fixed" : "") +
     " " +
-    (auth.options.theme_navbar_fixed ? "layout-navbar-fixed" : "") +
+    (auth.options.navbarFixed ? "layout-navbar-fixed" : "") +
     " " +
-    (auth.options.theme_footer_fixed ? "layout-footer-fixed" : "") +
+    (auth.options.footerFixed ? "layout-footer-fixed" : "") +
     " " +
-    (auth.options.theme_dark_mode ? "dark-mode" : "");
+    (auth.options.darkMode ? "dark-mode" : "");
 
   document.body.classList = bodyClass;
 
@@ -41,12 +41,12 @@
 </script>
 
 <aside
-  class="main-sidebar elevation-4 {auth.options.theme_sidebar_expand
+  class="main-sidebar elevation-4 {auth.options.sidebarExpand
     ? 'sidebar-no-expand'
-    : ''} {auth.options.theme_sidebar_bg}"
+    : ''} {auth.options.sidebarBg}"
 >
   <!-- Brand Logo -->
-  <a href="/" class="brand-link {auth.options.theme_brand_logo_bg}">
+  <a href="/" class="brand-link {auth.options.brandLogoBg}">
     <img
       src="{APP_ROOT}/assets/admin/img/AdminLTELogo.png"
       alt="AdminLTE Logo"
@@ -79,15 +79,15 @@
     <nav class="mt-2">
       <ul
         class="nav nav-pills nav-sidebar flex-column {auth.options
-          .theme_sidebar_nav_flat
+          .sidebarNavFlat
           ? 'nav-flat'
-          : ''} {auth.options.theme_sidebar_nav_legacy
+          : ''} {auth.options.sidebarNavLegacy
           ? 'nav-legacy'
-          : ''} {auth.options.theme_sidebar_nav_compact
+          : ''} {auth.options.sidebarNavCompact
           ? 'nav-compact'
-          : ''} {auth.options.theme_sidebar_nav_child_indent
+          : ''} {auth.options.sidebarNavChildIndent
           ? 'nav-child-indent'
-          : ''} {auth.options.theme_sidebar_nav_hide_on_collapse
+          : ''} {auth.options.sidebarNavHideOnCollapse
           ? 'nav-collapse-hide-child'
           : ''}"
         data-widget="treeview"

@@ -10,7 +10,10 @@
 
   $: title = $__("title.users");
   $: active = title;
-  $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
+  $: links = [
+    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+  ];
 
   export let id;
   const color = id == route.new ? "success" : "primary";
@@ -23,22 +26,22 @@
   let password;
   let retypePassword;
 
-  let brand_logo_bg = "";
-  let navbar_bg = "navbar-light bg-white";
-  let sidebar_bg = "sidebar-dark-primary";
-  let sidebar_nav_flat = false;
-  let sidebar_nav_legacy = false;
-  let sidebar_nav_compact = false;
-  let sidebar_nav_child_indent = false;
-  let sidebar_nav_hide_on_collapse = false;
-  let sidebar_collapsed = false;
-  let sidebar_expand = false;
-  let main_fixed = false;
-  let navbar_fixed = false;
-  let navbar_no_border = false;
-  let footer_fixed = false;
-  let text_size = false;
-  let dark_mode = false;
+  let brandLogoBg = "";
+  let navbarBg = "navbar-light bg-white";
+  let sidebarBg = "sidebar-dark-primary";
+  let sidebarNavFlat = false;
+  let sidebarNavLegacy = false;
+  let sidebarNavCompact = false;
+  let sidebarNavChildIndent = false;
+  let sidebarNavHideOnCollapse = false;
+  let sidebarCollapsed = false;
+  let sidebarExpand = false;
+  let mainFixed = false;
+  let navbarFixed = false;
+  let navbarNoBorder = false;
+  let footerFixed = false;
+  let textSize = false;
+  let darkMode = false;
 
   let error = "";
   let loading = false;
@@ -60,22 +63,22 @@
         role = user.role;
         password = user.password;
 
-        brand_logo_bg = user.options.theme_brand_logo_bg;
-        navbar_bg = user.options.theme_navbar_bg;
-        sidebar_bg = user.options.theme_sidebar_bg;
-        sidebar_nav_flat = user.options.theme_sidebar_nav_flat;
-        sidebar_nav_legacy = user.options.theme_sidebar_nav_legacy;
-        sidebar_nav_compact = user.options.theme_sidebar_nav_compact;
-        sidebar_nav_child_indent = user.options.theme_sidebar_nav_child_indent;
-        sidebar_nav_hide_on_collapse = user.options.theme_sidebar_nav_hide_on_collapse;
-        sidebar_collapsed = user.options.theme_sidebar_collapsed;
-        sidebar_expand = user.options.theme_sidebar_expand;
-        main_fixed = user.options.theme_main_fixed;
-        navbar_no_border = user.options.theme_navbar_no_border;
-        navbar_fixed = user.options.theme_navbar_fixed;
-        footer_fixed = user.options.theme_footer_fixed;
-        text_size = user.options.theme_text_size;
-        dark_mode = user.options.theme_dark_mode;
+        brandLogoBg = user.options.brandLogoBg;
+        navbarBg = user.options.navbarBg;
+        sidebarBg = user.options.sidebarBg;
+        sidebarNavFlat = user.options.sidebarNavFlat;
+        sidebarNavLegacy = user.options.sidebarNavLegacy;
+        sidebarNavCompact = user.options.sidebarNavCompact;
+        sidebarNavChildIndent = user.options.sidebarNavChildIndent;
+        sidebarNavHideOnCollapse = user.options.sidebarNavHideOnCollapse;
+        sidebarCollapsed = user.options.sidebarCollapsed;
+        sidebarExpand = user.options.sidebarExpand;
+        mainFixed = user.options.mainFixed;
+        navbarNoBorder = user.options.navbarNoBorder;
+        navbarFixed = user.options.navbarFixed;
+        footerFixed = user.options.footerFixed;
+        textSize = user.options.textSize;
+        darkMode = user.options.darkMode;
       }
     }
   }
@@ -86,23 +89,23 @@
     loading = true;
 
     const options = {
-      theme_brand_logo_bg: brand_logo_bg,
-      theme_navbar_bg: navbar_bg,
-      theme_sidebar_bg: sidebar_bg,
-      theme_sidebar_nav_flat: sidebar_nav_flat,
-      theme_sidebar_nav_legacy: sidebar_nav_legacy,
-      theme_sidebar_nav_compact: sidebar_nav_compact,
-      theme_sidebar_nav_child_indent: sidebar_nav_child_indent,
-      theme_sidebar_nav_hide_on_collapse: sidebar_nav_hide_on_collapse,
-      theme_sidebar_collapsed: sidebar_collapsed,
-      theme_main_fixed: main_fixed,
-      theme_sidebar_expand: sidebar_expand,
-      theme_navbar_no_border: navbar_no_border,
-      theme_navbar_fixed: navbar_fixed,
-      theme_footer_fixed: footer_fixed,
-      theme_text_size: text_size,
-      theme_dark_mode: dark_mode,
-      language_preference: $locale,
+      brandLogoBg: brandLogoBg,
+      navbarBg: navbarBg,
+      sidebarBg: sidebarBg,
+      sidebarNavFlat: sidebarNavFlat,
+      sidebarNavLegacy: sidebarNavLegacy,
+      sidebarNavCompact: sidebarNavCompact,
+      sidebarNavChildIndent: sidebarNavChildIndent,
+      sidebarNavHideOnCollapse: sidebarNavHideOnCollapse,
+      sidebarCollapsed: sidebarCollapsed,
+      mainFixed: mainFixed,
+      sidebarExpand: sidebarExpand,
+      navbarNoBorder: navbarNoBorder,
+      navbarFixed: navbarFixed,
+      footerFixed: footerFixed,
+      textSize: textSize,
+      darkMode: darkMode,
+      languagePreference: $locale,
     };
 
     if (id == route.new) {
@@ -275,7 +278,7 @@
           <hr class="mb-2" />
           <div class="mb-4">
             <input
-              bind:checked={dark_mode}
+              bind:checked={darkMode}
               id="darkMode"
               type="checkbox"
               value="dark-mode"
@@ -285,7 +288,7 @@
           <h6>{$__("any.headerOptions")}</h6>
           <div class="mb-1">
             <input
-              bind:checked={navbar_no_border}
+              bind:checked={navbarNoBorder}
               id="noBorder"
               type="checkbox"
               value="layout-navbar-fixed"
@@ -294,7 +297,7 @@
           </div>
           <div class="mb-4">
             <input
-              bind:checked={navbar_fixed}
+              bind:checked={navbarFixed}
               id="fixed1"
               type="checkbox"
               value="layout-navbar-fixed"
@@ -304,7 +307,7 @@
           <h6>{$__("any.sidebarOptions")}</h6>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_collapsed}
+              bind:checked={sidebarCollapsed}
               id="collapsed"
               type="checkbox"
               value="collapsed"
@@ -313,7 +316,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={main_fixed}
+              bind:checked={mainFixed}
               id="fixed2"
               type="checkbox"
               value="layout-fixed"
@@ -322,7 +325,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_nav_flat}
+              bind:checked={sidebarNavFlat}
               id="navFlat"
               type="checkbox"
               value="nav-flat"
@@ -331,7 +334,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_nav_legacy}
+              bind:checked={sidebarNavLegacy}
               id="navLegacy"
               type="checkbox"
               value="nav-legacy"
@@ -340,7 +343,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_nav_compact}
+              bind:checked={sidebarNavCompact}
               id="navCompact"
               type="checkbox"
               value="nav-compact"
@@ -349,7 +352,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_nav_child_indent}
+              bind:checked={sidebarNavChildIndent}
               id="navChildIndent"
               type="checkbox"
               value="nav-child-indent"
@@ -358,7 +361,7 @@
           </div>
           <div class="mb-1">
             <input
-              bind:checked={sidebar_nav_hide_on_collapse}
+              bind:checked={sidebarNavHideOnCollapse}
               id="navChildHideOnCollapse"
               type="checkbox"
               value="nav-collapse-hide-child"
@@ -369,7 +372,7 @@
           </div>
           <div class="mb-4">
             <input
-              bind:checked={sidebar_expand}
+              bind:checked={sidebarExpand}
               id="disableHoverFocusAutoExpand"
               type="checkbox"
               value="sidebar-no-expand"
@@ -381,7 +384,7 @@
           <h6>{$__("any.footerOptions")}</h6>
           <div class="mb-4">
             <input
-              bind:checked={footer_fixed}
+              bind:checked={footerFixed}
               id="fixed3"
               type="checkbox"
               value="layout-footer-fixed"
@@ -391,7 +394,7 @@
           <h6>{$__("any.smallTextOption")}</h6>
           <div class="mb-4">
             <input
-              bind:checked={text_size}
+              bind:checked={textSize}
               id="body1"
               type="checkbox"
               value="text-sm"
@@ -402,7 +405,7 @@
           <div class="d-flex">
             <select
               class="custom-select mb-3 text-light border-0 bg-white"
-              bind:value={navbar_bg}
+              bind:value={navbarBg}
             >
               <option class="bg-primary" value="navbar-dark bg-primary"
                 >{$__("any.primary")}</option
@@ -465,7 +468,7 @@
           </div>
           <h6>{$__("any.sidebarVariants")}</h6>
           <div class="d-flex" />
-          <select class="custom-select mb-3 border-0" bind:value={sidebar_bg}>
+          <select class="custom-select mb-3 border-0" bind:value={sidebarBg}>
             <option value="">{$__("any.noneSelected")}</option>
             <option value="sidebar-dark-primary"
               >{$__("any.dark")} - {$__("any.primary")}</option
@@ -568,7 +571,7 @@
           <div class="d-flex" />
           <select
             class="custom-select mb-3 border-0"
-            bind:value={brand_logo_bg}
+            bind:value={brandLogoBg}
           >
             <option value="">{$__("any.noneSelected")}</option>
             <option class="bg-primary" value="navbar-dark bg-primary"
