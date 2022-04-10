@@ -13,6 +13,7 @@
   $: links = [{ pageUrl: "admin", pageTitle: $__("title.dashboard") }];
 
   export let id;
+  const color = id == route.new ? "success" : "primary";
   let first_name;
   let last_name;
   let email;
@@ -150,7 +151,7 @@
 <div class="container-fluid users">
   <div class="row">
     <div class="col-md-9">
-      <div class="card">
+      <div class="card card-outline card-{color}">
         <div class="card-body">
           <div class="form-group">
             <label class="col-form-label" for="first_name"
@@ -253,7 +254,7 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="card">
+      <div class="card card-outline card-{color}">
         <div class="card-body text-center">
           <div style="display: inline;float: right;">
             {#if loading}
@@ -268,7 +269,7 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <div class="card card-outline card-{color}">
         <div class="card-body">
           <h5>{$__("any.customize")}</h5>
           <hr class="mb-2" />
