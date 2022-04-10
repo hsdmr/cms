@@ -3,7 +3,6 @@
   import Breadcrump from "src/components/Breadcrump.svelte";
   import Table from "src/components/Table.svelte";
   import { api } from "src/scripts/links.js";
-  import { Link } from "svelte-navigator";
   import { route } from "src/scripts/links.js";
 
   $: title = $__("title.users");
@@ -31,12 +30,5 @@
 
 <Breadcrump {title} {active} {links} />
 <div class="container-fluid users">
-  <div class="card">
-    <div class="card-header">
-      <Link to="/{route.admin}/{route.users}/{route.new}" class="btn btn-success">
-        {$__("any.addNew")}
-      </Link>
-    </div>
-  </div>
   <Table {titles} {keys} apiUrl={api.user} routeUrl="/{route.admin}/{route.users}" />
 </div>
