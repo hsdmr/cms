@@ -20,7 +20,7 @@ class UserApi extends Rest
   {
     Log::currentJob(Codes::JOB_USER_SEARCH);
     try {
-      $params = $request->params();
+      $params = getParamsWithDefaults($request->params());
 
       $total = new User();
       $this->header['Total-Row'] = $total->select('COUNT(*) as total')->first()['total'];
@@ -35,6 +35,9 @@ class UserApi extends Rest
           ->orWhere('nickname', 'LIKE', "%" . $params['search'] . "%")
           ->orWhere('phone', 'LIKE', "%" . $params['search'] . "%")
           ->closePharanthesis();
+      }
+      if ($params['trash']) {
+        $users->onlyDeleted();
       }
       $response = $users->order($params['order'], $params['by'])
         ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))

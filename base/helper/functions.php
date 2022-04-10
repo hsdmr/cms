@@ -46,3 +46,18 @@ if (!function_exists('slugify')) {
     return implode('-', explode($seperator, strtolower($str)));
   }
 }
+
+
+if (!function_exists('getParamsWithDefaults')) {
+  function getParamsWithDefaults($params): array
+  {
+    $params['search'] = $params['search'] ?? "";
+    $params['trash'] = $params['trash'] ?? false;
+    $params['order'] = $params['order'] ?? 'id';
+    $params['limit'] = $params['limit'] ?? 10;
+    $params['page'] = $params['page'] ?? 1;
+    $params['by'] = $params['by'] ?? 'asc';
+
+    return $params;
+  }
+}
