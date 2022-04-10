@@ -25,6 +25,7 @@ export default {
     title: "Başlık",
     content: "İçerik",
     search: "Ara",
+    trash: "Silinenler",
     addNew: "Yeni Ekle",
     save: "Kaydet",
     body: "Gövde",

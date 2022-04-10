@@ -25,6 +25,7 @@ export default {
     title: "Title",
     content: "Content",
     search: "Search",
+    trash: "Trash",
     addNew: "Add New",
     save: "Save",
     body: "Body",

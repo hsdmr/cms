@@ -29,6 +29,7 @@ export const route = {
   admin: `admin`,
   home: `/`,
   new: `new`,
+  trash: `trash`,
   
   users: `users`,
   user: `user`,

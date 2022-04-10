@@ -10,6 +10,7 @@
   import ControlSidebar from "src/layouts/ControlSidebar.svelte";
   import Footer from "src/layouts/Footer.svelte";
   import Users from "src/pages/users/index.svelte";
+  import UsersTrash from "src/pages/users/trash.svelte";
   import UserSingle from "src/pages/users/single.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
@@ -49,6 +50,9 @@
               <Route path="{route.users}/*">
                 <Route path="/">
                   <Users />
+                </Route>
+                <Route path="{route.trash}/">
+                  <UsersTrash />
                 </Route>
                 <Route path=":id" let:params>
                   <UserSingle id={params.id} />
