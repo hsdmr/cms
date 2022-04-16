@@ -62,8 +62,8 @@ if (!function_exists('slugify')) {
 }
 
 
-if (!function_exists('getParamsWithDefaults')) {
-  function getParamsWithDefaults($params): array
+if (!function_exists('getSearchParamsWithDefaults')) {
+  function getSearchParamsWithDefaults($params): array
   {
     $params['search'] = $params['search'] ?? "";
     $params['trash'] = $params['trash'] ?? false;
