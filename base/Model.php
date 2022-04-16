@@ -20,7 +20,7 @@ abstract class Model
   private bool $with_deleted = false;
   private bool $only_deleted = false;
 
-  private string $select = '*';
+  private array $select = [];
   private string $where_sql = '';
   private array $where_params = [];
   private $where_key;
@@ -45,7 +45,7 @@ abstract class Model
   {
     $params = [];
     foreach ($this->fields as $field) {
-      $params[$field] = $this->{ $field};
+      $params[$field] = $this->{$field};
     }
     if (isset($this->where_key)) {
       return $this->update($params);
@@ -71,7 +71,7 @@ abstract class Model
     $obj_fields = $this->fields;
     array_shift($fields);
     array_shift($obj_fields);
-    $binds = array_map(fn($attr) => ":$attr", array_keys($fields));
+    $binds = array_map(fn ($attr) => ":$attr", array_keys($fields));
     $sql = "INSERT INTO `$this->table` (`" . implode("`, `", $obj_fields) . "`) VALUES (" . implode(", ", $binds) . ")";
     $statement = $this->db->prepare($sql);
     $binds = [];
@@ -84,8 +84,8 @@ abstract class Model
       Codes::BINDS => $binds
     ];
     $statement->execute();
-    $this->{ $this->primary_key} = $this->db->lastInsertId();
-    return $this->findByPrimaryKey($this->{ $this->primary_key});
+    $this->{$this->primary_key} = $this->db->lastInsertId();
+    return $this->findByPrimaryKey($this->{$this->primary_key});
   }
 
   /**
@@ -134,8 +134,8 @@ abstract class Model
       }
     }
     if (is_object($model)) {
-      if (isset($model->{ $this->primary_key})) {
-        $this->where_key = $model->{ $this->primary_key};
+      if (isset($model->{$this->primary_key})) {
+        $this->where_key = $model->{$this->primary_key};
       }
     }
     return $model;
@@ -149,7 +149,7 @@ abstract class Model
    */
   public function get(): array
   {
-    $sql = "SELECT $this->select FROM `$this->table` $this->where_sql";
+    $sql = "SELECT " . $this->createValidSelect() . " FROM `$this->table` $this->where_sql";
 
     if ($this->soft_delete && !$this->with_deleted && !$this->only_deleted) {
       $sql .= ($this->where_sql === '' ? "WHERE" : " AND") . " `deleted_at` IS NULL";
@@ -177,9 +177,9 @@ abstract class Model
       if (count(array_diff(array_keys($item), $this->fields)) === 0) {
         $new_model = getModelFromTable($this->table);
         $object = new $new_model;
-        $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden);
+        $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
         foreach ($this->with as $with) {
-          $object->{ $with} = $object->{ $with}();
+          $object->{$with} = $object->{$with}();
         }
       }
 
@@ -199,8 +199,7 @@ abstract class Model
   public function findByPrimaryKey(int $primary_key)
   {
     $this->where_key = $primary_key;
-    $sql = "SELECT " . $this->select . " FROM `$this->table` WHERE `" . $this->primary_key . "` = :" . $this->primary_key;
-
+    $sql = "SELECT " . $this->createValidSelect() . " FROM `$this->table` WHERE `" . $this->primary_key . "` = :" . $this->primary_key;
     $statement = $this->db->prepare($sql);
     $binds = [];
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
@@ -211,21 +210,28 @@ abstract class Model
     ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
-    
+
     if ($item) {
       foreach ($this->fields as $field) {
-        $this->{ $field} = $item[$field] ?? null;
+        $this->{$field} = $item[$field] ?? null;
       }
-      
+
       if (!$this->with_hidden) {
         foreach ($this->hidden as $hide) {
-          unset($this->{ $hide});
+          unset($this->{$hide});
         }
       }
-      
+
       foreach ($this->protected as $protect) {
-        unset($this->{ $protect});
+        unset($this->{$protect});
       }
+
+      foreach ($this->fields as $field) {
+        if ($this->select != [] && !in_array($field, $this->select)) {
+          unset($this->{$field});
+        }
+      }
+
       return $this;
     }
 
@@ -349,8 +355,7 @@ abstract class Model
    */
   public function select(): object
   {
-    $fields = func_get_args() ?? ['*'];
-    $this->select = trim(implode(', ', array_diff($fields, $this->protected)));
+    $this->select = func_get_args() ?? [];
     return $this;
   }
 
@@ -363,7 +368,6 @@ abstract class Model
     if (substr($this->where_sql, -1) !== '(' && substr($this->where_sql, -5) !== 'WHERE') {
       $this->where_sql .= " $key";
     }
-
   }
   /**
    * Adds where query with and.
@@ -380,8 +384,7 @@ abstract class Model
       $key = $where[0];
       $operator = '=';
       $value = $where[1];
-    }
-    else {
+    } else {
       $key = $where[0];
       $operator = $where[1];
       $value = $where[2];
@@ -391,10 +394,10 @@ abstract class Model
     $this->where_sql = trim($this->where_sql .= " `$key` $operator :$key");
 
     return $this;
-  //$this->where = [
-  //  'params' => $where,
-  //  'sql' => " WHERE " . implode(" $w ", array_map(fn ($key, $operator) => "$key $operator :$key", $keys, $operators))
-  //];
+    //$this->where = [
+    //  'params' => $where,
+    //  'sql' => " WHERE " . implode(" $w ", array_map(fn ($key, $operator) => "$key $operator :$key", $keys, $operators))
+    //];
   }
 
   /**
@@ -413,8 +416,7 @@ abstract class Model
       $key = $where[0];
       $operator = '=';
       $value = $where[1];
-    }
-    else {
+    } else {
       $key = $where[0];
       $operator = $where[1];
       $value = $where[2];
@@ -446,6 +448,20 @@ abstract class Model
    * @return $this
    *
    */
+  public function WhereIn($key, $keys = []): object
+  {
+    $this->whereConditions('AND');
+    $this->where_sql = trim($this->where_sql .= " `$key` IN ('" . implode("', '", $keys) . "')");
+
+    return $this;
+  }
+
+  /**
+   * Adds WHERE IS NULL to query.
+   *
+   * @return $this
+   *
+   */
   public function WhereNull($key, $conjunction = 'AND'): object
   {
     $this->whereConditions($conjunction);
@@ -464,8 +480,7 @@ abstract class Model
   {
     if ($this->where_sql === '') {
       $this->where_sql .= ' WHERE (';
-    }
-    else {
+    } else {
       $this->where_sql = trim($this->where_sql .= " $key (");
     }
 
@@ -542,7 +557,9 @@ abstract class Model
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
     foreach ($items as $item) {
-      $object = call_user_func_array([getModelFromTable($table), 'find'], [$item[$this->table . "_id"]]);
+      $new_model = getModelFromTable($this->table);
+      $object = new $new_model;
+      $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
       $collection[] = $object;
     }
     return $collection;
@@ -560,15 +577,18 @@ abstract class Model
     $sql = "SELECT * FROM `" . $table . "` WHERE `id` = :id LIMIT 1";
     $statement = $this->db->prepare($sql);
     $binds = [];
-    $statement->bindValue(":id", $this->{ $table . '_id'});
-    $binds[$this->primary_key] = $this->{ $table . '_id'};
+    $statement->bindValue(":id", $this->{$table . '_id'});
+    $binds[$this->primary_key] = $this->{$table . '_id'};
     $GLOBALS[Codes::SQL_QUERIES][] = [
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
     $statement->execute();
     $item = $statement->fetch(PDO::FETCH_ASSOC);
-    return call_user_func_array([getModelFromTable($table), 'find'], [$item['id']]);
+    $new_model = getModelFromTable($this->table);
+    $object = new $new_model;
+    $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
+    return  $object;
   }
 
   /**
@@ -593,7 +613,9 @@ abstract class Model
     $items = $statement->fetchAll(PDO::FETCH_ASSOC);
     $collection = [];
     foreach ($items as $item) {
-      $object = call_user_func_array([getModelFromTable($table), 'find'], [$item['id']]);
+      $new_model = getModelFromTable($this->table);
+      $object = new $new_model;
+      $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
       $collection[] = $object;
     }
     return $collection;
@@ -611,13 +633,12 @@ abstract class Model
   {
     foreach ($this->unique as $key) {
       $result = $this->select("COUNT(id) as count", $key, $this->primary_key)->where($key, $params[$key])->get()[0];
-      $this->select = implode(', ', array_diff($this->fields, $this->hidden));
+      $this->select = [];
       if ($this->where_key != '') {
         if ($result['count'] && $result[$this->primary_key] != $this->where_key) {
           throw new StoragePdoException("'$key' has already been registered");
         }
-      }
-      else if ($result['count']) {
+      } else if ($result['count']) {
         throw new StoragePdoException("'$key' has already been registered");
       }
     }
@@ -663,8 +684,30 @@ abstract class Model
 
     foreach ($statement->fetchAll(PDO::FETCH_ASSOC) as $item) {
       $this->fields[] = $item['Field'];
-      $this->{ $item['Field']} = null;
+      $this->{$item['Field']} = null;
     }
+  }
+
+  /**
+   * Creates valid select.
+   *
+   * @return string
+   *
+   */
+  private function createValidSelect(): string
+  {
+    if ($this->select == []) {
+      return '`' . trim(implode('`, `', array_diff($this->fields, $this->protected))) . '`';
+    }
+    $specials = [];
+    $select = $this->select;
+    if ($specials == []) {
+      return '`' . trim(implode('`, `', array_diff($select, $this->protected))) . '`';
+    }
+    if ($select == []) {
+      return trim(implode(', ', $specials));
+    }
+    return trim(implode(', ', $specials)) . ', `' . trim(implode('`, `', array_diff($select, $this->protected))) . '`';
   }
 
   /**
@@ -677,14 +720,14 @@ abstract class Model
   {
     $array = [];
     foreach ($this->fields as $field) {
-      if (isset($this->{ $field})) {
-        $array[$field] = $this->{ $field};
+      if (isset($this->{$field})) {
+        $array[$field] = $this->{$field};
       }
     }
     return $array;
   }
 
-  public function newModel(int $id, $with_deleted = null, $only_deleted = null, $with_hidden = null)
+  public function newModel(int $id, $with_deleted = null, $only_deleted = null, $with_hidden = null, $select = null)
   {
     $model = getModelFromTable($this->table);
     $item = new $model;
@@ -696,6 +739,9 @@ abstract class Model
     }
     if ($with_hidden) {
       $item->withHidden();
+    }
+    if ($select) {
+      $item->select = $select;
     }
     return $item->findByPrimaryKey($id);
   }
