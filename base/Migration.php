@@ -10,7 +10,7 @@ class Migration
   public static $config;
 
   public static function run($args = [])
-  { 
+  {
     self::$config = System::getConfig();
     self::$pdo = System::getPdo();
 
@@ -28,9 +28,9 @@ class Migration
           $version = $name[1];
           $className = ucwords($name[2]) . implode('', explode('.', $version));
           $instance = new $className();
-          self::echoLog("Droping $migration", 3);
+          self::echoLog("Droping", $migration, 3);
           $instance->down();
-          self::echoLog("Dropped $migration");
+          self::echoLog("Dropped", $migration);
           $newMigrations[] = $migration . "', '" . $version . "', '" . time();
         }
       }
@@ -53,9 +53,9 @@ class Migration
       $version = $name[1];
       $className = ucwords($name[2]) . implode('', explode('.', $version));
       $instance = new $className();
-      self::echoLog("Applying migration $migration", 3);
+      self::echoLog("Migrating", $migration, 3);
       $instance->up();
-      self::echoLog("Applied migration $migration");
+      self::echoLog("Migrated", $migration);
       $newMigrations[] = $migration . "', '" . $version . "', '" . time();
     }
 
@@ -93,9 +93,18 @@ class Migration
     $statement->execute();
   }
 
-  private static function echoLog($message, $code = 2)
+  private static function echoLog($message1 = "", $message2 = "", $code = 2)
   {
-    $echo = PHP_EOL . "\033[3" . $code . "m[" . date("Y-m-d H:i:s") . "] - \033[0m" . $message;
+    $echo = PHP_EOL . "\033[3" . $code . "m[" . date("Y-m-d H:i:s") . "] $message1 \033[0m" . $message2;
     echo $echo;
+    //Black: \033[30m
+    //Red: \033[31m
+    //Green: \033[32m
+    //Yellow: \033[33m
+    //Blue: \033[34m
+    //Magenta: \033[35m
+    //Cyan: \033[36m
+    //White: \033[37m
+    //Reset: \033[0m
   }
 }
