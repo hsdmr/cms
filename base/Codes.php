@@ -22,6 +22,7 @@ class Codes
   const ROUTES = 'routes';
   const MIDDLEWARE = 'middleware';
 
+  const OPTION_TYPE_ADMIN_PANEL = 'admin_panel';
   const SQL_QUERIES = 'sql_queries';
   const QUERY = 'query';
   const BINDS = 'binds';
