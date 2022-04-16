@@ -701,6 +701,12 @@ abstract class Model
     }
     $specials = [];
     $select = $this->select;
+    for ($i = 0; $i < count($select); $i++) {
+      if (str_contains(strtolower($select[$i]), ' as ')) {
+        $specials[] = strtolower($select[$i]);
+        unset($select[$i]);
+      }
+    }
     if ($specials == []) {
       return '`' . trim(implode('`, `', array_diff($select, $this->protected))) . '`';
     }
