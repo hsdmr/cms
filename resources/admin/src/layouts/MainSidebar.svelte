@@ -123,6 +123,20 @@
             </p>
           </Link>
         </li>
+        <li class="nav-item" on:click={setUrl}>
+          <Link
+            to="/{route.admin}/{route.roles}"
+            class="nav-link {url[1] === 'admin' &&
+            (url[2] === 'roles' || url[2] === 'role')
+              ? 'active'
+              : ''}"
+          >
+          <i class="nav-icon fa-solid fa-arrows-down-to-people"></i>
+            <p>
+              {$__("title.roles")}
+            </p>
+          </Link>
+        </li>
         <li
           class="nav-item {url[1] === 'admin' && url[2] === 'layouts'
             ? 'menu-open active'

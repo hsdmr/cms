@@ -12,6 +12,8 @@
   import Users from "src/pages/users/index.svelte";
   import UsersTrash from "src/pages/users/trash.svelte";
   import UserSingle from "src/pages/users/single.svelte";
+  import Roles from "src/pages/roles/index.svelte";
+  import RoleSingle from "src/pages/roles/single.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
   import { route } from "src/scripts/links.js";
@@ -56,6 +58,14 @@
                 </Route>
                 <Route path=":id" let:params>
                   <UserSingle id={params.id} />
+                </Route>
+              </Route>
+              <Route path={route.roles}>
+                <Route path="/">
+                  <Roles />
+                </Route>
+                <Route path=":id" let:params>
+                  <RoleSingle id={params.id} />
                 </Route>
               </Route>
               <Route path={route.layouts}>

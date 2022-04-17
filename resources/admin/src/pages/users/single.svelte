@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { DoubleBounce } from "svelte-loading-spinners";
   import { locale } from "src/scripts/i18n.js";
-  
+
   export let id;
 
   const color = id == route.new ? "success" : "primary";
@@ -142,8 +142,8 @@
       }
     }
   }
-  
-  $: title = id != route.new ? first_name + ' ' + last_name : $__("any.addNew");
+
+  $: title = id != route.new ? first_name + " " + last_name : $__("any.addNew");
   $: links = [
     { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
     { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
@@ -261,7 +261,7 @@
         <div class="card-body text-center">
           <div style="display: inline;float: right;">
             {#if loading}
-              <DoubleBounce size="30" color="#FF3E00" unit="px" duration="2s" />
+              <DoubleBounce size="38" color="#28a745" unit="px" duration="2s" />
             {:else}
               <button
                 type="button"
@@ -569,10 +569,7 @@
           </select>
           <h6>{$__("any.brandLogoVariants")}</h6>
           <div class="d-flex" />
-          <select
-            class="custom-select mb-3 border-0"
-            bind:value={brandLogoBg}
-          >
+          <select class="custom-select mb-3 border-0" bind:value={brandLogoBg}>
             <option value="">{$__("any.noneSelected")}</option>
             <option class="bg-primary" value="navbar-dark bg-primary"
               >{$__("any.primary")}</option
