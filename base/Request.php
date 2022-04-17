@@ -2,8 +2,6 @@
 
 namespace Hasdemir\Base;
 
-use Hasdemir\Base\DefaultException;
-
 class Request
 {
   protected string $dir;
@@ -13,7 +11,7 @@ class Request
   {
     $this->dir = dirname($_SERVER['SCRIPT_NAME']);
     $this->base = basename($_SERVER['SCRIPT_NAME']);
-    Log::request(self::uri(), $this->method());
+    Log::request($this->uri(), $this->method());
   }
 
   public function uri()
@@ -23,7 +21,7 @@ class Request
 
   public function path()
   {
-    return explode('?', self::uri())[0];
+    return explode('?', $this->uri())[0];
   }
 
   public function method()
