@@ -10,4 +10,9 @@ class HomeController extends Controller
   {
     return view('index.php');
   }
+  
+  public function not_found($request, $args)
+  {
+    return view('404.php');
+  }
 }

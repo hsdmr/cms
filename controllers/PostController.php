@@ -12,8 +12,6 @@ use Respect\Validation\Validator as v;
 
 class PostController extends Controller
 {
-  const HELPER_LINK = ['link' => 'post'];
-
   public function search($request, $args)
   {
     Log::currentJob(Codes::JOB_POST_SEARCH);
@@ -63,7 +61,7 @@ class PostController extends Controller
         $this->body = $response;
         return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
-        throw new NotFoundException('Post not found', self::HELPER_LINK, $th);
+        throw new NotFoundException('Post not found', Codes::key(Codes::ERROR_POST_NOT_FOUND), $th);
       }
     } finally {
       Log::endJob();
@@ -111,13 +109,13 @@ class PostController extends Controller
   public function validate($params)
   {
     if (!v::key('slug_id', v::positive())->validate($params)) {
-      throw new UnexpectedValueException("'slug_id' must be positive number", self::HELPER_LINK);
+      throw new UnexpectedValueException("'slug_id' must be positive number", Codes::key(Codes::ERROR_SLUG_ID_MUST_BE_POSITIVE_NUMBER));
     }
     if (!v::key('user_id', v::positive())->validate($params)) {
-      throw new UnexpectedValueException("'user_id'  must be positive number", self::HELPER_LINK);
+      throw new UnexpectedValueException("'user_id'  must be positive number", Codes::key(Codes::ERROR_USER_ID_MUST_BE_POSITIVE_NUMBER));
     }
     if (!v::key('status', v::in(['published', 'draft']))->validate($params)) {
-      throw new UnexpectedValueException("'status' only can be 'published' or 'draft'", self::HELPER_LINK);
+      throw new UnexpectedValueException("'status' only can be 'published' or 'draft'", Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
     }
   }
 }

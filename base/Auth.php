@@ -44,17 +44,17 @@ class Auth
     if (!$user) {
       switch ($key) {
         case 'username':
-          throw new AuthenticationException("'username' is wrong", Codes::key(Codes::USERNAME_IS_WRONG));
+          throw new AuthenticationException("'username' is wrong", Codes::key(Codes::ERROR_USERNAME_IS_WRONG));
         
         case 'email':
-          throw new AuthenticationException("'email' is wrong", Codes::key(Codes::EMAIL_IS_WRONG));
+          throw new AuthenticationException("'email' is wrong", Codes::key(Codes::ERROR_EMAIL_IS_WRONG));
       }
     }
     if ($user['deleted_at'] != null) {
       throw new AuthenticationException("This user deleted");
     }
     if (!password_verify($_POST['password'], $user['password'])) {
-      throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::PASSWORD_IS_INCORRECT));
+      throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::ERROR_PASSWORD_IS_INCORRECT));
     }
     Session::getInstance()->set('user', $user);
     return true;
@@ -63,18 +63,18 @@ class Auth
   public function check()
   {
     if (!v::key('Authorization')->validate($this->header)) {
-      throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ACCESS_TOKEN_NOT_SENT));
+      throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_SENT));
     }
 
     $authorization_key = $this->header['Authorization'];
     $access_token = AccessToken::findByToken(sha1($authorization_key));
     
     if (!(bool) $access_token) {
-      throw new AuthenticationException('Authorization key not found', Codes::key(Codes::ACCESS_TOKEN_NOT_FOUND));
+      throw new AuthenticationException('Authorization key not found', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_FOUND));
     }
     
     if ($access_token->expires < time()) {
-      throw new AuthenticationException('Authorization key expired', Codes::key(Codes::ACCESS_TOKEN_EXPIRED));
+      throw new AuthenticationException('Authorization key expired', Codes::key(Codes::ERROR_ACCESS_TOKEN_EXPIRED));
     }
     
     $access_token->token = $authorization_key;

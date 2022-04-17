@@ -22,6 +22,7 @@ class Web
     $routes['Home'][Codes::MIDDLEWARE] = [];
     $routes['Home'][Codes::ROUTES] = [
       ['GET', '/', 'home'],
+      ['GET', '/404', 'not_found'],
     ];
 
     $routes['Admin'][Codes::MIDDLEWARE] = [];
@@ -31,7 +32,11 @@ class Web
       ['GET', '/forget-password', 'admin'],
       ['GET', '/admin', 'admin'],
       ['GET', '/admin/users', 'admin'],
+      ['GET', '/admin/users/new', 'admin'],
       ['GET', '/admin/users/{id}', 'admin'],
+      ['GET', '/admin/roles', 'admin'],
+      ['GET', '/admin/roles/new', 'admin'],
+      ['GET', '/admin/roles/{id}', 'admin'],
       ['GET', '/admin/option', 'admin'],
       ['GET', '/admin/layouts', 'admin'],
     ];

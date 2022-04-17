@@ -12,8 +12,6 @@ use Respect\Validation\Validator as v;
 
 class AutoLinkController extends Controller
 {
-  const HELPER_LINK = ['link' => 'auto-link'];
-
   public function search($request, $args)
   {
     Log::currentJob(Codes::JOB_AUTO_LINK_SEARCH);
@@ -53,7 +51,7 @@ class AutoLinkController extends Controller
         $this->body = AutoLink::find($link_id)->toArray();
         $this->response(HTTP_OK);
       } catch (\Throwable $th) {
-        throw new NotFoundException('Auto link not found', self::HELPER_LINK, $th);
+        throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND), $th);
       }
     } finally {
       Log::endJob();
@@ -97,10 +95,10 @@ class AutoLinkController extends Controller
   public function validate($params): void
   {
     if (!v::key('word', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'word' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'word' must be string", Codes::key(Codes::ERROR_WORD_MUST_BE_STRING));
     }
     if (!v::key('uri', v::stringType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'uri' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'uri' must be string", Codes::key(Codes::ERROR_URI_MUST_BE_STRING));
     }
   }
 }

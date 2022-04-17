@@ -20,6 +20,7 @@ export const api = {
 
   option: `${apiUrl}/option`,
   user: `${apiUrl}/user`,
+  role: `${apiUrl}/role`,
 }
 
 export const route = {
@@ -30,7 +31,9 @@ export const route = {
   home: `/`,
   new: `new`,
   trash: `trash`,
-  
+
+  roles: `roles`,
+  role: `role`,
   users: `users`,
   user: `user`,
   layouts: `layouts`,

@@ -15,6 +15,7 @@ class Option extends Model
     $item = new Option();
     return $item->findByPrimaryKey($id);
   }
+  
   public static function findOption(string $type, int $type_id = null, string $key)
   {
     $item = new Option();
@@ -68,10 +69,6 @@ class Option extends Model
       if ($item) {
         $item = $item->toArray();
         $options[$item['key']] = Json::decode($item['value']);
-        //var_dump(json_last_error() . ' ' . json_last_error_msg() . ', ' . $item['value'] . ' => ' . $decoded_data . ' = ' . $options[$item['key']]);
-        //var_dump($item['value']);
-        //var_dump($decoded_data);
-        //var_dump('----');
       }
     }
     return $options;

@@ -55,6 +55,15 @@ class Api
       ['DELETE', '/category/{category_id}', 'delete'],
     ];
 
+    $routes['Role'][Codes::MIDDLEWARE] = ['Auth'];
+    $routes['Role'][Codes::ROUTES] = [
+      ['GET', '/role', 'search'],
+      ['POST', '/role', 'create'],
+      ['GET', '/role/{role_id}', 'read'],
+      ['PUT', '/role/{role_id}', 'update'],
+      ['DELETE', '/role/{role_id}', 'delete'],
+    ];
+
     $routes['AutoLink'][Codes::MIDDLEWARE] = ['Auth'];
     $routes['AutoLink'][Codes::ROUTES] = [
       ['GET', '/auto-link', 'search'],

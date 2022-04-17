@@ -14,13 +14,11 @@ use Hasdemir\Model\Option;
 
 class UserController extends Controller
 {
-  const HELPER_LINK = ['link' => 'user'];
-
   public function search(Request $request, $args)
   {
     Log::currentJob(Codes::JOB_USER_SEARCH);
     try {
-      $params = getParamsWithDefaults($request->params());
+      $params = getSearchParamsWithDefaults($request->params());
 
       $total = new User();
       $this->header['Total-Row'] = $total->select('COUNT(*) as total')->first()['total'];
@@ -103,7 +101,7 @@ class UserController extends Controller
         $this->response(HTTP_OK);
       }
       catch (\Throwable $th) {
-        throw new NotFoundException('User not found', self::HELPER_LINK, $th);
+        throw new NotFoundException('User not found', Codes::key(Codes::ERROR_USER_NOT_FOUND), $th);
       }
     }
     finally {
@@ -175,34 +173,34 @@ class UserController extends Controller
   public function validate($params, $method = 'create'): void
   {
     if (!v::key('first_name', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'first_name' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'first_name' must be string", Codes::key(Codes::ERROR_FIRST_NAME_MUST_BE_STRING));
     }
     if (!v::key('last_name', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'last_name' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'last_name' must be string", Codes::key(Codes::ERROR_LAST_NAME_MUST_BE_STRING));
     }
     if (!v::key('role', v::in(['admin', 'user']))->validate($params)) {
-      throw new UnexpectedValueException("'role' must be 'admin' or 'user'", self::HELPER_LINK);
+      throw new UnexpectedValueException("'role' must be 'admin' or 'user'", Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
     }
     if (!v::key('email', v::email())->validate($params)) {
-      throw new UnexpectedValueException("'email' must be valid an email", self::HELPER_LINK);
+      throw new UnexpectedValueException("'email' must be valid an email", Codes::key(Codes::ERROR_EMAIL_NOT_VALID));
     }
     if (!v::key('username', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'username' must be sent", self::HELPER_LINK);
+      throw new UnexpectedValueException("'username' must be sent", Codes::key(Codes::ERROR_USERNAME_MUST_BE_SENT));
     }
     if ($method == 'create') {
       if (!v::key('password', v::stringType())->validate($params)) {
-        throw new UnexpectedValueException("'password' not valid", self::HELPER_LINK);
+        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID ));
       }
     }
     else {
       if (!v::key('password', v::stringType(), false)->validate($params)) {
-        throw new UnexpectedValueException("'password' not valid", self::HELPER_LINK);
+        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID ));
       }
     }
 
     if (v::key('password')->validate($params) && v::key('password_verified')->validate($params)) {
       if (!v::key('password', v::equals($params['password_verified']), false)->validate($params)) {
-        throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", self::HELPER_LINK);
+        throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", Codes::key(Codes::ERROR_PASSWORDS_NOT_MATCH ));
       }
     }
   }

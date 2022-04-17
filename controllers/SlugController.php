@@ -12,8 +12,6 @@ use Respect\Validation\Validator as v;
 
 class SlugController extends Controller
 {
-  const HELPER_LINK = ['link' => 'slug'];
-
   public function search($request, $args)
   {
     Log::currentJob(Codes::JOB_SLUG_SEARCH);
@@ -60,7 +58,7 @@ class SlugController extends Controller
         $this->body = Slug::find($slug_id)->toArray();
         return $this->response(HTTP_OK);
       } catch (\Throwable $th) {
-        throw new NotFoundException('Link not found', self::HELPER_LINK, $th);
+        throw new NotFoundException('Link not found', Codes::key(Codes::ERROR_LINK_NOT_FOUND), $th);
       }
     } finally {
       Log::endJob();
@@ -109,13 +107,13 @@ class SlugController extends Controller
   public function validate($params)
   {
     if (!v::key('owner', v::in(['post', 'page', 'product', 'lesson']))->validate($params)) {
-      throw new UnexpectedValueException("'owner' must be 'post', 'page', 'product', 'lesson'", self::HELPER_LINK);
+      throw new UnexpectedValueException("'owner' must be 'post', 'page', 'product', 'lesson'", Codes::key(Codes::ERROR_OWNER_NOT_ALLOWED));
     }
     if (!v::key('path', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'path' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'path' must be string", Codes::key(Codes::ERROR_PATH_MUST_BE_STRING));
     }
     if (!v::key('language_id', v::positive())->validate($params)) {
-      throw new UnexpectedValueException("'language_id' must be positive number", self::HELPER_LINK);
+      throw new UnexpectedValueException("'language_id' must be positive number", Codes::key(Codes::ERROR_LANGUAGE_ID_MUST_BE_POSITIVE_NUMBER));
     }
   }
 }

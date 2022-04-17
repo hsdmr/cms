@@ -12,8 +12,6 @@ use Respect\Validation\Validator as v;
 
 class OptionController extends Controller
 {
-  const HELPER_LINK = ['link' => 'option'];
-
   public function search($request, $args)
   {
     Log::currentJob(Codes::JOB_OPTION_SEARCH);
@@ -21,7 +19,7 @@ class OptionController extends Controller
       $params = $request->params();
 
       if (!v::key('get', v::in(['one', 'many']))->validate($params)) {
-        throw new UnexpectedValueException("'get' must be 'one' or 'many'", self::HELPER_LINK);
+        throw new UnexpectedValueException("'get' must be 'one' or 'many'", Codes::key(Codes::ERROR_GET_NOT_ALLOWED));
       }
 
       $this->validate($params);
@@ -30,14 +28,14 @@ class OptionController extends Controller
         $response = Option::findOption($params['type'], $params['type_id'] ?? null, $params['key']);
 
         if (!$response) {
-          throw new NotFoundException('Option not found!');
+          throw new NotFoundException('Option not found!', Codes::key(Codes::ERROR_OPTION_NOT_FOUND));
         }
       }
       else {
         $response = Option::findOptions($params['type'], $params['type_id'] ?? null);
 
         if (!$response) {
-          throw new NotFoundException('Options not found!');
+          throw new NotFoundException('Options not found!', Codes::key(Codes::ERROR_OPTIONS_NOT_FOUND));
         }
       }
 
@@ -84,15 +82,15 @@ class OptionController extends Controller
   public function validate($params): void
   {
     if (!v::key('type', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'key' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'type' must be string", Codes::key(Codes::ERROR_TYPE_MUST_BE_STRING));
     }
 
     if (!v::key('type_id', v::intType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'type_id' must be integer", self::HELPER_LINK);
+      throw new UnexpectedValueException("'type_id' must be integer", Codes::key(Codes::ERROR_TYPE_ID_MUST_BE_INTEGER));
     }
 
     if (!v::key('key', v::stringType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'key' must be string", self::HELPER_LINK);
+      throw new UnexpectedValueException("'key' must be string", Codes::key(Codes::ERROR_KEY_MUST_BE_STRING));
     }
   }
 }

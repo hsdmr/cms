@@ -8,6 +8,6 @@ class RouteController extends Controller
 {
   public function route($request, $args)
   {
-    var_dump($args);
+    var_dump($request);
   }
 }

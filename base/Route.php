@@ -42,13 +42,17 @@ class Route
       $this->handle(Web::getRoutes(), Codes::NAMESPACE_CONTROLLER, '');
     }
     
-    self::hasRoute();
+    self::hasRoute($this->isApi());
   }
 
-  public static function hasRoute()
+  public static function hasRoute($is_api)
   {
     if (self::$hasRoute === false) {
-      throw new NotFoundException('Url does not exists');
+      if ($is_api) {
+        throw new NotFoundException('Url does not exists');
+      } else {
+        self::redirect($_ENV['APP_URL'] . '/404');
+      }
     }
   }
 
@@ -97,6 +101,12 @@ class Route
         }
       }
     }
+  }
+
+  public static function redirect($url)
+  {
+    header('Location: ' . $url);
+    die();
   }
 
   private function prepareArgs($args)

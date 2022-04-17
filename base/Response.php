@@ -8,7 +8,6 @@ class Response
   {
     $response = [
       'message' => $message,
-      //'link' => $header['Link'],
       'key' => $e->key ?? '',
     ];
     Log::error($response, $e, $th);
