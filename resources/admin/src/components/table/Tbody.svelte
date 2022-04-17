@@ -18,13 +18,21 @@
     loading = 0;
     dispatch("delete", { del });
   }
+
+  const parseValue = (value) => {
+    if (Array.isArray(value)) {
+      return value.join(', ');
+    } else {
+      return value;
+    }
+  }
 </script>
 
 <tbody>
   {#each JSON.parse(rows) as row}
     <tr>
       {#each keys as key}
-        <td>{row[key]}</td>
+        <td>{parseValue(row[key])}</td>
       {/each}
       <td>
         <Link to="{routeUrl}/{row['id']}" class="btn btn-primary btn-xs"
