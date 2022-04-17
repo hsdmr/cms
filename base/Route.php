@@ -34,6 +34,14 @@ class Route
 
   public function run()
   {
+    if (!$this->request->isValid()) {
+      if ($this->isApi()) {
+        throw new DefaultException('Url does not valid', ['http_code' => 403]);
+      } else {
+        self::redirect($_ENV['APP_URL'] . '/404');
+      }
+    }
+
     if ($this->isApi()) {
       $this->handle(Api::getRoutes(), Codes::NAMESPACE_CONTROLLER, API_PREFIX);
     }

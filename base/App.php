@@ -37,7 +37,6 @@ class App
   public function run()
   {
     try {
-      $this->request->checkUri();
       $this->route->run();
     } catch (UnexpectedValueException $e) {
       $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/' . $e->link;

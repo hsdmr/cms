@@ -76,11 +76,4 @@ class Request
   {
     return preg_match('@^([-a-z0-9%.=_#?&//]*)$@', $this->uri());
   }
-
-  public function checkUri()
-  {
-    if (!$this->isValid()) {
-      throw new DefaultException('Url does not valid', ['http_code' => 403]);
-    }
-  }
 }
