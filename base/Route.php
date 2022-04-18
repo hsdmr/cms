@@ -66,7 +66,11 @@ class Route
 
   public function isApi(): bool
   {
-    return '/' . explode('/', $this->request->path())[1] === API_PREFIX;
+    $exploded = explode('/', $this->request->path());
+    if (isset($exploded[1])) {
+      return '/' . explode('/', $this->request->path())[1] === API_PREFIX;
+    }
+    return false;
   }
 
   public function handle(array $routes = [], string $namespase = '', string $prefix = '', string $class_suffix = 'Controller')
