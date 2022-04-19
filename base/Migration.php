@@ -14,7 +14,7 @@ class Migration
     self::$config = System::getConfig();
     self::$pdo = System::getPdo();
     self::grantAllPrivileges();
-    
+
     $files = scandir(ROOT . DS . 'database');
 
     if (isset($args[1])) {
@@ -69,7 +69,9 @@ class Migration
 
   private static function grantAllPrivileges()
   {
-    self::$pdo->exec("GRANT ALL PRIVILEGES ON `" . $_ENV['DB_NAME'] . "`.* TO '" . $_ENV['DB_USER'] . "'@'localhost' IDENTIFIED BY '" . $_ENV['DB_PASSWORD'] . "'");
+    $sql = "GRANT ALL PRIVILEGES ON `" . $_ENV['DB_NAME'] . "`.* TO '" . $_ENV['DB_USER'] . "'@'localhost' IDENTIFIED BY '" . $_ENV['DB_PASSWORD'] . "'";
+    echo $sql;
+    self::$pdo->exec($sql);
   }
 
   private static function createMigrationsTable()
