@@ -8,7 +8,7 @@
   let active = false;
   let type = "password";
   let user = "hsdmrsoft@gmail.com";
-  let password = "Rest135**";
+  let password = "12345678";
   let rememberMe = false;
   let errorMessage = "";
   let errorKey = "";
