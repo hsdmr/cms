@@ -23,6 +23,9 @@
   <script defer src="<?php asset() ?>/assets/admin/js/adminlte.min.js"></script>
   <script defer src="<?php asset() ?>/assets/admin/js/script.js"></script>
   <script defer src='<?php asset() ?>/build/bundle.js'></script>
+  <script>
+    var APP_URL = '<?php echo $_ENV['APP_URL']; ?>';
+  </script>
 </head>
 
 <body class="sidebar-mini">
