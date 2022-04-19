@@ -5,7 +5,7 @@ namespace Hasdemir\Controller;
 use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Controller;
-use Hasdemir\Base\Helper\Json;
+use Hasdemir\Helper\Json;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\Option;

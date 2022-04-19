@@ -4,7 +4,7 @@ namespace Hasdemir\Model;
 
 use Hasdemir\Base\Model;
 use Hasdemir\Exception\NotFoundException;
-use Hasdemir\Base\Helper\Json;
+use Hasdemir\Helper\Json;
 
 class Option extends Model
 {

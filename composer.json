@@ -1,28 +1,29 @@
 {
-    "name": "hasdemir/web-solutions",
-    "description": "Improved website solutions",
-    "license": "proprietary",
-    "autoload": {
-        "psr-4": {
-            "Hasdemir\\Base\\": "base/",
-            "Hasdemir\\Model\\": "models/",
-            "Hasdemir\\Rest\\": "apis/",
-            "Hasdemir\\Exception\\": "exceptions/",
-            "Hasdemir\\Controller\\": "controllers/",
-            "Hasdemir\\Resource\\": "resources/",
-            "Hasdemir\\Route\\": "routes/",
-            "Hasdemir\\Middleware\\": "middlewares/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Murat Hasdemir",
-            "email": "hsdmrsoft@gmail.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "require": {
-        "respect/validation": "^2.2",
-        "vlucas/phpdotenv": "^5.3"
+  "name": "hasdemir/web-solutions",
+  "description": "Improved website solutions",
+  "license": "proprietary",
+  "autoload": {
+    "psr-4": {
+      "Hasdemir\\Base\\": "base/",
+      "Hasdemir\\Helper\\": "base/helper/",
+      "Hasdemir\\Model\\": "models/",
+      "Hasdemir\\Rest\\": "apis/",
+      "Hasdemir\\Exception\\": "exceptions/",
+      "Hasdemir\\Controller\\": "controllers/",
+      "Hasdemir\\Resource\\": "resources/",
+      "Hasdemir\\Route\\": "routes/",
+      "Hasdemir\\Middleware\\": "middlewares/"
     }
+  },
+  "authors": [
+    {
+      "name": "Murat Hasdemir",
+      "email": "hsdmrsoft@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "respect/validation": "^2.2",
+    "vlucas/phpdotenv": "^5.3"
+  }
 }

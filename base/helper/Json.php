@@ -1,6 +1,6 @@
 <?php
 
-namespace Hasdemir\Base\Helper;
+namespace Hasdemir\Helper;
 
 class Json
 {
