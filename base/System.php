@@ -16,7 +16,7 @@ class System
   {
     switch ($type) {
       case self::PDO:
-        $object = new PDO('mysql:host=' . $_ENV['DB_HOST'] . '; dbname=' . $_ENV['DB_NAME'] . ';charset=utf8', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+        $object = new PDO('mysql:host=' . $_ENV['DB_HOST'] . '; dbname=' . $_ENV['DB_NAME'] . ';port=' . $_ENV['DB_PORT'] . '; charset=utf8', $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
         $object->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $object->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         $object->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
