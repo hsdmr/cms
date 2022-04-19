@@ -16,7 +16,7 @@ class Request
 
   public function uri()
   {
-    $uri = str_replace([$this->dir, $this->base], [null], $_SERVER['REQUEST_URI']);
+    $uri = str_replace($this->dir . $this->base, '', $_SERVER['REQUEST_URI']);
     if (substr($uri, 0, 1) != '/') {
         $uri = '/' . $uri;
     }
