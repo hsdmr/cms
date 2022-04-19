@@ -9,6 +9,7 @@ if (path != '/') {
 export const APP_ROOT = root ?? href.slice(0, -1);
 
 let apiUrl = APP_URL + '/v2';
+console.log(apiUrl);
 
 export const api = {
   login: `${apiUrl}/login`,
