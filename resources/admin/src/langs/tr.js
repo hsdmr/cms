@@ -21,7 +21,9 @@ export default {
     username: "Kullanıcı adı",
     nickname: "Takma ad",
     image: "Resim",
-    createdAt: "Oluşturulma zamanı",
+    createdAt: "Oluşturulma tarihi",
+    updatedAt: "Güncellenme tarihi",
+    deletedAt: "Silinme tarihi",
     status: "Durum",
   },
   any: {
@@ -35,6 +37,7 @@ export default {
     noElementFound: "Öğe Bulunamadı!",
     shownRecord: "Sayfada gösterilen kayıt:",
 
+    selectAll: "Hepsini Seç",
     customize: "Özelleştir",
     darkMode: "Karanlık Mod",
     noBorder: "Çerçeve Yok",
@@ -124,6 +127,7 @@ export default {
   },
   notify: {
     languagePreferenceSaved: "Dil Tercihi Kaydedildi",
+    deletedSuccessfully: "Başarılı şekilde silindi",
   },
   error: {
     emailIsWrong: "Email Hatalı!",

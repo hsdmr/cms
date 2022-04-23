@@ -4,6 +4,7 @@ namespace Hasdemir\Base;
 
 use Exception;
 use Hasdemir\Base\DefaultException;
+use Hasdemir\Exception\NotAllowedException;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\NotImplementException;
 use Hasdemir\Exception\StoragePdoException;
@@ -48,6 +49,9 @@ class App
       $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper/storage';
       return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
     } catch (NotImplementException $e) {
+      $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';
+      return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
+    } catch (NotAllowedException $e) {
       $this->header['Link'] = $_ENV['APP_URL'] . API_PREFIX . '/helper';
       return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
     } catch (DefaultException $e) {

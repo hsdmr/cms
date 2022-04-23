@@ -60,12 +60,12 @@
                   <UserSingle id={params.id} />
                 </Route>
               </Route>
-              <Route path={route.roles}>
+              <Route path="{route.roles}/*">
                 <Route path="/">
                   <Roles />
                 </Route>
                 <Route path=":id" let:params>
-                  <RoleSingle id={params.id} />
+                  <RoleSingle id={params.id}/>
                 </Route>
               </Route>
               <Route path={route.layouts}>

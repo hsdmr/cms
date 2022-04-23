@@ -17,10 +17,13 @@ export default {
     firstName: "First Name",
     lastName: "Last Name",
     role: "Role",
+    roles: "Roles",
     username: "Username",
     nickname: "Nickname",
     image: "Image",
     createdAt: "Created At",
+    updatedAt: "Updated At",
+    deletedAt: "Deleted At",
     status: "Status",
   },
   any: {
@@ -34,6 +37,7 @@ export default {
     noElementFound: "No Element Found!",
     shownRecord: "The record shown on the page:",
     
+    selectAll: "Select All",
     customize: "Customize",
     darkMode: "Dark Mode",
     noBorder: "No Border",
@@ -77,7 +81,7 @@ export default {
     teal: "Teal",
     olive: "Olive",
   },
-  permisson: {
+  permission: {
     searchPost: "Search Post",
     createPost: "Create Post",
     readPost: "Read Post",
@@ -123,6 +127,7 @@ export default {
   },
   notify: {
     languagePreferenceSaved: "Language preference Saved",
+    deletedSuccessfully: "Deleted successfully",
   },
   error: {
     emailIsWrong: "Email Is Wrong!",
@@ -143,7 +148,7 @@ export default {
     ownerNotAllowed: "Owner Not Allowed!",
     pathMustBeString: "Path Must Be String!",
     languageIdMustBePositiveNumber: "Language Id Must Be Positive Number!",
-    roleCanNotDeletedSomeUsersHasIt: "Role Can Not Deleted. Some Users Has This Role!",
+    roleCanNotDeletedSomeUsersHasIt: "Role Cannot Be Deleted. Some Users Has This Role!",
     roleNotFound: "Role Not Found!",
     roleMustBeSent: "Role Must Be Sent!",
     postNotFound: "Post Not Found!",

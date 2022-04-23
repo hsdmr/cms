@@ -5,7 +5,7 @@
   import { create, update, read } from "src/scripts/crud.js";
   import { api, route } from "src/scripts/links.js";
   import { onMount } from "svelte";
-  import { DoubleBounce } from "svelte-loading-spinners";
+  import { Circle } from "svelte-loading-spinners";
   import { locale } from "src/scripts/i18n.js";
 
   export let id;
@@ -261,7 +261,7 @@
         <div class="card-body text-center">
           <div style="display: inline;float: right;">
             {#if loading}
-              <DoubleBounce size="38" color="#28a745" unit="px" duration="2s" />
+              <Circle size="38" color="#28a745" unit="px" duration="2s" />
             {:else}
               <button
                 type="button"
