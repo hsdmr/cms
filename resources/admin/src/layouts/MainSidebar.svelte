@@ -131,7 +131,7 @@
               ? 'active'
               : ''}"
           >
-          <i class="nav-icon fa-solid fa-arrows-down-to-people"></i>
+          <i class="nav-icon fa-solid fa-user-group"></i>
             <p>
               {$__("title.roles")}
             </p>

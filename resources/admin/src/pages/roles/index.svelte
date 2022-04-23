@@ -8,12 +8,12 @@
 
   $: titles = [
     $__("title.role"),
-    $__("title.permissions"),
+    $__("title.updatedAt"),
   ];
 
   const keys = [
     "role",
-    "permissions",
+    "updated_at",
   ];
   
   $: title = $__("title.roles");
@@ -25,6 +25,7 @@
   <Table
     {titles}
     {keys}
+    trashButton={false}
     apiUrl={api.role}
     routeUrl="/{route.admin}/{route.roles}"
   />
