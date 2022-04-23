@@ -44,7 +44,7 @@
         >
         {#if loading == row["id"]}
           <span style="display:inline-block; vertical-align: middle">
-            <Circle size="25" color="#dc3545" unit="px" duration="2s" />
+            <Circle size="25" color="var(--danger)" unit="px" duration="2s" />
           </span>
         {:else}
           <a

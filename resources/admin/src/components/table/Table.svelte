@@ -6,10 +6,10 @@
   import Search from "src/components/table/Search.svelte";
   import Tbody from "src/components/table/Tbody.svelte";
   import Thead from "src/components/table/Thead.svelte";
-  import { APP_ROOT } from "src/scripts/links.js";
   import { Link } from "svelte-navigator";
   import { route } from "src/scripts/links.js";
   import { search } from "src/scripts/crud.js";
+  import { Clock } from "svelte-loading-spinners";
 
   export let titles;
   export let keys;
@@ -47,7 +47,7 @@
 
     total = res.total;
     console.log(res.data, total);
-    
+
     return res.data;
   }
 
@@ -120,11 +120,9 @@
       {#await promise}
         <div class="loading">
           <div class="absolute">
-            <img
-              style="height:100px;"
-              src="{APP_ROOT}/assets/admin/img/loading.gif"
-              alt=""
-            />
+            <span>
+              <Clock size="100" color="var(--{color})" unit="px" duration="10s" />
+            </span>
           </div>
         </div>
       {:then datas}
@@ -140,6 +138,10 @@
 </div>
 
 <style>
+  .loading .absolute span {
+    display: inline-block;
+    margin-top: 100px;
+  }
   .loading {
     height: 300px;
   }
@@ -150,10 +152,6 @@
     text-align: center;
     vertical-align: middle;
     z-index: 9999;
-  }
-  .loading img {
-    margin-top: 100px;
-    width: 100px;
   }
   .clearfix::after {
     display: block;

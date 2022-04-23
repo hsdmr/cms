@@ -261,7 +261,7 @@
         <div class="card-body text-center">
           <div style="display: inline;float: right;">
             {#if loading}
-              <Circle size="38" color="#28a745" unit="px" duration="2s" />
+              <Circle size="38" color="var(--success)" unit="px" duration="2s" />
             {:else}
               <button
                 type="button"
