@@ -27,7 +27,7 @@ export const search = async (apiUrl, success = "") => {
   }
 
   return {
-    response: response,
+    data: response,
     total: total
   };
 };

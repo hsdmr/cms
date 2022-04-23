@@ -48,9 +48,9 @@
     );
 
     total = res.total;
-    console.log(res.response, total);
+    console.log(res.data, total);
     
-    return res.response;
+    return res.data;
   }
 
   promise = getData();

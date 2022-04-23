@@ -18,10 +18,11 @@
   let loading = false;
 
   async function getData() {
-    const result = await search(
+    const res = await search(
       api.option + `?get=one&type=admin_panel&key=permissions`
     );
-    allPermissions = result.value;
+    console.log(res);
+    allPermissions = res.data.value;
 
     if (id != route.new) {
       loading = true;
