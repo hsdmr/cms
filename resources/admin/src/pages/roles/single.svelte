@@ -18,7 +18,7 @@
   let loading = false;
 
   async function getData() {
-    const res = await search(
+    let res = await search(
       api.option + `?get=one&type=admin_panel&key=permissions`
     );
     console.log(res);
@@ -26,7 +26,7 @@
 
     if (id != route.new) {
       loading = true;
-      const res = await read(api.role, id);
+      res = await read(api.role, id);
       loading = false;
 
       if (typeof res.id !== "undefined") {

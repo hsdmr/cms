@@ -1,6 +1,5 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
-  import { getSessionItem } from "src/scripts/session.js";
   import { checkAuth } from "src/scripts/auth.js";
   import Limit from "src/components/table/Limit.svelte";
   import Pagination from "src/components/table/Pagination.svelte";
@@ -40,7 +39,6 @@
 
   async function getData() {
     await checkAuth();
-    const auth = getSessionItem("auth");
 
     const res = await search(
       apiUrl +
