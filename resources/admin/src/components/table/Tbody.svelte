@@ -1,7 +1,8 @@
 <script>
+  import { __ } from "src/scripts/i18n.js";
   import { Link } from "svelte-navigator";
   import { destroy } from "src/scripts/crud.js";
-  import { DoubleBounce } from "svelte-loading-spinners";
+  import { Circle } from "svelte-loading-spinners";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -10,26 +11,29 @@
   export let keys;
   export let routeUrl;
   export let apiUrl;
-  export let loading = 0;
+  export let loading = false;
 
   async function del(id) {
     loading = id;
-    const del = await destroy(apiUrl, id, "User deleted successfully");
+    const del = await destroy(apiUrl, id, $__("notify.deletedSuccessfully"));
     loading = 0;
-    dispatch("delete", { del });
+
+    if (del) {
+      dispatch("delete", { del });
+    }
   }
 
   const parseValue = (value) => {
     if (Array.isArray(value)) {
-      return value.join(', ');
+      return value.join(", ");
     } else {
       return value;
     }
-  }
+  };
 </script>
 
 <tbody>
-  {#each JSON.parse(rows) as row}
+  {#each rows as row}
     <tr>
       {#each keys as key}
         <td>{parseValue(row[key])}</td>
@@ -40,7 +44,7 @@
         >
         {#if loading == row["id"]}
           <span style="display:inline-block; vertical-align: middle">
-            <DoubleBounce size="25" color="#dc3545" unit="px" duration="2s" />
+            <Circle size="25" color="#dc3545" unit="px" duration="2s" />
           </span>
         {:else}
           <a

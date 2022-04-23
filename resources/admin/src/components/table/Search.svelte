@@ -4,11 +4,11 @@
 
   const dispatch = createEventDispatcher();
   
-  export let search;
+  export let searchData;
   export let color;
 
   const onSearch = () => {
-    dispatch("search", { search });
+    dispatch("searchData", { searchData });
   };
 </script>
 
@@ -18,7 +18,7 @@
     name="table_search"
     class="form-control"
     placeholder={$__("any.search")}
-    bind:value={search}
+    bind:value={searchData}
   />
 
   <div class="input-group-append">

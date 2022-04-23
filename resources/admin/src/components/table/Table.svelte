@@ -10,6 +10,7 @@
   import { APP_ROOT } from "src/scripts/links.js";
   import { Link } from "svelte-navigator";
   import { route } from "src/scripts/links.js";
+  import { search } from "src/scripts/crud.js";
 
   export let titles;
   export let keys;
@@ -21,7 +22,7 @@
   export let trashButton = true;
   let color;
 
-  $: search = "";
+  $: searchData = "";
   $: total = 0;
   $: limit = 10;
   $: page = 1;
@@ -41,26 +42,15 @@
     await checkAuth();
     const auth = getSessionItem("auth");
 
-    const res = await fetch(
+    const res = await search(
       apiUrl +
-        `?search=${search}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: auth.access_token,
-        },
-      }
+        `?search=${searchData}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`
     );
-    const response = await res.text();
-    total = res.headers.get("Total-Row");
 
-    if (res.ok) {
-      return response;
-    } else {
-      throw new Error(response);
-    }
+    total = res.total;
+    console.log(res.response, total);
+    
+    return res.response;
   }
 
   promise = getData();
@@ -74,8 +64,8 @@
   };
 
   const setSearch = (event) => {
-    search = event.detail.search;
-    console.log(search);
+    searchData = event.detail.searchData;
+    console.log(searchData);
     promise = getData();
   };
 
@@ -99,12 +89,12 @@
 <div class="card card-outline card-{color}">
   <div class="card-header">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-sm-3">
         {#if searchBar}
-          <Search {search} on:search={setSearch} {color} />
+          <Search {searchData} on:searchData={setSearch} {color} />
         {/if}
       </div>
-      <div class="col-md-9">
+      <div class="col-sm-9">
         {#if trashButton}
           <Link
             to="/{routeUrl}/{route.trash}"
