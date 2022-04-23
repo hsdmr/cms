@@ -6,10 +6,9 @@ if (path != '/') {
   root = href.split(path)[0]
 }
 
-export const APP_ROOT = root ?? href.slice(0, -1);
+export const APP_ROOT = APP_URL ?? root ?? href.slice(0, -1);
 
 let apiUrl = APP_URL + '/v2';
-console.log(apiUrl);
 
 export const api = {
   login: `${apiUrl}/login`,
@@ -34,8 +33,6 @@ export const route = {
   trash: `trash`,
 
   roles: `roles`,
-  role: `role`,
   users: `users`,
-  user: `user`,
   layouts: `layouts`,
 }
