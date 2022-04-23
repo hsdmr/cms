@@ -2,7 +2,7 @@
 import { checkAuth } from "src/scripts/auth.js";
 import { getSessionItem } from "src/scripts/session.js";
 
-export const search = async (apiUrl, success) => {
+export const search = async (apiUrl, success = "") => {
   await checkAuth();
   const auth = getSessionItem("auth");
 
@@ -16,17 +16,23 @@ export const search = async (apiUrl, success) => {
   });
 
   const response = await res.json();
+  const total = res.headers.get("Total-Row");
 
   if (res.ok) {
-    toastr.success(success);
+    if (success != "") {
+      toastr.success(success);
+    }
   } else {
     toastr.error(response.message);
   }
 
-  return response;
+  return {
+    response: response,
+    total: total
+  };
 };
 
-export const create = async (apiUrl, success, body) => {
+export const create = async (apiUrl,  success = "", body) => {
   await checkAuth();
   const auth = getSessionItem("auth");
 
@@ -43,7 +49,9 @@ export const create = async (apiUrl, success, body) => {
   const response = await res.json();
 
   if (res.ok) {
-    toastr.success(success);
+    if (success != "") {
+      toastr.success(success);
+    }
   } else {
     toastr.error(response.message);
   }
@@ -67,7 +75,9 @@ export const read = async (apiUrl, id, success = "") => {
   const response = await res.json();
 
   if (res.ok) {
-    //toastr.success(success);
+    if (success != "") {
+      toastr.success(success);
+    }
   } else {
     toastr.error(response.message);
   }
@@ -75,7 +85,7 @@ export const read = async (apiUrl, id, success = "") => {
   return response;
 };
 
-export const update = async (apiUrl, id, success, body) => {
+export const update = async (apiUrl, id,  success = "", body) => {
   await checkAuth();
   const auth = getSessionItem("auth");
 
@@ -92,7 +102,9 @@ export const update = async (apiUrl, id, success, body) => {
   const response = await res.json();
 
   if (res.ok) {
-    toastr.success(success);
+    if (success != "") {
+      toastr.success(success);
+    }
   } else {
     toastr.error(response.message);
   }
@@ -100,7 +112,7 @@ export const update = async (apiUrl, id, success, body) => {
   return response;
 };
 
-export const destroy = async (apiUrl, id, success) => {
+export const destroy = async (apiUrl, id,  success = "") => {
   await checkAuth();
   const auth = getSessionItem("auth");
 
@@ -112,11 +124,16 @@ export const destroy = async (apiUrl, id, success) => {
       Authorization: auth.access_token,
     },
   });
-
-  if (res.ok) {
-    toastr.success(success);
-  } else {
-    toastr.error(response.message);
-  }
   
+  
+  if (res.ok) {
+    if (success != "") {
+      toastr.success(success);
+      return true;
+    }
+  } else {
+    const response = await res.json();
+    toastr.error(response.message);
+    return false;
+  }
 };
