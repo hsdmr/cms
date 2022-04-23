@@ -1,5 +1,4 @@
 <script>
-  import Translator from "src/components/Translator.svelte";
   import { __ } from "src/scripts/i18n.js";
   import { Route, Router } from "svelte-navigator";
   import Login from "src/pages/auth/Login.svelte";
@@ -25,64 +24,61 @@
   if (!auth) {
     checkAuth();
   }
-
 </script>
 
-<Translator>
-  <Router>
-    <div class="sidebar-mini">
-      <Route path={route.login} primary={false}><Login /></Route>
-      <Route path={route.register} primary={false}><Register /></Route>
-      <Route path={route.forgetPassword} primary={false}><Password /></Route>
-      <Route path="{route.admin}/*" meta={{ name: "admin" }}>
-        <div class="wrapper">
-          <!-- Navbar -->
-          <Nav />
-          <!-- /.navbar -->
+<Router>
+  <div class="sidebar-mini">
+    <Route path={route.login} primary={false}><Login /></Route>
+    <Route path={route.register} primary={false}><Register /></Route>
+    <Route path={route.forgetPassword} primary={false}><Password /></Route>
+    <Route path="{route.admin}/*" meta={{ name: "admin" }}>
+      <div class="wrapper">
+        <!-- Navbar -->
+        <Nav />
+        <!-- /.navbar -->
 
-          <!-- Main Sidebar Container -->
-          <MainSidebar />
+        <!-- Main Sidebar Container -->
+        <MainSidebar />
 
-          <!-- Content Wrapper. Contains page content -->
-          <div class="content-wrapper">
-            <div class="content">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <div class="content">
+            <Route path="/">
+              <Dashboard />
+            </Route>
+            <Route path="{route.users}/*">
               <Route path="/">
-                <Dashboard />
+                <Users />
               </Route>
-              <Route path="{route.users}/*">
-                <Route path="/">
-                  <Users />
-                </Route>
-                <Route path="{route.trash}/">
-                  <UsersTrash />
-                </Route>
-                <Route path=":id" let:params>
-                  <UserSingle id={params.id} />
-                </Route>
+              <Route path="{route.trash}/">
+                <UsersTrash />
               </Route>
-              <Route path="{route.roles}/*">
-                <Route path="/">
-                  <Roles />
-                </Route>
-                <Route path=":id" let:params>
-                  <RoleSingle id={params.id}/>
-                </Route>
+              <Route path=":id" let:params>
+                <UserSingle id={params.id} />
               </Route>
-              <Route path={route.layouts}>
-                <Layouts />
+            </Route>
+            <Route path="{route.roles}/*">
+              <Route path="/">
+                <Roles />
               </Route>
-            </div>
+              <Route path=":id" let:params>
+                <RoleSingle id={params.id} />
+              </Route>
+            </Route>
+            <Route path={route.layouts}>
+              <Layouts />
+            </Route>
           </div>
-          <!-- /.content-wrapper -->
-
-          <!-- Control Sidebar -->
-          <ControlSidebar />
-          <!-- /.control-sidebar -->
-
-          <!-- Main Footer -->
-          <Footer />
         </div>
-      </Route>
-    </div>
-  </Router>
-</Translator>
+        <!-- /.content-wrapper -->
+
+        <!-- Control Sidebar -->
+        <ControlSidebar />
+        <!-- /.control-sidebar -->
+
+        <!-- Main Footer -->
+        <Footer />
+      </div>
+    </Route>
+  </div>
+</Router>

@@ -1,6 +1,7 @@
 
 import { checkAuth } from "src/scripts/auth.js";
 import { getSessionItem } from "src/scripts/session.js";
+import { tranlate } from "src/scripts/i18n.js";
 
 export const search = async (apiUrl, success = "") => {
   await checkAuth();
@@ -23,7 +24,7 @@ export const search = async (apiUrl, success = "") => {
       toastr.success(success);
     }
   } else {
-    toastr.error(response.message);
+    toastr.error(tranlate('error.' + response.key));
   }
 
   return {
@@ -53,7 +54,7 @@ export const create = async (apiUrl,  success = "", body) => {
       toastr.success(success);
     }
   } else {
-    toastr.error(response.message);
+    toastr.error(tranlate('error.' + response.key));
   }
 
   return response;
@@ -79,7 +80,7 @@ export const read = async (apiUrl, id, success = "") => {
       toastr.success(success);
     }
   } else {
-    toastr.error(response.message);
+    toastr.error(tranlate('error.' + response.key));
   }
 
   return response;
@@ -106,7 +107,7 @@ export const update = async (apiUrl, id,  success = "", body) => {
       toastr.success(success);
     }
   } else {
-    toastr.error(response.message);
+    toastr.error(tranlate('error.' + response.key));
   }
 
   return response;
@@ -133,7 +134,7 @@ export const destroy = async (apiUrl, id,  success = "") => {
     }
   } else {
     const response = await res.json();
-    toastr.error(response.message);
+    toastr.error(tranlate('error.' + response.key));
     return false;
   }
 };

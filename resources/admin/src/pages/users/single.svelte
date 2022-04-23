@@ -121,7 +121,7 @@
       }
 
       if (typeof res.message !== "undefined") {
-        error = res.message;
+        error = res.key;
       }
     } else {
       const res = await update(api.user, id, "User updated successfully", {
@@ -138,7 +138,7 @@
       loading = false;
 
       if (typeof res.message !== "undefined") {
-        error = res.message;
+        error = res.key;
       }
     }
   }
@@ -183,7 +183,7 @@
               >{$__("title.email")}</label
             >
             {#if error.includes("email")}
-              <div class="text-danger float-right">{error}</div>
+              <div class="text-danger float-right">{$__('error.' + error)}</div>
             {/if}
             <input
               bind:value={email}
@@ -197,7 +197,7 @@
               >{$__("title.username")}</label
             >
             {#if error.includes("username")}
-              <div class="text-danger float-right">{error}</div>
+              <div class="text-danger float-right">{$__('error.' + error)}</div>
             {/if}
             <input
               bind:value={username}
@@ -222,7 +222,7 @@
               >{$__("title.password")}</label
             >
             {#if error.includes("password")}
-              <div class="text-danger float-right">{error}</div>
+              <div class="text-danger float-right">{$__('error.' + error)}</div>
             {/if}
             <input
               bind:value={password}
@@ -236,7 +236,7 @@
               >{$__("title.retypePassword")}</label
             >
             {#if error.includes("password")}
-              <div class="text-danger float-right">{error}</div>
+              <div class="text-danger float-right">{$__('error.' + error)}</div>
             {/if}
             <input
               bind:value={retypePassword}

@@ -1,5 +1,6 @@
 export default {
   title: {
+    dene: "Deneme yazısına {{var}} ekledim",
     home: "Ana sayfa",
     dashboard: "Gösterge Paneli",
     options: "Ayarlar",
@@ -150,7 +151,7 @@ export default {
     languageIdMustBePositiveNumber: "Dil Kimliği Pozitif Sayı Olmalıdır!",
     roleCanNotDeletedSomeUsersHasIt: "Rol Silinemez. Bazı Kullanıcılar Bu Role Sahiptir!",
     roleNotFound: "Rol Bulunamadı!",
-    roleMustBeSent: "Rol Göndeilmedi!",
+    roleMustBeSent: "Rol Gönderilmeli!",
     postNotFound: "Gönderi Bulunamadı!",
     slugIdMustBePositiveNumber: "Slug Kimliği Pozitif Sayı Olmalıdır!",
     userIdMustBePositiveNumber: "Kullanıcı Kimliği Pozitif Sayı Olmalıdır!",

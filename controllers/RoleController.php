@@ -60,23 +60,19 @@ class RoleController extends Controller
   {
     Log::currentJob(Codes::JOB_ROLE_CREATE);
     try {
-      try {
-        $_POST = json_decode($request->body(), true);
-        $this->validate($_POST);
-        $role = Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $_POST['role'], $_POST['permissions']);
-        $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
-        $value = $roles['value'];
+      $_POST = json_decode($request->body(), true);
+      $this->validate($_POST);
+      $role = Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $_POST['role'], $_POST['permissions']);
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+      $value = $roles['value'];
 
-        if (!in_array($role['key'], $value)) {
-          $value[] = $role['key'];
-          Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles', $value);
-        }
-        
-        $this->body = $role;
-        $this->response(HTTP_CREATED);
-      } catch (\Throwable $th) {
-        throw new NotFoundException('Role not created', [], $th);
+      if (!in_array($role['key'], $value)) {
+        $value[] = $role['key'];
+        Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles', $value);
       }
+      
+      $this->body = $role;
+      $this->response(HTTP_CREATED);
     } finally {
       Log::endJob();
     }
@@ -130,7 +126,7 @@ class RoleController extends Controller
 
   public function validate($params)
   {
-    if (!v::key('role')->validate($params)) {
+    if (!v::key('role', v::notEmpty())->validate($params)) {
       throw new UnexpectedValueException("'role' must be sent", Codes::key(Codes::ERROR_ROLE_MUST_BE_SENT));
     }
 

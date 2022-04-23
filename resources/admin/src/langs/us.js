@@ -1,5 +1,6 @@
 export default {
   title: {
+    dene: "I added {{var}} to test line",
     home: "Home",
     dashboard: "Dashboard",
     options: "Options",
