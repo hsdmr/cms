@@ -45,34 +45,34 @@
   async function getData() {
     if (id != route.new) {
       loading = true;
-      const user = await read(api.user, id);
+      const res = await read(api.user, id);
       loading = false;
 
-      if (typeof user.id !== "undefined") {
-        first_name = user.first_name;
-        last_name = user.last_name;
-        email = user.email;
-        username = user.username;
-        nickname = user.nickname;
-        role = user.role;
-        password = user.password;
+      if (typeof res.id !== "undefined") {
+        first_name = res.first_name;
+        last_name = res.last_name;
+        email = res.email;
+        username = res.username;
+        nickname = res.nickname;
+        role = res.role;
+        password = res.password;
 
-        brandLogoBg = user.options.brandLogoBg;
-        navbarBg = user.options.navbarBg;
-        sidebarBg = user.options.sidebarBg;
-        sidebarNavFlat = user.options.sidebarNavFlat;
-        sidebarNavLegacy = user.options.sidebarNavLegacy;
-        sidebarNavCompact = user.options.sidebarNavCompact;
-        sidebarNavChildIndent = user.options.sidebarNavChildIndent;
-        sidebarNavHideOnCollapse = user.options.sidebarNavHideOnCollapse;
-        sidebarCollapsed = user.options.sidebarCollapsed;
-        sidebarExpand = user.options.sidebarExpand;
-        mainFixed = user.options.mainFixed;
-        navbarNoBorder = user.options.navbarNoBorder;
-        navbarFixed = user.options.navbarFixed;
-        footerFixed = user.options.footerFixed;
-        textSize = user.options.textSize;
-        darkMode = user.options.darkMode;
+        brandLogoBg = res.options.brandLogoBg;
+        navbarBg = res.options.navbarBg;
+        sidebarBg = res.options.sidebarBg;
+        sidebarNavFlat = res.options.sidebarNavFlat;
+        sidebarNavLegacy = res.options.sidebarNavLegacy;
+        sidebarNavCompact = res.options.sidebarNavCompact;
+        sidebarNavChildIndent = res.options.sidebarNavChildIndent;
+        sidebarNavHideOnCollapse = res.options.sidebarNavHideOnCollapse;
+        sidebarCollapsed = res.options.sidebarCollapsed;
+        sidebarExpand = res.options.sidebarExpand;
+        mainFixed = res.options.mainFixed;
+        navbarNoBorder = res.options.navbarNoBorder;
+        navbarFixed = res.options.navbarFixed;
+        footerFixed = res.options.footerFixed;
+        textSize = res.options.textSize;
+        darkMode = res.options.darkMode;
       }
     }
   }
