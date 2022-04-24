@@ -32,6 +32,7 @@ export const route = {
   new: `new`,
   trash: `trash`,
 
+  options: `options`,
   roles: `roles`,
   users: `users`,
   layouts: `layouts`,

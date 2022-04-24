@@ -1,10 +1,11 @@
 <script>
   import { APP_ROOT } from "src/scripts/links.js";
-  import { Link, navigate } from "svelte-navigator";
+  import { navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import { route } from "src/scripts/links.js";
   import { deleteUserDetails } from "src/scripts/auth.js";
   import { getSessionItem } from "src/scripts/session.js";
+  import NavItem from "src/components/NavItem.svelte";
 
   const auth = getSessionItem("auth");
 
@@ -14,6 +15,40 @@
     url = window.location.pathname.split("/");
   }
 
+  $: menu = [
+    {
+      title: $__("title.dashboard"),
+      to: "/" + route.admin,
+      icon: "fas fa-th",
+      subMenu: [],
+    },
+    {
+      title: $__("title.users"),
+      to: "/" + route.admin + "/" + route.users,
+      icon: "fas fa-users",
+      subMenu: [],
+    },
+    {
+      title: $__("title.roles"),
+      to: "/" + route.admin + "/" + route.roles,
+      icon: "fa-solid fa-user-group",
+      subMenu: [],
+    },
+    {
+      title: $__("title.options"),
+      to: "/" + route.admin + "/" + route.options,
+      icon: "fa-solid fa-gears",
+      subMenu: [
+        {
+          title: $__("title.layouts"),
+          to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
+          icon: "fas fa-table-columns",
+          subMenu: [],
+        }
+      ],
+    },
+  ];
+  
   let bodyClass =
     "sidebar-mini " +
     (auth.options.sidebarCollapsed ? "sidebar-collapse" : "") +
@@ -96,80 +131,17 @@
       >
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        <li class="nav-item" on:click={setUrl}>
-          <Link
-            to="/{route.admin}"
-            class="nav-link {url[1] === 'admin' && !url.hasOwnProperty(2)
-              ? 'active'
-              : ''}"
-          >
-            <i class="nav-icon fas fa-th" />
-            <p>
-              {$__("title.dashboard")}
-            </p>
-          </Link>
-        </li>
-        <li class="nav-item" on:click={setUrl}>
-          <Link
-            to="/{route.admin}/{route.users}"
-            class="nav-link {url[1] === 'admin' &&
-            (url[2] === 'users' || url[2] === 'user')
-              ? 'active'
-              : ''}"
-          >
-            <i class="nav-icon fas fa-users" />
-            <p>
-              {$__("title.users")}
-            </p>
-          </Link>
-        </li>
-        <li class="nav-item" on:click={setUrl}>
-          <Link
-            to="/{route.admin}/{route.roles}"
-            class="nav-link {url[1] === 'admin' &&
-            (url[2] === 'roles' || url[2] === 'role')
-              ? 'active'
-              : ''}"
-          >
-          <i class="nav-icon fa-solid fa-user-group"></i>
-            <p>
-              {$__("title.roles")}
-            </p>
-          </Link>
-        </li>
-        <li
-          class="nav-item {url[1] === 'admin' && url[2] === 'layouts'
-            ? 'menu-open active'
-            : ''}"
-        >
-          <a
-            href={"#"}
-            class="nav-link {url[1] === 'admin' && url[2] === 'layouts'
-              ? 'active'
-              : ''}"
-          >
-            <i class="nav-icon fa-solid fa-gears" />
-            <p>
-              {$__("title.options")}
-              <i class="right fas fa-angle-left" />
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item" on:click={setUrl}>
-              <Link
-                to="/{route.admin}/{route.layouts}"
-                class="nav-link {url[1] === 'admin' && url[2] === 'layouts'
-                  ? 'active'
-                  : ''}"
-              >
-                <i class="nav-icon fas fa-table-columns" />
-                <p>
-                  {$__("title.layouts")}
-                </p>
-              </Link>
-            </li>
-          </ul>
-        </li>
+        {#each menu as item}
+          <NavItem
+            title={item.title}
+            to={item.to}
+            icon={item.icon}
+            subMenu={item.subMenu}
+            {url}
+            on:setUrl={setUrl}
+          />
+        {/each}
+
         <li class="nav-item">
           <a href={"#"} on:click={logout} class="nav-link">
             <i class="nav-icon fa-solid fa-power-off text-danger" />

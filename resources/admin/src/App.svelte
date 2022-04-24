@@ -28,9 +28,15 @@
 
 <Router>
   <div class="sidebar-mini">
-    <Route path={route.login} primary={false}><Login /></Route>
-    <Route path={route.register} primary={false}><Register /></Route>
-    <Route path={route.forgetPassword} primary={false}><Password /></Route>
+    <Route path={route.login} primary={false}>
+      <Login />
+    </Route>
+    <Route path={route.register} primary={false}>
+      <Register />
+    </Route>
+    <Route path={route.forgetPassword} primary={false}>
+      <Password />
+    </Route>
     <Route path="{route.admin}/*" meta={{ name: "admin" }}>
       <div class="wrapper">
         <!-- Navbar -->
@@ -65,8 +71,10 @@
                 <RoleSingle id={params.id} />
               </Route>
             </Route>
-            <Route path={route.layouts}>
-              <Layouts />
+            <Route path="{route.options}/*">
+              <Route path="{route.layouts}">
+                <Layouts />
+              </Route>
             </Route>
           </div>
         </div>
