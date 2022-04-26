@@ -18,27 +18,36 @@ class Migration
 
     if (isset($args[1])) {
       if ($args[1] == 'fresh') {
-        foreach ($files as $migration) {
-          if ($migration === '.' || $migration === '..') {
-            continue;
+        $statement = self::$pdo->prepare("SHOW tables");
+        if ($statement->execute()) {
+          $tables = $statement->fetchAll(\PDO::FETCH_ASSOC);
+          foreach ($tables as $table) {
+            self::$pdo->exec("DROP TABLE `{$table['Tables_in_rest']}`");
           }
-
-          require_once ROOT . DS . 'database' . DS . $migration;
-          $name = explode('_', pathinfo($migration, PATHINFO_FILENAME));
-          $version = $name[1];
-          $className = ucwords($name[2]) . implode('', explode('.', $version));
-          $instance = new $className();
-          self::echoLog("Droping", $migration, 3);
-          $instance->down();
-          self::echoLog("Dropped", $migration);
-          $newMigrations[] = $migration . "', '" . $version . "', '" . time();
+          self::echoLog("Dropped all tables", '', 2);
         }
+        //foreach ($files as $migration) {
+        //  if ($migration === '.' || $migration === '..') {
+        //    continue;
+        //  }
+        //
+        //  require_once ROOT . DS . 'database' . DS . $migration;
+        //  $name = explode('_', pathinfo($migration, PATHINFO_FILENAME));
+        //  $version = $name[1];
+        //  $className = ucwords($name[2]) . implode('', explode('.', $version));
+        //  $instance = new $className();
+        //  self::echoLog("Droping", $migration, 3);
+        //  $instance->down();
+        //  self::echoLog("Dropped", $migration);
+        //  $newMigrations[] = $migration . "', '" . $version . "', '" . time();
+        //}
       }
     }
 
     self::createMigrationsTable();
     $appliedMigrations = self::getAppliedMigrations();
-
+    $batch = self::getLastBatch();
+    
     $newMigrations = [];
     $files = scandir(ROOT . DS . 'database');
 
@@ -56,7 +65,7 @@ class Migration
       self::echoLog("Migrating", $migration, 3);
       $instance->up();
       self::echoLog("Migrated", $migration);
-      $newMigrations[] = $migration . "', '" . $version . "', '" . time();
+      $newMigrations[] = $migration . "', '" . $version . "', '" . $batch . "', '" . time();
     }
 
     if (!empty($newMigrations)) {
@@ -70,24 +79,32 @@ class Migration
   {
     self::$pdo->exec("CREATE TABLE IF NOT EXISTS migration (
                     id INT AUTO_INCREMENT PRIMARY KEY,
-                    migration_name VARCHAR(50), `version` VARCHAR(20),
+                    migration_name VARCHAR(50), `version` VARCHAR(20), `batch` INTEGER(11),
                     created_at BIGINT(20) NULL
                 )  ENGINE=INNODB;");
   }
 
+  private static function getLastBatch()
+  {
+    $statement = self::$pdo->prepare("SELECT batch FROM migration ORDER BY `batch` DESC LIMIT 1");
+    $statement->execute();
+    $table = $statement->fetch(\PDO::FETCH_ASSOC);
+    
+    return $table ? $table['batch'] + 1 : 1;
+  }
 
   private static function getAppliedMigrations()
   {
     $statement = self::$pdo->prepare("SELECT migration_name FROM migration");
     $statement->execute();
-
-    return $statement->fetchAll(\PDO::FETCH_COLUMN);
+    
+    return $statement->fetchAll(\PDO::FETCH_COLUMN);;
   }
 
   private static function saveMigrations(array $newMigrations)
   {
     $str = implode(',', array_map(fn ($m) => "('$m')", $newMigrations));
-    $statement = self::$pdo->prepare("INSERT INTO migration (`migration_name`, `version`, `created_at`) VALUES 
+    $statement = self::$pdo->prepare("INSERT INTO migration (`migration_name`, `version`, `batch`, `created_at`) VALUES 
         $str
     ");
     $statement->execute();
