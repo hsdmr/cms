@@ -106,7 +106,7 @@ class SlugController extends Controller
 
   public function validate($params)
   {
-    if (!v::key('owner', v::in(['post', 'page', 'product', 'lesson']))->validate($params)) {
+    if (!v::key('owner', v::in(Slug::OWNER))->validate($params)) {
       throw new UnexpectedValueException("'owner' must be 'post', 'page', 'product', 'lesson'", Codes::key(Codes::ERROR_OWNER_NOT_ALLOWED));
     }
     if (!v::key('path', v::stringType())->validate($params)) {

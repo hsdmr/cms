@@ -11,6 +11,8 @@ class Post extends Model
   protected array $hidden = ['created_at', 'updated_at'];
   protected bool $soft_delete = true;
 
+  const STATUS = ['published', 'draft'];
+
   public static function find(int $id)
   {
     $item = new Post();

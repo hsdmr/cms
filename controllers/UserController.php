@@ -178,7 +178,7 @@ class UserController extends Controller
     if (!v::key('last_name', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'last_name' must be string", Codes::key(Codes::ERROR_LAST_NAME_MUST_BE_STRING));
     }
-    if (!v::key('role', v::in(['admin', 'user']))->validate($params)) {
+    if (!v::key('role', v::in(USER::ROLE))->validate($params)) {
       throw new UnexpectedValueException("'role' must be 'admin' or 'user'", Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
     }
     if (!v::key('email', v::email())->validate($params)) {

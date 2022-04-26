@@ -10,6 +10,8 @@ class Slug extends Model
   protected array $unique = ['path'];
   protected bool $soft_delete = true;
 
+  const OWNER = ['post', 'page', 'product', 'lesson'];
+
   public static function find(int $id)
   {
     $item = new User();

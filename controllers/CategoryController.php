@@ -105,7 +105,7 @@ class CategoryController extends Controller
     if (!v::key('slug_id', v::positive())->validate($params)) {
       throw new UnexpectedValueException("'slug_id' must be positive number", Codes::key(Codes::ERROR_SLUG_ID_MUST_BE_POSITIVE_NUMBER));
     }
-    if (!v::key('owner', v::in(['post', 'product', 'lesson']))->validate($params)) {
+    if (!v::key('owner', v::in(Category::OWNER))->validate($params)) {
       throw new UnexpectedValueException("'owner' must be 'post', 'product', 'lesson'", Codes::key(Codes::ERROR_OWNER_NOT_ALLOWED));
     }
     if (!v::key('file_id', v::anyOf(v::nullType(), v::positive()), false)->validate($params)) {

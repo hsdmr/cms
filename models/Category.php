@@ -10,6 +10,8 @@ class Category extends Model
   protected array $unique = ['slug_id'];
   protected bool $soft_delete = false;
 
+  const OWNER = ['post', 'product', 'lesson'];
+
   public static function find(int $id)
   {
     $item = new Category();
