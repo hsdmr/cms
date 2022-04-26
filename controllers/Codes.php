@@ -15,6 +15,11 @@ class Codes extends BaseCodes
   const JOB_USER_READ = 'userRead';
   const JOB_USER_UPDATE = 'userUpdate';
   const JOB_USER_DELETE = 'userDelete';
+  const JOB_LAYOUT_SEARCH = 'userSearch';
+  const JOB_LAYOUT_CREATE = 'userCreate';
+  const JOB_LAYOUT_READ = 'userRead';
+  const JOB_LAYOUT_UPDATE = 'userUpdate';
+  const JOB_LAYOUT_DELETE = 'userDelete';
   const JOB_ROLE_SEARCH = 'roleSearch';
   const JOB_ROLE_CREATE = 'roleCreate';
   const JOB_ROLE_READ = 'roleRead';
@@ -77,4 +82,12 @@ class Codes extends BaseCodes
   const ERROR_AUTO_LINK_NOT_FOUND = 'autoLinkNotFound';
   const ERROR_WORD_MUST_BE_STRING = 'wordMustBeString';
   const ERROR_URI_MUST_BE_STRING = 'uriMustBeString';
+  const ERROR_LAYOUT_NOT_FOUND = 'userNotFound';
+  
+  const ERROR_TITLE_MUST_BE_STRING = 'titleMustBeString';
+  const ERROR_TOP_MUST_BE_STRING = 'topMustBeString';
+  const ERROR_CONTENT_MUST_BE_STRING = 'contentMustBeString';
+  const ERROR_BOTTOM_MUST_BE_STRING = 'bottomMustBeString';
+  const ERROR_WHICH_NOT_ALLOWED = 'whichNotAllowed';
+  const ERROR_LANGUAGE_ID_MUST_BE_INTEGER = 'languageIdMustBeInteger';
 }
