@@ -32,18 +32,21 @@ class Web
       ['GET', '/forget-password', 'admin'],
       ['GET', '/admin', 'admin'],
       ['GET', '/admin/users', 'admin'],
+      ['GET', '/admin/users/trash', 'admin'],
       ['GET', '/admin/users/new', 'admin'],
       ['GET', '/admin/users/{id}', 'admin'],
       ['GET', '/admin/roles', 'admin'],
       ['GET', '/admin/roles/new', 'admin'],
       ['GET', '/admin/roles/{id}', 'admin'],
-      ['GET', '/admin/option', 'admin'],
-      ['GET', '/admin/layouts', 'admin'],
+      ['GET', '/admin/options/layouts', 'admin'],
+      ['GET', '/admin/options/layouts/trash', 'admin'],
+      ['GET', '/admin/options/layouts/new', 'admin'],
+      ['GET', '/admin/options/layouts/{id}', 'admin'],
     ];
 
     $routes['Route'][Codes::MIDDLEWARE] = ['TrailingSlashes'];
     $routes['Route'][Codes::ROUTES] = [
-      ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}/', 'route'],
+      ['GET', '/{uri1}/{uri2}/{uri3}/{uri4}/{uri5}/{uri6}/', 'route'],
     ];
   }
 }
