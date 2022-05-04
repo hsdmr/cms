@@ -114,8 +114,8 @@ class PostController extends Controller
     if (!v::key('user_id', v::positive())->validate($params)) {
       throw new UnexpectedValueException("'user_id'  must be positive number", Codes::key(Codes::ERROR_USER_ID_MUST_BE_POSITIVE_NUMBER));
     }
-    if (!v::key('status', v::in(POST::STATUS))->validate($params)) {
-      throw new UnexpectedValueException("'status' only can be 'published' or 'draft'", Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
+    if (!v::key('status', v::in(Post::STATUS))->validate($params)) {
+      throw new UnexpectedValueException("'status' only can be " . implode(', ', Post::STATUS), Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
     }
   }
 }

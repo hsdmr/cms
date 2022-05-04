@@ -181,10 +181,10 @@ class LayoutController extends Controller
       throw new UnexpectedValueException("'title' must not be empty", Codes::key(Codes::ERROR_TITLE_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('which', v::in(Layout::WHICH))->validate($params)) {
-      throw new UnexpectedValueException("'which' must be 'admin' or 'user'", Codes::key(Codes::ERROR_WHICH_NOT_ALLOWED));
+      throw new UnexpectedValueException("'which' must be " . implode(', ', Layout::WHICH), Codes::key(Codes::ERROR_WHICH_NOT_ALLOWED));
     }
     if (!v::key('status', v::in(Layout::STATUS))->validate($params)) {
-      throw new UnexpectedValueException("'status' must be 'admin' or 'user'", Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
+      throw new UnexpectedValueException("'status' must be " . implode(', ', Layout::STATUS), Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
     }
   }
 }
