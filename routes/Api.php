@@ -57,6 +57,7 @@ class Api
 
     $routes['Layout'][Codes::MIDDLEWARE] = ['Auth'];
     $routes['Layout'][Codes::ROUTES] = [
+      ['GET', '/layout/constants', 'constants'],
       ['GET', '/layout', 'search'],
       ['POST', '/layout', 'create'],
       ['GET', '/layout/{layout_id}', 'read'],
