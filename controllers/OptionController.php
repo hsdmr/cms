@@ -82,15 +82,7 @@ class OptionController extends Controller
   public function validate($params): void
   {
     if (!v::key('type', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'type' must be string", Codes::key(Codes::ERROR_TYPE_MUST_BE_STRING));
-    }
-
-    if (!v::key('type_id', v::intType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'type_id' must be integer", Codes::key(Codes::ERROR_TYPE_ID_MUST_BE_INTEGER));
-    }
-
-    if (!v::key('key', v::stringType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'key' must be string", Codes::key(Codes::ERROR_KEY_MUST_BE_STRING));
+      throw new UnexpectedValueException("'type' must be string", Codes::key(Codes::ERROR_TYPE_MUST_NOT_BE_EMPTY));
     }
   }
 }

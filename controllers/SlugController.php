@@ -110,7 +110,7 @@ class SlugController extends Controller
       throw new UnexpectedValueException("'owner' must be 'post', 'page', 'product', 'lesson'", Codes::key(Codes::ERROR_OWNER_NOT_ALLOWED));
     }
     if (!v::key('path', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'path' must be string", Codes::key(Codes::ERROR_PATH_MUST_BE_STRING));
+      throw new UnexpectedValueException("'path' must be sent", Codes::key(Codes::ERROR_PATH_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('language_id', v::positive())->validate($params)) {
       throw new UnexpectedValueException("'language_id' must be positive number", Codes::key(Codes::ERROR_LANGUAGE_ID_MUST_BE_POSITIVE_NUMBER));

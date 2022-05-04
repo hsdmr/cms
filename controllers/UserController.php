@@ -173,10 +173,10 @@ class UserController extends Controller
   public function validate($params, $method = 'create'): void
   {
     if (!v::key('first_name', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'first_name' must be string", Codes::key(Codes::ERROR_FIRST_NAME_MUST_BE_STRING));
+      throw new UnexpectedValueException("'first_name' must be sent", Codes::key(Codes::ERROR_FIRST_NAME_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('last_name', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'last_name' must be string", Codes::key(Codes::ERROR_LAST_NAME_MUST_BE_STRING));
+      throw new UnexpectedValueException("'last_name' must be sent", Codes::key(Codes::ERROR_LAST_NAME_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('role', v::in(USER::ROLE))->validate($params)) {
       throw new UnexpectedValueException("'role' must be 'admin' or 'user'", Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));

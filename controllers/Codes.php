@@ -15,11 +15,12 @@ class Codes extends BaseCodes
   const JOB_USER_READ = 'userRead';
   const JOB_USER_UPDATE = 'userUpdate';
   const JOB_USER_DELETE = 'userDelete';
-  const JOB_LAYOUT_SEARCH = 'userSearch';
-  const JOB_LAYOUT_CREATE = 'userCreate';
-  const JOB_LAYOUT_READ = 'userRead';
-  const JOB_LAYOUT_UPDATE = 'userUpdate';
-  const JOB_LAYOUT_DELETE = 'userDelete';
+  const JOB_LAYOUT_SEARCH = 'layoutSearch';
+  const JOB_LAYOUT_CREATE = 'layoutCreate';
+  const JOB_LAYOUT_READ = 'layoutRead';
+  const JOB_LAYOUT_UPDATE = 'layoutUpdate';
+  const JOB_LAYOUT_DELETE = 'layoutDelete';
+  const JOB_LAYOUT_CONSTANTS = 'layoutConstants';
   const JOB_ROLE_SEARCH = 'roleSearch';
   const JOB_ROLE_CREATE = 'roleCreate';
   const JOB_ROLE_READ = 'roleRead';
@@ -52,8 +53,8 @@ class Codes extends BaseCodes
   const JOB_AUTO_LINK_DELETE = 'autoLinkDelete';
 
   const ERROR_USER_NOT_FOUND = 'userNotFound';
-  const ERROR_FIRST_NAME_MUST_BE_STRING = 'firstNameMustBeString';
-  const ERROR_LAST_NAME_MUST_BE_STRING = 'lastNameMustBeString';
+  const ERROR_FIRST_NAME_MUST_NOT_BE_EMPTY = 'firstNameMustNotBeEmpty';
+  const ERROR_LAST_NAME_MUST_NOT_BE_EMPTY = 'lastNameMustNotBeEmpty';
   const ERROR_ROLE_NOT_ALLOWED = 'roleNotAllowed';
   const ERROR_EMAIL_NOT_VALID = 'emailNotValid';
   const ERROR_USERNAME_MUST_BE_SENT = 'usernameMustBeSent';
@@ -61,7 +62,7 @@ class Codes extends BaseCodes
   const ERROR_PASSWORDS_NOT_MATCH = 'passwordsNotMatch';
   const ERROR_LINK_NOT_FOUND = 'linkNotFound';
   const ERROR_OWNER_NOT_ALLOWED = 'ownerNotAllowed';
-  const ERROR_PATH_MUST_BE_STRING = 'pathMustBeString';
+  const ERROR_PATH_MUST_NOT_BE_EMPTY = 'pathMustNotBeEmpty';
   const ERROR_LANGUAGE_ID_MUST_BE_POSITIVE_NUMBER = 'languageIdMustBePositiveNumber';
   const ERROR_ROLE_CAN_NOT_DELETED_SOME_USERS_HAS_IT = 'roleCanNotDeletedSomeUsersHasIt';
   const ERROR_ROLE_NOT_FOUND = 'roleNotFound';
@@ -73,21 +74,21 @@ class Codes extends BaseCodes
   const ERROR_GET_NOT_ALLOWED = 'getNotAllowed';
   const ERROR_OPTION_NOT_FOUND = 'optionNotFound';
   const ERROR_OPTIONS_NOT_FOUND = 'optionsNotFound';
-  const ERROR_TYPE_MUST_BE_STRING = 'typeMustBeString';
+  const ERROR_TYPE_MUST_NOT_BE_EMPTY = 'typeMustNotBeEmpty';
   const ERROR_TYPE_ID_MUST_BE_INTEGER = 'typeIdMustBeInteger';
-  const ERROR_KEY_MUST_BE_STRING = 'keyMustBeString';
+  const ERROR_KEY_MUST_NOT_BE_EMPTY = 'keyMustNotBeEmpty';
   const ERROR_CATEGORY_NOT_FOUND = 'categoryNotFound';
   const ERROR_FILE_ID_MUST_BE_POSITIVE_NUMBER = 'fileIdMustBePositiveNumber';
   const ERROR_PARENT_ID_MUST_BE_POSITIVE_NUMBER = 'parentIdMustBePositiveNumber';
   const ERROR_AUTO_LINK_NOT_FOUND = 'autoLinkNotFound';
-  const ERROR_WORD_MUST_BE_STRING = 'wordMustBeString';
-  const ERROR_URI_MUST_BE_STRING = 'uriMustBeString';
-  const ERROR_LAYOUT_NOT_FOUND = 'userNotFound';
-  
-  const ERROR_TITLE_MUST_BE_STRING = 'titleMustBeString';
-  const ERROR_TOP_MUST_BE_STRING = 'topMustBeString';
-  const ERROR_CONTENT_MUST_BE_STRING = 'contentMustBeString';
-  const ERROR_BOTTOM_MUST_BE_STRING = 'bottomMustBeString';
+  const ERROR_WORD_MUST_NOT_BE_EMPTY = 'wordMustNotBeEmpty';
+  const ERROR_URI_MUST_NOT_BE_EMPTY = 'uriMustNotBeEmpty';
+  const ERROR_LAYOUT_NOT_FOUND = 'layoutNotFound';
+  const ERROR_TITLE_MUST_NOT_BE_EMPTY = 'titleMustNotBeEmpty';
+  const ERROR_NAME_MUST_NOT_BE_EMPTY = 'nameMustNotBeEmpty';
+  const ERROR_TOP_MUST_NOT_BE_EMPTY = 'topMustNotBeEmpty';
+  const ERROR_CONTENT_MUST_NOT_BE_EMPTY = 'contentMustNotBeEmpty';
+  const ERROR_BOTTOM_MUST_NOT_BE_EMPTY = 'bottomMustNotBeEmpty';
   const ERROR_WHICH_NOT_ALLOWED = 'whichNotAllowed';
   const ERROR_LANGUAGE_ID_MUST_BE_INTEGER = 'languageIdMustBeInteger';
 }

@@ -95,10 +95,10 @@ class AutoLinkController extends Controller
   public function validate($params): void
   {
     if (!v::key('word', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'word' must be string", Codes::key(Codes::ERROR_WORD_MUST_BE_STRING));
+      throw new UnexpectedValueException("'word' must be sent", Codes::key(Codes::ERROR_WORD_MUST_NOT_BE_EMPTY));
     }
-    if (!v::key('uri', v::stringType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'uri' must be string", Codes::key(Codes::ERROR_URI_MUST_BE_STRING));
+    if (!v::key('uri', v::stringType())->validate($params)) {
+      throw new UnexpectedValueException("'uri' must be sent", Codes::key(Codes::ERROR_URI_MUST_NOT_BE_EMPTY));
     }
   }
 }

@@ -25,15 +25,9 @@ class LayoutController extends Controller
 
       $users = new Layout();
       if ($params['search']) {
-        $users->openPharanthesis()
-          ->where('first_name', 'LIKE', "%" . $params['search'] . "%")
-          ->orWhere('last_name', 'LIKE', "%" . $params['search'] . "%")
-          ->orWhere('email', 'LIKE', "%" . $params['search'] . "%")
-          ->orWhere('username', 'LIKE', "%" . $params['search'] . "%")
-          ->orWhere('nickname', 'LIKE', "%" . $params['search'] . "%")
-          ->orWhere('phone', 'LIKE', "%" . $params['search'] . "%")
-          ->closePharanthesis();
+        $users->where('name', 'LIKE', "%" . $params['search'] . "%");
       }
+
       if ($params['trash']) {
         $users->onlyDeleted();
       }
@@ -69,7 +63,7 @@ class LayoutController extends Controller
 
       $layout = new Layout();
       $layout = $layout->create([
-        'title' => $_POST['title'],
+        'name' => $_POST['name'],
         'top' => $_POST['top'],
         'content' => $_POST['content'],
         'bottom' => $_POST['bottom'],
@@ -129,7 +123,7 @@ class LayoutController extends Controller
 
       $layout = Layout::find($args['layout_id']);
       $update = [
-        'title' => $_POST['title'],
+        'name' => $_POST['name'],
         'top' => $_POST['top'],
         'content' => $_POST['content'],
         'bottom' => $_POST['bottom'],
@@ -165,28 +159,32 @@ class LayoutController extends Controller
     }
   }
 
+  public function constants(Request $request, $args)
+  {
+    Log::currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    try {
+      
+      $this->body = [
+        'which' => Layout::WHICH,
+        'status' => Layout::STATUS,
+      ];
+      $this->response(HTTP_OK);
+    }
+    finally {
+      Log::endJob();
+    }
+  }
+
   public function validate($params, $method = 'create'): void
   {
     if (!v::key('title', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'title' must be string", Codes::key(Codes::ERROR_TITLE_MUST_BE_STRING));
-    }
-    if (!v::key('top', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'top' must be string", Codes::key(Codes::ERROR_TOP_MUST_BE_STRING));
-    }
-    if (!v::key('content', v::stringType())->validate($params)) {
-      throw new UnexpectedValueException("'content' must be string", Codes::key(Codes::ERROR_CONTENT_MUST_BE_STRING));
-    }
-    if (!v::key('bottom', v::email())->validate($params)) {
-      throw new UnexpectedValueException("'bottom' must be string", Codes::key(Codes::ERROR_BOTTOM_MUST_BE_STRING));
+      throw new UnexpectedValueException("'title' must not be empty", Codes::key(Codes::ERROR_TITLE_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('which', v::in(Layout::WHICH))->validate($params)) {
       throw new UnexpectedValueException("'which' must be 'admin' or 'user'", Codes::key(Codes::ERROR_WHICH_NOT_ALLOWED));
     }
     if (!v::key('status', v::in(Layout::STATUS))->validate($params)) {
-      throw new UnexpectedValueException("'which' must be 'admin' or 'user'", Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
-    }
-    if (!v::key('language_id', v::intType(), false)->validate($params)) {
-      throw new UnexpectedValueException("'language_id' must be sent", Codes::key(Codes::ERROR_LANGUAGE_ID_MUST_BE_INTEGER));
+      throw new UnexpectedValueException("'status' must be 'admin' or 'user'", Codes::key(Codes::ERROR_STATUS_NOT_ALLOWED));
     }
   }
 }
