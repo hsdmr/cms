@@ -1,5 +1,5 @@
 <script>
-  import { languages, locale, __ } from "src/scripts/i18n.js";
+  import { languages, locale } from "src/scripts/i18n.js";
   function setLocale(lang) {
     $locale = lang;
   }
