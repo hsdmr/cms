@@ -138,3 +138,29 @@ export const destroy = async (apiUrl, id,  success = "") => {
     return false;
   }
 };
+
+export const get = async (apiUrl, success = "") => {
+  await checkAuth();
+  const auth = getSessionItem("auth");
+
+  const res = await fetch(apiUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: auth.access_token,
+    },
+  });
+  
+  const response = await res.json();
+
+  if (res.ok) {
+    if (success != "") {
+      toastr.success(success);
+    }
+  } else {
+    toastr.error(tranlate('error.' + response.key));
+  }
+
+  return response;
+};
