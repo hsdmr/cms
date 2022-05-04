@@ -1,16 +1,31 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
   import Breadcrump from "src/components/Breadcrump.svelte";
-  import { checkAuth } from "src/scripts/auth.js";
-  import { onMount } from "svelte";
-  import { route } from "src/scripts/links.js";
+  import Table from "src/components/table/Table.svelte";
+  import { route, api } from "src/scripts/links.js";
   
+  $: titles = [
+    $__("title.name"),
+    $__("title.status"),
+    $__("title.language"),
+  ];
+
+  const keys = [
+    "name",
+    "status",
+    "language",
+  ];
+
   $: title = $__("title.layouts");
   $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
-  onMount(checkAuth);
 </script>
 
 <Breadcrump {title} {links} />
 <div class="container-fluid layouts">
-  {$__("title.layouts")}
+  <Table
+    {titles}
+    {keys}
+    apiUrl={api.layout}
+    routeUrl="/{route.admin}/{route.options}/{route.layouts}"
+  />
 </div>
