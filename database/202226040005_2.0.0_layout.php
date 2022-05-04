@@ -30,6 +30,6 @@ class Layout200
   public function down()
   {
     $db = System::getPdo();
-    $db->exec("DROP TABLE `layouts`");
+    $db->exec("DROP TABLE `layout`");
   }
 }

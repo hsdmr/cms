@@ -36,7 +36,7 @@
     },
     {
       title: $__("title.options"),
-      to: "/" + route.admin + "/" + route.options,
+      to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
       icon: "fa-solid fa-gears",
       subMenu: [
         {
@@ -93,7 +93,7 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <!-- SidebarSearch Form -->
+    <!-- SidebarSearch Form 
     <div class="form-inline mt-3">
       <div class="input-group" data-widget="sidebar-search">
         <input
@@ -108,7 +108,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <!-- Sidebar Menu -->
     <nav class="mt-2">

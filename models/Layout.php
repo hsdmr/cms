@@ -10,7 +10,7 @@ class Layout extends Model
   protected array $hidden = ['created_at', 'updated_at'];
   protected bool $soft_delete = true;
 
-  const WHICH = ['header', 'footer', 'left-sidebar', 'right-sidebar'];
+  const WHICH = ['header', 'footer', 'leftSidebar', 'rightSidebar'];
   const STATUS = ['active', 'passive'];
 
   public static function find(int $id)

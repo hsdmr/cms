@@ -18,6 +18,8 @@ export const api = {
   forgetPassword: `${apiUrl}/forget-password`,
   admin: `${apiUrl}/admin`,
 
+  layout: `${apiUrl}/layout`,
+  layoutConstants: `${apiUrl}/layout/constants`,
   option: `${apiUrl}/option`,
   user: `${apiUrl}/user`,
   role: `${apiUrl}/role`,

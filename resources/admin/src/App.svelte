@@ -14,6 +14,8 @@
   import Roles from "src/pages/roles/index.svelte";
   import RoleSingle from "src/pages/roles/single.svelte";
   import Layouts from "src/pages/layouts/index.svelte";
+  import LayoutsTrash from "src/pages/layouts/trash.svelte";
+  import LayoutsSingle from "src/pages/layouts/single.svelte";
   import Dashboard from "src/pages/Dashboard.svelte";
   import { route } from "src/scripts/links.js";
   import { checkAuth } from "src/scripts/auth.js";
@@ -72,8 +74,16 @@
               </Route>
             </Route>
             <Route path="{route.options}/*">
-              <Route path="{route.layouts}">
-                <Layouts />
+              <Route path="{route.layouts}/*">
+                <Route path="/">
+                  <Layouts />
+                </Route>
+                <Route path="{route.trash}/">
+                  <LayoutsTrash />
+                </Route>
+                <Route path=":id" let:params>
+                  <LayoutsSingle id={params.id} />
+                </Route>
               </Route>
             </Route>
           </div>
