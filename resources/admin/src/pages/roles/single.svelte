@@ -42,7 +42,7 @@
     loading = true;
 
     if (id == route.new) {
-      const res = await create(api.role, "Role create successfully", {
+      const res = await create(api.role, $__('notify.createdSuccessfully', {name: role}), {
         role,
         permissions,
       });
@@ -56,7 +56,7 @@
         error = res.message;
       }
     } else {
-      const res = await create(api.role, "Role updated successfully", {
+      const res = await create(api.role, $__('notify.updatedSuccessfully', {name: role}), {
         role,
         permissions,
       });

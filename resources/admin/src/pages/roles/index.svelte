@@ -5,7 +5,6 @@
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-
   $: titles = [
     $__("title.role"),
     $__("title.updatedAt"),
