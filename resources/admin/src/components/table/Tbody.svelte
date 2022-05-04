@@ -33,6 +33,14 @@
 </script>
 
 <tbody>
+  {#if rows.length == 0}
+  <tr>
+    <td class="text-center" colspan={keys.length + 1}>
+      {$__('any.noElementFound')}
+    </td>
+  </tr>
+    
+  {/if}
   {#each rows as row}
     <tr>
       {#each keys as key}
