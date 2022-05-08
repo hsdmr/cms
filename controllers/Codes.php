@@ -15,6 +15,8 @@ class Codes extends BaseCodes
   const JOB_USER_READ = 'userRead';
   const JOB_USER_UPDATE = 'userUpdate';
   const JOB_USER_DELETE = 'userDelete';
+  const JOB_USER_RESTORE = 'userRestore';
+  const JOB_USER_PERMANENT_DELETE = 'userPermanentDelete';
   const JOB_LAYOUT_SEARCH = 'layoutSearch';
   const JOB_LAYOUT_CREATE = 'layoutCreate';
   const JOB_LAYOUT_READ = 'layoutRead';
@@ -91,4 +93,5 @@ class Codes extends BaseCodes
   const ERROR_BOTTOM_MUST_NOT_BE_EMPTY = 'bottomMustNotBeEmpty';
   const ERROR_WHICH_NOT_ALLOWED = 'whichNotAllowed';
   const ERROR_LANGUAGE_ID_MUST_BE_INTEGER = 'languageIdMustBeInteger';
+  const ERROR_AUTH_USER_CAN_NOT_DELETE_OWN_PROFILE = 'authUserCanNotDeleteOwnProfile';
 }
