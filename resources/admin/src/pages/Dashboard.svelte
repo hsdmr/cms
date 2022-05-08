@@ -4,15 +4,15 @@
   import { onMount } from "svelte";
   import { checkAuth } from "src/scripts/auth.js";
   
-  $: title = $__("title.dashboard");
+  $: title = $__("any.dashboard");
   $: links = [];
   onMount(checkAuth);
 </script>
 
 <Breadcrump {title} {links} />
 <div class="container-fluid dashboard">
-  {$__("title.dashboard")}
+  {$__("any.dashboard")}
   <p>
-    {$__("title.dene",{var: 10})}
+    {$__("any.dene",{var: 10})}
   </p>
 </div>

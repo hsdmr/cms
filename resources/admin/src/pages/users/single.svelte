@@ -2,7 +2,7 @@
   import { navigate } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import Breadcrump from "src/components/Breadcrump.svelte";
-  import { create, update, read } from "src/scripts/crud.js";
+  import { create, update, read, get } from "src/scripts/crud.js";
   import { api, route } from "src/scripts/links.js";
   import { onMount } from "svelte";
   import { Circle } from "svelte-loading-spinners";
@@ -10,7 +10,7 @@
 
   export let id;
 
-  const color = id == route.new ? "success" : "primary";
+  $: color = id == route.new ? "success" : "primary";
   let first_name = "";
   let last_name = "";
   let email;
@@ -40,9 +40,13 @@
   let error = "";
   let loading = false;
 
-  let roles = ["admin", "editor"];
+  $: roles = [];
 
   async function getData() {
+    const constants = await get(api.userConstants);
+    roles = constants.roles;
+    role = roles[0];
+
     if (id != route.new) {
       loading = true;
       const res = await read(api.user, id);
@@ -103,7 +107,7 @@
     };
 
     if (id == route.new) {
-      const res = await create(api.user, "User create successfully", {
+      const res = await create(api.user, $__('notify.createdSuccessfully', {title: first_name + " " + last_name}), {
         first_name,
         last_name,
         email,
@@ -124,7 +128,7 @@
         error = res.key;
       }
     } else {
-      const res = await update(api.user, id, "User updated successfully", {
+      const res = await update(api.user, id, $__('notify.updatedSuccessfully', {title: first_name + " " + last_name}), {
         first_name,
         last_name,
         email,
@@ -145,8 +149,8 @@
 
   $: title = id != route.new ? first_name + " " + last_name : $__("any.addNew");
   $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+    { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("any.users") },
   ];
 </script>
 
@@ -158,7 +162,7 @@
         <div class="card-body">
           <div class="form-group">
             <label class="col-form-label" for="first_name"
-              >{$__("title.firstName")}</label
+              >{$__("any.firstName")}</label
             >
             <input
               bind:value={first_name}
@@ -169,7 +173,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="last_name"
-              >{$__("title.lastName")}</label
+              >{$__("any.lastName")}</label
             >
             <input
               bind:value={last_name}
@@ -180,7 +184,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="email"
-              >{$__("title.email")}</label
+              >{$__("any.email")}</label
             >
             {#if error.includes("email")}
               <div class="text-danger float-right">{$__('error.' + error)}</div>
@@ -194,7 +198,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="username"
-              >{$__("title.username")}</label
+              >{$__("any.username")}</label
             >
             {#if error.includes("username")}
               <div class="text-danger float-right">{$__('error.' + error)}</div>
@@ -208,7 +212,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="nickname"
-              >{$__("title.nickname")}</label
+              >{$__("any.nickname")}</label
             >
             <input
               bind:value={nickname}
@@ -219,7 +223,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="password"
-              >{$__("title.password")}</label
+              >{$__("any.password")}</label
             >
             {#if error.includes("password")}
               <div class="text-danger float-right">{$__('error.' + error)}</div>
@@ -233,7 +237,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="retypePassword"
-              >{$__("title.retypePassword")}</label
+              >{$__("any.retypePassword")}</label
             >
             {#if error.includes("password")}
               <div class="text-danger float-right">{$__('error.' + error)}</div>
@@ -246,10 +250,10 @@
             />
           </div>
           <div class="form-group">
-            <label class="col-form-label" for="role">{$__("title.role")}</label>
+            <label class="col-form-label" for="role">{$__("any.role")}</label>
             <select class="form-control" id="role" bind:value={role}>
               {#each roles as item}
-                <option value={item}>{item}</option>
+                <option value={item}>{$__('any.' + item)}</option>
               {/each}
             </select>
           </div>

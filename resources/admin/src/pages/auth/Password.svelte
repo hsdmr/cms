@@ -37,7 +37,7 @@
           <input
             type="email"
             class="form-control"
-            placeholder={$__("title.email")}
+            placeholder={$__("any.email")}
           />
           <div class="input-group-append">
             <div class="input-group-text">

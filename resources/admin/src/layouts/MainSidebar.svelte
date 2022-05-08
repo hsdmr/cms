@@ -17,30 +17,30 @@
 
   $: menu = [
     {
-      title: $__("title.dashboard"),
+      title: $__("any.dashboard"),
       to: "/" + route.admin,
       icon: "fas fa-th",
       subMenu: [],
     },
     {
-      title: $__("title.users"),
+      title: $__("any.users"),
       to: "/" + route.admin + "/" + route.users,
       icon: "fas fa-users",
       subMenu: [],
     },
     {
-      title: $__("title.roles"),
+      title: $__("any.roles"),
       to: "/" + route.admin + "/" + route.roles,
       icon: "fa-solid fa-user-group",
       subMenu: [],
     },
     {
-      title: $__("title.options"),
+      title: $__("any.options"),
       to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
       icon: "fa-solid fa-gears",
       subMenu: [
         {
-          title: $__("title.layouts"),
+          title: $__("any.layouts"),
           to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
           icon: "fas fa-table-columns",
           subMenu: [],
@@ -145,7 +145,7 @@
         <li class="nav-item">
           <a href={"#"} on:click={logout} class="nav-link">
             <i class="nav-icon fa-solid fa-power-off text-danger" />
-            <p class="text">{$__("title.logout")}</p>
+            <p class="text">{$__("any.logout")}</p>
           </a>
         </li>
       </ul>

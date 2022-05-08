@@ -63,7 +63,7 @@ class LayoutController extends Controller
 
       $layout = new Layout();
       $layout = $layout->create([
-        'name' => $_POST['name'],
+        'title' => $_POST['title'],
         'top' => $_POST['top'],
         'content' => $_POST['content'],
         'bottom' => $_POST['bottom'],
@@ -123,7 +123,7 @@ class LayoutController extends Controller
 
       $layout = Layout::find($args['layout_id']);
       $update = [
-        'name' => $_POST['name'],
+        'title' => $_POST['title'],
         'top' => $_POST['top'],
         'content' => $_POST['content'],
         'bottom' => $_POST['bottom'],
@@ -177,7 +177,7 @@ class LayoutController extends Controller
 
   public function validate($params, $method = 'create'): void
   {
-    if (!v::key('title', v::stringType())->validate($params)) {
+    if (!v::key('title', v::notEmpty())->validate($params)) {
       throw new UnexpectedValueException("'title' must not be empty", Codes::key(Codes::ERROR_TITLE_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('which', v::in(Layout::WHICH))->validate($params)) {

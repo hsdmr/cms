@@ -9,14 +9,14 @@
 
   export let id;
 
-  const color = id == route.new ? "success" : "primary";
+  $: color = id == route.new ? "success" : "primary";
   let title = "";
   let top = "";
   let content = "";
   let bottom = "";
+  let language = "";
   let which = "";
   let status = "";
-  let language = "";
 
   $: whichSelect = [];
   $: statusSelect = [];
@@ -25,13 +25,15 @@
   let loading = false;
 
   async function getData() {
-    const constants = await get(api.layoutConstants, id);
+    const constants = await get(api.layoutConstants);
     whichSelect = constants.which;
     statusSelect = constants.status;
+    which = whichSelect[0];
+    status = statusSelect[0];
 
     if (id != route.new) {
       loading = true;
-      res = await read(api.layout, id);
+      const res = await read(api.layout, id);
       loading = false;
 
       if (typeof res.id !== "undefined") {
@@ -88,10 +90,10 @@
     }
   }
 
-  $: pageTitle = id != route.new ? role : $__("any.addNew");
+  $: pageTitle = id != route.new ? title : $__("any.addNew");
   $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.roles, pageTitle: $__("title.roles") },
+    { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
+    { pageUrl: route.admin + "/" + route.options + "/" + route.layouts, pageTitle: $__("any.layouts") },
   ];
 </script>
 

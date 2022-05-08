@@ -72,7 +72,7 @@
             bind:value={fullName}
             type="text"
             class="form-control"
-            placeholder={$__("title.fullName")}
+            placeholder={$__("any.fullName")}
           />
           <div class="input-group-append">
             <div class="input-group-text">
@@ -88,7 +88,7 @@
             bind:value={user}
             type="email"
             class="form-control"
-            placeholder={$__("title.email")}
+            placeholder={$__("any.email")}
           />
           <div class="input-group-append">
             <div class="input-group-text">
@@ -104,7 +104,7 @@
             value={password}
             type={typePassword}
             class="form-control"
-            placeholder={$__("title.password")}
+            placeholder={$__("any.password")}
             id="password"
             on:input={getValue}
           />
@@ -126,7 +126,7 @@
             value={retypePassword}
             type={typeRetypePassword}
             class="form-control"
-            placeholder={$__("title.retypePassword")}
+            placeholder={$__("any.retypePassword")}
             id="retype-password"
             on:input={getValue}
           />

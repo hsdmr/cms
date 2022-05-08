@@ -1,5 +1,5 @@
 export default {
-  title: {
+  any: {
     dene: "Deneme yazısına {{var}} ekledim",
     home: "Ana sayfa",
     dashboard: "Gösterge Paneli",
@@ -27,15 +27,19 @@ export default {
     createdAt: "Oluşturulma tarihi",
     updatedAt: "Güncellenme tarihi",
     deletedAt: "Silinme tarihi",
+    trash: "Çöp Kutusu",
+    moveToTrash: "Çöp Kutusuna Taşı",
+    delete: "Sil",
+    restore: "Geri Al",
+    deletePermanently: "Kalıcı Olarak Sil",
     status: "Durum",
-  },
-  any: {
     title: "Başlık",
     content: "İçerik",
     search: "Ara",
     trash: "Silinenler",
     addNew: "Yeni Ekle",
     save: "Kaydet",
+    edit: "Düzenle",
     body: "Gövde",
     noElementFound: "Öğe Bulunamadı!",
     shownRecord: "Sayfada gösterilen kayıt:",
@@ -141,9 +145,10 @@ export default {
   },
   notify: {
     languagePreferenceSaved: "Dil Tercihi Kaydedildi",
-    deletedSuccessfully: "{{name}} Başarılı Şekilde Silindi",
-    createdSuccessfully: "{{name}} Başarılı Şekilde Oluşturuldu",
-    updatedSuccessfully: "{{name}} Başarılı Şekilde Güncellendi",
+    deletedSuccessfully: "{{title}} Başarılı Şekilde Silindi",
+    createdSuccessfully: "{{title}} Başarılı Şekilde Oluşturuldu",
+    updatedSuccessfully: "{{title}} Başarılı Şekilde Güncellendi",
+    restoredSuccessfully: "Başarılı Şekilde Geri Alındı",
   },
   error: {
     emailIsWrong: "Email Hatalı!",
@@ -184,13 +189,10 @@ export default {
     autoLinkNotFound: "Otomatik Bağlantı Bulunamadı!",
     wordMustNotBeEmpty: "Kelime Boş Olmamalı!",
     uriMustNotBeEmpty: "Uri Boş Olmamalı!",
-
+    authUserCanNotDeleteOwnProfile: "Oturum Sahibi Kendi Profilini Silemez",
     titleMustNotBeEmpty: "Başlık Boş Olmamalı!",
-    topMustNotBeEmpty: "Başlık Boş Olmamalı!",
-    contentMustNotBeEmpty: "Başlık Boş Olmamalı!",
-    bottomMustNotBeEmpty: "Başlık Boş Olmamalı!",
-    whichNotAllowed: "Başlık Boş Olmamalı!",
-    statusNotAllowed: "Başlık Boş Olmamalı!",
-    languageIdMustBeInteger: "Başlık Boş Olmamalı!",
+    layoutNotAllowed: "Yerleşim Seçenekleri Arasında Yok!",
+    statusNotAllowed: "Durum Seçenekleri Arasında Yok!",
+    languageIdMustBeInteger: "Dil Id'si Numara Olmalı!",
   }
 }

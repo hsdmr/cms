@@ -6,8 +6,8 @@
   
   $: titles = [
     $__("any.title"),
-    $__("title.status"),
-    $__("title.language"),
+    $__("any.status"),
+    $__("any.language"),
   ];
 
   const keys = [
@@ -16,10 +16,10 @@
     "language",
   ];
 
-  $: title = $__("title.trash");
+  $: title = $__("any.trash");
   $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.options + "/" + route.layouts, pageTitle: $__("title.layouts") },
+    { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
+    { pageUrl: route.admin + "/" + route.options + "/" + route.layouts, pageTitle: $__("any.layouts") },
   ];
 </script>
 

@@ -22,6 +22,8 @@ export const api = {
   layoutConstants: `${apiUrl}/layout/constants`,
   option: `${apiUrl}/option`,
   user: `${apiUrl}/user`,
+  userConstants: `${apiUrl}/user/constants`,
+  userRecover: `${apiUrl}/user/recover`,
   role: `${apiUrl}/role`,
 }
 

@@ -12,7 +12,7 @@ class User extends Model
   protected array $protected = ['password'];
   protected bool $soft_delete = true;
 
-  const ROLE = ['admin', 'user'];
+  const ROLES = ['admin', 'user'];
 
   public static function find(int $id)
   {

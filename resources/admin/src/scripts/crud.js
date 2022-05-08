@@ -113,12 +113,39 @@ export const update = async (apiUrl, id,  success = "", body) => {
   return response;
 };
 
-export const destroy = async (apiUrl, id,  success = "") => {
+export const destroy = async (apiUrl, id, permanent, success = "") => {
+  await checkAuth();
+  const auth = getSessionItem("auth");
+  const permanentDeleteUrl = permanent ? '/permanent' : '';
+
+  const res = await fetch(apiUrl + `/${id}` + permanentDeleteUrl, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: auth.access_token,
+    },
+  });
+  
+  
+  if (res.ok) {
+    if (success != "") {
+      toastr.success(success);
+      return true;
+    }
+  } else {
+    const response = await res.json();
+    toastr.error(tranlate('error.' + response.key));
+    return false;
+  }
+};
+
+export const restore = async (apiUrl, id,  success = "") => {
   await checkAuth();
   const auth = getSessionItem("auth");
 
   const res = await fetch(apiUrl + `/${id}`, {
-    method: "DELETE",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",

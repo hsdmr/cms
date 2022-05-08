@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Controller;
 
+use Hasdemir\Base\Auth;
 use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Log;
 use Hasdemir\Base\Controller;
@@ -10,6 +11,7 @@ use Hasdemir\Exception\UnexpectedValueException;
 use Hasdemir\Model\User;
 use Respect\Validation\Validator as v;
 use Hasdemir\Base\Request;
+use Hasdemir\Exception\NotAllowedException;
 use Hasdemir\Model\Option;
 
 class UserController extends Controller
@@ -155,6 +157,10 @@ class UserController extends Controller
   {
     Log::currentJob(Codes::JOB_USER_DELETE);
     try {
+      if (Auth::id() == $args['user_id']) {
+        throw new NotAllowedException("Auth user can not delete own profile", Codes::key(Codes::ERROR_AUTH_USER_CAN_NOT_DELETE_OWN_PROFILE));
+      }
+
       $user = User::find($args['user_id']);
 
       foreach($user->tokens() as $token) {
@@ -170,6 +176,52 @@ class UserController extends Controller
     }
   }
 
+  public function restore(Request $request, $args)
+  {
+    Log::currentJob(Codes::JOB_USER_RESTORE);
+    try {
+      $user = User::find($args['user_id']);
+
+      if ($user->update(['deleted_at' => null])) {
+        $this->response(HTTP_NO_CONTENT);
+      }
+    }
+    finally {
+      Log::endJob();
+    }
+  }
+
+  public function permanentDelete(Request $request, $args)
+  {
+    Log::currentJob(Codes::JOB_USER_PERMANENT_DELETE);
+    try {
+      $user = User::find($args['user_id']);
+
+      if ($user->forceDelete()) {
+        $this->response(HTTP_NO_CONTENT);
+      }
+    }
+    finally {
+      Log::endJob();
+    }
+  }
+
+  public function constants(Request $request, $args)
+  {
+    Log::currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    try {
+      
+      $this->body = [
+        'roles' => User::ROLES
+      ];
+
+      $this->response(HTTP_OK);
+    }
+    finally {
+      Log::endJob();
+    }
+  }
+
   public function validate($params, $method = 'create'): void
   {
     if (!v::key('first_name', v::stringType())->validate($params)) {
@@ -178,8 +230,8 @@ class UserController extends Controller
     if (!v::key('last_name', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'last_name' must be sent", Codes::key(Codes::ERROR_LAST_NAME_MUST_NOT_BE_EMPTY));
     }
-    if (!v::key('role', v::in(User::ROLE))->validate($params)) {
-      throw new UnexpectedValueException("'role' must be " . implode(', ', User::ROLE), Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
+    if (!v::key('role', v::in(User::ROLES))->validate($params)) {
+      throw new UnexpectedValueException("'role' must be " . implode(', ', User::ROLES), Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
     }
     if (!v::key('email', v::email())->validate($params)) {
       throw new UnexpectedValueException("'email' must be valid an email", Codes::key(Codes::ERROR_EMAIL_NOT_VALID));

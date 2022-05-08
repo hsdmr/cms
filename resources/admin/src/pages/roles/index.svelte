@@ -6,8 +6,8 @@
   import { route } from "src/scripts/links.js";
 
   $: titles = [
-    $__("title.role"),
-    $__("title.updatedAt"),
+    $__("any.role"),
+    $__("any.updatedAt"),
   ];
 
   const keys = [
@@ -15,8 +15,8 @@
     "updated_at",
   ];
   
-  $: title = $__("title.roles");
-  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
+  $: title = $__("any.roles");
+  $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];
 </script>
 
 <Breadcrump {title} {links} />

@@ -30,15 +30,19 @@ class Api
 
     $routes['User'][Codes::MIDDLEWARE] = [];
     $routes['User'][Codes::ROUTES] = [
+      ['GET', '/user/constants', 'constants'],
       ['GET', '/user', 'search'],
       ['POST', '/user', 'create'],
       ['GET', '/user/{user_id}', 'read'],
       ['PUT', '/user/{user_id}', 'update'],
+      ['PATCH', '/user/{user_id}', 'restore'],
       ['DELETE', '/user/{user_id}', 'delete'],
+      ['DELETE', '/user/{user_id}/permanent', 'permanentDelete'],
     ];
 
     $routes['Post'][Codes::MIDDLEWARE] = ['Auth'];
     $routes['Post'][Codes::ROUTES] = [
+      ['GET', '/post/constants', 'constants'],
       ['GET', '/post', 'search'],
       ['POST', '/post', 'create'],
       ['GET', '/post/{post_id}', 'read'],
@@ -48,6 +52,7 @@ class Api
 
     $routes['Category'][Codes::MIDDLEWARE] = ['Auth'];
     $routes['Category'][Codes::ROUTES] = [
+      ['GET', '/category/constants', 'constants'],
       ['GET', '/category', 'search'],
       ['POST', '/category', 'create'],
       ['GET', '/category/{category_id}', 'read'],
@@ -62,6 +67,7 @@ class Api
       ['POST', '/layout', 'create'],
       ['GET', '/layout/{layout_id}', 'read'],
       ['PUT', '/layout/{layout_id}', 'update'],
+      ['PATCH', '/layout/{layout_id}', 'restore'],
       ['DELETE', '/layout/{layout_id}', 'delete'],
     ];
 

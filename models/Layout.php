@@ -11,7 +11,7 @@ class Layout extends Model
   protected bool $soft_delete = true;
 
   const WHICH = ['header', 'footer', 'leftSidebar', 'rightSidebar'];
-  const STATUS = ['active', 'passive'];
+  const STATUS = ['passive', 'active'];
 
   public static function find(int $id)
   {

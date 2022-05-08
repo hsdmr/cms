@@ -1,5 +1,5 @@
 export default {
-  title: {
+  any: {
     dene: "I added {{var}} to test line",
     home: "Home",
     dashboard: "Dashboard",
@@ -27,15 +27,19 @@ export default {
     createdAt: "Created At",
     updatedAt: "Updated At",
     deletedAt: "Deleted At",
+    trash: "Trash",
+    moveToTrash: "Move To Trash",
+    delete: "Delete",
+    restore: "Restore",
+    deletePermanently: "Delete Permanently",
     status: "Status",
-  },
-  any: {
     title: "Title",
     content: "Content",
     search: "Search",
     trash: "Trash",
     addNew: "Add New",
     save: "Save",
+    edit: "Edit",
     body: "Body",
     noElementFound: "No Element Found!",
     shownRecord: "The record shown on the page:",
@@ -141,9 +145,10 @@ export default {
   },
   notify: {
     languagePreferenceSaved: "Language preference Saved",
-    deletedSuccessfully: "{{name}} Deleted Successfully",
-    createdSuccessfully: "{{name}} Created Successfully",
-    updatedSuccessfully: "{{name}} Updated Successfully",
+    deletedSuccessfully: "{{title}} Deleted Successfully",
+    createdSuccessfully: "{{title}} Created Successfully",
+    updatedSuccessfully: "{{title}} Updated Successfully",
+    restoredSuccessfully: "Restored Successfully",
   },
   error: {
     emailIsWrong: "Email Is Wrong!",
@@ -184,5 +189,10 @@ export default {
     autoLinkNotFound: "Auto Link Not Found!",
     wordMustNotBeEmpty: "Word Must Not Be Empty!",
     uriMustNotBeEmpty: "Uri Must Not Be Empty!",
+    authUserCanNotDeleteOwnProfile: "Auth User Can Not Delete Own Profile!",
+    titleMustNotBeEmpty: "Title Must Not Be Empty!",
+    layoutNotAllowed: "Yerleşim Not Allowed!",
+    statusNotAllowed: "Status Not Allowed!",
+    languageIdMustBeInteger: "Languade Id Must Be Integer!",
   }
 }

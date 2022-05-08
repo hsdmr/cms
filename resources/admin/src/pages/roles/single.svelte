@@ -9,7 +9,7 @@
 
   export let id;
 
-  const color = id == route.new ? "success" : "primary";
+  $: color = id == route.new ? "success" : "primary";
   let role = "";
   let permissions = [];
   $: allPermissions = [];
@@ -42,7 +42,7 @@
     loading = true;
 
     if (id == route.new) {
-      const res = await create(api.role, $__('notify.createdSuccessfully', {name: role}), {
+      const res = await create(api.role, $__('notify.createdSuccessfully', {title: role}), {
         role,
         permissions,
       });
@@ -56,7 +56,7 @@
         error = res.message;
       }
     } else {
-      const res = await create(api.role, $__('notify.updatedSuccessfully', {name: role}), {
+      const res = await create(api.role, $__('notify.updatedSuccessfully', {title: role}), {
         role,
         permissions,
       });
@@ -78,8 +78,8 @@
 
   $: title = id != route.new ? role : $__("any.addNew");
   $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.roles, pageTitle: $__("title.roles") },
+    { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
+    { pageUrl: route.admin + "/" + route.roles, pageTitle: $__("any.roles") },
   ];
 </script>
 
@@ -90,7 +90,7 @@
       <div class="card card-outline card-{color}">
         <div class="card-body">
           <div class="form-group">
-            <label class="col-form-label" for="role">{$__("title.role")}</label>
+            <label class="col-form-label" for="role">{$__("any.role")}</label>
             <input
               bind:value={role}
               type="text"
@@ -100,7 +100,7 @@
           </div>
           <div class="form-group">
             <label class="col-form-label" for="role"
-              >{$__("title.permissions")}</label
+              >{$__("any.permissions")}</label
             >
             <div class="row">
               <label for="" class="col-sm-2">

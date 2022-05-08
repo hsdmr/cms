@@ -60,7 +60,7 @@
             bind:value={user}
             type="text"
             class="form-control"
-            placeholder={$__("title.email")}
+            placeholder={$__("any.email")}
           />
           <div class="input-group-append">
             <div class="input-group-text">
@@ -76,7 +76,7 @@
             {type}
             value={password}
             class="form-control"
-            placeholder={$__("title.password")}
+            placeholder={$__("any.password")}
             on:input={getValue}
           />
           <div class="input-group-append">

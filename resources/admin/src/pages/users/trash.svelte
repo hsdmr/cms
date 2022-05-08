@@ -6,12 +6,12 @@
   import { route } from "src/scripts/links.js";
 
   $: titles = [
-    $__("title.firstName"),
-    $__("title.lastName"),
-    $__("title.role"),
-    $__("title.email"),
-    $__("title.username"),
-    $__("title.nickname"),
+    $__("any.firstName"),
+    $__("any.lastName"),
+    $__("any.role"),
+    $__("any.email"),
+    $__("any.username"),
+    $__("any.nickname"),
   ];
 
   const keys = [
@@ -23,10 +23,10 @@
     "nickname",
   ];
 
-  $: title = $__("title.trash");
+  $: title = $__("any.trash");
   $: links = [
-    { pageUrl: route.admin, pageTitle: $__("title.dashboard") },
-    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("title.users") },
+    { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
+    { pageUrl: route.admin + "/" + route.users, pageTitle: $__("any.users") },
   ];
 </script>
 

@@ -7,12 +7,12 @@
 
 
   $: titles = [
-    $__("title.firstName"),
-    $__("title.lastName"),
-    $__("title.role"),
-    $__("title.email"),
-    $__("title.username"),
-    $__("title.nickname"),
+    $__("any.firstName"),
+    $__("any.lastName"),
+    $__("any.role"),
+    $__("any.email"),
+    $__("any.username"),
+    $__("any.nickname"),
   ];
 
   const keys = [
@@ -24,8 +24,8 @@
     "nickname",
   ];
   
-  $: title = $__("title.users");
-  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
+  $: title = $__("any.users");
+  $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];
 </script>
 
 <Breadcrump {title} {links} />

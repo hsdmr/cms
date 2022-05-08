@@ -79,7 +79,7 @@
     promise = getData();
   };
 
-  const onDelete = (event) => {
+  const setPromise = (event) => {
     promise = getData();
   };
 </script>
@@ -121,12 +121,26 @@
         <div class="loading">
           <div class="absolute">
             <span>
-              <Clock size="100" color="var(--{color})" unit="px" duration="10s" />
+              <Clock
+                size="100"
+                color="var(--{color})"
+                unit="px"
+                duration="10s"
+              />
             </span>
           </div>
         </div>
       {:then datas}
-        <Tbody {routeUrl} {apiUrl} {keys} rows={datas} on:delete={onDelete} />
+        <Tbody
+          {routeUrl}
+          {apiUrl}
+          {keys}
+          {trash}
+          {trashButton}
+          rows={datas}
+          on:delete={setPromise}
+          on:restore={setPromise}
+        />
       {/await}
     </table>
   </div>

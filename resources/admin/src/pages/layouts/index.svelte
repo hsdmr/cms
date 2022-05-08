@@ -5,19 +5,19 @@
   import { route, api } from "src/scripts/links.js";
   
   $: titles = [
-    $__("title.name"),
-    $__("title.status"),
-    $__("title.language"),
+    $__("any.title"),
+    $__("any.status"),
+    $__("any.language"),
   ];
 
   const keys = [
-    "name",
+    "title",
     "status",
     "language",
   ];
 
-  $: title = $__("title.layouts");
-  $: links = [{ pageUrl: route.admin, pageTitle: $__("title.dashboard") }];
+  $: title = $__("any.layouts");
+  $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];
 </script>
 
 <Breadcrump {title} {links} />
