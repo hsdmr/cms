@@ -4,7 +4,7 @@ namespace Hasdemir\Controller;
 
 use Hasdemir\Base\Auth;
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -18,7 +18,7 @@ class UserController extends Controller
 {
   public function search(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_SEARCH);
+    $this->currentJob(Codes::JOB_USER_SEARCH);
     try {
       $params = getSearchParamsWithDefaults($request->params());
 
@@ -47,15 +47,15 @@ class UserController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_CREATE);
+    $this->currentJob(Codes::JOB_USER_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
 
       $this->validate($_POST);
 
@@ -85,13 +85,13 @@ class UserController extends Controller
       $this->response(HTTP_CREATED);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_READ);
+    $this->currentJob(Codes::JOB_USER_READ);
     try {
       try {
         $user = User::find($args['user_id']);
@@ -107,15 +107,15 @@ class UserController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_UPDATE);
+    $this->currentJob(Codes::JOB_USER_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
 
       $this->validate($_PUT, 'update');
 
@@ -149,13 +149,13 @@ class UserController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_DELETE);
+    $this->currentJob(Codes::JOB_USER_DELETE);
     try {
       if (Auth::id() == $args['user_id']) {
         throw new NotAllowedException("Auth user can not delete own profile", Codes::key(Codes::ERROR_AUTH_USER_CAN_NOT_DELETE_OWN_PROFILE));
@@ -172,13 +172,13 @@ class UserController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function restore(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_RESTORE);
+    $this->currentJob(Codes::JOB_USER_RESTORE);
     try {
       $user = User::find($args['user_id']);
 
@@ -187,13 +187,13 @@ class UserController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function permanentDelete(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_USER_PERMANENT_DELETE);
+    $this->currentJob(Codes::JOB_USER_PERMANENT_DELETE);
     try {
       $user = User::find($args['user_id']);
 
@@ -202,13 +202,13 @@ class UserController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function constants(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS);
     try {
       $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
       
@@ -219,7 +219,7 @@ class UserController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

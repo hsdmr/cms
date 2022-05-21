@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -16,7 +16,7 @@ class LayoutController extends Controller
 {
   public function search(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_SEARCH);
+    $this->currentJob(Codes::JOB_LAYOUT_SEARCH);
     try {
       $params = getSearchParamsWithDefaults($request->params());
 
@@ -39,15 +39,15 @@ class LayoutController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_CREATE);
+    $this->currentJob(Codes::JOB_LAYOUT_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
 
       $this->validate($_POST);
 
@@ -78,13 +78,13 @@ class LayoutController extends Controller
       $this->response(HTTP_CREATED);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_READ);
+    $this->currentJob(Codes::JOB_LAYOUT_READ);
     try {
       try {
         $layout = Layout::find($args['layout_id']);
@@ -99,15 +99,15 @@ class LayoutController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_UPDATE);
+    $this->currentJob(Codes::JOB_LAYOUT_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
 
       $this->validate($_PUT, 'update');
 
@@ -140,13 +140,13 @@ class LayoutController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_DELETE);
+    $this->currentJob(Codes::JOB_LAYOUT_DELETE);
     try {
       $user = Layout::find($args['layout_id']);
 
@@ -155,13 +155,13 @@ class LayoutController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function constants(Request $request, $args)
   {
-    Log::currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS);
     try {
       
       $this->body = [
@@ -171,7 +171,7 @@ class LayoutController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

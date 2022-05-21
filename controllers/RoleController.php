@@ -3,7 +3,6 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotAllowedException;
 use Hasdemir\Helper\Json;
@@ -17,7 +16,7 @@ class RoleController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_ROLE_SEARCH);
+    $this->currentJob(Codes::JOB_ROLE_SEARCH);
     try {
       $params = getSearchParamsWithDefaults($request->params());
       $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
@@ -52,15 +51,15 @@ class RoleController extends Controller
       $this->body = $response;
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_ROLE_CREATE);
+    $this->currentJob(Codes::JOB_ROLE_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
       $role = Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $_POST['role'], $_POST['permissions']);
       $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
@@ -74,13 +73,13 @@ class RoleController extends Controller
       $this->body = $role;
       $this->response(HTTP_CREATED);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_ROLE_READ);
+    $this->currentJob(Codes::JOB_ROLE_READ);
     try {
       try {
         $option = Option::find($args['role_id']);
@@ -92,13 +91,13 @@ class RoleController extends Controller
         throw new NotFoundException('Role not found', [], $th);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_ROLE_DELETE);
+    $this->currentJob(Codes::JOB_ROLE_DELETE);
     try {
       $option = Option::find($args['role_id']);
 
@@ -120,7 +119,7 @@ class RoleController extends Controller
       $option->delete();
       $this->response(HTTP_NO_CONTENT);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

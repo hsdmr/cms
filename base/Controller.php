@@ -22,10 +22,17 @@ class Controller
     $response->emit($http_code, $this->header, $this->body ?? '');
   }
 
-  public function checkPermission($permission)
+  public function currentJob($permission, $check = true)
   {
-    if (!in_array($permission, Auth::User()['permissions'])) {
+    Log::currentJob($permission);
+
+    if (!in_array($permission, Auth::User()['permissions']) && $check) {
       throw new NotAllowedException("You do not have permission for this operation", Codes::key(Codes::ERROR_DONT_HAVE_PERMISSION));
     }
+  }
+
+  public function endJob()
+  {
+    Log::endJob();
   }
 }

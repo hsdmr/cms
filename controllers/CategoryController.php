@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Model\Category;
@@ -14,21 +14,21 @@ class CategoryController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_CATEGORY_SEARCH);
+    $this->currentJob(Codes::JOB_CATEGORY_SEARCH);
     try {
       $category = new Category();
       $this->body = $category->all();
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_CATEGORY_CREATE);
+    $this->currentJob(Codes::JOB_CATEGORY_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
       $category = new Category();
       $this->body = $category->create([
@@ -41,13 +41,13 @@ class CategoryController extends Controller
       ])->toArray();
       $this->response(HTTP_CREATED);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_CATEGORY_READ);
+    $this->currentJob(Codes::JOB_CATEGORY_READ);
     try {
       try {
         $category_id = $args['category_id'];
@@ -58,15 +58,15 @@ class CategoryController extends Controller
         throw new NotFoundException('Category not found', Codes::key(Codes::ERROR_CATEGORY_NOT_FOUND), $th);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update($request, $args)
   {
-    Log::currentJob(Codes::JOB_CATEGORY_UPDATE);
+    $this->currentJob(Codes::JOB_CATEGORY_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
       $category_id = $args['category_id'];
 
       $this->validate($_PUT);
@@ -82,13 +82,13 @@ class CategoryController extends Controller
       ])->toArray();
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_CATEGORY_DELETE);
+    $this->currentJob(Codes::JOB_CATEGORY_DELETE);
     try {
       $category_id = $args['category_id'];
 
@@ -96,7 +96,7 @@ class CategoryController extends Controller
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

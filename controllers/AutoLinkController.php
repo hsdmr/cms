@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -14,21 +14,21 @@ class AutoLinkController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTO_LINK_SEARCH);
+    $this->currentJob(Codes::JOB_AUTO_LINK_SEARCH);
     try {
       $links = new AutoLink();
       $this->body = $links->all();
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTO_LINK_CREATE);
+    $this->currentJob(Codes::JOB_AUTO_LINK_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
       $link = new AutoLink();
       $this->body = $link->create([
@@ -37,13 +37,13 @@ class AutoLinkController extends Controller
       ])->toArray();
       $this->response(HTTP_CREATED);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTO_LINK_READ);
+    $this->currentJob(Codes::JOB_AUTO_LINK_READ);
     try {
       try {
         $link_id = $args['link_id'];
@@ -54,15 +54,15 @@ class AutoLinkController extends Controller
         throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND), $th);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTO_LINK_UPDATE);
+    $this->currentJob(Codes::JOB_AUTO_LINK_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
       $link_id = $args['link_id'];
 
       $this->validate($_PUT);
@@ -74,13 +74,13 @@ class AutoLinkController extends Controller
       ])->toArray();
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTO_LINK_DELETE);
+    $this->currentJob(Codes::JOB_AUTO_LINK_DELETE);
     try {
       $link_id = $args['link_id'];
 
@@ -88,7 +88,7 @@ class AutoLinkController extends Controller
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

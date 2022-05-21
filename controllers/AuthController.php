@@ -4,8 +4,8 @@ namespace Hasdemir\Controller;
 
 use Hasdemir\Base\Auth;
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
 use Hasdemir\Base\Controller;
+use Hasdemir\Helper\Json;
 use Hasdemir\Model\AccessToken;
 
 class AuthController extends Controller
@@ -14,9 +14,9 @@ class AuthController extends Controller
 
   public function login($request, $args)
   {
-    Log::currentJob(Codes::JOB_LOGIN);
+    $this->currentJob(Codes::JOB_LOGIN, false);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
 
       if (Auth::getInstance()->attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
         $access_token = new AccessToken();
@@ -44,29 +44,29 @@ class AuthController extends Controller
       $this->response(HTTP_CREATED);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function check($request, $args)
   {
-    Log::currentJob(Codes::JOB_AUTH_CHECK);
+    $this->currentJob(Codes::JOB_AUTH_CHECK, false);
     try {
       $this->body = Auth::getInstance()->check();
       $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function logout($request, $args)
   {
-    Log::currentJob(Codes::JOB_LOGOUT);
+    $this->currentJob(Codes::JOB_LOGOUT, false);
     try {
       Auth::logout();
       $this->response(HTTP_NO_CONTENT);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 }

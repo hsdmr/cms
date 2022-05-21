@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -14,21 +14,21 @@ class SlugController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_SLUG_SEARCH);
+    $this->currentJob(Codes::JOB_SLUG_SEARCH);
     try {
       $slug = new Slug();
       $this->body = $slug->all();
       return $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_SLUG_CREATE);
+    $this->currentJob(Codes::JOB_SLUG_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
 
       $this->validate($_POST);
 
@@ -44,13 +44,13 @@ class SlugController extends Controller
       ])->toArray();
       return $this->response(HTTP_CREATED);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_SLUG_READ);
+    $this->currentJob(Codes::JOB_SLUG_READ);
     try {
       try {
         $slug_id = $args['slug_id'];
@@ -61,15 +61,15 @@ class SlugController extends Controller
         throw new NotFoundException('Link not found', Codes::key(Codes::ERROR_LINK_NOT_FOUND), $th);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update($request, $args)
   {
-    Log::currentJob(Codes::JOB_SLUG_UPDATE);
+    $this->currentJob(Codes::JOB_SLUG_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
       $slug_id = $args['slug_id'];
 
       $this->validate($_PUT);
@@ -86,13 +86,13 @@ class SlugController extends Controller
       ])->toArray();
       return $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_SLUG_DELETE);
+    $this->currentJob(Codes::JOB_SLUG_DELETE);
     try {
       $slug_id = $args['slug_id'];
 
@@ -100,7 +100,7 @@ class SlugController extends Controller
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -14,21 +14,21 @@ class PostController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_POST_SEARCH);
+    $this->currentJob(Codes::JOB_POST_SEARCH);
     try {
       $post = new Post();
       $this->body = $post->all();
       return $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_POST_CREATE);
+    $this->currentJob(Codes::JOB_POST_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
 
       $this->validate($_POST);
 
@@ -43,13 +43,13 @@ class PostController extends Controller
       ])->toArray();
       return $this->response(HTTP_CREATED);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function read($request, $args)
   {
-    Log::currentJob(Codes::JOB_POST_READ);
+    $this->currentJob(Codes::JOB_POST_READ);
     try {
       try {
         $post_id = $args['post_id'];
@@ -64,15 +64,15 @@ class PostController extends Controller
         throw new NotFoundException('Post not found', Codes::key(Codes::ERROR_POST_NOT_FOUND), $th);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function update($request, $args)
   {
-    Log::currentJob(Codes::JOB_POST_UPDATE);
+    $this->currentJob(Codes::JOB_POST_UPDATE);
     try {
-      $_PUT = json_decode($request->body(), true);
+      $_PUT = Json::decode($request->body(), true);
       $post_id = $args['post_id'];
 
       $this->validate($_PUT);
@@ -88,13 +88,13 @@ class PostController extends Controller
       ])->toArray();
       return $this->response(HTTP_OK);
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_POST_DELETE);
+    $this->currentJob(Codes::JOB_POST_DELETE);
     try {
       $post_id = $args['post_id'];
 
@@ -102,7 +102,7 @@ class PostController extends Controller
         $this->response(HTTP_NO_CONTENT);
       }
     } finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 

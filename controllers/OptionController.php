@@ -3,7 +3,7 @@
 namespace Hasdemir\Controller;
 
 use Hasdemir\Controller\Codes;
-use Hasdemir\Base\Log;
+use Hasdemir\Helper\Json;
 use Hasdemir\Base\Controller;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\UnexpectedValueException;
@@ -14,7 +14,7 @@ class OptionController extends Controller
 {
   public function search($request, $args)
   {
-    Log::currentJob(Codes::JOB_OPTION_SEARCH);
+    $this->currentJob(Codes::JOB_OPTION_SEARCH);
     try {
       $params = $request->params();
 
@@ -43,15 +43,15 @@ class OptionController extends Controller
       $this->response(HTTP_OK);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function create($request, $args)
   {
-    Log::currentJob(Codes::JOB_OPTION_CREATE);
+    $this->currentJob(Codes::JOB_OPTION_CREATE);
     try {
-      $_POST = json_decode($request->body(), true);
+      $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
 
       $response = Option::createOption($_POST['type'], $_POST['type_id'], $_POST['key'], $_POST['value']);
@@ -60,13 +60,13 @@ class OptionController extends Controller
       $this->response(HTTP_CREATED);
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
   public function delete($request, $args)
   {
-    Log::currentJob(Codes::JOB_OPTION_DELETE);
+    $this->currentJob(Codes::JOB_OPTION_DELETE);
     try {
       $option_id = $args['option_id'];
 
@@ -75,7 +75,7 @@ class OptionController extends Controller
       }
     }
     finally {
-      Log::endJob();
+      $this->endJob();
     }
   }
 
