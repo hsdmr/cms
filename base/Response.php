@@ -8,7 +8,7 @@ class Response
   {
     $response = [
       'message' => $message,
-      'key' => $e->key ?? '',
+      'key' => $e->key ?? Codes::ERROR_UNKNOWN,
     ];
     Log::error($response, $e, $th);
     return $this->emit($http_code, $header, $response);
