@@ -1,6 +1,7 @@
 import { api, route } from "src/scripts/links.js";
 import { deleteSessionItem, getSessionItem, setSessionItem } from "src/scripts/session.js";
 import { navigate } from "svelte-navigator";
+import { tranlate } from "src/scripts/i18n.js";
 
 export async function checkAuth() {
   const auth = getSessionItem("auth");
@@ -14,7 +15,7 @@ export async function checkAuth() {
 
   if (typeof response.access_token === "undefined") {
     if (typeof response.message !== "undefined") {
-      toastr.error(response.message)
+      toastr.error(tranlate('error.' + response.key));
     }
     navigate("/" + route.login);
   }
