@@ -10,6 +10,7 @@ class AccessToken extends Model
   protected array $unique = ['token'];
   protected bool $soft_delete = false;
 
+  const TYPE = ['temporary', 'internal', 'external'];
 
   public static function find(int $id)
   {

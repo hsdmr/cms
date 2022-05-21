@@ -5,11 +5,6 @@ namespace Hasdemir\Base;
 class Codes
 {
 
-  public static function key($key)
-  {
-    return ['key' => $key];
-  }
-
   const NAMESPACE_MODEL = 'Hasdemir\\Model\\';
   const NAMESPACE_CONTROLLER = 'Hasdemir\\Controller\\';
   const NAMESPACE_MIDDLEWARE = 'Hasdemir\\Middleware\\';
@@ -31,4 +26,10 @@ class Codes
   const ERROR_ACCESS_TOKEN_NOT_SENT = 'accessTokenNotSent';
   const ERROR_ACCESS_TOKEN_NOT_FOUND = 'accessTokenNotFound';
   const ERROR_ACCESS_TOKEN_EXPIRED = 'accessTokenExpired';
+  const ERROR_DONT_HAVE_PERMISSION = 'dontHavePermission';
+  
+  public static function key($key)
+  {
+    return ['key' => $key];
+  }
 }

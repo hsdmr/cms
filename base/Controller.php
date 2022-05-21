@@ -3,6 +3,7 @@
 namespace Hasdemir\Base;
 
 use Hasdemir\Base\Response;
+use Hasdemir\Exception\NotAllowedException;
 
 class Controller
 {
@@ -19,5 +20,12 @@ class Controller
   {
     $response = new Response();
     $response->emit($http_code, $this->header, $this->body ?? '');
+  }
+
+  public function checkPermission($permission)
+  {
+    if (!in_array($permission, Auth::User()['permissions'])) {
+      throw new NotAllowedException("You do not have permission for this operation", Codes::key(Codes::ERROR_DONT_HAVE_PERMISSION));
+    }
   }
 }

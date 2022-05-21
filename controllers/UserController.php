@@ -210,9 +210,10 @@ class UserController extends Controller
   {
     Log::currentJob(Codes::JOB_LAYOUT_CONSTANTS);
     try {
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
       
       $this->body = [
-        'roles' => User::ROLES
+        'roles' => $roles['value'] ?? User::ROLES,
       ];
 
       $this->response(HTTP_OK);
@@ -224,14 +225,17 @@ class UserController extends Controller
 
   public function validate($params, $method = 'create'): void
   {
+    $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+    $roles = $roles['value'] ?? User::ROLES;
+
     if (!v::key('first_name', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'first_name' must be sent", Codes::key(Codes::ERROR_FIRST_NAME_MUST_NOT_BE_EMPTY));
     }
     if (!v::key('last_name', v::stringType())->validate($params)) {
       throw new UnexpectedValueException("'last_name' must be sent", Codes::key(Codes::ERROR_LAST_NAME_MUST_NOT_BE_EMPTY));
     }
-    if (!v::key('role', v::in(User::ROLES))->validate($params)) {
-      throw new UnexpectedValueException("'role' must be " . implode(', ', User::ROLES), Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
+    if (!v::key('role', v::in($roles))->validate($params)) {
+      throw new UnexpectedValueException("'role' must be " . implode(', ', $roles), Codes::key(Codes::ERROR_ROLE_NOT_ALLOWED));
     }
     if (!v::key('email', v::email())->validate($params)) {
       throw new UnexpectedValueException("'email' must be valid an email", Codes::key(Codes::ERROR_EMAIL_NOT_VALID));

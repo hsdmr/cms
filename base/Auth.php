@@ -56,6 +56,7 @@ class Auth
     if (!password_verify($_POST['password'], $user['password'])) {
       throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::ERROR_PASSWORD_IS_INCORRECT));
     }
+    
     Session::getInstance()->set('user', $user);
     return true;
   }
@@ -87,6 +88,7 @@ class Auth
     $user = $user->find($access_token->user_id);
     
     $options = Option::findOptions('user',$user->id);
+    $permissions = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $user->role);
 
     $return = [
       'access_token' => $access_token->token,
@@ -97,9 +99,9 @@ class Auth
       'role' => $user->role,
       'email' => $user->email,
       'options' => $options,
-      'permissions' => [],
+      'permissions' => $permissions['value'],
     ];
-    Session::getInstance()->set('user.session', $return);
+    Session::getInstance()->set('user', $return);
     return $return;
   }
 

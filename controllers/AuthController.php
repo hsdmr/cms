@@ -20,7 +20,7 @@ class AuthController extends Controller
 
       if (Auth::getInstance()->attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
         $access_token = new AccessToken();
-        $item = $access_token->where('user_id', Auth::id())->where('type', 'temp')->first();
+        $item = $access_token->where('user_id', Auth::id())->where('type', 'temporary')->first();
         $token = randomString(60);
         if ($item) {
           $access_token = $access_token->update([
@@ -32,7 +32,7 @@ class AuthController extends Controller
           $access_token = $access_token->create([
             'user_id' => Auth::id(),
             'token' => sha1($token),
-            'type' => 'temp', //int, ext, temp
+            'type' => 'temporary',
             'attributes' => null,
             'scope' => null,
             'expires' => strtotime(self::LIFE_TIME)
