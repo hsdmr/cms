@@ -27,6 +27,7 @@ class Codes
   const ERROR_ACCESS_TOKEN_NOT_FOUND = 'accessTokenNotFound';
   const ERROR_ACCESS_TOKEN_EXPIRED = 'accessTokenExpired';
   const ERROR_DONT_HAVE_PERMISSION = 'dontHavePermission';
+  const ERROR_UNKNOWN = 'unknownError';
   
   public static function key($key)
   {
