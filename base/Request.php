@@ -76,6 +76,6 @@ class Request
 
   public function isValid(): bool
   {
-    return preg_match('@^([-a-z0-9%.=_#?&//]*)$@', $this->uri());
+    return preg_match('@^([-a-zA-Z0-9%.=_#?&//]*)$@', $this->uri());
   }
 }
