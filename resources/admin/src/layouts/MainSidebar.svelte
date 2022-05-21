@@ -20,35 +20,40 @@
       title: $__("any.dashboard"),
       to: "/" + route.admin,
       icon: "fas fa-th",
+      permission: "",
       subMenu: [],
     },
     {
       title: $__("any.users"),
       to: "/" + route.admin + "/" + route.users,
       icon: "fas fa-users",
+      permission: "userSearch",
       subMenu: [],
     },
     {
       title: $__("any.roles"),
       to: "/" + route.admin + "/" + route.roles,
       icon: "fa-solid fa-user-group",
+      permission: "roleSearch",
       subMenu: [],
     },
     {
       title: $__("any.options"),
-      to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
+      to: "#",
       icon: "fa-solid fa-gears",
+      permission: "",
       subMenu: [
         {
           title: $__("any.layouts"),
           to: "/" + route.admin + "/" + route.options + "/" + route.layouts,
           icon: "fas fa-table-columns",
+          permission: "layoutSearch",
           subMenu: [],
-        }
+        },
       ],
     },
   ];
-  
+
   let bodyClass =
     "sidebar-mini " +
     (auth.options.sidebarCollapsed ? "sidebar-collapse" : "") +
@@ -116,9 +121,8 @@
         class="nav nav-pills nav-sidebar flex-column {auth.options
           .sidebarNavFlat
           ? 'nav-flat'
-          : ''} {auth.options.sidebarNavLegacy
-          ? 'nav-legacy'
-          : ''} {auth.options.sidebarNavCompact
+          : ''} {auth.options.sidebarNavLegacy ? 'nav-legacy' : ''} {auth
+          .options.sidebarNavCompact
           ? 'nav-compact'
           : ''} {auth.options.sidebarNavChildIndent
           ? 'nav-child-indent'

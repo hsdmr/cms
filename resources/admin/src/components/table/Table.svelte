@@ -38,8 +38,6 @@
   let promise;
 
   async function getData() {
-    await checkAuth();
-
     const res = await search(
       apiUrl +
         `?search=${searchData}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`

@@ -1,6 +1,6 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
-  import { Route, Router } from "svelte-navigator";
+  import { Route, Router, navigate } from "svelte-navigator";
   import Login from "src/pages/auth/Login.svelte";
   import Register from "src/pages/auth/Register.svelte";
   import Password from "src/pages/auth/Password.svelte";
@@ -21,7 +21,13 @@
   import { checkAuth } from "src/scripts/auth.js";
   import { getSessionItem } from "src/scripts/session.js";
 
-  const auth = getSessionItem("auth");
+  let auth = getSessionItem("auth");
+
+  const authenticated = () => {
+    auth = getSessionItem("auth");
+    window.location.replace(route.admin);
+    //navigate(route.admin);
+  };
 
   if (!auth) {
     checkAuth();
@@ -31,7 +37,7 @@
 <Router>
   <div class="sidebar-mini">
     <Route path={route.login} primary={false}>
-      <Login />
+      <Login on:authenticated={authenticated} />
     </Route>
     <Route path={route.register} primary={false}>
       <Register />
@@ -56,33 +62,49 @@
             </Route>
             <Route path="{route.users}/*">
               <Route path="/">
-                <Users />
+                {#if auth.permissions.includes("userSearch")}
+                  <Users />
+                {/if}
               </Route>
               <Route path="{route.trash}/">
-                <UsersTrash />
+                {#if auth.permissions.includes("userSearch")}
+                  <UsersTrash />
+                {/if}
               </Route>
               <Route path=":id" let:params>
-                <UserSingle id={params.id} />
+                {#if (auth.permissions.includes("userCreate") && params.id == "new") || (auth.permissions.includes("userRead") && params.id != "new")}
+                  <UserSingle id={params.id} />
+                {/if}
               </Route>
             </Route>
             <Route path="{route.roles}/*">
               <Route path="/">
-                <Roles />
+                {#if auth.permissions.includes("roleSearch")}
+                  <Roles />
+                {/if}
               </Route>
               <Route path=":id" let:params>
-                <RoleSingle id={params.id} />
+                {#if (auth.permissions.includes("roleCreate") && params.id == "new") || (auth.permissions.includes("roleRead") && params.id != "new")}
+                  <RoleSingle id={params.id} />
+                {/if}
               </Route>
             </Route>
             <Route path="{route.options}/*">
               <Route path="{route.layouts}/*">
                 <Route path="/">
-                  <Layouts />
+                  {#if auth.permissions.includes("layoutSearch")}
+                    <Layouts />
+                  {/if}
                 </Route>
                 <Route path="{route.trash}/">
-                  <LayoutsTrash />
+                  {#if auth.permissions.includes("layoutSearch")}
+                    <LayoutsTrash />
+                  {/if}
                 </Route>
                 <Route path=":id" let:params>
-                  <LayoutsSingle id={params.id} />
+                  {#if (auth.permissions.includes("layoutCreate") && params.id == "new") || (auth.permissions.includes("layoutRead") && params.id != "new")}
+                    <LayoutsSingle id={params.id} />
+                  {/if}
                 </Route>
               </Route>
             </Route>

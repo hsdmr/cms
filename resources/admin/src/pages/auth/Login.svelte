@@ -1,9 +1,12 @@
 <script>
-  import { Link, navigate } from "svelte-navigator";
+  import { Link } from "svelte-navigator";
   import { __ } from "src/scripts/i18n.js";
   import { getUserDetails } from "src/scripts/auth.js";
   import Lang from "src/components/Lang.svelte";
   import { route } from "src/scripts/links.js";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   let active = false;
   let type = "password";
@@ -25,13 +28,12 @@
   async function login() {
     const response = await getUserDetails(user, password);
 
-    console.log(response);
     if (typeof response.access_token !== "undefined") {
       if (errorMessage) {
         errorMessage = "";
         errorKey = "";
       };
-      navigate(route.admin);
+      dispatch('authenticated');
     }
 
     if (typeof response.message !== "undefined") {

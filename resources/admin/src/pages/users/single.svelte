@@ -253,7 +253,7 @@
             <label class="col-form-label" for="role">{$__("any.role")}</label>
             <select class="form-control" id="role" bind:value={role}>
               {#each roles as item}
-                <option value={item}>{$__('any.' + item)}</option>
+                <option value={item}>{item}</option>
               {/each}
             </select>
           </div>
