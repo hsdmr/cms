@@ -151,6 +151,7 @@ export default {
     restoredSuccessfully: "Başarılı Şekilde Geri Alındı",
   },
   error: {
+    unknownError: "Bilinmeyen Bir Hata Oluştu!",
     dontHavePermission: "Bu işlem için izniniz yok!",
     emailIsWrong: "Email Hatalı!",
     usernameIsWrong: "Kullanıcı Adı Hatalı!",

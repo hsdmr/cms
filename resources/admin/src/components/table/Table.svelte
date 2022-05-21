@@ -1,6 +1,5 @@
 <script>
   import { __ } from "src/scripts/i18n.js";
-  import { checkAuth } from "src/scripts/auth.js";
   import Limit from "src/components/table/Limit.svelte";
   import Pagination from "src/components/table/Pagination.svelte";
   import Search from "src/components/table/Search.svelte";
@@ -21,13 +20,13 @@
   export let trashButton = true;
   let color;
 
-  $: searchData = "";
-  $: total = 0;
-  $: limit = 10;
-  $: page = 1;
-  $: order = "id";
-  $: by = "asc";
-  $: trash = currentPage == "index" ? false : true;
+  let searchData = "";
+  let total = 0;
+  let limit = 10;
+  let page = 1;
+  let order = "id";
+  let by = "asc";
+  let trash = currentPage == "index" ? false : true;
 
   if (currentPage == "index") {
     color = "info";
@@ -128,14 +127,14 @@
             </span>
           </div>
         </div>
-      {:then datas}
+      {:then rows}
         <Tbody
           {routeUrl}
           {apiUrl}
           {keys}
           {trash}
           {trashButton}
-          rows={datas}
+          {rows}
           on:delete={setPromise}
           on:restore={setPromise}
         />

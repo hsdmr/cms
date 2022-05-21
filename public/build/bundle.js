@@ -978,6 +978,7 @@ var app = (function () {
         restoredSuccessfully: "Restored Successfully",
       },
       error: {
+        unknownError: "An unknown error has occured!",
         dontHavePermission: "You do not have permission for this operation!",
         emailIsWrong: "Email Is Wrong!",
         usernameIsWrong: "Username Is Wrong!",
@@ -1178,6 +1179,7 @@ var app = (function () {
         restoredSuccessfully: "Başarılı Şekilde Geri Alındı",
       },
       error: {
+        unknownError: "Bilinmeyen Bir Hata Oluştu!",
         dontHavePermission: "Bu işlem için izniniz yok!",
         emailIsWrong: "Email Hatalı!",
         usernameIsWrong: "Kullanıcı Adı Hatalı!",
@@ -11542,14 +11544,14 @@ var app = (function () {
     const { console: console_1$1 } = globals;
     const file$a = "src\\components\\table\\Table.svelte";
 
-    // (89:8) {#if searchBar}
+    // (88:8) {#if searchBar}
     function create_if_block_2$2(ctx) {
     	let search_1;
     	let current;
 
     	search_1 = new Search({
     			props: {
-    				searchData: /*searchData*/ ctx[11],
+    				searchData: /*searchData*/ ctx[8],
     				color: /*color*/ ctx[7]
     			},
     			$$inline: true
@@ -11567,7 +11569,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const search_1_changes = {};
-    			if (dirty & /*searchData*/ 2048) search_1_changes.searchData = /*searchData*/ ctx[11];
+    			if (dirty & /*searchData*/ 256) search_1_changes.searchData = /*searchData*/ ctx[8];
     			if (dirty & /*color*/ 128) search_1_changes.color = /*color*/ ctx[7];
     			search_1.$set(search_1_changes);
     		},
@@ -11589,14 +11591,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(89:8) {#if searchBar}",
+    		source: "(88:8) {#if searchBar}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:8) {#if trashButton}
+    // (93:8) {#if trashButton}
     function create_if_block_1$2(ctx) {
     	let link;
     	let current;
@@ -11623,7 +11625,7 @@ var app = (function () {
     			const link_changes = {};
     			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route.trash;
 
-    			if (dirty & /*$$scope, $__*/ 33619968) {
+    			if (dirty & /*$$scope, $__*/ 33587200) {
     				link_changes.$$scope = { dirty, ctx };
     			}
 
@@ -11647,18 +11649,18 @@ var app = (function () {
     		block,
     		id: create_if_block_1$2.name,
     		type: "if",
-    		source: "(94:8) {#if trashButton}",
+    		source: "(93:8) {#if trashButton}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (95:10) <Link              to="/{routeUrl}/{route.trash}"              class="btn btn-warning btn-sm float-right ml-2"              >
+    // (94:10) <Link              to="/{routeUrl}/{route.trash}"              class="btn btn-warning btn-sm float-right ml-2"              >
     function create_default_slot_1$1(ctx) {
     	let i;
     	let t0;
-    	let t1_value = /*$__*/ ctx[16]("any.trash") + "";
+    	let t1_value = /*$__*/ ctx[15]("any.trash") + "";
     	let t1;
 
     	const block = {
@@ -11667,7 +11669,7 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			attr_dev(i, "class", "fa-solid fa-trash");
-    			add_location(i, file$a, 97, 13, 2544);
+    			add_location(i, file$a, 96, 13, 2499);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, i, anchor);
@@ -11675,7 +11677,7 @@ var app = (function () {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$__*/ 65536 && t1_value !== (t1_value = /*$__*/ ctx[16]("any.trash") + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$__*/ 32768 && t1_value !== (t1_value = /*$__*/ ctx[15]("any.trash") + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(i);
@@ -11688,14 +11690,14 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(95:10) <Link              to=\\\"/{routeUrl}/{route.trash}\\\"              class=\\\"btn btn-warning btn-sm float-right ml-2\\\"              >",
+    		source: "(94:10) <Link              to=\\\"/{routeUrl}/{route.trash}\\\"              class=\\\"btn btn-warning btn-sm float-right ml-2\\\"              >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (102:8) {#if addNewButton}
+    // (101:8) {#if addNewButton}
     function create_if_block$4(ctx) {
     	let link;
     	let current;
@@ -11722,7 +11724,7 @@ var app = (function () {
     			const link_changes = {};
     			if (dirty & /*routeUrl*/ 8) link_changes.to = "/" + /*routeUrl*/ ctx[3] + "/" + route.new;
 
-    			if (dirty & /*$$scope, $__*/ 33619968) {
+    			if (dirty & /*$$scope, $__*/ 33587200) {
     				link_changes.$$scope = { dirty, ctx };
     			}
 
@@ -11746,18 +11748,18 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(102:8) {#if addNewButton}",
+    		source: "(101:8) {#if addNewButton}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:10) <Link              to="/{routeUrl}/{route.new}"              class="btn btn-success btn-sm float-right"              >
+    // (102:10) <Link              to="/{routeUrl}/{route.new}"              class="btn btn-success btn-sm float-right"              >
     function create_default_slot$1(ctx) {
     	let i;
     	let t0;
-    	let t1_value = /*$__*/ ctx[16]("any.addNew") + "";
+    	let t1_value = /*$__*/ ctx[15]("any.addNew") + "";
     	let t1;
 
     	const block = {
@@ -11766,7 +11768,7 @@ var app = (function () {
     			t0 = space();
     			t1 = text(t1_value);
     			attr_dev(i, "class", "fa-solid fa-plus");
-    			add_location(i, file$a, 105, 13, 2799);
+    			add_location(i, file$a, 104, 13, 2754);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, i, anchor);
@@ -11774,7 +11776,7 @@ var app = (function () {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$__*/ 65536 && t1_value !== (t1_value = /*$__*/ ctx[16]("any.addNew") + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$__*/ 32768 && t1_value !== (t1_value = /*$__*/ ctx[15]("any.addNew") + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(i);
@@ -11787,7 +11789,7 @@ var app = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(103:10) <Link              to=\\\"/{routeUrl}/{route.new}\\\"              class=\\\"btn btn-success btn-sm float-right\\\"              >",
+    		source: "(102:10) <Link              to=\\\"/{routeUrl}/{route.new}\\\"              class=\\\"btn btn-success btn-sm float-right\\\"              >",
     		ctx
     	});
 
@@ -11816,7 +11818,7 @@ var app = (function () {
     	return block;
     }
 
-    // (131:6) {:then datas}
+    // (130:6) {:then rows}
     function create_then_block(ctx) {
     	let tbody;
     	let current;
@@ -11826,9 +11828,9 @@ var app = (function () {
     				routeUrl: /*routeUrl*/ ctx[3],
     				apiUrl: /*apiUrl*/ ctx[2],
     				keys: /*keys*/ ctx[1],
-    				trash: /*trash*/ ctx[15],
+    				trash: /*trash*/ ctx[16],
     				trashButton: /*trashButton*/ ctx[6],
-    				rows: /*datas*/ ctx[24]
+    				rows: /*rows*/ ctx[24]
     			},
     			$$inline: true
     		});
@@ -11849,9 +11851,8 @@ var app = (function () {
     			if (dirty & /*routeUrl*/ 8) tbody_changes.routeUrl = /*routeUrl*/ ctx[3];
     			if (dirty & /*apiUrl*/ 4) tbody_changes.apiUrl = /*apiUrl*/ ctx[2];
     			if (dirty & /*keys*/ 2) tbody_changes.keys = /*keys*/ ctx[1];
-    			if (dirty & /*trash*/ 32768) tbody_changes.trash = /*trash*/ ctx[15];
     			if (dirty & /*trashButton*/ 64) tbody_changes.trashButton = /*trashButton*/ ctx[6];
-    			if (dirty & /*promise*/ 256) tbody_changes.rows = /*datas*/ ctx[24];
+    			if (dirty & /*promise*/ 16384) tbody_changes.rows = /*rows*/ ctx[24];
     			tbody.$set(tbody_changes);
     		},
     		i: function intro(local) {
@@ -11872,14 +11873,14 @@ var app = (function () {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(131:6) {:then datas}",
+    		source: "(130:6) {:then rows}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (118:22)           <div class="loading">            <div class="absolute">              <span>                <Clock                  size="100"                  color="var(--{color}
+    // (117:22)           <div class="loading">            <div class="absolute">              <span>                <Clock                  size="100"                  color="var(--{color}
     function create_pending_block(ctx) {
     	let div1;
     	let div0;
@@ -11904,11 +11905,11 @@ var app = (function () {
     			span = element("span");
     			create_component(clock.$$.fragment);
     			attr_dev(span, "class", "svelte-tl6niv");
-    			add_location(span, file$a, 120, 12, 3273);
+    			add_location(span, file$a, 119, 12, 3228);
     			attr_dev(div0, "class", "absolute svelte-tl6niv");
-    			add_location(div0, file$a, 119, 10, 3237);
+    			add_location(div0, file$a, 118, 10, 3192);
     			attr_dev(div1, "class", "loading svelte-tl6niv");
-    			add_location(div1, file$a, 118, 8, 3204);
+    			add_location(div1, file$a, 117, 8, 3159);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -11941,7 +11942,7 @@ var app = (function () {
     		block,
     		id: create_pending_block.name,
     		type: "pending",
-    		source: "(118:22)           <div class=\\\"loading\\\">            <div class=\\\"absolute\\\">              <span>                <Clock                  size=\\\"100\\\"                  color=\\\"var(--{color}",
+    		source: "(117:22)           <div class=\\\"loading\\\">            <div class=\\\"absolute\\\">              <span>                <Clock                  size=\\\"100\\\"                  color=\\\"var(--{color}",
     		ctx
     	});
 
@@ -11977,8 +11978,8 @@ var app = (function () {
     			props: {
     				keys: /*keys*/ ctx[1],
     				titles: /*titles*/ ctx[0],
-    				order: /*order*/ ctx[13],
-    				by: /*by*/ ctx[12]
+    				order: /*order*/ ctx[12],
+    				by: /*by*/ ctx[13]
     			},
     			$$inline: true
     		});
@@ -11997,7 +11998,7 @@ var app = (function () {
     		blocks: [,,,]
     	};
 
-    	handle_promise(promise_1 = /*promise*/ ctx[8], info);
+    	handle_promise(promise_1 = /*promise*/ ctx[14], info);
 
     	limit_1 = new Limit({
     			props: { limit: /*limit*/ ctx[10] },
@@ -12008,8 +12009,8 @@ var app = (function () {
 
     	pagination = new Pagination({
     			props: {
-    				page: /*page*/ ctx[9],
-    				total: /*total*/ ctx[14],
+    				page: /*page*/ ctx[11],
+    				total: /*total*/ ctx[9],
     				limit: /*limit*/ ctx[10],
     				color: /*color*/ ctx[7]
     			},
@@ -12042,21 +12043,21 @@ var app = (function () {
     			t5 = space();
     			create_component(pagination.$$.fragment);
     			attr_dev(div0, "class", "col-sm-3");
-    			add_location(div0, file$a, 87, 6, 2205);
+    			add_location(div0, file$a, 86, 6, 2160);
     			attr_dev(div1, "class", "col-sm-9");
-    			add_location(div1, file$a, 92, 6, 2358);
+    			add_location(div1, file$a, 91, 6, 2313);
     			attr_dev(div2, "class", "row");
-    			add_location(div2, file$a, 86, 4, 2180);
+    			add_location(div2, file$a, 85, 4, 2135);
     			attr_dev(div3, "class", "card-header");
-    			add_location(div3, file$a, 85, 2, 2149);
+    			add_location(div3, file$a, 84, 2, 2104);
     			attr_dev(table, "class", "table table-sm table-hover table-striped");
-    			add_location(table, file$a, 115, 4, 3048);
+    			add_location(table, file$a, 114, 4, 3003);
     			attr_dev(div4, "class", "card-body p-0");
-    			add_location(div4, file$a, 113, 2, 2962);
+    			add_location(div4, file$a, 112, 2, 2917);
     			attr_dev(div5, "class", "card-footer clearfix svelte-tl6niv");
-    			add_location(div5, file$a, 144, 2, 3791);
+    			add_location(div5, file$a, 143, 2, 3739);
     			attr_dev(div6, "class", div6_class_value = "card card-outline card-" + /*color*/ ctx[7] + " svelte-tl6niv");
-    			add_location(div6, file$a, 84, 0, 2101);
+    			add_location(div6, file$a, 83, 0, 2056);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -12162,12 +12163,12 @@ var app = (function () {
     			const thead_changes = {};
     			if (dirty & /*keys*/ 2) thead_changes.keys = /*keys*/ ctx[1];
     			if (dirty & /*titles*/ 1) thead_changes.titles = /*titles*/ ctx[0];
-    			if (dirty & /*order*/ 8192) thead_changes.order = /*order*/ ctx[13];
-    			if (dirty & /*by*/ 4096) thead_changes.by = /*by*/ ctx[12];
+    			if (dirty & /*order*/ 4096) thead_changes.order = /*order*/ ctx[12];
+    			if (dirty & /*by*/ 8192) thead_changes.by = /*by*/ ctx[13];
     			thead.$set(thead_changes);
     			info.ctx = ctx;
 
-    			if (dirty & /*promise*/ 256 && promise_1 !== (promise_1 = /*promise*/ ctx[8]) && handle_promise(promise_1, info)) ; else {
+    			if (dirty & /*promise*/ 16384 && promise_1 !== (promise_1 = /*promise*/ ctx[14]) && handle_promise(promise_1, info)) ; else {
     				update_await_block_branch(info, ctx, dirty);
     			}
 
@@ -12175,8 +12176,8 @@ var app = (function () {
     			if (dirty & /*limit*/ 1024) limit_1_changes.limit = /*limit*/ ctx[10];
     			limit_1.$set(limit_1_changes);
     			const pagination_changes = {};
-    			if (dirty & /*page*/ 512) pagination_changes.page = /*page*/ ctx[9];
-    			if (dirty & /*total*/ 16384) pagination_changes.total = /*total*/ ctx[14];
+    			if (dirty & /*page*/ 2048) pagination_changes.page = /*page*/ ctx[11];
+    			if (dirty & /*total*/ 512) pagination_changes.total = /*total*/ ctx[9];
     			if (dirty & /*limit*/ 1024) pagination_changes.limit = /*limit*/ ctx[10];
     			if (dirty & /*color*/ 128) pagination_changes.color = /*color*/ ctx[7];
     			pagination.$set(pagination_changes);
@@ -12237,16 +12238,9 @@ var app = (function () {
     }
 
     function instance$a($$self, $$props, $$invalidate) {
-    	let searchData;
-    	let total;
-    	let limit;
-    	let page;
-    	let order;
-    	let by;
-    	let trash;
     	let $__;
     	validate_store(__, '__');
-    	component_subscribe($$self, __, $$value => $$invalidate(16, $__ = $$value));
+    	component_subscribe($$self, __, $$value => $$invalidate(15, $__ = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Table', slots, []);
     	let { titles } = $$props;
@@ -12258,6 +12252,13 @@ var app = (function () {
     	let { addNewButton = true } = $$props;
     	let { trashButton = true } = $$props;
     	let color;
+    	let searchData = "";
+    	let total = 0;
+    	let limit = 10;
+    	let page = 1;
+    	let order = "id";
+    	let by = "asc";
+    	let trash = currentPage == "index" ? false : true;
 
     	if (currentPage == "index") {
     		color = "info";
@@ -12269,7 +12270,7 @@ var app = (function () {
 
     	async function getData() {
     		const res = await search(apiUrl + `?search=${searchData}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`);
-    		$$invalidate(14, total = res.total);
+    		$$invalidate(9, total = res.total);
     		console.log(res.data, total);
     		return res.data;
     	}
@@ -12277,33 +12278,33 @@ var app = (function () {
     	promise = getData();
 
     	const setOrder = event => {
-    		$$invalidate(12, by = event.detail.by);
-    		$$invalidate(13, order = event.detail.order);
+    		$$invalidate(13, by = event.detail.by);
+    		$$invalidate(12, order = event.detail.order);
     		console.log(order);
     		console.log(by);
-    		$$invalidate(8, promise = getData());
+    		$$invalidate(14, promise = getData());
     	};
 
     	const setSearch = event => {
-    		$$invalidate(11, searchData = event.detail.searchData);
+    		$$invalidate(8, searchData = event.detail.searchData);
     		console.log(searchData);
-    		$$invalidate(8, promise = getData());
+    		$$invalidate(14, promise = getData());
     	};
 
     	const setLimit = event => {
     		$$invalidate(10, limit = event.detail.limit);
     		console.log(limit);
-    		$$invalidate(8, promise = getData());
+    		$$invalidate(14, promise = getData());
     	};
 
     	const setPage = event => {
-    		$$invalidate(9, page = event.detail.page);
+    		$$invalidate(11, page = event.detail.page);
     		console.log(page);
-    		$$invalidate(8, promise = getData());
+    		$$invalidate(14, promise = getData());
     	};
 
     	const setPromise = event => {
-    		$$invalidate(8, promise = getData());
+    		$$invalidate(14, promise = getData());
     	};
 
     	const writable_props = [
@@ -12334,7 +12335,6 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		__,
-    		checkAuth,
     		Limit,
     		Pagination,
     		Search,
@@ -12353,6 +12353,13 @@ var app = (function () {
     		addNewButton,
     		trashButton,
     		color,
+    		searchData,
+    		total,
+    		limit,
+    		page,
+    		order,
+    		by,
+    		trash,
     		promise,
     		getData,
     		setOrder,
@@ -12360,13 +12367,6 @@ var app = (function () {
     		setLimit,
     		setPage,
     		setPromise,
-    		page,
-    		limit,
-    		searchData,
-    		by,
-    		order,
-    		total,
-    		trash,
     		$__
     	});
 
@@ -12380,32 +12380,19 @@ var app = (function () {
     		if ('addNewButton' in $$props) $$invalidate(5, addNewButton = $$props.addNewButton);
     		if ('trashButton' in $$props) $$invalidate(6, trashButton = $$props.trashButton);
     		if ('color' in $$props) $$invalidate(7, color = $$props.color);
-    		if ('promise' in $$props) $$invalidate(8, promise = $$props.promise);
-    		if ('page' in $$props) $$invalidate(9, page = $$props.page);
+    		if ('searchData' in $$props) $$invalidate(8, searchData = $$props.searchData);
+    		if ('total' in $$props) $$invalidate(9, total = $$props.total);
     		if ('limit' in $$props) $$invalidate(10, limit = $$props.limit);
-    		if ('searchData' in $$props) $$invalidate(11, searchData = $$props.searchData);
-    		if ('by' in $$props) $$invalidate(12, by = $$props.by);
-    		if ('order' in $$props) $$invalidate(13, order = $$props.order);
-    		if ('total' in $$props) $$invalidate(14, total = $$props.total);
-    		if ('trash' in $$props) $$invalidate(15, trash = $$props.trash);
+    		if ('page' in $$props) $$invalidate(11, page = $$props.page);
+    		if ('order' in $$props) $$invalidate(12, order = $$props.order);
+    		if ('by' in $$props) $$invalidate(13, by = $$props.by);
+    		if ('trash' in $$props) $$invalidate(16, trash = $$props.trash);
+    		if ('promise' in $$props) $$invalidate(14, promise = $$props.promise);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
-
-    	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*currentPage*/ 4194304) {
-    			$$invalidate(15, trash = currentPage == "index" ? false : true);
-    		}
-    	};
-
-    	$$invalidate(11, searchData = "");
-    	$$invalidate(14, total = 0);
-    	$$invalidate(10, limit = 10);
-    	$$invalidate(9, page = 1);
-    	$$invalidate(13, order = "id");
-    	$$invalidate(12, by = "asc");
 
     	return [
     		titles,
@@ -12416,15 +12403,15 @@ var app = (function () {
     		addNewButton,
     		trashButton,
     		color,
-    		promise,
-    		page,
-    		limit,
     		searchData,
-    		by,
-    		order,
     		total,
-    		trash,
+    		limit,
+    		page,
+    		order,
+    		by,
+    		promise,
     		$__,
+    		trash,
     		setOrder,
     		setSearch,
     		setLimit,

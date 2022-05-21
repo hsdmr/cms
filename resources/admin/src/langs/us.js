@@ -151,6 +151,7 @@ export default {
     restoredSuccessfully: "Restored Successfully",
   },
   error: {
+    unknownError: "An unknown error has occured!",
     dontHavePermission: "You do not have permission for this operation!",
     emailIsWrong: "Email Is Wrong!",
     usernameIsWrong: "Username Is Wrong!",
