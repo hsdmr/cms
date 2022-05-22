@@ -5942,7 +5942,7 @@ var app = (function () {
           toastr.success(success);
         }
       } else {
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -5974,7 +5974,7 @@ var app = (function () {
           toastr.success(success);
         }
       } else {
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -6002,7 +6002,7 @@ var app = (function () {
           toastr.success(success);
         }
       } else {
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -6031,7 +6031,7 @@ var app = (function () {
           toastr.success(success);
         }
       } else {
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -6061,7 +6061,7 @@ var app = (function () {
         }
       } else {
         const response = await res.json();
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -6089,7 +6089,7 @@ var app = (function () {
         }
       } else {
         const response = await res.json();
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
         if (res.status === 401) {
           navigate$1("/" + route.login);
         }
@@ -6116,7 +6116,7 @@ var app = (function () {
           toastr.success(success);
         }
       } else {
-        toastr.error(tranlate('error.' + response.key));
+        toastr.error(tranlate('error.' + response.key, response.vars));
       }
 
       return response;

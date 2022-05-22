@@ -25,7 +25,7 @@ export const search = async (apiUrl, success = "") => {
       toastr.success(success);
     }
   } else {
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -57,7 +57,7 @@ export const create = async (apiUrl,  success = "", body) => {
       toastr.success(success);
     }
   } else {
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -85,7 +85,7 @@ export const read = async (apiUrl, id, success = "") => {
       toastr.success(success);
     }
   } else {
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -114,7 +114,7 @@ export const update = async (apiUrl, id,  success = "", body) => {
       toastr.success(success);
     }
   } else {
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -144,7 +144,7 @@ export const destroy = async (apiUrl, id, permanent, success = "") => {
     }
   } else {
     const response = await res.json();
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -172,7 +172,7 @@ export const restore = async (apiUrl, id,  success = "") => {
     }
   } else {
     const response = await res.json();
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
     if (res.status === 401) {
       navigate("/" + route.login);
     }
@@ -199,7 +199,7 @@ export const get = async (apiUrl, success = "") => {
       toastr.success(success);
     }
   } else {
-    toastr.error(tranlate('error.' + response.key));
+    toastr.error(tranlate('error.' + response.key, response.vars));
   }
 
   return response;
