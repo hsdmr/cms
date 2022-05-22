@@ -235,7 +235,7 @@ abstract class Model
       return $this;
     }
 
-    throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found");
+    throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found", Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => explode('\\', getModelFromTable($this->table))[2]]));
   }
 
   /**
@@ -636,10 +636,10 @@ abstract class Model
       $this->select = [];
       if ($this->where_key != '') {
         if ($result['count'] && $result[$this->primary_key] != $this->where_key) {
-          throw new StoragePdoException("'$key' has already been registered");
+          throw new StoragePdoException("'$key' has already been registered", Codes::key(Codes::ERROR_KEY_ALREADY_REGISTERED, ['key' => $key]));
         }
       } else if ($result['count']) {
-        throw new StoragePdoException("'$key' has already been registered");
+        throw new StoragePdoException("'$key' has already been registered", Codes::key(Codes::ERROR_KEY_ALREADY_REGISTERED, ['key' => $key]));
       }
     }
   }

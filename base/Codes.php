@@ -28,9 +28,18 @@ class Codes
   const ERROR_ACCESS_TOKEN_EXPIRED = 'accessTokenExpired';
   const ERROR_DONT_HAVE_PERMISSION = 'dontHavePermission';
   const ERROR_UNKNOWN = 'unknownError';
+  const ERROR_GENERIC_NOT_FOUND = 'genericNotFound';
+  const ERROR_USER_DELETED = 'userDeleted';
+  const ERROR_KEY_ALREADY_REGISTERED = 'keyAlreadyRegistered';
+  const ERROR_URL_NOT_VALID = 'urlNotValid';
+  const ERROR_CALLED_FUNCTION_NOT_IMPLEMENTED = 'calledFunctionNotImplemented';
+  const ERROR_CALLED_MIDDLE_FUNCTION_NOT_IMPLEMENTED = 'calledMiddleFunctionNotImplemented';
   
-  public static function key($key)
+  public static function key($key, $vars = [])
   {
-    return ['key' => $key];
+    return [
+      'key' => $key,
+      'vars' => $vars
+    ];
   }
 }

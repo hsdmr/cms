@@ -8,7 +8,7 @@
       "Hasdemir\\Helper\\": "base/helper/",
       "Hasdemir\\Model\\": "models/",
       "Hasdemir\\Rest\\": "apis/",
-      "Hasdemir\\Exception\\": "exceptions/",
+      "Hasdemir\\Exception\\": "base/exceptions/",
       "Hasdemir\\Controller\\": "controllers/",
       "Hasdemir\\Resource\\": "resources/",
       "Hasdemir\\Route\\": "routes/",

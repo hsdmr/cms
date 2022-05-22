@@ -51,7 +51,7 @@ class Auth
       }
     }
     if ($user['deleted_at'] != null) {
-      throw new AuthenticationException("This user deleted");
+      throw new AuthenticationException("This user deleted", Codes::key(Codes::ERROR_USER_DELETED));
     }
     if (!password_verify($_POST['password'], $user['password'])) {
       throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::ERROR_PASSWORD_IS_INCORRECT));

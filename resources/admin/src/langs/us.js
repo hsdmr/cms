@@ -151,6 +151,13 @@ export default {
     restoredSuccessfully: "Restored Successfully",
   },
   error: {
+    calledMiddleFunctionNotImplemented: "Called Middle Function Not Implemented!",
+    calledFunctionNotImplemented: "Called Function Not Implemented!",
+    urlNotValid: "Url Does Not Valid!",
+    keyAlreadyRegistered: "Key Already Registered!",
+    userDeleted: "This user deleted!",
+    genericNotFound: "{{generic}} Bulunamadı!",
+    urlNotFound: "URL Bulunamadı!",
     unknownError: "An unknown error has occured!",
     dontHavePermission: "You do not have permission for this operation!",
     emailIsWrong: "Email Is Wrong!",

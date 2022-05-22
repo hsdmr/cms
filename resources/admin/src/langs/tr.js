@@ -151,6 +151,13 @@ export default {
     restoredSuccessfully: "Başarılı Şekilde Geri Alındı",
   },
   error: {
+    calledMiddleFunctionNotImplemented: "Çağırılan Ara Fonksiyon Uygulanmadı!",
+    calledFunctionNotImplemented: "Çağırılan Fonksiyon Uygulanmadı!",
+    urlNotValid: "Url Uygun Yapıda Değil!",
+    keyAlreadyRegistered: "Key Daha Önce Kaydedilmiş!",
+    userDeleted: "Bu Kullanıcı Silinmiş!",
+    genericNotFound: "{{generic}} Not Found!",
+    urlNotFound: "URL Not Found!",
     unknownError: "Bilinmeyen Bir Hata Oluştu!",
     dontHavePermission: "Bu işlem için izniniz yok!",
     emailIsWrong: "Email Hatalı!",

@@ -2,6 +2,7 @@
 
 namespace Hasdemir\Base;
 
+use Hasdemir\Exception\ForbiddenException;
 use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\NotImplementException;
 use Hasdemir\Route\Api;
@@ -25,7 +26,7 @@ class Route
 
     foreach (explode('/', $uri) as $item) {
       if (str_contains($item, '{')) {
-        $patterns[$item] = '([0-9a-z-]+)';
+        $patterns[$item] = '([0-9A-Za-z-]+)';
         self::$args_keys[] = trim($item, '{}');
       }
     }
@@ -36,7 +37,7 @@ class Route
   {
     if (!$this->request->isValid()) {
       if ($this->isApi()) {
-        throw new DefaultException('Url does not valid', ['http_code' => 403]);
+        throw new ForbiddenException('Url does not valid', Codes::key(Codes::ERROR_URL_NOT_VALID));
       } else {
         self::redirect($_ENV['APP_URL'] . '/404');
       }
@@ -57,7 +58,7 @@ class Route
   {
     if (self::$hasRoute === false) {
       if ($is_api) {
-        throw new NotFoundException('Url does not exists');
+        throw new NotFoundException('Url does not exists', Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => 'Url']));
       } else {
         self::redirect($_ENV['APP_URL'] . '/404');
       }
@@ -96,7 +97,7 @@ class Route
               call_user_func_array([new $middleware, 'run'], [$this->request]);
             }
             if (!$GLOBALS[Codes::IS_MIDDLEWARE_CALLED] && $this->isApi()) {
-              throw new NotImplementException('Called middle function not implemented');
+              throw new NotImplementException('Called middle function not implemented', Codes::key(Codes::ERROR_CALLED_MIDDLE_FUNCTION_NOT_IMPLEMENTED));
             }
           }
 
@@ -104,7 +105,7 @@ class Route
             call_user_func_array([new $class, $function], [$this->request, $this->prepareArgs($matches)]);
           }
           if (!$GLOBALS[Codes::IS_ROUTE_CALLED] && $this->isApi()) {
-            throw new NotImplementException('Called function not implemented');
+            throw new NotImplementException('Called function not implemented', Codes::key(Codes::ERROR_CALLED_FUNCTION_NOT_IMPLEMENTED));
           }
           if (!$GLOBALS[Codes::IS_ROUTE_CALLED] && !$this->isApi()) {
             return view('404.php');

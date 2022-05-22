@@ -4,7 +4,7 @@ namespace Hasdemir\Exception;
 
 use Hasdemir\Base\DefaultException;
 
-class NotFoundException extends DefaultException
+class ForbiddenException extends DefaultException
 {
   public $http_code = 403;
 
