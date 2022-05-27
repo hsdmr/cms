@@ -2,6 +2,9 @@
 
 namespace Hasdemir\Base;
 
+/**
+ * Http code 500
+ */
 class DefaultException extends \Exception
 {
   public $http_code = 500;

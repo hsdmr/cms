@@ -4,6 +4,9 @@ namespace Hasdemir\Exception;
 
 use Hasdemir\Base\DefaultException;
 
+/**
+ * Http code 503
+ */
 class StoragePdoException extends DefaultException
 {
   public $http_code = 503;
