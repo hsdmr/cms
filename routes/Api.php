@@ -84,7 +84,7 @@ class Api
       ['GET', '/role', 'search'],
       ['POST', '/role', 'create'],
       ['GET', '/role/{role_id}', 'read'],
-      ['PUT', '/role/{role_id}', 'update'],
+      //['PUT', '/role/{role_id}', 'update'],
       ['DELETE', '/role/{role_id}', 'delete'],
     ];
 
