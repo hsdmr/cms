@@ -21,8 +21,9 @@ class Migration
         $statement = self::$pdo->prepare("SHOW tables");
         if ($statement->execute()) {
           $tables = $statement->fetchAll(\PDO::FETCH_ASSOC);
+          $key = "Tables_in_" . self::$config['DB_NAME'];
           foreach ($tables as $table) {
-            self::$pdo->exec("DROP TABLE `{$table['Tables_in_rest']}`");
+            self::$pdo->exec("DROP TABLE `{$table[$key]}`");
           }
           self::echoLog("Dropped all tables", '', 2);
         }
