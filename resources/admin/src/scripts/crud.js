@@ -195,6 +195,9 @@ export const get = async (apiUrl, success = "") => {
     }
   } else {
     toastr.error(tranlate('error.' + response.key, response.vars));
+    if (res.status === 401) {
+      navigate("/" + route.login);
+    }
   }
 
   return response;
