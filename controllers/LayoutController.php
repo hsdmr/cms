@@ -141,11 +141,11 @@ class LayoutController extends Controller
   {
     $this->currentJob(Codes::JOB_LAYOUT_DELETE);
     try {
-      if (Layout::find($args['layout_id'])->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!Layout::find($args['layout_id'])->delete()) {
+        throw new NotFoundException('Layout not found', Codes::key(Codes::ERROR_LAYOUT_NOT_FOUND));
       }
-
-      throw new NotFoundException('Layout not found', Codes::key(Codes::ERROR_LAYOUT_NOT_FOUND));
+      
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }

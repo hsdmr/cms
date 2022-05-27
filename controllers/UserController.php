@@ -155,9 +155,11 @@ class UserController extends Controller
         $token->delete();
       }
 
-      if ($user->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!$user->delete()) {
+        throw new NotFoundException('User not found', Codes::key(Codes::ERROR_USER_NOT_FOUND));
       }
+
+      $this->response(HTTP_NO_CONTENT);
     }
     finally {
       $this->endJob();
@@ -168,11 +170,8 @@ class UserController extends Controller
   {
     $this->currentJob(Codes::JOB_USER_RESTORE);
     try {
-      $user = User::find($args['user_id']);
-
-      if ($user->update(['deleted_at' => null])) {
-        $this->response(HTTP_NO_CONTENT);
-      }
+      User::find($args['user_id'])->update(['deleted_at' => null]);
+      $this->response(HTTP_NO_CONTENT);
     }
     finally {
       $this->endJob();
@@ -183,11 +182,12 @@ class UserController extends Controller
   {
     $this->currentJob(Codes::JOB_USER_PERMANENT_DELETE);
     try {
-      $user = User::find($args['user_id']);
-
-      if ($user->forceDelete()) {
-        $this->response(HTTP_NO_CONTENT);
+      
+      if (!User::find($args['user_id'])->forceDelete()) {
+        throw new NotFoundException('User not found', Codes::key(Codes::ERROR_USER_NOT_FOUND));
       }
+
+      $this->response(HTTP_NO_CONTENT);
     }
     finally {
       $this->endJob();

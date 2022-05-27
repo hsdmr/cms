@@ -128,11 +128,11 @@ class CategoryController extends Controller
   {
     $this->currentJob(Codes::JOB_CATEGORY_DELETE);
     try {
-      if (Category::find($args['category_id'])->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!Category::find($args['category_id'])->delete()) {
+        throw new NotFoundException('Category not found', Codes::key(Codes::ERROR_CATEGORY_NOT_FOUND));
       }
       
-      throw new NotFoundException('Category not found', Codes::key(Codes::ERROR_CATEGORY_NOT_FOUND));
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }

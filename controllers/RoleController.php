@@ -115,11 +115,11 @@ class RoleController extends Controller
         Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES, $value);
       }
 
-      if ($option->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!$option->delete()) {
+        throw new NotFoundException('Role not found!', Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => 'Role']));
       }
-
-      throw new NotFoundException('Role not found!', Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => 'Role']));
+      
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }

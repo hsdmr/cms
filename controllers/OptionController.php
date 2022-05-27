@@ -67,11 +67,11 @@ class OptionController extends Controller
   {
     $this->currentJob(Codes::JOB_OPTION_DELETE);
     try {
-      if (Option::find($args['option_id'])->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!Option::find($args['option_id'])->delete()) {
+        throw new NotFoundException('Options not found!', Codes::key(Codes::ERROR_OPTIONS_NOT_FOUND));
       }
       
-      throw new NotFoundException('Options not found!', Codes::key(Codes::ERROR_OPTIONS_NOT_FOUND));
+      $this->response(HTTP_NO_CONTENT);
     }
     finally {
       $this->endJob();

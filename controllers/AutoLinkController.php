@@ -101,13 +101,12 @@ class AutoLinkController extends Controller
   {
     $this->currentJob(Codes::JOB_AUTO_LINK_DELETE);
     try {
-      $link_id = $args['link_id'];
-
-      if (AutoLink::find($link_id)->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      
+      if (!AutoLink::find($args['link_id'])->delete()) {
+        throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND));
       }
-
-      throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND));
+      
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }

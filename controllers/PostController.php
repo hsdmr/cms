@@ -137,11 +137,11 @@ class PostController extends Controller
     $this->currentJob(Codes::JOB_POST_DELETE);
     try {
 
-      if (Post::find($args['post_id'])->delete()) {
-        $this->response(HTTP_NO_CONTENT);
+      if (!Post::find($args['post_id'])->delete()) {
+        throw new NotFoundException('Post not found!', Codes::key(Codes::ERROR_POST_NOT_FOUND));
       }
       
-      throw new NotFoundException('Post not found!', Codes::key(Codes::ERROR_POST_NOT_FOUND));
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }
