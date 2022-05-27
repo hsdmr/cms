@@ -335,7 +335,7 @@ $.Widget.prototype = {
 
 		this.options = $.widget.extend( {},
 			this.options,
-			this._getCreateOptions(),
+			this._getsaveOptions(),
 			options );
 
 		this._create();
@@ -348,7 +348,7 @@ $.Widget.prototype = {
 		this._init();
 	},
 
-	_getCreateOptions: function() {
+	_getsaveOptions: function() {
 		return {};
 	},
 
@@ -6626,7 +6626,7 @@ $.widget( "ui.checkboxradio", [ $.ui.formResetMixin, {
 		}
 	},
 
-	_getCreateOptions: function() {
+	_getsaveOptions: function() {
 		var disabled, labels;
 		var that = this;
 		var options = this._super() || {};
@@ -6893,11 +6893,11 @@ $.widget( "ui.button", {
 		showLabel: true
 	},
 
-	_getCreateOptions: function() {
+	_getsaveOptions: function() {
 		var disabled,
 
 			// This is to support cases like in jQuery Mobile where the base widget does have
-			// an implementation of _getCreateOptions
+			// an implementation of _getsaveOptions
 			options = this._super() || {};
 
 		this.isInput = this.element.is( "input" );
@@ -6920,9 +6920,9 @@ $.widget( "ui.button", {
 			this.options.showLabel = true;
 		}
 
-		// We have to check the option again here even though we did in _getCreateOptions,
+		// We have to check the option again here even though we did in _getsaveOptions,
 		// because null may have been passed on init which would override what was set in
-		// _getCreateOptions
+		// _getsaveOptions
 		if ( this.options.disabled == null ) {
 			this.options.disabled = this.element[ 0 ].disabled || false;
 		}
@@ -14699,7 +14699,7 @@ var widgetsSelectmenu = $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		) );
 	},
 
-	_getCreateOptions: function() {
+	_getsaveOptions: function() {
 		var options = this._super();
 
 		options.disabled = this.element.prop( "disabled" );
@@ -17160,7 +17160,7 @@ $.widget( "ui.spinner", {
 		} );
 	},
 
-	_getCreateOptions: function() {
+	_getsaveOptions: function() {
 		var options = this._super();
 		var element = this.element;
 

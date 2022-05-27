@@ -120,7 +120,7 @@
             <a
               href={"#"}
               on:click={() => {
-                del(row["id"], true);
+                del(row["id"]);
               }}
               title={$__("any.deletePermanently")}
               class="btn btn-danger btn-xs"

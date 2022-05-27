@@ -39,7 +39,7 @@ class Route
       if ($this->isApi()) {
         throw new ForbiddenException('Url does not valid', Codes::key(Codes::ERROR_URL_NOT_VALID));
       } else {
-        self::redirect($_ENV['APP_URL'] . '/404');
+        self::redirect($_ENV['APP_URL'] . '/403');
       }
     }
 

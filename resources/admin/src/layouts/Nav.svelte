@@ -7,7 +7,7 @@
 
   const auth = getSessionItem("auth");
   onMount(() => {
-    if ('languagePreference' in auth.options) {
+    if ("languagePreference" in auth.options) {
       $locale = auth.options.languagePreference;
     }
   });
@@ -32,8 +32,8 @@
 </script>
 
 <nav
-  class="main-header navbar navbar-expand {auth.options.navbarBg} {auth
-    .options.navbarNoBorder
+  class="main-header navbar navbar-expand {auth.options.navbarBg} {auth.options
+    .navbarNoBorder
     ? 'border-bottom-0'
     : ''}"
 >

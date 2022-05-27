@@ -16,8 +16,26 @@ class AutoLinkController extends Controller
   {
     $this->currentJob(Codes::JOB_AUTO_LINK_SEARCH);
     try {
-      $links = new AutoLink();
-      $this->body = $links->all();
+      $params = getSearchParamsWithDefaults($request->params());
+
+      $total = new AutoLink();
+      $this->header['Total-Row'] = $total->select('COUNT(*) as total')->first()['total'];
+
+      $auto_link = new AutoLink();
+      if ($params['search']) {
+        $auto_link->openPharanthesis()
+          ->where('word', 'LIKE', "%" . $params['search'] . "%")
+          ->orWhere('url', 'LIKE', "%" . $params['search'] . "%")
+          ->closePharanthesis();
+      }
+      if ($params['trash']) {
+        $auto_link->onlyDeleted();
+      }
+      $response = $auto_link->order($params['order'], $params['by'])
+        ->limit($params['limit'], $params['limit'] * ($params['page'] - 1))
+        ->get();
+
+      $this->body = $response;
       $this->response(HTTP_OK);
     } finally {
       $this->endJob();
@@ -28,13 +46,16 @@ class AutoLinkController extends Controller
   {
     $this->currentJob(Codes::JOB_AUTO_LINK_CREATE);
     try {
-      $_POST = Json::decode($request->body(), true);
+      $_POST = Json::decode($request->body());
+
       $this->validate($_POST);
+      
       $link = new AutoLink();
-      $this->body = $link->create([
+      $link->create([
         'word' => $_POST['word'],
         'uri' => $_POST['uri']
-      ])->toArray();
+      ])
+      ;
       $this->response(HTTP_CREATED);
     } finally {
       $this->endJob();
@@ -46,9 +67,7 @@ class AutoLinkController extends Controller
     $this->currentJob(Codes::JOB_AUTO_LINK_READ);
     try {
       try {
-        $link_id = $args['link_id'];
-
-        $this->body = AutoLink::find($link_id)->toArray();
+        $this->body = AutoLink::find($args['link_id'])->toArray();
         $this->response(HTTP_OK);
       } catch (\Throwable $th) {
         throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND), $th);
@@ -62,17 +81,17 @@ class AutoLinkController extends Controller
   {
     $this->currentJob(Codes::JOB_AUTO_LINK_UPDATE);
     try {
-      $_PUT = Json::decode($request->body(), true);
-      $link_id = $args['link_id'];
+      $_PUT = Json::decode($request->body());
 
       $this->validate($_PUT);
 
-      $link = AutoLink::find($link_id);
-      $this->body = (array) $link->update([
+      $link = AutoLink::find($args['link_id']);
+      $link->update([
         'word' => $_PUT['word'],
         'uri' => $_PUT['uri']
-      ])->toArray();
-      $this->response(HTTP_OK);
+      ]);
+
+      $this->response(HTTP_NO_CONTENT);
     } finally {
       $this->endJob();
     }
@@ -87,6 +106,8 @@ class AutoLinkController extends Controller
       if (AutoLink::find($link_id)->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
+
+      throw new NotFoundException('Auto link not found', Codes::key(Codes::ERROR_AUTO_LINK_NOT_FOUND));
     } finally {
       $this->endJob();
     }

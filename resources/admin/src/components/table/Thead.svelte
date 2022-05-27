@@ -22,18 +22,6 @@
   };
 </script>
 
-<style>
-  .sort {
-    cursor: pointer;
-    float: right;
-    padding: 0 0.25em;
-    color: #999;
-  }
-  th {
-    border: 1px solid #dfdfdf;
-  }
-</style>
-
 <thead>
   <tr>
     {#each titles as title, i}
@@ -64,3 +52,15 @@
     <th style="width: 100px" />
   </tr>
 </thead>
+
+<style>
+  .sort {
+    cursor: pointer;
+    float: right;
+    padding: 0 0.25em;
+    color: #999;
+  }
+  th {
+    border: 1px solid #dfdfdf;
+  }
+</style>

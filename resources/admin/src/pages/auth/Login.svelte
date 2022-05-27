@@ -32,8 +32,8 @@
       if (errorMessage) {
         errorMessage = "";
         errorKey = "";
-      };
-      dispatch('authenticated');
+      }
+      dispatch("authenticated");
     }
 
     if (typeof response.message !== "undefined") {
@@ -46,7 +46,9 @@
 <div class="login-page">
   <div class="login-box">
     <!-- /.login-logo -->
-    <div class="card card-outline {errorMessage ? 'card-danger' : 'card-success'}">
+    <div
+      class="card card-outline {errorMessage ? 'card-danger' : 'card-success'}"
+    >
       <div class="card-header text-center">
         <Lang />
         <a href="/" class="h1"><b>KM</b>PANEL</a>

@@ -28,6 +28,7 @@ class App
     define('HTTP_NO_CONTENT', 204);
     $GLOBALS[Codes::IS_ROUTE_CALLED] = false;
     $GLOBALS[Codes::IS_MIDDLEWARE_CALLED] = false;
+    $GLOBALS[Codes::SQL_QUERIES] = [];
     $this->config = System::getConfig();
     $this->request = new Request();
     $this->response = new Response();
@@ -52,9 +53,9 @@ class App
     } catch (DefaultException $e) {
       return $this->response->error($e->http_code, $this->header, $e->getMessage(), $e, $e->getPrevious());
     } catch (Throwable $th) {
-      return $this->response->error(500, $this->header, 'An unknown error has occured.', $th);
+      return $this->response->error(500, $this->header, 'An unknown error has occurred.', $th);
     } catch (Exception $e) {
-      return $this->response->error(500, $this->header, 'An unknown error has occured.', $e);
+      return $this->response->error(500, $this->header, 'An unknown error has occurred.', $e);
     }
   }
 }

@@ -25,9 +25,10 @@ class Controller
   public function currentJob($permission, $check = true)
   {
     Log::currentJob($permission);
-
-    if (!in_array($permission, Auth::User()['permissions']) && $check) {
-      throw new NotAllowedException("You do not have permission for this operation", Codes::key(Codes::ERROR_DONT_HAVE_PERMISSION));
+    if ($check) {
+      if (!in_array($permission, Auth::User()[Codes::PERMISSIONS])) {
+        throw new NotAllowedException("You do not have permission for this operation", Codes::key(Codes::ERROR_DONT_HAVE_PERMISSION));
+      }
     }
   }
 

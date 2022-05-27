@@ -17,7 +17,7 @@ class Session
   public static function getInstance()
   {
     if (!isset(self::$instance)) {
-        self::$instance = new Session();
+      self::$instance = new Session();
     }
     return self::$instance;
   }
@@ -44,7 +44,9 @@ class Session
 
   public function remove($key)
   {
-    unset($_SESSION[$key]);
+    if (isset($_SESSION[$key])) {
+      unset($_SESSION[$key]);
+    }
   }
 
   public function flush()

@@ -19,7 +19,7 @@ class RoleController extends Controller
     $this->currentJob(Codes::JOB_ROLE_SEARCH);
     try {
       $params = getSearchParamsWithDefaults($request->params());
-      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
       
       $this->header['Total-Row'] = count($roles['value']);
 
@@ -61,16 +61,15 @@ class RoleController extends Controller
     try {
       $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
-      $role = Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $_POST['role'], $_POST['permissions']);
-      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+      $role = Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $_POST['role'], $_POST[Codes::PERMISSIONS]);
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
       $value = $roles['value'];
 
       if (!in_array($role['key'], $value)) {
         $value[] = $role['key'];
-        Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles', $value);
+        Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES, $value);
       }
       
-      $this->body = $role;
       $this->response(HTTP_CREATED);
     } finally {
       $this->endJob();
@@ -104,20 +103,23 @@ class RoleController extends Controller
       $user = new User();
       $user = $user->where('role', $option->key)->first();
 
-      if ($user) {
+      if ($user['role']) {
         throw new NotAllowedException('Role can not deleted. Some user have this role', Codes::key(Codes::ERROR_ROLE_CAN_NOT_DELETED_SOME_USERS_HAS_IT));
       }
 
-      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
       $value = $roles['value'];
 
       if (in_array($option->key, $value)) {
         unset($value[$option->key]);
-        Option::createOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles', $value);
+        Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES, $value);
       }
 
-      $option->delete();
-      $this->response(HTTP_NO_CONTENT);
+      if ($option->delete()) {
+        $this->response(HTTP_NO_CONTENT);
+      }
+
+      throw new NotFoundException('Role not found!', Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => 'Role']));
     } finally {
       $this->endJob();
     }
@@ -125,11 +127,7 @@ class RoleController extends Controller
 
   public function validate($params)
   {
-    if (!v::key('role', v::notEmpty())->validate($params)) {
-      throw new UnexpectedValueException("'role' must be sent", Codes::key(Codes::ERROR_ROLE_MUST_BE_SENT));
-    }
-
-    if (!v::key('permissions', v::arrayType())->validate($params)) {
+    if (!v::key('role', v::notEmpty())->validate($params) || !v::key('permissions', v::arrayType())->validate($params)) {
       throw new UnexpectedValueException("'role' must be sent", Codes::key(Codes::ERROR_ROLE_MUST_BE_SENT));
     }
   }

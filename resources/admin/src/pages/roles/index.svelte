@@ -5,16 +5,10 @@
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-  $: titles = [
-    $__("any.role"),
-    $__("any.updatedAt"),
-  ];
+  $: titles = [$__("any.role"), $__("any.updatedAt")];
 
-  const keys = [
-    "role",
-    "updated_at",
-  ];
-  
+  const keys = ["role", "updated_at"];
+
   $: title = $__("any.roles");
   $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];
 </script>

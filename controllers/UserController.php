@@ -72,16 +72,10 @@ class UserController extends Controller
 
       if (v::key('options')->validate($_POST)) {
         foreach ($_POST['options'] as $key => $value) {
-          Option::createOption('user', $user['id'], $key, $value);
+          Option::saveOption('user', $user['id'], $key, $value);
         }
       }
 
-      $options = Option::findOptions('user', $user['id']);
-
-      $response = $user;
-      $response['options'] = $options;
-
-      $this->body = $response;
       $this->response(HTTP_CREATED);
     }
     finally {
@@ -132,21 +126,15 @@ class UserController extends Controller
         $update['password'] = password_hash($_PUT['password'], PASSWORD_BCRYPT);
       }
 
-      $user = $user->update($update)->toArray();
+      $user->update($update);
 
       if (v::key('options')->validate($_PUT)) {
         foreach ($_PUT['options'] as $key => $value) {
-          Option::createOption('user', $user['id'], $key, $value);
+          Option::saveOption('user', $user['id'], $key, $value);
         }
       }
 
-      $options = Option::findOptions('user', $user['id']);
-
-      $response = $user;
-      $response['options'] = $options;
-
-      $this->body = $response;
-      $this->response(HTTP_OK);
+      $this->response(HTTP_NO_CONTENT);
     }
     finally {
       $this->endJob();
@@ -208,9 +196,9 @@ class UserController extends Controller
 
   public function constants(Request $request, $args)
   {
-    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS, false);
     try {
-      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+      $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
       
       $this->body = [
         'roles' => $roles['value'] ?? User::ROLES,
@@ -225,7 +213,7 @@ class UserController extends Controller
 
   public function validate($params, $method = 'create'): void
   {
-    $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles');
+    $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
     $roles = $roles['value'] ?? User::ROLES;
 
     if (!v::key('first_name', v::stringType())->validate($params)) {

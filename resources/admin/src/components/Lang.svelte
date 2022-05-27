@@ -4,8 +4,9 @@
     $locale = lang;
   }
 </script>
+
 <span class="dropdown float-right">
-  <a data-toggle="dropdown" href={'#'} aria-expanded="false">
+  <a data-toggle="dropdown" href={"#"} aria-expanded="false">
     <i class="flag-icon flag-icon-{$locale}" />
   </a>
   <div
@@ -13,7 +14,7 @@
     style="left: inherit; right: 0px;"
   >
     {#each languages as lang}
-      <a href={'#'} on:click={() => setLocale(lang)} class="dropdown-item">
+      <a href={"#"} on:click={() => setLocale(lang)} class="dropdown-item">
         <i class="flag-icon flag-icon-{lang} mr-2" />
         {lang.toUpperCase()}
       </a>

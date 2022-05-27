@@ -39,7 +39,7 @@ class OptionController extends Controller
         }
       }
 
-      $this->body = $response;
+      $this->body = $response->toArray();
       $this->response(HTTP_OK);
     }
     finally {
@@ -54,9 +54,8 @@ class OptionController extends Controller
       $_POST = Json::decode($request->body(), true);
       $this->validate($_POST);
 
-      $response = Option::createOption($_POST['type'], $_POST['type_id'], $_POST['key'], $_POST['value']);
+      Option::saveOption($_POST['type'], $_POST['type_id'], $_POST['key'], $_POST['value']);
 
-      $this->body = $response;
       $this->response(HTTP_CREATED);
     }
     finally {
@@ -68,11 +67,11 @@ class OptionController extends Controller
   {
     $this->currentJob(Codes::JOB_OPTION_DELETE);
     try {
-      $option_id = $args['option_id'];
-
-      if (Option::find($option_id)->delete()) {
+      if (Option::find($args['option_id'])->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
+      
+      throw new NotFoundException('Options not found!', Codes::key(Codes::ERROR_OPTIONS_NOT_FOUND));
     }
     finally {
       $this->endJob();

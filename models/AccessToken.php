@@ -8,7 +8,6 @@ class AccessToken extends Model
 {
   protected string $table = 'access_token';
   protected array $unique = ['token'];
-  protected bool $soft_delete = false;
 
   const TYPE = ['temporary', 'internal', 'external'];
 
@@ -17,10 +16,15 @@ class AccessToken extends Model
     $item = new AccessToken();
     return $item->findByPrimaryKey($id);
   }
-  
+
   public static function findByToken(string $token)
   {
     $item = new AccessToken();
     return $item->where('token', $token)->first();
+  }
+
+  public function user()
+  {
+    return $this->belongsTo('user');
   }
 }

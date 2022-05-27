@@ -23,6 +23,7 @@ class Web
     $routes['Home'][Codes::ROUTES] = [
       ['GET', '/', 'home'],
       ['GET', '/404', 'not_found'],
+      ['GET', '/403', 'forbidden'],
     ];
 
     $routes['Admin'][Codes::MIDDLEWARE] = [];

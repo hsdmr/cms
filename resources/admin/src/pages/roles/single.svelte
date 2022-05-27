@@ -42,10 +42,14 @@
     loading = true;
 
     if (id == route.new) {
-      const res = await create(api.role, $__('notify.createdSuccessfully', {title: role}), {
-        role,
-        permissions,
-      });
+      const res = await create(
+        api.role,
+        $__("notify.createdSuccessfully", { title: role }),
+        {
+          role,
+          permissions,
+        }
+      );
       loading = false;
 
       if (typeof res.id !== "undefined") {
@@ -56,10 +60,14 @@
         error = res.message;
       }
     } else {
-      const res = await create(api.role, $__('notify.updatedSuccessfully', {title: role}), {
-        role,
-        permissions,
-      });
+      const res = await create(
+        api.role,
+        $__("notify.updatedSuccessfully", { title: role }),
+        {
+          role,
+          permissions,
+        }
+      );
       loading = false;
 
       if (typeof res.message !== "undefined") {
@@ -144,7 +152,12 @@
         <div class="card-body text-center">
           <div style="display: inline;float: right;">
             {#if loading}
-              <Circle size="38" color="var(--success)" unit="px" duration="2s" />
+              <Circle
+                size="38"
+                color="var(--success)"
+                unit="px"
+                duration="2s"
+              />
             {:else}
               <button
                 type="button"

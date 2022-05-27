@@ -3,7 +3,6 @@
 namespace Hasdemir\Middleware;
 
 use Hasdemir\Base\Middleware;
-use Hasdemir\Base\Request;
 
 class TrailingSlashes extends Middleware
 {

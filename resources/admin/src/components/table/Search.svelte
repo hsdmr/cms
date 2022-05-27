@@ -3,7 +3,7 @@
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
-  
+
   export let searchData;
   export let color;
 

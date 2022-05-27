@@ -19,6 +19,11 @@ class Api
   {
     global $routes;
 
+    $routes['Deneme'][Codes::MIDDLEWARE] = [];
+    $routes['Deneme'][Codes::ROUTES] = [
+      ['POST', '/deneme', 'index'],
+    ];
+
     $routes['Auth'][Codes::MIDDLEWARE] = [];
     $routes['Auth'][Codes::ROUTES] = [
       ['POST', '/login', 'login'],
@@ -47,7 +52,9 @@ class Api
       ['POST', '/post', 'create'],
       ['GET', '/post/{post_id}', 'read'],
       ['PUT', '/post/{post_id}', 'update'],
+      ['PATCH', '/post/{post_id}', 'restore'],
       ['DELETE', '/post/{post_id}', 'delete'],
+      ['DELETE', '/post/{post_id}/permanent', 'permanentDelete'],
     ];
 
     $routes['Category'][Codes::MIDDLEWARE] = ['Auth'];
@@ -69,6 +76,7 @@ class Api
       ['PUT', '/layout/{layout_id}', 'update'],
       ['PATCH', '/layout/{layout_id}', 'restore'],
       ['DELETE', '/layout/{layout_id}', 'delete'],
+      ['DELETE', '/layout/{layout_id}/permanent', 'permanentDelete'],
     ];
 
     $routes['Role'][Codes::MIDDLEWARE] = ['Auth'];
@@ -87,15 +95,6 @@ class Api
       ['GET', '/auto-link/{link_id}', 'read'],
       ['PUT', '/auto-link/{link_id}', 'update'],
       ['DELETE', '/auto-link/{link_id}', 'delete'],
-    ];
-
-    $routes['Slug'][Codes::MIDDLEWARE] = ['Auth'];
-    $routes['Slug'][Codes::ROUTES] = [
-      ['GET', '/slug', 'search'],
-      ['POST', '/slug', 'create'],
-      ['GET', '/slug/{slug_id}', 'read'],
-      ['PUT', '/slug/{slug_id}', 'update'],
-      ['DELETE', '/slug/{slug_id}', 'delete'],
     ];
 
     $routes['Option'][Codes::MIDDLEWARE] = ['Auth'];

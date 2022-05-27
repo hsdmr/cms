@@ -19,6 +19,7 @@ class Permissions200
       'userRead',
       'userUpdate',
       'userDelete',
+      'userRestore',
       'roleSearch',
       'roleCreate',
       'roleRead',
@@ -34,6 +35,9 @@ class Permissions200
       'layoutRead',
       'layoutUpdate',
       'layoutDelete',
+      'optionSearch',
+      'optionCreate',
+      'optionDelete',
     ];
     $user = [
       'postSearch',
@@ -43,10 +47,9 @@ class Permissions200
       'postDelete',
     ];
     try {
-      Option::CreateOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'permissions', $permissions);
-      Option::CreateOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'roles', ['Admin', '']);
-      Option::CreateOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'admin', $permissions);
-      Option::CreateOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'user', $user);
+      Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::PERMISSIONS, $permissions);
+      Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES, ['Admin', 'User']);
+      Option::saveOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, 'User', $user);
     } catch (\Throwable $th) {
       echo $th->getMessage();
     }

@@ -3,18 +3,10 @@
   import Breadcrump from "src/components/Breadcrump.svelte";
   import Table from "src/components/table/Table.svelte";
   import { route, api } from "src/scripts/links.js";
-  
-  $: titles = [
-    $__("any.title"),
-    $__("any.status"),
-    $__("any.language"),
-  ];
 
-  const keys = [
-    "title",
-    "status",
-    "language",
-  ];
+  $: titles = [$__("any.title"), $__("any.status"), $__("any.language")];
+
+  const keys = ["title", "status", "language"];
 
   $: title = $__("any.layouts");
   $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];

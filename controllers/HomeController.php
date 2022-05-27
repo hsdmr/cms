@@ -15,4 +15,9 @@ class HomeController extends Controller
   {
     return view('404.php');
   }
+  
+  public function forbidden($request, $args)
+  {
+    return view('403.php');
+  }
 }

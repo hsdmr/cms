@@ -54,15 +54,19 @@
     loading = true;
 
     if (id == route.new) {
-      const res = await create(api.layout, $__('notify.createdSuccessfully', {title: title}), {
-        title,
-        top,
-        content,
-        bottom,
-        which,
-        status,
-        language,
-      });
+      const res = await create(
+        api.layout,
+        $__("notify.createdSuccessfully", { title: title }),
+        {
+          title,
+          top,
+          content,
+          bottom,
+          which,
+          status,
+          language,
+        }
+      );
       loading = false;
 
       if (typeof res.id !== "undefined") {
@@ -73,15 +77,19 @@
         error = res.message;
       }
     } else {
-      const res = await update(api.layout, $__('notify.updatedSuccessfully', {title: title}), {
-        title,
-        top,
-        content,
-        bottom,
-        which,
-        status,
-        language,
-      });
+      const res = await update(
+        api.layout,
+        $__("notify.updatedSuccessfully", { title: title }),
+        {
+          title,
+          top,
+          content,
+          bottom,
+          which,
+          status,
+          language,
+        }
+      );
       loading = false;
 
       if (typeof res.message !== "undefined") {
@@ -93,7 +101,10 @@
   $: pageTitle = id != route.new ? title : $__("any.addNew");
   $: links = [
     { pageUrl: route.admin, pageTitle: $__("any.dashboard") },
-    { pageUrl: route.admin + "/" + route.options + "/" + route.layouts, pageTitle: $__("any.layouts") },
+    {
+      pageUrl: route.admin + "/" + route.options + "/" + route.layouts,
+      pageTitle: $__("any.layouts"),
+    },
   ];
 </script>
 

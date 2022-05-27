@@ -5,7 +5,6 @@
   import { api } from "src/scripts/links.js";
   import { route } from "src/scripts/links.js";
 
-
   $: titles = [
     $__("any.firstName"),
     $__("any.lastName"),
@@ -23,7 +22,7 @@
     "username",
     "nickname",
   ];
-  
+
   $: title = $__("any.users");
   $: links = [{ pageUrl: route.admin, pageTitle: $__("any.dashboard") }];
 </script>

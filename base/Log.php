@@ -5,7 +5,8 @@ namespace Hasdemir\Base;
 class Log
 {
   const LOG_DIR = ROOT . DS . 'logs';
-  private static $currentJob;
+  private static array $currentJob = [];
+  private static int $code = 0;
 
   private static function insert($log, $type, $date = true)
   {
@@ -30,20 +31,27 @@ class Log
 
   public static function endApp()
   {
+    self::sql();
     $log = '-------------------- App Ended At => ' . date('Y-m-d H:i:s') .  ' ----------------------' . PHP_EOL . '[seperator]' . PHP_EOL;
     self::insert($log, 'daily');
   }
 
   public static function currentJob($job)
   {
-    self::$currentJob = $job;
-    $log = '[' . date('Y-m-d H:i:s') . '] Start Job => \'' . self::$currentJob . '\'' . PHP_EOL;
+    $code = ++self::$code;
+    self::$currentJob[] = [
+      'job' => $job,
+      'code' => $code
+    ];
+    $log = '[' . date('Y-m-d H:i:s') . '] Start Job => \'' . ($job) . '\' [=== ' . ($code) . ' ===]' . PHP_EOL;
     self::insert($log, 'daily');
   }
 
-  public static function endJob($log = null)
+  public static function endJob($job = null)
   {
-    $log = '[' . date('Y-m-d H:i:s') . '] End Job => \'' . ($log ?? self::$currentJob) . '\'' . PHP_EOL;
+    $job = $job ?? self::$currentJob[array_key_last(self::$currentJob)];
+    unset(self::$currentJob[array_key_last(self::$currentJob)]);
+    $log = '[' . date('Y-m-d H:i:s') . '] End Job => \'' . ($job['job']) . '\' [=== ' . ($job['code']) . ' ===]' . PHP_EOL;
     self::insert($log, 'daily');
   }
 
@@ -68,14 +76,14 @@ class Log
     self::insert($log, 'error', false);
   }
 
-  private static function sql($table = null)
+  private static function sql()
   {
     $log = '[' . date('Y-m-d H:i:s') . '] SQL_Query => [' . PHP_EOL;
-    foreach ($GLOBALS[Codes::SQL_QUERIES][$table] as $item) {
+    foreach ($GLOBALS[Codes::SQL_QUERIES] as $item) {
       $log .= '                        Query => \'' . $item[Codes::QUERY] . '\'' . PHP_EOL;
       $log .= '                        Binds => [' . PHP_EOL;
       foreach ($item[Codes::BINDS] as $key => $value) {
-        $log .= '                        \'' . $key . '\' => \'' . $value . '\'' . PHP_EOL;
+        $log .= '                          \'' . $key . '\' => \'' . $value . '\'' . PHP_EOL;
       }
       $log .= '                        ]' . PHP_EOL;
     }

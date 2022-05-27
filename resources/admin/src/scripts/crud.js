@@ -1,5 +1,3 @@
-
-import { checkAuth } from "src/scripts/auth.js";
 import { getSessionItem } from "src/scripts/session.js";
 import { tranlate } from "src/scripts/i18n.js";
 import { navigate } from "svelte-navigator";
@@ -24,46 +22,17 @@ export const search = async (apiUrl, success = "") => {
     if (success != "") {
       toastr.success(success);
     }
-  } else {
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
+    return {
+      data: response,
+      total: total
+    };
   }
 
-  return {
-    data: response,
-    total: total
-  };
-};
-
-export const create = async (apiUrl,  success = "", body) => {
-  const auth = getSessionItem("auth");
-
-  const res = await fetch(apiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: auth.access_token,
-    },
-    body: JSON.stringify(body),
-  });
-
-  const response = await res.json();
-
-  if (res.ok) {
-    if (success != "") {
-      toastr.success(success);
-    }
-  } else {
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
   }
-
-  return response;
+  return false;
 };
 
 export const read = async (apiUrl, id, success = "") => {
@@ -77,24 +46,52 @@ export const read = async (apiUrl, id, success = "") => {
       Authorization: auth.access_token,
     },
   });
-  
+
   const response = await res.json();
 
   if (res.ok) {
     if (success != "") {
       toastr.success(success);
     }
-  } else {
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
+    return response;
   }
 
-  return response;
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
+  }
+  return false;
 };
 
-export const update = async (apiUrl, id,  success = "", body) => {
+export const create = async (apiUrl, success = "", body) => {
+  const auth = getSessionItem("auth");
+
+  const res = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: auth.access_token,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (res.ok) {
+    if (success != "") {
+      toastr.success(success);
+    }
+    return true;
+  }
+
+  const response = await res.json();
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
+  }
+  return false;
+};
+
+export const update = async (apiUrl, id, success = "", body) => {
   const auth = getSessionItem("auth");
 
   const res = await fetch(apiUrl + `/${id}`, {
@@ -107,20 +104,19 @@ export const update = async (apiUrl, id,  success = "", body) => {
     body: JSON.stringify(body),
   });
 
-  const response = await res.json();
-
   if (res.ok) {
     if (success != "") {
       toastr.success(success);
     }
-  } else {
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
+    return true;
   }
 
-  return response;
+  const response = await res.json();
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
+  }
+  return false
 };
 
 export const destroy = async (apiUrl, id, permanent, success = "") => {
@@ -135,24 +131,23 @@ export const destroy = async (apiUrl, id, permanent, success = "") => {
       Authorization: auth.access_token,
     },
   });
-  
-  
+
   if (res.ok) {
     if (success != "") {
       toastr.success(success);
       return true;
     }
-  } else {
-    const response = await res.json();
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
-    return false;
   }
+
+  const response = await res.json();
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
+  }
+  return false;
 };
 
-export const restore = async (apiUrl, id,  success = "") => {
+export const restore = async (apiUrl, id, success = "") => {
   const auth = getSessionItem("auth");
 
   const res = await fetch(apiUrl + `/${id}`, {
@@ -163,21 +158,21 @@ export const restore = async (apiUrl, id,  success = "") => {
       Authorization: auth.access_token,
     },
   });
-  
-  
+
+
   if (res.ok) {
     if (success != "") {
       toastr.success(success);
       return true;
     }
-  } else {
-    const response = await res.json();
-    toastr.error(tranlate('error.' + response.key, response.vars));
-    if (res.status === 401) {
-      navigate("/" + route.login);
-    }
-    return false;
   }
+
+  const response = await res.json();
+  toastr.error(tranlate('error.' + response.key, response.vars));
+  if (res.status === 401) {
+    navigate("/" + route.login);
+  }
+  return false;
 };
 
 export const get = async (apiUrl, success = "") => {
@@ -191,7 +186,7 @@ export const get = async (apiUrl, success = "") => {
       Authorization: auth.access_token,
     },
   });
-  
+
   const response = await res.json();
 
   if (res.ok) {

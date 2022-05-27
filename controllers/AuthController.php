@@ -5,6 +5,7 @@ namespace Hasdemir\Controller;
 use Hasdemir\Base\Auth;
 use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Controller;
+use Hasdemir\Exception\AuthenticationException;
 use Hasdemir\Helper\Json;
 use Hasdemir\Model\AccessToken;
 
@@ -20,16 +21,17 @@ class AuthController extends Controller
 
       if (Auth::getInstance()->attempt(['user' => $_POST['user'], 'password' => $_POST['password']])) {
         $access_token = new AccessToken();
-        $item = $access_token->where('user_id', Auth::id())->where('type', 'temporary')->first();
+        $access_token->where('user_id', Auth::id())->where('type', 'temporary')->first();
         $token = randomString(60);
-        if ($item) {
-          $access_token = $access_token->update([
+
+        if ($access_token['id']) {
+          $access_token->update([
+            'user_id' => Auth::id(),
             'token' => sha1($token),
             'expires' => strtotime(self::LIFE_TIME)
           ]);
-        }
-        else {
-          $access_token = $access_token->create([
+        } else {
+          $access_token->create([
             'user_id' => Auth::id(),
             'token' => sha1($token),
             'type' => 'temporary',
@@ -39,24 +41,22 @@ class AuthController extends Controller
           ]);
         }
       }
+
       $access_token->token = $token;
       $this->body = Auth::getInstance()->prepareResponse($access_token);
       $this->response(HTTP_CREATED);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
 
   public function check($request, $args)
   {
-    $this->currentJob(Codes::JOB_AUTH_CHECK, false);
-    try {
-      $this->body = Auth::getInstance()->check();
-      $this->response(HTTP_OK);
-    } finally {
-      $this->endJob();
+    if (!Auth::getInstance()->check()) {
+      throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_SENT));
     }
+    
+    $this->response(HTTP_NO_CONTENT);
   }
 
   public function logout($request, $args)

@@ -9,16 +9,28 @@ export async function checkAuth() {
 
   if (auth) {
     if (typeof auth.access_token !== "undefined") {
-      response = await checkUserDetails(auth.access_token);
+      const res = await fetch(api.check, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Authorization": auth.access_token
+        },
+      });
+
+      if (res.ok) {
+        return;
+      }
+
+      response = await res.json();
+      if (typeof response.message !== "undefined") {
+        deleteSessionItem('auth');
+        toastr.error(tranlate('error.' + response.key));
+      }
     }
   }
 
-  if (typeof response.access_token === "undefined") {
-    if (typeof response.message !== "undefined") {
-      toastr.error(tranlate('error.' + response.key));
-    }
-    navigate("/" + route.login);
-  }
+  navigate("/" + route.login);
 }
 
 export const registerUser = async (user, password) => {
@@ -58,31 +70,6 @@ export const getUserDetails = async (user, password) => {
     if (!response.ok) {
       console.error(`HTTP error: ${response.status}`);
       console.log(response);
-    }
-    return response.json();
-  }).then((user) => {
-    if (typeof user.message !== 'undefined') {
-      deleteSessionItem('auth');
-      return user;
-    }
-    if (typeof user.access_token !== 'undefined') {
-      deleteSessionItem('auth');
-      return setSessionItem('auth', user);
-    }
-  }).catch((err) => console.error(`Fetch problem: ${err.message}`));
-};
-
-export const checkUserDetails = async (access_token) => {
-  return fetch(api.check, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      "Authorization": access_token
-    },
-  }).then((response) => {
-    if (!response.ok) {
-      console.error(`HTTP error: ${response.status}`);
     }
     return response.json();
   }).then((user) => {

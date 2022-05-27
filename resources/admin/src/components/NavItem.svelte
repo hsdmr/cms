@@ -21,11 +21,10 @@
   export let icon = "";
   export let permission = "";
   export let subMenu = [];
-  console.log(permission);
 </script>
 
 {#if subMenu.length == 0}
-  {#if (auth.permissions.includes(permission) || permission == "")}
+  {#if auth.permissions.includes(permission) || permission == ""}
     <li class="nav-item" on:click={setUrl}>
       <Link
         {to}

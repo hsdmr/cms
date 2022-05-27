@@ -3,7 +3,7 @@
   import Breadcrump from "src/components/Breadcrump.svelte";
   import { onMount } from "svelte";
   import { checkAuth } from "src/scripts/auth.js";
-  
+
   $: title = $__("any.dashboard");
   $: links = [];
   onMount(checkAuth);
@@ -13,6 +13,6 @@
 <div class="container-fluid dashboard">
   {$__("any.dashboard")}
   <p>
-    {$__("any.dene",{var: 10})}
+    {$__("any.dene", { var: 10 })}
   </p>
 </div>

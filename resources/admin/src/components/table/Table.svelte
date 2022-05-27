@@ -42,10 +42,13 @@
         `?search=${searchData}&page=${page}&limit=${limit}&order=${order}&by=${by}&trash=${trash}`
     );
 
-    total = res.total;
-    console.log(res.data, total);
+    if (res) {
+      total = res.total;
+      console.log(res.data, total);
+      return res.data;
+    }
 
-    return res.data;
+    return [];
   }
 
   promise = getData();
@@ -53,26 +56,21 @@
   const setOrder = (event) => {
     by = event.detail.by;
     order = event.detail.order;
-    console.log(order);
-    console.log(by);
     promise = getData();
   };
 
   const setSearch = (event) => {
     searchData = event.detail.searchData;
-    console.log(searchData);
     promise = getData();
   };
 
   const setLimit = (event) => {
     limit = event.detail.limit;
-    console.log(limit);
     promise = getData();
   };
 
   const setPage = (event) => {
     page = event.detail.page;
-    console.log(page);
     promise = getData();
   };
 

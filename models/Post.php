@@ -12,6 +12,7 @@ class Post extends Model
   protected bool $soft_delete = true;
 
   const STATUS = ['published', 'draft'];
+  const TYPE = ['post', 'page', 'product', 'lesson'];
 
   public static function find(int $id)
   {
@@ -32,11 +33,11 @@ class Post extends Model
 
   public function user()
   {
-    return $this->belongTo('user');
+    return $this->belongsTo('user');
   }
 
   public function slug()
   {
-    return $this->belongTo('slug');
+    return $this->belongsTo('slug');
   }
 }

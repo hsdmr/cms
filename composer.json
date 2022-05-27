@@ -7,7 +7,7 @@
       "Hasdemir\\Base\\": "base/",
       "Hasdemir\\Helper\\": "base/helper/",
       "Hasdemir\\Model\\": "models/",
-      "Hasdemir\\Rest\\": "apis/",
+      "Hasdemir\\Test\\": "tests/",
       "Hasdemir\\Exception\\": "base/exceptions/",
       "Hasdemir\\Controller\\": "controllers/",
       "Hasdemir\\Resource\\": "resources/",
@@ -25,5 +25,8 @@
   "require": {
     "respect/validation": "^2.2",
     "vlucas/phpdotenv": "^5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
   }
 }

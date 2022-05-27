@@ -34,9 +34,8 @@
   };
 
   async function register() {
-
     if (password !== retypePassword) {
-      error = 'Passwords does not match';
+      error = "Passwords does not match";
       return;
     }
 

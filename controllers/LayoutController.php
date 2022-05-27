@@ -37,8 +37,7 @@ class LayoutController extends Controller
 
       $this->body = $response;
       $this->response(HTTP_OK);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -53,16 +52,21 @@ class LayoutController extends Controller
 
       if (v::key('status', v::equals('active'))->validate($_POST)) {
         $layout = new Layout();
-        $layout = $layout->where('which', $_POST['which'])->where('status', 'active')->first();
-        if ($layout) {
-          $layout->update([
-            'status' => 'passive'
-          ]);
+        $layouts = $layout->where('which', $_POST['which'])
+          ->where('status', 'active')
+          ->where('language_id', $_POST['language_id'])
+          ->get();
+        foreach ($layouts as $layout) {
+          if ($layout['status']) {
+            $layout->update([
+              'status' => 'passive'
+            ]);
+          }
         }
       }
 
       $layout = new Layout();
-      $layout = $layout->create([
+      $layout->create([
         'title' => $_POST['title'],
         'top' => $_POST['top'],
         'content' => $_POST['content'],
@@ -70,14 +74,10 @@ class LayoutController extends Controller
         'status' => $_POST['status'],
         'which' => $_POST['which'],
         'language_id' => $_POST['language_id'] ?? 1
-      ])->toArray();
+      ]);
 
-      $response = $layout;
-
-      $this->body = $response;
       $this->response(HTTP_CREATED);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -87,18 +87,12 @@ class LayoutController extends Controller
     $this->currentJob(Codes::JOB_LAYOUT_READ);
     try {
       try {
-        $layout = Layout::find($args['layout_id']);
-
-        $response = $layout->toArray();
-        
-        $this->body = $response;
+        $this->body = Layout::find($args['layout_id'])->toArray();
         $this->response(HTTP_OK);
-      }
-      catch (\Throwable $th) {
+      } catch (\Throwable $th) {
         throw new NotFoundException('Layout not found', Codes::key(Codes::ERROR_LAYOUT_NOT_FOUND), $th);
       }
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -111,35 +105,34 @@ class LayoutController extends Controller
 
       $this->validate($_PUT, 'update');
 
-      if (v::key('status', v::equals('active'))->validate($_POST)) {
+      if (v::key('status', v::equals('active'))->validate($_PUT)) {
         $layout = new Layout();
-        $layout = $layout->where('which', $_POST['which'])->where('status', 'active')->first();
-        if ($layout) {
-          $layout->update([
-            'status' => 'passive'
-          ]);
+        $layouts = $layout->where('which', $_PUT['which'])
+          ->where('status', 'active')
+          ->where('language_id', $_PUT['language_id'])
+          ->get();
+        foreach ($layouts as $layout) {
+          if ($layout['status']) {
+            $layout->update([
+              'status' => 'passive'
+            ]);
+          }
         }
       }
 
       $layout = Layout::find($args['layout_id']);
-      $update = [
-        'title' => $_POST['title'],
-        'top' => $_POST['top'],
-        'content' => $_POST['content'],
-        'bottom' => $_POST['bottom'],
-        'status' => $_POST['status'],
-        'which' => $_POST['which'],
-        'language_id' => $_POST['language_id'] ?? 1
-      ];
+      $layout = $layout->update([
+        'title' => $_PUT['title'],
+        'top' => $_PUT['top'],
+        'content' => $_PUT['content'],
+        'bottom' => $_PUT['bottom'],
+        'status' => $_PUT['status'],
+        'which' => $_PUT['which'],
+        'language_id' => $_PUT['language_id'] ?? primary_language_id(),
+      ]);
 
-      $layout = $layout->update($update)->toArray();
-
-      $response = $layout;
-
-      $this->body = $response;
-      $this->response(HTTP_OK);
-    }
-    finally {
+      $this->response(HTTP_NO_CONTENT);
+    } finally {
       $this->endJob();
     }
   }
@@ -148,29 +141,27 @@ class LayoutController extends Controller
   {
     $this->currentJob(Codes::JOB_LAYOUT_DELETE);
     try {
-      $user = Layout::find($args['layout_id']);
-
-      if ($user->delete()) {
+      if (Layout::find($args['layout_id'])->delete()) {
         $this->response(HTTP_NO_CONTENT);
       }
-    }
-    finally {
+
+      throw new NotFoundException('Layout not found', Codes::key(Codes::ERROR_LAYOUT_NOT_FOUND));
+    } finally {
       $this->endJob();
     }
   }
 
   public function constants(Request $request, $args)
   {
-    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS);
+    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS, false);
     try {
-      
+
       $this->body = [
         'which' => Layout::WHICH,
         'status' => Layout::STATUS,
       ];
       $this->response(HTTP_OK);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }

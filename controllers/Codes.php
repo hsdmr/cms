@@ -7,9 +7,8 @@ use Hasdemir\Base\Codes as BaseCodes;
 class Codes extends BaseCodes
 {
   const JOB_ADMIN = 'admin';
-  const JOB_LOGIN = 'loginAttempt';
+  const JOB_LOGIN = 'login';
   const JOB_LOGOUT = 'logout';
-  const JOB_AUTH_CHECK = 'authCheck';
   const JOB_USER_SEARCH = 'userSearch';
   const JOB_USER_CREATE = 'userCreate';
   const JOB_USER_READ = 'userRead';
@@ -73,6 +72,7 @@ class Codes extends BaseCodes
   const ERROR_SLUG_ID_MUST_BE_POSITIVE_NUMBER = 'slugIdMustBePositiveNumber';
   const ERROR_USER_ID_MUST_BE_POSITIVE_NUMBER = 'userIdMustBePositiveNumber';
   const ERROR_STATUS_NOT_ALLOWED = 'statusNotAllowed';
+  const ERROR_TYPE_NOT_ALLOWED = 'typeNotAllowed';
   const ERROR_GET_NOT_ALLOWED = 'getNotAllowed';
   const ERROR_OPTION_NOT_FOUND = 'optionNotFound';
   const ERROR_OPTIONS_NOT_FOUND = 'optionsNotFound';

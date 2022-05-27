@@ -4,10 +4,8 @@ namespace Hasdemir\Base;
 
 use Hasdemir\Exception\AuthenticationException;
 use Hasdemir\Model\AccessToken;
-use Hasdemir\Model\User;
 use PDO;
 use Respect\Validation\Validator as v;
-use Hasdemir\Model\Option;
 
 class Auth
 {
@@ -31,78 +29,92 @@ class Auth
 
   public function attempt($credentials)
   {
-    $key = 'username';
-    if (v::key('user', v::email())->validate($credentials)) {
-      $key = 'email';
-    }
-    $sql = "SELECT * FROM user WHERE $key = :$key";
-    $statement = $this->db->prepare($sql);
-    $statement->bindValue(":$key", $credentials['user']);
-    $statement->execute();
-    $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
-      switch ($key) {
-        case 'username':
-          throw new AuthenticationException("'username' is wrong", Codes::key(Codes::ERROR_USERNAME_IS_WRONG));
-        
-        case 'email':
-          throw new AuthenticationException("'email' is wrong", Codes::key(Codes::ERROR_EMAIL_IS_WRONG));
+    Log::currentJob(Codes::JOB_AUTH_ATTEMPT);
+    try {
+      $key = 'username';
+      if (v::key('user', v::email())->validate($credentials)) {
+        $key = 'email';
       }
+      $sql = "SELECT * FROM user WHERE $key = :$key";
+      $statement = $this->db->prepare($sql);
+      $statement->bindValue(":$key", $credentials['user']);
+      $GLOBALS[Codes::SQL_QUERIES][] = [
+        Codes::QUERY => $sql,
+        Codes::BINDS => [$key => $credentials['user']]
+      ];
+      $statement->execute();
+      $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+      if (!$user) {
+        switch ($key) {
+          case 'username':
+            throw new AuthenticationException("'username' is wrong", Codes::key(Codes::ERROR_USERNAME_IS_WRONG));
+
+          case 'email':
+            throw new AuthenticationException("'email' is wrong", Codes::key(Codes::ERROR_EMAIL_IS_WRONG));
+        }
+      }
+      if ($user['deleted_at'] != null) {
+        throw new AuthenticationException("This user deleted", Codes::key(Codes::ERROR_USER_DELETED));
+      }
+      if (!password_verify($_POST['password'], $user['password'])) {
+        throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::ERROR_PASSWORD_IS_INCORRECT));
+      }
+
+      Session::getInstance()->set('user', $user);
+      return true;
+    } finally {
+      Log::endJob();
     }
-    if ($user['deleted_at'] != null) {
-      throw new AuthenticationException("This user deleted", Codes::key(Codes::ERROR_USER_DELETED));
-    }
-    if (!password_verify($_POST['password'], $user['password'])) {
-      throw new AuthenticationException("'password' is incorrect", Codes::key(Codes::ERROR_PASSWORD_IS_INCORRECT));
-    }
-    
-    Session::getInstance()->set('user', $user);
-    return true;
   }
 
-  public function check()
+  public function check(): bool
   {
-    if (!v::key('Authorization')->validate($this->header)) {
-      throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_SENT));
-    }
+    Log::currentJob(Codes::JOB_AUTH_CHECK);
+    try {
+      if (!v::key('Authorization')->validate($this->header)) {
+        throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_SENT));
+      }
 
-    $authorization_key = $this->header['Authorization'];
-    $access_token = AccessToken::findByToken(sha1($authorization_key));
-    
-    if (!(bool) $access_token) {
-      throw new AuthenticationException('Authorization key not found', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_FOUND));
+      $authorization_key = $this->header['Authorization'];
+      $access_token = AccessToken::findByToken(sha1($authorization_key));
+
+      if (!(bool) $access_token) {
+        throw new AuthenticationException('Authorization key not found', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_FOUND));
+      }
+
+      if ($access_token->expires < time()) {
+        throw new AuthenticationException('Authorization key expired', Codes::key(Codes::ERROR_ACCESS_TOKEN_EXPIRED));
+      }
+
+      return true;
+    } finally {
+      Log::endJob();
     }
-    
-    if ($access_token->expires < time()) {
-      throw new AuthenticationException('Authorization key expired', Codes::key(Codes::ERROR_ACCESS_TOKEN_EXPIRED));
-    }
-    
-    $access_token->token = $authorization_key;
-    return self::prepareResponse($access_token);
   }
 
   public static function prepareResponse(AccessToken $access_token)
   {
-    $user = new User();
-    $user = $user->find($access_token->user_id);
-    
-    $options = Option::findOptions('user',$user->id);
-    $permissions = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, $user->role);
+    Log::currentJob(Codes::JOB_AUTH_PREPARE_RESPONSE);
+    try {
+      $user = $access_token->user();
 
-    $return = [
-      'access_token' => $access_token->token,
-      'scope' => $access_token->scope,
-      'id' => $user->id,
-      'first_name' => $user->first_name,
-      'last_name' => $user->last_name,
-      'role' => $user->role,
-      'email' => $user->email,
-      'options' => $options,
-      'permissions' => $permissions['value'],
-    ];
-    Session::getInstance()->set('user', $return);
-    return $return;
+      $return = [
+        'access_token' => $access_token->token,
+        'scope' => $access_token->scope,
+        'id' => $user->id,
+        'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'role' => $user->role,
+        'email' => $user->email,
+        'options' => $user->options(),
+        'permissions' => $user->permissions(),
+      ];
+      Session::getInstance()->set('user', $return);
+      return $return;
+    } finally {
+      Log::endJob();
+    }
   }
 
   public static function User()
@@ -118,8 +130,8 @@ class Auth
   public static function logout()
   {
     if (self::getInstance()->check()) {
-      AccessToken::findByToken(sha1(Session::getInstance()->get('user.session')['access_token']))->delete();
-      Session::getInstance()->remove('user.session');
+      AccessToken::findByToken(sha1(Session::getInstance()->get('user')['access_token']))->delete();
+      Session::getInstance()->remove('user');
     }
   }
 }

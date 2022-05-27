@@ -1,6 +1,7 @@
 <?php
 
 use Hasdemir\Base\Codes;
+use Hasdemir\Base\Route;
 
 if (!function_exists('randomString')) {
   function randomString(int $length = 60): string
@@ -18,6 +19,13 @@ if (!function_exists('getModelFromTable')) {
   function getModelFromTable($table): string
   {
     return Codes::NAMESPACE_MODEL . implode('', array_map(fn ($item) => ucfirst($item), array_values(explode('_', $table))));
+  }
+}
+
+if (!function_exists('redirect')) {
+  function redirect($uri = null)
+  {
+    Route::redirect($uri);
   }
 }
 
@@ -61,7 +69,6 @@ if (!function_exists('slugify')) {
   }
 }
 
-
 if (!function_exists('getSearchParamsWithDefaults')) {
   function getSearchParamsWithDefaults($params): array
   {
@@ -73,5 +80,12 @@ if (!function_exists('getSearchParamsWithDefaults')) {
     $params['by'] = $params['by'] ?? 'asc';
 
     return $params;
+  }
+}
+
+if (!function_exists('primary_language_id')) {
+  function primary_language_id(): int
+  {
+    return 1;
   }
 }

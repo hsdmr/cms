@@ -14,11 +14,17 @@ class Codes
   
   const ROUTES = 'routes';
   const MIDDLEWARE = 'middleware';
+  const PERMISSIONS = 'permissions';
+  const ROLES = 'roles';
 
   const OPTION_TYPE_ADMIN_PANEL = 'admin_panel';
   const SQL_QUERIES = 'sql_queries';
   const QUERY = 'query';
   const BINDS = 'binds';
+
+  const JOB_AUTH_ATTEMPT = 'authAttempt';
+  const JOB_AUTH_CHECK = 'authCheck';
+  const JOB_AUTH_PREPARE_RESPONSE = 'authPrepareResponse';
 
   const ERROR_PASSWORD_IS_INCORRECT = 'passwordIsIncorrect';
   const ERROR_EMAIL_IS_WRONG = 'emailIsWrong';
@@ -34,6 +40,12 @@ class Codes
   const ERROR_URL_NOT_VALID = 'urlNotValid';
   const ERROR_CALLED_FUNCTION_NOT_IMPLEMENTED = 'calledFunctionNotImplemented';
   const ERROR_CALLED_MIDDLE_FUNCTION_NOT_IMPLEMENTED = 'calledMiddleFunctionNotImplemented';
+  const ERROR_WHILE_MODEL_UPDATE = 'errorOccurredWhileModelUpdate';
+  const ERROR_WHILE_MODEL_CREATE = 'errorOccurredWhileModelCreate';
+  const ERROR_WHILE_MODEL_GET = 'errorOccurredWhileModelGET';
+  const ERROR_WHILE_MODEL_BELONGS_TO_MANY = 'errorOccurredWhileModelCallBelongsToMany';
+  const ERROR_WHILE_MODEL_BELONGS_TO = 'errorOccurredWhileModelCallBelongsTo';
+  const ERROR_WHILE_MODEL_HAS_MANY = 'errorOccurredWhileModelCallHasMany';
   
   public static function key($key, $vars = [])
   {
