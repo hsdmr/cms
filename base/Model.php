@@ -6,7 +6,7 @@ use Hasdemir\Exception\NotFoundException;
 use Hasdemir\Exception\StoragePdoException;
 use PDO;
 
-abstract class Model
+abstract class Model extends HandyClass
 {
   private string $primary_key = 'id';
   private PDO $db;
@@ -21,6 +21,7 @@ abstract class Model
   private bool $only_deleted = false;
 
   private array $select = [];
+  private array $special_select = [];
   private string $where_sql = '';
   private array $where_params = [];
   private $where_key;
@@ -83,9 +84,15 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $this->{$this->primary_key} = $this->db->lastInsertId();
-    return $this->findByPrimaryKey($this->{$this->primary_key});
+    if ($statement->execute()) {
+      $fields[$this->primary_key] = $this->db->lastInsertId();
+      return $this->prepareFields($fields);
+    }
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model create",
+      Codes::key(Codes::ERROR_WHILE_MODEL_CREATE, ['generic' => explode('\\', getModelFromTable($this->table))[2]])
+    );
   }
 
   /**
@@ -111,12 +118,21 @@ abstract class Model
       $binds[$key] = $value;
     }
     $statement->bindValue(":" . $this->primary_key, $this->where_key);
+    $binds[$this->primary_key] = $this->where_key;
     $GLOBALS[Codes::SQL_QUERIES][] = [
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    return $this->findByPrimaryKey($this->where_key);
+
+    if ($statement->execute()) {
+      $params[$this->primary_key] = $this->where_key;
+      return $this->prepareFields($params);
+    }
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model update",
+      Codes::key(Codes::ERROR_WHILE_MODEL_UPDATE, ['generic' => explode('\\', getModelFromTable($this->table))[2]])
+    );
   }
 
   /**
@@ -127,27 +143,25 @@ abstract class Model
    */
   public function first()
   {
-    $model = isset($this->get()[0]) ? $this->get()[0] : null;
-    if (is_array($model)) {
-      if (isset($model[$this->primary_key])) {
-        $this->where_key = $model[$this->primary_key];
-      }
+    if (!empty($this->special_select)) {
+      return $this->get();
     }
-    if (is_object($model)) {
-      if (isset($model->{$this->primary_key})) {
-        $this->where_key = $model->{$this->primary_key};
-      }
+
+    if (!empty($get_result = $this->get())) {
+      return $this->prepareFields($get_result[0]->container);
     }
-    return $model;
   }
 
   /**
    * Returns the search query.
    *
-   * @return object collection
+   * If custom selection is not requested, the collection will be prepared as object
+   * If custom selection is requested such as sum, count, avg, the collection will be prepared as array
+   * @return array object collection
+   * @return object item
    *
    */
-  public function get(): array
+  public function get(): mixed
   {
     $sql = "SELECT " . $this->createValidSelect() . " FROM `$this->table` $this->where_sql";
 
@@ -169,23 +183,32 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $items = $statement->fetchAll(PDO::FETCH_ASSOC);
-    $collection = [];
-    foreach ($items as $item) {
 
-      if (count(array_diff(array_keys($item), $this->fields)) === 0) {
-        $new_model = getModelFromTable($this->table);
-        $object = new $new_model;
-        $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
-        foreach ($this->with as $with) {
-          $object->{$with} = $object->{$with}();
+    if ($statement->execute()) {
+      $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $collection = [];
+      foreach ($items as $item) {
+
+        if (count(array_diff(array_keys($item), $this->fields)) === 0) {
+          $object = $this->newModel($this->table, $item, $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
+          foreach ($this->with as $with) {
+            $object->{$with} = $object->{$with}();
+          }
         }
-      }
 
-      $collection[] = $object ?? $item;
+        if (!empty($this->special_select)) {
+          return $this->prepareFields($item);
+        }
+
+        $collection[] = $object ?? $item;
+      }
+      return $collection;
     }
-    return $collection;
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model get",
+      Codes::key(Codes::ERROR_WHILE_MODEL_GET, ['generic' => explode('\\', getModelFromTable($this->table))[2]])
+    );
   }
 
   /**
@@ -208,34 +231,16 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $item = $statement->fetch(PDO::FETCH_ASSOC);
 
-    if ($item) {
-      foreach ($this->fields as $field) {
-        $this->{$field} = $item[$field] ?? null;
-      }
-
-      if (!$this->with_hidden) {
-        foreach ($this->hidden as $hide) {
-          unset($this->{$hide});
-        }
-      }
-
-      foreach ($this->protected as $protect) {
-        unset($this->{$protect});
-      }
-
-      foreach ($this->fields as $field) {
-        if ($this->select != [] && !in_array($field, $this->select)) {
-          unset($this->{$field});
-        }
-      }
-
-      return $this;
+    if ($statement->execute()) {
+      $item = $statement->fetch(PDO::FETCH_ASSOC);
+      return $this->prepareFields($item);
     }
 
-    throw new NotFoundException(explode('\\', getModelFromTable($this->table))[2] . " not found", Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => explode('\\', getModelFromTable($this->table))[2]]));
+    throw new NotFoundException(
+      explode('\\', getModelFromTable($this->table))[2] . " not found",
+      Codes::key(Codes::ERROR_GENERIC_NOT_FOUND, ['generic' => explode('\\', getModelFromTable($this->table))[2]])
+    );
   }
 
   /**
@@ -269,8 +274,10 @@ abstract class Model
         Codes::QUERY => $sql,
         Codes::BINDS => $binds
       ];
-      $statement->execute();
-      return true;
+      if ($statement->execute()) {
+        return true;
+      };
+      return false;
     }
     return $this->forceDelete();
   }
@@ -292,8 +299,10 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    return true;
+    if ($statement->execute()) {
+      return true;
+    };
+    return false;
   }
 
   /**
@@ -324,7 +333,7 @@ abstract class Model
    * Returns only deleted data.
    *
    * @param  array  $with
-   * @return $this
+   * @return object $this
    *
    */
   public function with($with): object
@@ -337,7 +346,7 @@ abstract class Model
    * Returns only deleted data.
    *
    * @param  array  $params
-   * @return $this
+   * @return object $this
    *
    */
   public function onlyDeleted(): object
@@ -350,12 +359,18 @@ abstract class Model
    * Determines which columns in the table are returned.
    *
    * @param  array  $params
-   * @return $this
+   * @return object $this
    *
    */
   public function select(): object
   {
     $this->select = func_get_args() ?? [];
+    for ($i = 0; $i < count($this->select); $i++) {
+      if (str_contains(strtolower($this->select[$i]), '(')) {
+        $this->special_select[] = strtolower($this->select[$i]);
+        unset($this->select[$i]);
+      }
+    }
     return $this;
   }
 
@@ -372,7 +387,7 @@ abstract class Model
   /**
    * Adds where query with and.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function where(): object
@@ -394,16 +409,12 @@ abstract class Model
     $this->where_sql = trim($this->where_sql .= " `$key` $operator :$key");
 
     return $this;
-    //$this->where = [
-    //  'params' => $where,
-    //  'sql' => " WHERE " . implode(" $w ", array_map(fn ($key, $operator) => "$key $operator :$key", $keys, $operators))
-    //];
   }
 
   /**
    * Adds where query with or.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function orWhere(): object
@@ -431,7 +442,7 @@ abstract class Model
   /**
    * Adds WHERE IS NULL to query.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function WhereNotNull($key, $conjunction = 'AND'): object
@@ -445,7 +456,7 @@ abstract class Model
   /**
    * Adds WHERE IS NULL to query.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function WhereIn($key, $keys = []): object
@@ -459,7 +470,7 @@ abstract class Model
   /**
    * Adds WHERE IS NULL to query.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function WhereNull($key, $conjunction = 'AND'): object
@@ -473,7 +484,7 @@ abstract class Model
   /**
    * Adds open parenthesis to query with or.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function openPharanthesis($key = ''): object
@@ -491,7 +502,7 @@ abstract class Model
   /**
    * Adds close parenthesis to query with and.
    *
-   * @return $this
+   * @return object $this
    *
    */
   public function closePharanthesis(): object
@@ -505,7 +516,7 @@ abstract class Model
    * Determines the order of the data to return in the query.
    *
    * @param  array  $order
-   * @return $this
+   * @return object $this
    *
    */
   public function order(string $order, string $by = 'ASC'): object
@@ -518,7 +529,7 @@ abstract class Model
    * Determines how many rows to return in the query.
    *
    * @param  int  $limit
-   * @return $this
+   * @return object $this
    *
    */
   public function limit(int $limit, int $offset = 0): object
@@ -553,16 +564,21 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $items = $statement->fetchAll(PDO::FETCH_ASSOC);
-    $collection = [];
-    foreach ($items as $item) {
-      $new_model = getModelFromTable($this->table);
-      $object = new $new_model;
-      $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
-      $collection[] = $object;
+
+    if ($statement->execute()) {
+      $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $collection = [];
+      foreach ($items as $item) {
+        $object = $this->newModel($table, $item);
+        $collection[] = $object;
+      }
+      return $collection;
     }
-    return $collection;
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model call belongsToMany '" . explode('\\', getModelFromTable($table))[2] . "'",
+      Codes::key(Codes::ERROR_WHILE_MODEL_BELONGS_TO_MANY, ['generic' => explode('\\', getModelFromTable($this->table))[2], 'relation' => explode('\\', getModelFromTable($table))[2]])
+    );
   }
 
   /**
@@ -572,7 +588,7 @@ abstract class Model
    * @return object
    *
    */
-  public function belongTo(string $table): array
+  public function belongsTo(string $table): object
   {
     $sql = "SELECT * FROM `" . $table . "` WHERE `id` = :id LIMIT 1";
     $statement = $this->db->prepare($sql);
@@ -583,12 +599,18 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $item = $statement->fetch(PDO::FETCH_ASSOC);
-    $new_model = getModelFromTable($this->table);
-    $object = new $new_model;
-    $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
-    return  $object;
+
+    if ($statement->execute()) {
+      $item = $statement->fetch(PDO::FETCH_ASSOC);
+
+      $object = $this->newModel($table, $item);
+      return $object;
+    }
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model call belongsTo '" . explode('\\', getModelFromTable($table))[2] . "'",
+      Codes::key(Codes::ERROR_WHILE_MODEL_BELONGS_TO, ['generic' => explode('\\', getModelFromTable($this->table))[2], 'relation' => explode('\\', getModelFromTable($table))[2]])
+    );
   }
 
   /**
@@ -609,16 +631,20 @@ abstract class Model
       Codes::QUERY => $sql,
       Codes::BINDS => $binds
     ];
-    $statement->execute();
-    $items = $statement->fetchAll(PDO::FETCH_ASSOC);
-    $collection = [];
-    foreach ($items as $item) {
-      $new_model = getModelFromTable($this->table);
-      $object = new $new_model;
-      $object = $object->newModel($item[$this->primary_key], $this->with_deleted, $this->only_deleted, $this->with_hidden, $this->select);
-      $collection[] = $object;
+    if ($statement->execute()) {
+      $items = $statement->fetchAll(PDO::FETCH_ASSOC);
+      $collection = [];
+      foreach ($items as $item) {
+        $object = $this->newModel($table, $item);
+        $collection[] = $object;
+      }
+      return $collection;
     }
-    return $collection;
+
+    throw new StoragePdoException(
+      "An unknown error has occurred while '" . explode('\\', getModelFromTable($this->table))[2] . "' model call hasMany '" . explode('\\', getModelFromTable($table))[2] . "'",
+      Codes::key(Codes::ERROR_WHILE_MODEL_HAS_MANY, ['generic' => explode('\\', getModelFromTable($this->table))[2], 'relation' => explode('\\', getModelFromTable($table))[2]])
+    );
   }
 
   /**
@@ -632,7 +658,7 @@ abstract class Model
   private function checkHasUniqueItem($params): void
   {
     foreach ($this->unique as $key) {
-      $result = $this->select("COUNT(id) as count", $key, $this->primary_key)->where($key, $params[$key])->get()[0];
+      $result = $this->select("COUNT(id) as count", $key, $this->primary_key)->where($key, $params[$key])->get();
       $this->select = [];
       if ($this->where_key != '') {
         if ($result['count'] && $result[$this->primary_key] != $this->where_key) {
@@ -696,24 +722,16 @@ abstract class Model
    */
   private function createValidSelect(): string
   {
-    if ($this->select == []) {
+    if ($this->select == [] && $this->special_select == []) {
       return '`' . trim(implode('`, `', array_diff($this->fields, $this->protected))) . '`';
     }
-    $specials = [];
-    $select = $this->select;
-    for ($i = 0; $i < count($select); $i++) {
-      if (str_contains(strtolower($select[$i]), ' as ')) {
-        $specials[] = strtolower($select[$i]);
-        unset($select[$i]);
-      }
+    if ($this->special_select == []) {
+      return '`' . trim(implode('`, `', array_diff($this->select, $this->protected))) . '`';
     }
-    if ($specials == []) {
-      return '`' . trim(implode('`, `', array_diff($select, $this->protected))) . '`';
+    if ($this->select == []) {
+      return trim(implode(', ', $this->special_select));
     }
-    if ($select == []) {
-      return trim(implode(', ', $specials));
-    }
-    return trim(implode(', ', $specials)) . ', `' . trim(implode('`, `', array_diff($select, $this->protected))) . '`';
+    return trim(implode(', ', $this->special_select)) . ', `' . trim(implode('`, `', array_diff($this->select, $this->protected))) . '`';
   }
 
   /**
@@ -724,32 +742,65 @@ abstract class Model
    */
   public function toArray(): array
   {
-    $array = [];
-    foreach ($this->fields as $field) {
-      if (isset($this->{$field})) {
-        $array[$field] = $this->{$field};
-      }
-    }
-    return $array;
+    return $this->container;
   }
 
-  public function newModel(int $id, $with_deleted = null, $only_deleted = null, $with_hidden = null, $select = null)
+  public function newModel(string $table, array $attributes, $with_deleted = null, $only_deleted = null, $with_hidden = null, $select = null): object
   {
-    $model = getModelFromTable($this->table);
-    $item = new $model;
+    $model_name = getModelFromTable($table);
+    $model = new $model_name;
     if ($with_deleted) {
-      $item->withDeleted();
+      $model->withDeleted();
     }
     if ($only_deleted) {
-      $item->onlyDeleted();
+      $model->onlyDeleted();
     }
     if ($with_hidden) {
-      $item->withHidden();
+      $model->withHidden();
     }
     if ($select) {
-      $item->select = $select;
+      $model->select = $select;
     }
-    return $item->findByPrimaryKey($id);
+    return $model->prepareFields($attributes);
+  }
+
+  private function prepareFields($item): object
+  {
+
+    if (!empty($this->special_select)) {
+      foreach ($item as $key => $value) {
+        $this->{$key} = $value;
+      }
+    } else {
+      foreach ($this->fields as $field) {
+        $this->{$field} = $item[$field] ?? null;
+      }
+
+      if (isset($item[$this->primary_key])) {
+        $this->where_key = $item[$this->primary_key];
+      }
+
+      if (!$this->with_hidden) {
+        foreach ($this->hidden as $hide) {
+          unset($this->{$hide});
+          unset($item[$hide]);
+        }
+      }
+
+      foreach ($this->protected as $protect) {
+        unset($this->{$protect});
+        unset($item[$protect]);
+      }
+
+      foreach ($this->fields as $field) {
+        if ($this->select != [] && !in_array($field, $this->select)) {
+          unset($this->{$field});
+          unset($item[$field]);
+        }
+      }
+    }
+
+    return $this->setContainer($item);
   }
 
   public function __destruct()
