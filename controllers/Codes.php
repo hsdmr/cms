@@ -21,6 +21,8 @@ class Codes extends BaseCodes
   const JOB_LAYOUT_READ = 'layoutRead';
   const JOB_LAYOUT_UPDATE = 'layoutUpdate';
   const JOB_LAYOUT_DELETE = 'layoutDelete';
+  const JOB_LAYOUT_RESTORE = 'layoutRestore';
+  const JOB_LAYOUT_PERMANENT_DELETE = 'layoutPermanentDelete';
   const JOB_LAYOUT_CONSTANTS = 'layoutConstants';
   const JOB_ROLE_SEARCH = 'roleSearch';
   const JOB_ROLE_CREATE = 'roleCreate';

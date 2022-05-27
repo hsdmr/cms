@@ -35,6 +35,7 @@ class Permissions200
       'layoutRead',
       'layoutUpdate',
       'layoutDelete',
+      'layoutRestore',
       'optionSearch',
       'optionCreate',
       'optionDelete',

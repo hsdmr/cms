@@ -151,6 +151,34 @@ class LayoutController extends Controller
     }
   }
 
+  public function restore(Request $request, $args)
+  {
+    $this->currentJob(Codes::JOB_LAYOUT_RESTORE);
+    try {
+      Layout::find($args['layout_id'])->update(['deleted_at' => null]);
+      $this->response(HTTP_NO_CONTENT);
+    }
+    finally {
+      $this->endJob();
+    }
+  }
+
+  public function permanentDelete(Request $request, $args)
+  {
+    $this->currentJob(Codes::JOB_LAYOUT_PERMANENT_DELETE);
+    try {
+      
+      if (!Layout::find($args['layout_id'])->forceDelete()) {
+        throw new NotFoundException('Layout not found', Codes::key(Codes::ERROR_LAYOUT_NOT_FOUND));
+      }
+
+      $this->response(HTTP_NO_CONTENT);
+    }
+    finally {
+      $this->endJob();
+    }
+  }
+
   public function constants(Request $request, $args)
   {
     $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS, false);
