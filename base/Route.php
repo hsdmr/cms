@@ -50,7 +50,7 @@ class Route
     if (!$this->isApi()) {
       $this->handle(Web::getRoutes(), Codes::NAMESPACE_CONTROLLER, '');
     }
-    
+
     self::hasRoute($this->isApi());
   }
 
@@ -110,7 +110,7 @@ class Route
           if (!$GLOBALS[Codes::IS_ROUTE_CALLED] && !$this->isApi()) {
             return view('404.php');
           }
-          break;
+          break 2;
         }
       }
     }
