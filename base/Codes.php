@@ -11,7 +11,7 @@ class Codes
 
   const IS_ROUTE_CALLED = 'is_route_called';
   const IS_MIDDLEWARE_CALLED = 'is_middleware_called';
-  
+
   const ROUTES = 'routes';
   const MIDDLEWARE = 'middleware';
   const PERMISSIONS = 'permissions';
@@ -24,7 +24,6 @@ class Codes
 
   const JOB_AUTH_ATTEMPT = 'authAttempt';
   const JOB_AUTH_CHECK = 'authCheck';
-  const JOB_AUTH_PREPARE_RESPONSE = 'authPrepareResponse';
 
   const ERROR_PASSWORD_IS_INCORRECT = 'passwordIsIncorrect';
   const ERROR_EMAIL_IS_WRONG = 'emailIsWrong';
@@ -46,7 +45,7 @@ class Codes
   const ERROR_WHILE_MODEL_BELONGS_TO_MANY = 'errorOccurredWhileModelCallBelongsToMany';
   const ERROR_WHILE_MODEL_BELONGS_TO = 'errorOccurredWhileModelCallBelongsTo';
   const ERROR_WHILE_MODEL_HAS_MANY = 'errorOccurredWhileModelCallHasMany';
-  
+
   public static function key($key, $vars = [])
   {
     return [

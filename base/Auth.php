@@ -93,30 +93,6 @@ class Auth
     }
   }
 
-  public static function prepareResponse(AccessToken $access_token)
-  {
-    Log::currentJob(Codes::JOB_AUTH_PREPARE_RESPONSE);
-    try {
-      $user = $access_token->user();
-
-      $return = [
-        'access_token' => $access_token->token,
-        'scope' => $access_token->scope,
-        'id' => $user->id,
-        'first_name' => $user->first_name,
-        'last_name' => $user->last_name,
-        'role' => $user->role,
-        'email' => $user->email,
-        'options' => $user->options(),
-        'permissions' => $user->permissions(),
-      ];
-      Session::getInstance()->set('user', $return);
-      return $return;
-    } finally {
-      Log::endJob();
-    }
-  }
-
   public static function User()
   {
     return Session::getInstance()->get('user');

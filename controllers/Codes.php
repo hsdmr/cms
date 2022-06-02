@@ -54,6 +54,7 @@ class Codes extends BaseCodes
   const JOB_AUTO_LINK_READ = 'autoLinkRead';
   const JOB_AUTO_LINK_UPDATE = 'autoLinkUpdate';
   const JOB_AUTO_LINK_DELETE = 'autoLinkDelete';
+  const JOB_AUTH_PREPARE_RESPONSE = 'authPrepareResponse';
 
   const ERROR_USER_NOT_FOUND = 'userNotFound';
   const ERROR_FIRST_NAME_MUST_NOT_BE_EMPTY = 'firstNameMustNotBeEmpty';

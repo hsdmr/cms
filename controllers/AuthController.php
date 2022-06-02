@@ -5,6 +5,7 @@ namespace Hasdemir\Controller;
 use Hasdemir\Base\Auth;
 use Hasdemir\Controller\Codes;
 use Hasdemir\Base\Controller;
+use Hasdemir\Base\Session;
 use Hasdemir\Exception\AuthenticationException;
 use Hasdemir\Helper\Json;
 use Hasdemir\Model\AccessToken;
@@ -43,7 +44,7 @@ class AuthController extends Controller
       }
 
       $access_token->token = $token;
-      $this->body = Auth::getInstance()->prepareResponse($access_token);
+      $this->body = $this->prepareResponse($access_token);
       $this->response(HTTP_CREATED);
     } finally {
       $this->endJob();
@@ -55,7 +56,7 @@ class AuthController extends Controller
     if (!Auth::getInstance()->check()) {
       throw new AuthenticationException('Authorization key must be sent', Codes::key(Codes::ERROR_ACCESS_TOKEN_NOT_SENT));
     }
-    
+
     $this->response(HTTP_NO_CONTENT);
   }
 
@@ -65,6 +66,30 @@ class AuthController extends Controller
     try {
       Auth::logout();
       $this->response(HTTP_NO_CONTENT);
+    } finally {
+      $this->endJob();
+    }
+  }
+
+  private function prepareResponse(AccessToken $access_token)
+  {
+    $this->currentJob(Codes::JOB_AUTH_PREPARE_RESPONSE, false);
+    try {
+      $user = $access_token->user();
+
+      $return = [
+        'access_token' => $access_token->token,
+        'scope' => $access_token->scope,
+        'id' => $user->id,
+        'first_name' => $user->first_name,
+        'last_name' => $user->last_name,
+        'role' => $user->role,
+        'email' => $user->email,
+        'options' => $user->options(),
+        'permissions' => $user->permissions(),
+      ];
+      Session::getInstance()->set('user', $return);
+      return $return;
     } finally {
       $this->endJob();
     }
