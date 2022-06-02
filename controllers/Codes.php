@@ -16,6 +16,7 @@ class Codes extends BaseCodes
   const JOB_USER_DELETE = 'userDelete';
   const JOB_USER_RESTORE = 'userRestore';
   const JOB_USER_PERMANENT_DELETE = 'userPermanentDelete';
+  const JOB_USER_CONSTANTS = 'userConstants';
   const JOB_LAYOUT_SEARCH = 'layoutSearch';
   const JOB_LAYOUT_CREATE = 'layoutCreate';
   const JOB_LAYOUT_READ = 'layoutRead';

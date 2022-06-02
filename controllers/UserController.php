@@ -45,8 +45,7 @@ class UserController extends Controller
 
       $this->body = $response;
       $this->response(HTTP_OK);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -77,8 +76,7 @@ class UserController extends Controller
       }
 
       $this->response(HTTP_CREATED);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -95,12 +93,10 @@ class UserController extends Controller
         $response['options'] = $options;
         $this->body = $response;
         $this->response(HTTP_OK);
-      }
-      catch (\Throwable $th) {
+      } catch (\Throwable $th) {
         throw new NotFoundException('User not found', Codes::key(Codes::ERROR_USER_NOT_FOUND), $th);
       }
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -135,8 +131,7 @@ class UserController extends Controller
       }
 
       $this->response(HTTP_NO_CONTENT);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -151,7 +146,7 @@ class UserController extends Controller
 
       $user = User::find($args['user_id']);
 
-      foreach($user->tokens() as $token) {
+      foreach ($user->tokens() as $token) {
         $token->delete();
       }
 
@@ -160,8 +155,7 @@ class UserController extends Controller
       }
 
       $this->response(HTTP_NO_CONTENT);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -172,8 +166,7 @@ class UserController extends Controller
     try {
       User::find($args['user_id'])->update(['deleted_at' => null]);
       $this->response(HTTP_NO_CONTENT);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -182,31 +175,29 @@ class UserController extends Controller
   {
     $this->currentJob(Codes::JOB_USER_PERMANENT_DELETE);
     try {
-      
+
       if (!User::find($args['user_id'])->forceDelete()) {
         throw new NotFoundException('User not found', Codes::key(Codes::ERROR_USER_NOT_FOUND));
       }
 
       $this->response(HTTP_NO_CONTENT);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
 
   public function constants(Request $request, $args)
   {
-    $this->currentJob(Codes::JOB_LAYOUT_CONSTANTS, false);
+    $this->currentJob(Codes::JOB_USER_CONSTANTS, false);
     try {
       $roles = Option::findOption(Codes::OPTION_TYPE_ADMIN_PANEL, 0, Codes::ROLES);
-      
+
       $this->body = [
         'roles' => $roles['value'] ?? User::ROLES,
       ];
 
       $this->response(HTTP_OK);
-    }
-    finally {
+    } finally {
       $this->endJob();
     }
   }
@@ -233,18 +224,17 @@ class UserController extends Controller
     }
     if ($method == 'create') {
       if (!v::key('password', v::stringType())->validate($params)) {
-        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID ));
+        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID));
       }
-    }
-    else {
+    } else {
       if (!v::key('password', v::stringType(), false)->validate($params)) {
-        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID ));
+        throw new UnexpectedValueException("'password' not valid", Codes::key(Codes::ERROR_PASSWORD_NOT_VALID));
       }
     }
 
     if (v::key('password')->validate($params) && v::key('password_verified')->validate($params)) {
       if (!v::key('password', v::equals($params['password_verified']), false)->validate($params)) {
-        throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", Codes::key(Codes::ERROR_PASSWORDS_NOT_MATCH ));
+        throw new UnexpectedValueException("'password_verified' must be the same as the 'password'", Codes::key(Codes::ERROR_PASSWORDS_NOT_MATCH));
       }
     }
   }
