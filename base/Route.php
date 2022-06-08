@@ -35,11 +35,8 @@ class Route
 
   public function run()
   {
-    if ($this->request->method() === 'OPTION') {
-      header('Access-Control-Allow-Origin: *');
-      header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-      header('Access-Control-Allow-Headers: Content-Type, Authorization, Total');
-      http_response_code(HTTP_OK);
+    if ($this->request->method() === 'OPTIONS') {
+      Response::emit(HTTP_OK, [], '');
       die;
     }
 

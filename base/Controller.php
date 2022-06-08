@@ -18,8 +18,7 @@ class Controller
 
   public function response($http_code)
   {
-    $response = new Response();
-    $response->emit($http_code, $this->header, $this->body ?? '');
+    Response::emit($http_code, $this->header, $this->body ?? '');
   }
 
   public function currentJob($permission, $check = true)
