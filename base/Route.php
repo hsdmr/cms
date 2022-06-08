@@ -35,6 +35,14 @@ class Route
 
   public function run()
   {
+    if ($this->request->method() === 'OPTION') {
+      header('Access-Control-Allow-Origin: *');
+      header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+      header('Access-Control-Allow-Headers: Content-Type, Authorization, Total');
+      http_response_code(HTTP_OK);
+      die;
+    }
+
     if (!$this->request->isValid()) {
       if ($this->isApi()) {
         throw new ForbiddenException('Url does not valid', Codes::key(Codes::ERROR_URL_NOT_VALID));
