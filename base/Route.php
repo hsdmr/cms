@@ -36,7 +36,7 @@ class Route
   public function run()
   {
     if ($this->request->method() === 'OPTIONS') {
-      Response::emit(HTTP_OK, [], '');
+      Response::emit(HTTP_NO_CONTENT, [], '');
       die;
     }
 
