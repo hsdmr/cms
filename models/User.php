@@ -58,5 +58,4 @@ class User extends Model
   {
     return $this->hasMany('access_token');
   }
-
 }
